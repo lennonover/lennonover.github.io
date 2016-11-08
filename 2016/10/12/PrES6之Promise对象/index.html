@@ -1,0 +1,749 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Promise," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="Promise什么是PromiseECMAScript 6中的Promise规范来源于Promises/A+社区。Promise是一个用于异步处理对象，其中包含了对异步进行各种操作的组件。Promise把JavaScript中的异步处理对象和处理规则进行了规范化，并按照统一的接口来编写，使用规定方法之外的写法会出现错误。
+一个promise有下面三个不同状态：
+pending待承诺">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ES6之Promise对象">
+<meta property="og:url" content="http://yoursite.com/2016/10/12/PrES6之Promise对象/index.html">
+<meta property="og:site_name" content="lennonover">
+<meta property="og:description" content="Promise什么是PromiseECMAScript 6中的Promise规范来源于Promises/A+社区。Promise是一个用于异步处理对象，其中包含了对异步进行各种操作的组件。Promise把JavaScript中的异步处理对象和处理规则进行了规范化，并按照统一的接口来编写，使用规定方法之外的写法会出现错误。
+一个promise有下面三个不同状态：
+pending待承诺">
+<meta property="og:updated_time" content="2016-10-12T13:16:51.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ES6之Promise对象">
+<meta name="twitter:description" content="Promise什么是PromiseECMAScript 6中的Promise规范来源于Promises/A+社区。Promise是一个用于异步处理对象，其中包含了对异步进行各种操作的组件。Promise把JavaScript中的异步处理对象和处理规则进行了规范化，并按照统一的接口来编写，使用规定方法之外的写法会出现错误。
+一个promise有下面三个不同状态：
+pending待承诺">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2016/10/12/PrES6之Promise对象/"/>
+
+  <title> ES6之Promise对象 | lennonover </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">lennonover</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                ES6之Promise对象
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-10-12T20:58:40+08:00" content="2016-10-12">
+              2016-10-12
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="Promise"><a href="#Promise" class="headerlink" title="Promise"></a>Promise</h1><h3 id="什么是Promise"><a href="#什么是Promise" class="headerlink" title="什么是Promise"></a>什么是Promise</h3><p>ECMAScript 6中的Promise规范来源于Promises/A+社区。Promise是一个用于异步处理对象，其中包含了对异步进行各种操作的组件。Promise把JavaScript中的异步处理对象和处理规则进行了规范化，并按照统一的接口来编写，使用规定方法之外的写法会出现错误。</p>
+<h3 id="一个promise有下面三个不同状态："><a href="#一个promise有下面三个不同状态：" class="headerlink" title="一个promise有下面三个不同状态："></a>一个promise有下面三个不同状态：</h3><ul>
+<li>pending待承诺         - 初始状态</li>
+<li>fulfilled实现承诺  - 一个承诺成功实现状态</li>
+<li>rejected拒绝承诺   - 一个承诺失败的状态</li>
+</ul>
+<h3 id="promise必须实现-then-方法"><a href="#promise必须实现-then-方法" class="headerlink" title="promise必须实现 then 方法"></a>promise必须实现 then 方法</h3><ul>
+<li>then必须返回一个promise</li>
+<li>可以调用多次</li>
+<li>then方法接受两个参数</li>
+</ul>
+<h3 id="Promise基本语法"><a href="#Promise基本语法" class="headerlink" title="Promise基本语法"></a>Promise基本语法</h3><h4 id="1、创建一个Promise对象"><a href="#1、创建一个Promise对象" class="headerlink" title="1、创建一个Promise对象"></a>1、创建一个Promise对象</h4><p>使用 new 来调用Promise的构造器来进行实例化</p>
+<p>new Promise(fn) 返回一个promise对象<br>在fn 中指定异步等处理<br>处理结果正常的话，调用resolve(处理结果值)<br>处理结果错误的话，调用reject(Error对象)</p>
+<pre><code>var promise = new Promise(function(resolve, reject) {
+// 异步处理
+// 处理结束后、调用resolve 或 reject
+});
+</code></pre><h4 id="2、了解Promise的状态"><a href="#2、了解Promise的状态" class="headerlink" title="2、了解Promise的状态"></a>2、了解Promise的状态</h4><p>用 new Promise 实例化的promise对象有以下三个状态。</p>
+<pre><code>&quot;has-resolution&quot; - Fulfilled
+</code></pre><p>resolve(成功)时。此时会调用 onFulfilled</p>
+<pre><code>&quot;has-rejection&quot; - Rejected
+</code></pre><p>reject(失败)时。此时会调用 onRejected</p>
+<pre><code>&quot;unresolved&quot; - Pending
+</code></pre><p>既不是resolve也不是reject的状态。<br>也就是promise对象刚被创建后的初始化状态等</p>
+<p>关于上面这三种状态的读法，其中 左侧为在 ES6 Promises 规范中定义的术语， 而右侧则是在 Promises/A+ 中描述状态的术语。</p>
+<h4 id="3、Promise-then"><a href="#3、Promise-then" class="headerlink" title="3、Promise.then()"></a>3、Promise.then()</h4><p>对通过 new 生成的promise对象为了设置其值在 resolve(成功) / reject(失败) 时调用的 回调函数 可以使用 promise.then() 实例方法。</p>
+<pre><code>promise.then(onFulfilled, onRejected)
+resolve(成功)时
+onFulfilled 会被调用
+
+reject(失败)时
+onRejected 会被调用
+</code></pre><p>onFulfilled、onRejected 两个都为可选参数。<br>promise.then 成功和失败时都可以使用。 如果只想对异常进行处理时可以采用 promise.then(undefined, onRejected) 这种方式，只指定reject时的回调函数即可。 不过这种情况下 promise.catch(onRejected) 应该是个更好的选择。</p>
+<pre><code>var promise = new Promise(function(resolve, reject){
+    resolve(&quot;传递给then的值&quot;);
+});
+// 写法一
+promise.then(function (value) {
+    console.log(value);
+}, function (error) {
+    console.error(error);
+});
+// 写法二（使用catch)
+promise.then(function (value) {
+    console.log(value);
+}).catch(function (error) {
+    console.error(error);
+});
+</code></pre><h4 id="4、使用快捷方式"><a href="#4、使用快捷方式" class="headerlink" title="4、使用快捷方式"></a>4、使用快捷方式</h4><p>静态方法 Promise.resolve(value) 和 Promise.reject(error) 可以认为是 new Promise() 方法的快捷方式。</p>
+<h5 id="4-1-Promise-resolve"><a href="#4-1-Promise-resolve" class="headerlink" title="4.1 Promise.resolve()"></a>4.1 Promise.resolve()</h5><p>比如 Promise.resolve(1) 可以认为是以下代码的语法糖。</p>
+<pre><code>new Promise(function(resolve){
+    resolve(1);
+});
+</code></pre><p>在这段代码中的 resolve(1)会让这个promise对象立即进入确定（即resolved）状态，并将 1 传递给后面then里所指定的 onFulfilled 函数。</p>
+<p>方法 Promise.resolve(value) 的返回值也是一个promise对象，所以我们可以像下面那样接着对其返回值进行 .then 调用。</p>
+<pre><code>Promise.resolve(1).then(function(value){
+    console.log(value); // 1
+});
+</code></pre><p>运用场景：Promise.resolve()在promise对象的初始化或者编写测试代码的时候都非常方便。</p>
+<h5 id="4-2-Promise-reject"><a href="#4-2-Promise-reject" class="headerlink" title="4.2 Promise.reject()"></a>4.2 Promise.reject()</h5><p>比如 Promise.reject(new Error(“出错了”)) 就是下面代码的语法糖形式。</p>
+<pre><code>new Promise(function(resolve,reject){
+    reject(new Error(&quot;出错了&quot;));
+});
+</code></pre><p>方法 Promise.reject(error) 的返回值也是一个promise对象，所以可以将错误（Error）对象传递到catch里的函数中。</p>
+<pre><code>Promise.reject(new Error(&quot;BOOM!&quot;)).catch(function(error){
+    console.error(error);
+});
+</code></pre><h4 id="5、Promise-all"><a href="#5、Promise-all" class="headerlink" title="5、Promise.all()"></a>5、Promise.all()</h4><p>Promise.all 接收一个 promise对象的数组作为参数，当这个数组里的所有promise对象全部变为resolve或reject状态的时候，它才会去调用 .then 方法。</p>
+<p>运用场景: 批量请求</p>
+<pre><code>var p1 = Promise.resolve(1),
+    p2 = Promise.resolve(2),
+    p3 = Promise.resolve(3);
+Promise.all([p1, p2, p3]).then(function (results) {
+    console.log(results);  // [1, 2, 3]
+});
+传递给 Promise.all 的promise并不是一个个的顺序执行的，而是同时开始、并行执行的。
+
+可以从以下例子的运行结果看出：
+
+// `delay`毫秒后执行resolve
+function timerPromisefy(delay) {
+    return new Promise(function (resolve) {
+        setTimeout(function () {
+            resolve(delay);
+        }, delay);
+    });
+}
+var startDate = Date.now();
+// 所有promise变为resolve后程序退出
+Promise.all([
+    timerPromisefy(1),
+    timerPromisefy(32),
+    timerPromisefy(64),
+    timerPromisefy(128)
+]).then(function (values) {
+    console.log(Date.now() - startDate + &apos;ms&apos;);
+    // 約128ms
+    console.log(values);    // [1,32,64,128]
+});
+</code></pre><h4 id="6、Promise-race"><a href="#6、Promise-race" class="headerlink" title="6、Promise.race()"></a>6、Promise.race()</h4><p>Promise.race 只要有一个promise对象进入 FulFilled 或者 Rejected 状态的话，就会继续进行后面的处理。</p>
+<pre><code>var p1 = Promise.resolve(1),
+    p2 = Promise.resolve(2),
+    p3 = Promise.resolve(3);
+Promise.race([p1, p2, p3]).then(function (value) {
+    console.log(value);  // 1
+});
+进一步分析, 当第一个promise对象变为确定（FulFilled）状态后，它之后的promise对象是否还在继续运行。
+
+// `delay`毫秒后执行resolve
+function timerPromisefy(delay) {
+    return new Promise(function (resolve) {
+        setTimeout(function () {
+            console.log(delay)
+            resolve(delay);
+        }, delay);
+    });
+}
+// 任何一个promise变为resolve或reject 的话程序就停止运行
+Promise.race([
+    timerPromisefy(1),
+    timerPromisefy(10),
+    timerPromisefy(20),
+]).then(function (value) {
+    console.log(value);    // =&gt; 1
+});
+//整体运行结果
+1
+1
+10
+20
+</code></pre><p>执行上面代码，我们会看到setTimeout 方法都会执行完毕， console.log 也会分别输出它们的信息。也就是说， Promise.race 在第一个promise对象变为Fulfilled之后，并不会取消其他promise对象的执行。</p>
+<h4 id="Promise实例练习"><a href="#Promise实例练习" class="headerlink" title="Promise实例练习"></a>Promise实例练习</h4><p>考虑本文一开始的场景，进行小进阶练习，实现每隔一秒依次输出1-10。</p>
+<pre><code>//利用for循环 避免一长串的.then写法
+function log(i) {
+    return new Promise(function(resolve) {
+        setTimeout(function() {
+            console.log(i)
+            resolve();
+        }, 1000)
+    })
+}
+function printN(n) {
+    var p = log(1);
+    for (var i = 2; i &lt;= n; i++) {
+        var a = function(x) { // 注意回调函数闭包的问题
+            return function() {
+                return log(x);
+            }
+        }
+        p = p.then(a(i));
+    }
+}
+printN(10);
+</code></pre>
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Promise/" rel="tag">#Promise</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/09/19/关于前后端开发模思考/" rel="next" title="对于前后端开发模式一点点思考">
+                <i class="fa fa-chevron-left"></i> 对于前后端开发模式一点点思考
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/10/22/Node-js高性能的异步I-O/" rel="prev" title="Node.js高性能的异步I/O">
+                Node.js高性能的异步I/O <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://example.com/avtar.png"
+               alt="lennonover" />
+          <p class="site-author-name" itemprop="name">lennonover</p>
+          <p class="site-description motion-element" itemprop="description">一丿口石砳磊</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">11</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/lennonover" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/lennonover" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Promise"><span class="nav-number">1.</span> <span class="nav-text">Promise</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是Promise"><span class="nav-number">1.0.1.</span> <span class="nav-text">什么是Promise</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#一个promise有下面三个不同状态："><span class="nav-number">1.0.2.</span> <span class="nav-text">一个promise有下面三个不同状态：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#promise必须实现-then-方法"><span class="nav-number">1.0.3.</span> <span class="nav-text">promise必须实现 then 方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Promise基本语法"><span class="nav-number">1.0.4.</span> <span class="nav-text">Promise基本语法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1、创建一个Promise对象"><span class="nav-number">1.0.4.1.</span> <span class="nav-text">1、创建一个Promise对象</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2、了解Promise的状态"><span class="nav-number">1.0.4.2.</span> <span class="nav-text">2、了解Promise的状态</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3、Promise-then"><span class="nav-number">1.0.4.3.</span> <span class="nav-text">3、Promise.then()</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4、使用快捷方式"><span class="nav-number">1.0.4.4.</span> <span class="nav-text">4、使用快捷方式</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#4-1-Promise-resolve"><span class="nav-number">1.0.4.4.1.</span> <span class="nav-text">4.1 Promise.resolve()</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4-2-Promise-reject"><span class="nav-number">1.0.4.4.2.</span> <span class="nav-text">4.2 Promise.reject()</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5、Promise-all"><span class="nav-number">1.0.4.5.</span> <span class="nav-text">5、Promise.all()</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6、Promise-race"><span class="nav-number">1.0.4.6.</span> <span class="nav-text">6、Promise.race()</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Promise实例练习"><span class="nav-number">1.0.4.7.</span> <span class="nav-text">Promise实例练习</span></a></li></ol></li></ol></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+    Made with
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  in
+  <span class="author" itemprop="copyrightHolder">PiPi</span>
+</div>
+
+<div class="powered-by">
+  技术- <a class="theme-link" href="http://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="javascript:;">
+    NexT.Muse
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

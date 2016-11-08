@@ -1,0 +1,638 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="Node的单线程异步非阻塞I/O模型
+
+  Node.js® is a JavaScript runtime built on Chrome’s V8 JavaScript engine. Node.js uses an event-driven, non-blocking I/O model that makes it lightweight and efficient.
+
+说异步之前先了解几个">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Node.js高性能的异步I/O">
+<meta property="og:url" content="http://yoursite.com/2016/10/22/Node-js高性能的异步I-O/index.html">
+<meta property="og:site_name" content="lennonover">
+<meta property="og:description" content="Node的单线程异步非阻塞I/O模型
+
+  Node.js® is a JavaScript runtime built on Chrome’s V8 JavaScript engine. Node.js uses an event-driven, non-blocking I/O model that makes it lightweight and efficient.
+
+说异步之前先了解几个">
+<meta property="og:updated_time" content="2016-10-31T14:14:53.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Node.js高性能的异步I/O">
+<meta name="twitter:description" content="Node的单线程异步非阻塞I/O模型
+
+  Node.js® is a JavaScript runtime built on Chrome’s V8 JavaScript engine. Node.js uses an event-driven, non-blocking I/O model that makes it lightweight and efficient.
+
+说异步之前先了解几个">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2016/10/22/Node-js高性能的异步I-O/"/>
+
+  <title> Node.js高性能的异步I/O | lennonover </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">lennonover</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Node.js高性能的异步I/O
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-10-22T21:58:23+08:00" content="2016-10-22">
+              2016-10-22
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="Node的单线程异步非阻塞I-O模型"><a href="#Node的单线程异步非阻塞I-O模型" class="headerlink" title="Node的单线程异步非阻塞I/O模型"></a>Node的单线程异步非阻塞I/O模型</h1><p><br></p>
+<blockquote>
+<p>  Node.js® is a JavaScript runtime built on Chrome’s V8 JavaScript engine. Node.js uses an event-driven, non-blocking I/O model that makes it lightweight and efficient.</p>
+</blockquote>
+<p>说异步之前先了解几个名词</p>
+<ul>
+<li><p>I/O的阻塞与非阻塞：阻塞模式的I/O会造成应用程序等待，直到I/O完成。同时操作系统也支持将I/O操作设置为非阻塞模式，这时应用程序的调用将可能在没有拿到真正数据时就立即返回了，为此应用程序需要多次调用才能确认I/O操作完全完成，这就是一个轮训的过程。</p>
+</li>
+<li><p>I/O的同步与异步：I/O的同步与异步出现在应用程序中。如果做阻塞I/O调用，应用程序等待调用的完成的过程就是一种同步状况。相反，I/O为非阻塞模式时，应用程序则是异步的。</p>
+</li>
+<li><p>事件驱动：当事件被检测到发生时才回调调用会到函数，通过事件循环加事件触发的方式来运行程序。</p>
+</li>
+<li><p>事件循环：当有大量异步操作时需要调用相应的回调函数，需要用一种机制来管理同一个队列。</p>
+</li>
+</ul>
+<p>Node的单线程异步非阻塞I/O模型利用单线程，远离多线程的死锁、状态同步等问题避免不必要的内存开销和上下文切换开销。 利用异步I/O，让单线程远离阻塞，更好的利CPU。</p>
+<p>一个异步 I/O 的大致流程如下：</p>
+<ul>
+<li><p>发起 I/O 调用</p>
+<ul>
+<li>用户通过 Javascript 代码调用 Node 核心模块，将参数和回调函数传入到核心模块；</li>
+<li>Node 核心模块会将传入的参数和回调函数封装成一个请求对象；</li>
+<li>将这个请求对象推入到 I/O 线程池等待执行；</li>
+<li>Javascript 发起的异步调用结束，Javascript 线程继续执行后续操作。</li>
+</ul>
+</li>
+<li><p>执行回调</p>
+<ul>
+<li>I/O 操作完成后，会将结果储存到请求对象的 result 属性上，并发出操作完成的通知；</li>
+<li>每次事件循环时会检查是否有完成的 I/O 操作，如果有就将请求对象加入到 I/O 观察者队列中，之后当做事件处理；</li>
+<li>处理 I/O 观察者事件时，会取出之前封装在请求对象中的回调函数，执行这个回调函数，并将 result 当参数，以完成 Javascript 回调的目的。</li>
+</ul>
+</li>
+</ul>
+<p>这里面涉及到了一个设计理念:事件循环（Event Loop），它是一个类似于 while true 的无限循环,它会维护一系列的监视器,这些监视器都有对应着一种异步操作，它们注册事件监听以及相应的回调。事件循环除了维护那些观察者队列，还维护了一个 time 字段，在初始化时会被赋值为0，每次循环都会更新这个值。所有与时间相关的操作，都会和这个值进行比较，来决定是否执行。与 timer 相关的过程如下：</p>
+<ul>
+<li>更新当前循环的 time 字段，即当前循环下的“现在”；</li>
+<li>检查循环中是否还有需要处理的任务（handlers/requests），如果没有就不必循环了，即是否 alive。</li>
+<li>检查注册过的 timer，如果某一个 timer 中指定的时间落后于当前时间了，说明该 timer 已到期，于是执行其对应的回调函数；</li>
+<li>执行一次 I/O polling（即阻塞住线程，等待 I/O 事件发生），如果在下一个 timer 到期时还没有任何 I/O 完成，则停止等待，执行下一个 timer 的回调。如果发生了 I/O 事件，则执行对应的回调；由于执行回调的时间里可能又有 timer 到期了，这里要再次检查 timer 并执行回调。</li>
+</ul>
+<p>Node.js它的单线程指的是自身 Javascript 运行环境的单线程，Node.js 并没有给 Javascript 执行时创建新线程的能力，最终的实际操作是通过事件循环来执行的。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/10/12/PrES6之Promise对象/" rel="next" title="ES6之Promise对象">
+                <i class="fa fa-chevron-left"></i> ES6之Promise对象
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/11/05/CSS单位EM/" rel="prev" title="CSS单位EM和REM">
+                CSS单位EM和REM <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://example.com/avtar.png"
+               alt="lennonover" />
+          <p class="site-author-name" itemprop="name">lennonover</p>
+          <p class="site-description motion-element" itemprop="description">一丿口石砳磊</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">11</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/lennonover" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/lennonover" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Node的单线程异步非阻塞I-O模型"><span class="nav-number">1.</span> <span class="nav-text">Node的单线程异步非阻塞I/O模型</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+    Made with
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  in
+  <span class="author" itemprop="copyrightHolder">PiPi</span>
+</div>
+
+<div class="powered-by">
+  技术- <a class="theme-link" href="http://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="javascript:;">
+    NexT.Muse
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
