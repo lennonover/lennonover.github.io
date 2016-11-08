@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <link rel="dns-prefetch" href="http://yoursite.com">
+  <title>JS继承 | lennonover</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="继承一种减少重复性代码的一种设计模式，尽量弱化对象间耦合。在学习JS中继承过程中，遇到坑比较多，抽点时间记录下。由于javascript的语言特性，它的继承也被分为了3中实现方式。
+对象创建说道继承先来看看对象的创建
+//第一种，手动创建
+var a={&amp;apos;name&amp;apos;:&amp;apos;hahaha&amp;apos;};   
+//第二种，构造函数
+function A(){
+    thi">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JS继承">
+<meta property="og:url" content="http://yoursite.com/2016/08/29/JS继承/index.html">
+<meta property="og:site_name" content="lennonover">
+<meta property="og:description" content="继承一种减少重复性代码的一种设计模式，尽量弱化对象间耦合。在学习JS中继承过程中，遇到坑比较多，抽点时间记录下。由于javascript的语言特性，它的继承也被分为了3中实现方式。
+对象创建说道继承先来看看对象的创建
+//第一种，手动创建
+var a={&amp;apos;name&amp;apos;:&amp;apos;hahaha&amp;apos;};   
+//第二种，构造函数
+function A(){
+    thi">
+<meta property="og:updated_time" content="2016-10-09T15:12:34.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JS继承">
+<meta name="twitter:description" content="继承一种减少重复性代码的一种设计模式，尽量弱化对象间耦合。在学习JS中继承过程中，遇到坑比较多，抽点时间记录下。由于javascript的语言特性，它的继承也被分为了3中实现方式。
+对象创建说道继承先来看看对象的创建
+//第一种，手动创建
+var a={&amp;apos;name&amp;apos;:&amp;apos;hahaha&amp;apos;};   
+//第二种，构造函数
+function A(){
+    thi">
+  
+    <link rel="alternative" href="/atom.xml" title="lennonover" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link rel="stylesheet" href="/main.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="null" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">lennonover</a></h1>
+		</hgroup>
+
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+				<li><a href="/tags/随笔">随笔</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">标签</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="#" title="github">github</a>
+		        
+					<a class="weibo" target="_blank" href="#" title="weibo">weibo</a>
+		        
+					<a class="rss" target="_blank" href="#" title="rss">rss</a>
+		        
+					<a class="zhihu" target="_blank" href="#" title="zhihu">zhihu</a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">lennonover</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="null" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">lennonover</h1>
+			</hgroup>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/tags/随笔">随笔</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="#" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="#" title="weibo">weibo</a>
+			        
+						<a class="rss" target="_blank" href="#" title="rss">rss</a>
+			        
+						<a class="zhihu" target="_blank" href="#" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        <article id="post-JS继承" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      JS继承
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="继承"><a href="#继承" class="headerlink" title="继承"></a>继承</h1><p>一种减少重复性代码的一种设计模式，尽量弱化对象间耦合。在学习JS中继承过程中，遇到坑比较多，抽点时间记录下。由于javascript的语言特性，它的继承也被分为了3中实现方式。</p>
+<h2 id="对象创建"><a href="#对象创建" class="headerlink" title="对象创建"></a>对象创建</h2><p>说道继承先来看看对象的创建</p>
+<pre><code>//第一种，手动创建
+var a={&apos;name&apos;:&apos;hahaha&apos;};   
+//第二种，构造函数
+function A(){
+    this.name=&apos;hahaha&apos;;
+}
+var a=new A();
+//第三种，class (ES6标准写法)
+class A{
+    constructor(){
+        super();
+        this.name=&apos;hahaha&apos;;
+    }
+}
+var a=new A()
+//其实后面两种方法本质上是一种写法
+</code></pre><p>这三种写法创建的对象的原型（父对象）都是Object,需要提到的是，ES6通过引入class ,extends等关键字，以一种语法糖的形式把构造函数包装成类的概念，更便于大家理解。是希望开发者不再花精力去关注原型以及原型链，也充分说明原型的设计意图和类是一样的。</p>
+<h2 id="构造函数继承"><a href="#构造函数继承" class="headerlink" title="构造函数继承"></a>构造函数继承</h2><p>在子类型构造函数的内部调用超类构造函数，通过使用call()和apply()方法可以在新创建的对象上执行构造函数。</p>
+<pre><code>function Father(name){
+    this.name =name;
+    this.age=5;
+}
+function Children(name){
+    Father.call(this,name);
+}
+let jc = new Children(&quot;jicheng&quot;);
+let jc2 = new Children(&quot;jicheng2&quot;);
+jc2.age = 10;
+console.log(jc.name + jc.age);  //jicheng 5
+console.log(jc2.name + jc2.age);  //jicheng2 10
+</code></pre><p>当我们new这个构造函数的时候，就会生成一个Children对象的实例。<br>但是通过上面的例子你会发现用构造函数生成实例对象，它有一个缺点，那就是无法共享属性和方法。<br>因为这两个对象的age属性是独立的，修改其中一个，不会影响到另一个。<br>这样做的坏处就是会造成资源浪费，那么我们要如何来解决这件事呢，那就需要prototype出场了。</p>
+<h2 id="组合继承"><a href="#组合继承" class="headerlink" title="组合继承"></a>组合继承</h2><p>就是融合了原型和构造器的一种继承方法。 这个应该算是一种比较稳妥的继承方式.即能排除引用类型造成的问题，又可以实现共享的效果。</p>
+<pre><code>function Father(name){
+    this.name =name;
+}
+Father.prototype.age=5;
+function Children(name){
+    Father.call(this,name);
+}
+Children.prototype = new Father();
+Children.prototype.constructor = Children;
+let jc = new Children(&quot;jicheng&quot;);
+let jc2 = new Children(&quot;jicheng2&quot;);
+Father.prototype.age = 10;
+console.log(jc.name + jc.age);  //jicheng 10
+console.log(jc2.name + jc2.age);  //jicheng2 10
+</code></pre><p>age属性放在prototype对象里，是两个实例对象共享的。只要修改了prototype对象，就会同时影响到两个实例对象。<br>这样会两次调用到父类型，对内存影响还是比较大的。但是es6 class  的出现，解决了这一问题。</p>
+<h2 id="class"><a href="#class" class="headerlink" title="class"></a>class</h2><p>在使用class的使用，你完全可以不去写，constructor, prototype之类的东西了</p>
+<pre><code>//原生继承方式   
+function Father(name){
+    this.name =name;
+}
+Father.prototype.age=function(){
+    return &quot;4&quot;
+};
+var father = new Father(&quot;张三&quot;)
+//使用class
+class Father(){
+    constructor(name){
+        this.name = name;
+    }
+    age(){
+        return &quot;4&quot;
+    }
+}
+var father = new Father(&quot;张三&quot;)
+</code></pre>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2016/08/29/JS继承/" class="archive-article-date">
+  	<time datetime="2016-08-29T14:59:32.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-08-29</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/原型/">原型</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2016/09/13/编码规范/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          编码规范
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/08/02/DOM编程总结/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">DOM编程总结</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+	    <a class="jiathis_button_twitter"></a>
+	    <a class="jiathis_button_plus"></a> 
+	    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 lennonover
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: false,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+<script src="/./main.js"></script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<a href="/tags/CSS/" style="font-size: 10px;">CSS</a> <a href="/tags/Gulp/" style="font-size: 10px;">Gulp</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/JavaScript/" style="font-size: 10px;">JavaScript</a> <a href="/tags/Promise/" style="font-size: 10px;">Promise</a> <a href="/tags/原型/" style="font-size: 10px;">原型</a> <a href="/tags/居中/" style="font-size: 10px;">居中</a> <a href="/tags/布局/" style="font-size: 10px;">布局</a>
+    			</div>
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-friends">
+  		
+  			<div class="friends-wrap" id="js-friends">
+  			
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">友情链接1</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">友情链接2</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">友情链接3</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">友情链接4</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">友情链接5</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">友情链接6</a>
+  	        
+  	        </div>
+  		
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">很惭愧&lt;br&gt;&lt;br&gt;只做了一点微小的工作&lt;br&gt;谢谢大家</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>
