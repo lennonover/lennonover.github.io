@@ -26,7 +26,7 @@ var a={&amp;apos;name&amp;apos;:&amp;apos;hahaha&amp;apos;};
 //第二种，构造函数
 function A(){
     thi">
-<meta property="og:updated_time" content="2016-10-09T15:12:34.000Z">
+<meta property="og:updated_time" content="2016-11-27T14:41:11.641Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JS继承">
 <meta name="twitter:description" content="继承一种减少重复性代码的一种设计模式，尽量弱化对象间耦合。在学习JS中继承过程中，遇到坑比较多，抽点时间记录下。由于javascript的语言特性，它的继承也被分为了3中实现方式。
@@ -188,7 +188,7 @@ let jc2 = new Children(&quot;jicheng2&quot;);
 jc2.age = 10;
 console.log(jc.name + jc.age);  //jicheng 5
 console.log(jc2.name + jc2.age);  //jicheng2 10
-</code></pre><p>当我们new这个构造函数的时候，就会生成一个Children对象的实例。<br>但是通过上面的例子你会发现用构造函数生成实例对象，它有一个缺点，那就是无法共享属性和方法。<br>因为这两个对象的age属性是独立的，修改其中一个，不会影响到另一个。<br>这样做的坏处就是会造成资源浪费，那么我们要如何来解决这件事呢，那就需要prototype出场了。</p>
+</code></pre><p>当我们new这个构造函数的时候，就会生成一个Children对象的实例。<br>但是通过上面的例子你会发现用构造函数生成实例对象，它有一个缺点，那就是无法共享属性和方法，没有涉及到原型。<br>因为这两个对象的age属性是独立的，修改其中一个，不会影响到另一个。<br>这样做的坏处就是会造成资源浪费，那么我们要如何来解决这件事呢，那就需要prototype出场了。</p>
 <h2 id="组合继承"><a href="#组合继承" class="headerlink" title="组合继承"></a>组合继承</h2><p>就是融合了原型和构造器的一种继承方法。 这个应该算是一种比较稳妥的继承方式.即能排除引用类型造成的问题，又可以实现共享的效果。</p>
 <pre><code>function Father(name){
     this.name =name;
