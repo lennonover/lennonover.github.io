@@ -16,7 +16,7 @@ Block-level elements are those elements of the source document that are formatte
 <meta property="og:site_name" content="lennonover">
 <meta property="og:description" content="1.BFC
 Block-level elements are those elements of the source document that are formatted visually as blocks (e.g., paragraphs). The following values of the ‘display’ property make an element block-leve">
-<meta property="og:updated_time" content="2016-12-18T11:06:25.838Z">
+<meta property="og:updated_time" content="2016-12-18T14:06:47.811Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="CSS解疑">
 <meta name="twitter:description" content="1.BFC
@@ -156,7 +156,7 @@ Block-level elements are those elements of the source document that are formatte
 <li><p>overflow的值不为visible</p>
 </li>
 </ul>
-<h2 id="规则："><a href="#规则：" class="headerlink" title="规则："></a>规则：</h2><p>在一个块级格式化上下文里，盒子从包含块的顶端开始垂直地一个接一个地排列，两个盒子之间的垂直的间隙是由他们的margin 值所决定的。两个相邻的块级盒子的垂直外边距会发生叠加。</p>
+<h2 id="规则："><a href="#规则：" class="headerlink" title="规则："></a>规则：</h2><p>在一个块级格式化上下文里，盒子从包含块的顶端开始垂直地一个接一个地排列，两个盒子之间的垂直的间隙是由他们的margin 值所决定的。毗邻块盒子的垂直外边距折叠只有他们是在同一BFC时才会发生。如果他们属于不同的BFC，他们之间的外边距将不会折叠。所以通过创建一个新的BFC我们可以防止外边距折叠。</p>
 <p>在块级格式化上下文中，每一个盒子的左外边缘（margin-left）会触碰到容器的左边缘(border-left)（对于从右到左的格式来说，则触碰到右边缘），即使存在浮动也是如此，除非这个盒子创建一个新的块级格式化上下文。</p>
 <ul>
 <li><p>内部的Box会在垂直方向，一个接一个地放置。</p>
@@ -174,6 +174,21 @@ Block-level elements are those elements of the source document that are formatte
 </ul>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>BFC就是页面上的一个隔离的独立容器，容器里面的子元素不会影响到外面的元素。反之也如此。</p>
 <p>因为BFC内部的元素和外部的元素绝对不会互相影响，因此， 当BFC外部存在浮动时，它不应该影响BFC内部Box的布局，BFC会通过变窄，而不与浮动有重叠。同样的，当BFC内部有浮动时，为了不影响外部元素的布局，BFC计算高度时会包括浮动的高度。避免margin重叠也是这样的一个道理。</p>
+<h1 id="2-box"><a href="#2-box" class="headerlink" title="2.box"></a>2.box</h1><h2 id="W3C的标准Box-Model"><a href="#W3C的标准Box-Model" class="headerlink" title="W3C的标准Box Model"></a>W3C的标准Box Model</h2><pre><code>/*外盒尺寸计算（元素空间尺寸）*/
+Element空间高度 = content height + padding + border + margin
+Element 空间宽度 = content width + padding + border + margin
+/*内盒尺寸计算（元素大小）*/
+Element Height = content height + padding + border （Height为内容高度）
+Element Width = content width + padding + border （Width为内容宽度）
+</code></pre><h2 id="IE传统下Box-Model"><a href="#IE传统下Box-Model" class="headerlink" title="IE传统下Box Model"></a>IE传统下Box Model</h2><pre><code>/*外盒尺寸计算（元素空间尺寸）*/
+Element空间高度 = content Height + margin (Height包含了元素内容宽度，边框宽度，内距宽度)
+Element空间宽度 = content Width + margin (Width包含了元素内容宽度、边框宽度、内距宽度)
+/*内盒尺寸计算（元素大小）*/
+Element Height = content Height(Height包含了元素内容宽度，边框宽度，内距宽度)
+Element Width = content Width(Width包含了元素内容宽度、边框宽度、内距宽度)
+</code></pre><h1 id="box-size"><a href="#box-size" class="headerlink" title="box-size"></a>box-size</h1><pre><code>box-sizing ： content-box || border-box || inherit
+</code></pre><h2 id="content-box"><a href="#content-box" class="headerlink" title="content-box"></a>content-box</h2><p>此值为其默认值，其让元素维持W3C的标准Box Model，也就是说元素的宽度/高度（width/height）等于元素边框宽度（border）加上元素内边距（padding）加上元素内容宽度/高度（content width/height）即：Element Width/Height = border+padding+content width/height。</p>
+<h2 id="border-box"><a href="#border-box" class="headerlink" title="border-box"></a>border-box</h2><p>此值让元素维持IE传统的Box Model（IE6以下版本），也就是说元素的宽度/高度等于元素内容的宽度/高度。（从上面Box Model介绍可知，我们这里的content width/height包含了元素的border,padding,内容的width/height【此处的内容宽度/高度=width/height-border-padding】）。</p>
 
       
     </div>
