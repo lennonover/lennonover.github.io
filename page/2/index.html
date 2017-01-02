@@ -121,6 +121,176 @@
       <div class="body-wrap">
         
   
+    <article id="post-编码规范" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/09/13/编码规范/">编码规范</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="前端编码规范"><a href="#前端编码规范" class="headerlink" title="前端编码规范"></a>前端编码规范</h1><pre><code>最近写的项目越来越大，代码堆积的太多，自己看着都头疼下决心整理了下，  
+着实一个浩大的工程hh，花了我三个晚上，效果还是有那么点的，
+顺便把遇到的整理下，写博客在于记忆，以后回来看看好知道我曾经这么菜。
+</code></pre><h2 id="JS篇"><a href="#JS篇" class="headerlink" title="JS篇"></a>JS篇</h2><ul>
+<li>三元条件判断<br>用三元操作符分配或返回语句替换简单的if语句      </li>
+</ul>
+<p><strong>不推荐</strong></p>
+<pre><code>if(x === 0) {    
+    return &apos;00&apos;;   
+    } else {    
+     return x; 
+}       
+</code></pre><p><strong>推荐</strong>      </p>
+<pre><code>return x === 4 ? &apos;00&apos; : x;      
+</code></pre><ul>
+<li>for循环<br>数组的长度，使用一个变量来接收     </li>
+</ul>
+<p><strong>不推荐</strong></p>
+<pre><code>for(var i=0;i&lt;arr.length,i++){
+}       
+</code></pre><p><strong>推荐</strong> </p>
+<pre><code>for(var i=0,len=arr.length;i&lt;len,i++){
+}    
+</code></pre><ul>
+<li>DOM操作<br>对于重复的dom操作，使用一个变量来进行接收      </li>
+</ul>
+<p><strong>不推荐</strong></p>
+<pre><code>$(&apos;.onSelect&apos;).text(&apos;1&apos;);
+$(&apos;.onSelect&apos;).text(&apos;2&apos;);
+$(&apos;.onSelect&apos;).text(&apos;3&apos;);
+$(&apos;.onSelect&apos;).text(&apos;4&apos;);
+</code></pre><p><strong>推荐</strong> </p>
+<pre><code>var sel=$(&apos;.onSelect&apos;);
+sel.text(&apos;1&apos;);
+sel.text(&apos;2&apos;);
+sel.text(&apos;3&apos;);
+sel.text(&apos;4&apos;);
+</code></pre><ul>
+<li>立即执行函数<br>推荐在立即执行函数开始跟结尾都添加上分号，避免在合并时因为别人的代码不规范而影响到我们自己的代码,如果有用到全局变量应该通过变量传递的方式，让立即执行函数的函数体在调用时，能以局部变量的形式调用，在一定程度上提升程序性能。         </li>
+</ul>
+<p><strong>不推荐</strong></p>
+<pre><code>(function(){
+&apos;use strict&apos;;
+var x = 10,
+    y = 100,
+    c,
+    elem=$(&apos;body&apos;);
+console.log(window.x + &apos; &apos; + window.y);
+$(document).on(&apos;click&apos;,function(){
+});
+if(typeof c===&apos;undefined&apos;){
+    //你的代码
+}
+}());
+</code></pre><p><strong>推荐</strong></p>
+<pre><code>;(function($,window,document,undefined){
+&apos;use strict&apos;;
+var x = 10,
+    y = 100,
+    c,
+    elem=$(&apos;body&apos;);
+console.log(window.x + &apos; &apos; + window.y);
+$(document).on(&apos;click&apos;,function(){});
+if(typeof c===&apos;undefined&apos;){
+    //你的代码
+}
+}(jQuery,window,document));
+</code></pre><ul>
+<li>类型转换</li>
+</ul>
+<p>number to string的转换，建议使用 1 + ‘’或String(1)，不使用new String(1)或1.toString()的方式。<br>string to number的转换，建议使用parseInt，必须显式指定第二个参数的进制。下面的例子展示了不指定进制的风险：       </p>
+<pre><code>parseInt(&apos;08&apos;); // 0 
+parseInt(&apos;08&apos;, 10); //8
+</code></pre><p>float to integer的转换，建议使用Math.floor/Math.round/Math.ceil方法，不使用parseInt。</p>
+<ul>
+<li>使用命名空间</li>
+</ul>
+<p>使用多个命名空间，其中的内容互不干扰</p>
+<pre><code>//全局对象
+var Wrox = {};
+//一个命名空间
+Wrox.ProAjax = {};
+Wrox.ProAjax.EventUtil = {};
+Wrox.ProAjax.CookieUtil = {};
+//另一个命名空间
+Wrox.ProJS = {};
+Wrox.ProJS.EventUtil = {};
+Wrox.ProJS.CookieUtil = {};
+</code></pre><ul>
+<li>字符串拼接<br>字符串拼接，应使用数组保存字符串片段，使用时调用join方法。避免使用+或+=的方式拼接较长的字符串，每个字符串都会使用一个小的内存片段，过多的内存片段会影响性能。如:        </li>
+</ul>
+<p><strong>不推荐</strong></p>
+<pre><code>var str = &apos;&apos;; 
+for (var i = 0, len = list.length; i &lt; len; i++) { 
+  str+= &apos;&lt;div&gt;&apos; + list[i] + &apos;&lt;/div&gt;&apos;; 
+} 
+dom.innerHTML = str;
+</code></pre><p><strong>推荐</strong></p>
+<pre><code>var str = []; 
+for (var i = 0, len = list.length; i &lt; len; i++) { 
+  str.push(&apos;&lt;div&gt;&apos;+ list[i] + &apos;&lt;/div&gt;&apos;); 
+} 
+dom.innerHTML = str.join(&apos;&apos;);
+</code></pre><ul>
+<li>尽量避免全局变量和函数</li>
+</ul>
+<p><strong>不推荐</strong></p>
+<pre><code>var name = &quot;&quot;;
+function setName(value) {
+    name = value;
+}
+function sayName() {
+    console.log(name);
+}
+</code></pre><p><strong>推荐</strong></p>
+<pre><code>var setPersonName = {
+    name: &quot;&quot;,
+    setName: function (value) {
+        this.name = value;
+    },
+    sayName: function () {
+        console.log(this.name);
+    }
+};
+setPersonName.setName(&quot;Oli&quot;);
+setPersonName.sayName();
+</code></pre>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2016/09/13/编码规范/" class="archive-article-date">
+  	<time datetime="2016-09-13T14:48:41.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-09-13</time>
+</a>
+      
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-JS继承" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -864,7 +1034,7 @@ var father = new Father(&quot;张三&quot;)
     
     	<section class="tools-section tools-section-tag">
     			<div class="widget tagcloud" id="js-tagcloud">
-    				<a href="/tags/BFC/" style="font-size: 10px;">BFC</a> <a href="/tags/CSS/" style="font-size: 20px;">CSS</a> <a href="/tags/Gulp/" style="font-size: 10px;">Gulp</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/JavaScript/" style="font-size: 10px;">JavaScript</a> <a href="/tags/Promise/" style="font-size: 10px;">Promise</a> <a href="/tags/css/" style="font-size: 15px;">css</a> <a href="/tags/line-height/" style="font-size: 10px;">line-height</a> <a href="/tags/vertical-align/" style="font-size: 10px;">vertical-align</a> <a href="/tags/原型/" style="font-size: 10px;">原型</a> <a href="/tags/居中/" style="font-size: 10px;">居中</a> <a href="/tags/布局/" style="font-size: 10px;">布局</a> <a href="/tags/移动端/" style="font-size: 10px;">移动端</a> <a href="/tags/自适应/" style="font-size: 10px;">自适应</a>
+    				<a href="/tags/BFC/" style="font-size: 10px;">BFC</a> <a href="/tags/CSS/" style="font-size: 20px;">CSS</a> <a href="/tags/Gulp/" style="font-size: 10px;">Gulp</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/JavaScript/" style="font-size: 10px;">JavaScript</a> <a href="/tags/Promise/" style="font-size: 10px;">Promise</a> <a href="/tags/css/" style="font-size: 20px;">css</a> <a href="/tags/float/" style="font-size: 10px;">float</a> <a href="/tags/line-height/" style="font-size: 10px;">line-height</a> <a href="/tags/vertical-align/" style="font-size: 10px;">vertical-align</a> <a href="/tags/原型/" style="font-size: 10px;">原型</a> <a href="/tags/居中/" style="font-size: 10px;">居中</a> <a href="/tags/布局/" style="font-size: 10px;">布局</a> <a href="/tags/移动端/" style="font-size: 10px;">移动端</a> <a href="/tags/自适应/" style="font-size: 10px;">自适应</a>
     			</div>
     	</section>
     
