@@ -6,27 +6,38 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>CSS解疑 | lennonover</title>
+  <title>css之absolute | lennonover</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="1.BFC
-Block-level elements are those elements of the source document that are formatted visually as blocks (e.g., paragraphs). The following values of the ‘display’ property make an element block-leve">
+  <meta name="description" content="关于absolute
+脱离文档流
+去浮动
+超越overflow
+
+绝对定位和浮动有相似性，同样具有浮动的包裹性和破坏性。一旦给元素加上absolute或float就相当于给元素加上了display:block。
+设置为绝对定位的元素框从文档流完全删除并去浮动也不瘦overflow控制，并相对于其包含块定位，包含块可能是文档中的另一个元素或者是初始包含块。绝对定位使元素的位置与文档流无关，因此不占据">
 <meta property="og:type" content="article">
-<meta property="og:title" content="CSS解疑">
-<meta property="og:url" content="http://yoursite.com/2016/12/17/css解疑/index.html">
+<meta property="og:title" content="css之absolute">
+<meta property="og:url" content="http://yoursite.com/2017/01/07/css之absolute/index.html">
 <meta property="og:site_name" content="lennonover">
-<meta property="og:description" content="1.BFC
-Block-level elements are those elements of the source document that are formatted visually as blocks (e.g., paragraphs). The following values of the ‘display’ property make an element block-leve">
-<meta property="og:image" content="http://ob6nlbpso.bkt.clouddn.com/17-1-3/35927458-file_1483451513816_13023.png">
-<meta property="og:image" content="http://ob6nlbpso.bkt.clouddn.com/17-1-3/58643265-file_1483456292463_15378.png">
-<meta property="og:image" content="http://ob6nlbpso.bkt.clouddn.com/17-1-3/50929365-file_1483456274449_bb3e.png">
-<meta property="og:image" content="http://ob6nlbpso.bkt.clouddn.com/17-1-6/66418111-file_1483699900475_6f2c.png">
-<meta property="og:image" content="http://ob6nlbpso.bkt.clouddn.com/sp170107_195326.png">
-<meta property="og:updated_time" content="2017-01-07T11:54:23.100Z">
+<meta property="og:description" content="关于absolute
+脱离文档流
+去浮动
+超越overflow
+
+绝对定位和浮动有相似性，同样具有浮动的包裹性和破坏性。一旦给元素加上absolute或float就相当于给元素加上了display:block。
+设置为绝对定位的元素框从文档流完全删除并去浮动也不瘦overflow控制，并相对于其包含块定位，包含块可能是文档中的另一个元素或者是初始包含块。绝对定位使元素的位置与文档流无关，因此不占据">
+<meta property="og:image" content="http://ob6nlbpso.bkt.clouddn.com/sp170107_194857.png">
+<meta property="og:updated_time" content="2017-01-07T12:13:13.794Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="CSS解疑">
-<meta name="twitter:description" content="1.BFC
-Block-level elements are those elements of the source document that are formatted visually as blocks (e.g., paragraphs). The following values of the ‘display’ property make an element block-leve">
-<meta name="twitter:image" content="http://ob6nlbpso.bkt.clouddn.com/17-1-3/35927458-file_1483451513816_13023.png">
+<meta name="twitter:title" content="css之absolute">
+<meta name="twitter:description" content="关于absolute
+脱离文档流
+去浮动
+超越overflow
+
+绝对定位和浮动有相似性，同样具有浮动的包裹性和破坏性。一旦给元素加上absolute或float就相当于给元素加上了display:block。
+设置为绝对定位的元素框从文档流完全删除并去浮动也不瘦overflow控制，并相对于其包含块定位，包含块可能是文档中的另一个元素或者是初始包含块。绝对定位使元素的位置与文档流无关，因此不占据">
+<meta name="twitter:image" content="http://ob6nlbpso.bkt.clouddn.com/sp170107_194857.png">
   
     <link rel="alternative" href="/atom.xml" title="lennonover" type="application/atom+xml">
   
@@ -129,7 +140,7 @@ Block-level elements are those elements of the source document that are formatte
 </nav>
 
       <div class="body-wrap">
-        <article id="post-css解疑" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-css之absolute" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <input type="hidden" class="isFancy" />
@@ -139,7 +150,7 @@ Block-level elements are those elements of the source document that are formatte
         
   
     <h1 class="article-title" itemprop="name">
-      CSS解疑
+      css之absolute
     </h1>
   
 
@@ -147,74 +158,44 @@ Block-level elements are those elements of the source document that are formatte
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="1-BFC"><a href="#1-BFC" class="headerlink" title="1.BFC"></a>1.BFC</h1><blockquote>
-<p>Block-level elements are those elements of the source document that are formatted visually as blocks (e.g., paragraphs). The following values of the ‘display’ property make an element block-level: ‘block’, ‘list-item’, and ‘table’</p>
-</blockquote>
-<p>浮动元素和绝对定位元素，非块级盒子的块级容器（例如 inline-blocks, table-cells, 和 table-captions），以及overflow值不为“visiable”的块级盒子，都会为他们的内容创建新的块级格式化上下文。</p>
-<p>至少满足下列条件中的任何一个：</p>
-<ul>
-<li><p>float的值不为none</p>
-</li>
-<li><p>position的值不为static或者relative</p>
-</li>
-<li><p>display的值为 table-cell, table-caption, inline-block, flex, 或者 inline-flex中的其中一个</p>
-</li>
-<li><p>overflow的值不为visible</p>
-</li>
+        <h2 id="关于absolute"><a href="#关于absolute" class="headerlink" title="关于absolute"></a>关于absolute</h2><ul>
+<li>脱离文档流</li>
+<li>去浮动</li>
+<li>超越overflow</li>
 </ul>
-<h2 id="规则："><a href="#规则：" class="headerlink" title="规则："></a>规则：</h2><p>在一个块级格式化上下文里，盒子从包含块的顶端开始垂直地一个接一个地排列，两个盒子之间的垂直的间隙是由他们的margin 值所决定的。毗邻块盒子的垂直外边距折叠只有他们是在同一BFC时才会发生。如果他们属于不同的BFC，他们之间的外边距将不会折叠。所以通过创建一个新的BFC我们可以防止外边距折叠。</p>
-<p>在块级格式化上下文中，每一个盒子的左外边缘（margin-left）会触碰到容器的左边缘(border-left)（对于从右到左的格式来说，则触碰到右边缘），即使存在浮动也是如此，除非这个盒子创建一个新的块级格式化上下文。</p>
-<ul>
-<li><p>内部的Box会在垂直方向，一个接一个地放置。</p>
-</li>
-<li><p>Box垂直方向的距离由margin决定。属于同一个BFC的两个相邻Box的margin会发生重叠</p>
-</li>
-<li><p>每个元素的margin box的左边， 与包含块border box的左边相接触(对于从左往右的格式化，否则相反)。即使存在浮动也是如此。</p>
-</li>
-<li><p>BFC的区域不会与float box重叠。</p>
-</li>
-<li><p>BFC就是页面上的一个隔离的独立容器，容器里面的子元素不会影响到外面的元素。反之也如此。</p>
-</li>
-<li><p>计算BFC的高度时，浮动元素也参与计算 // 清除浮动</p>
-</li>
+<p>绝对定位和浮动有相似性，同样具有浮动的包裹性和破坏性。一旦给元素加上absolute或float就相当于给元素加上了display:block。</p>
+<p>设置为绝对定位的元素框从文档流完全删除并去浮动也不瘦overflow控制，并相对于其包含块定位，包含块可能是文档中的另一个元素或者是初始包含块。<br>绝对定位使元素的位置与文档流无关，因此不占据空间。</p>
+<h2 id="如何确定定位点"><a href="#如何确定定位点" class="headerlink" title="如何确定定位点"></a>如何确定定位点</h2><ul>
+<li>第一种情况</li>
 </ul>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>BFC就是页面上的一个隔离的独立容器，容器里面的子元素不会影响到外面的元素。反之也如此。</p>
-<p>因为BFC内部的元素和外部的元素绝对不会互相影响，因此， 当BFC外部存在浮动时，它不应该影响BFC内部Box的布局，BFC会通过变窄，而不与浮动有重叠。同样的，当BFC内部有浮动时，为了不影响外部元素的布局，BFC计算高度时会包括浮动的高度。避免margin重叠也是这样的一个道理。</p>
-<h1 id="2-box"><a href="#2-box" class="headerlink" title="2.box"></a>2.box</h1><h2 id="W3C的标准Box-Model"><a href="#W3C的标准Box-Model" class="headerlink" title="W3C的标准Box Model"></a>W3C的标准Box Model</h2><pre><code>/*外盒尺寸计算（元素空间尺寸）*/
-Element空间高度 = content height + padding + border + margin
-Element 空间宽度 = content width + padding + border + margin
-/*内盒尺寸计算（元素大小）*/
-Element Height = content height + padding + border （Height为内容高度）
-Element Width = content width + padding + border （Width为内容宽度）
-</code></pre><h2 id="IE传统下Box-Model"><a href="#IE传统下Box-Model" class="headerlink" title="IE传统下Box Model"></a>IE传统下Box Model</h2><pre><code>/*外盒尺寸计算（元素空间尺寸）*/
-Element空间高度 = content Height + margin (Height包含了元素内容宽度，边框宽度，内距宽度)
-Element空间宽度 = content Width + margin (Width包含了元素内容宽度、边框宽度、内距宽度)
-/*内盒尺寸计算（元素大小）*/
-Element Height = content Height(Height包含了元素内容宽度，边框宽度，内距宽度)
-Element Width = content Width(Width包含了元素内容宽度、边框宽度、内距宽度)
-</code></pre><h1 id="box-size"><a href="#box-size" class="headerlink" title="box-size"></a>box-size</h1><pre><code>box-sizing ： content-box || border-box || inherit
-</code></pre><h2 id="content-box"><a href="#content-box" class="headerlink" title="content-box"></a>content-box</h2><p>此值为其默认值，其让元素维持W3C的标准Box Model，也就是说元素的宽度/高度（width/height）等于元素边框宽度（border）加上元素内边距（padding）加上元素内容宽度/高度（content width/height）即：Element Width/Height = border+padding+content width/height。</p>
-<h2 id="border-box"><a href="#border-box" class="headerlink" title="border-box"></a>border-box</h2><p>此值让元素维持IE传统的Box Model（IE6以下版本），也就是说元素的宽度/高度等于元素内容的宽度/高度。（从上面Box Model介绍可知，我们这里的content width/height包含了元素的border,padding,内容的width/height【此处的内容宽度/高度=width/height-border-padding】）。</p>
-<h1 id="border"><a href="#border" class="headerlink" title="border"></a>border</h1><p>边框三角</p>
-<p><img src="http://ob6nlbpso.bkt.clouddn.com/17-1-3/35927458-file_1483451513816_13023.png" alt=""></p>
-<h1 id="overflow"><a href="#overflow" class="headerlink" title="overflow"></a>overflow</h1><p>滚动条高度</p>
-<p><img src="http://ob6nlbpso.bkt.clouddn.com/17-1-3/58643265-file_1483456292463_15378.png" alt=""></p>
-<p>解决出现滚动条后水平方向抖动问题</p>
-<p><img src="http://ob6nlbpso.bkt.clouddn.com/17-1-3/50929365-file_1483456274449_bb3e.png" alt=""></p>
-<p><img src="http://ob6nlbpso.bkt.clouddn.com/17-1-6/66418111-file_1483699900475_6f2c.png" alt="overflow"></p>
-<h2 id="去除图片和标签之间的空格"><a href="#去除图片和标签之间的空格" class="headerlink" title="去除图片和标签之间的空格"></a>去除图片和标签之间的空格</h2><p><img src="http://ob6nlbpso.bkt.clouddn.com/sp170107_195326.png" alt=""></p>
+<p>用户只给元素指定了absolute，未指定left/top/right/bottom。此时absolute元素的左上角定位点位置就是该元素<code>正常文档流</code>里的位置（也就是位置跟随）。</p>
+<ul>
+<li>第二种情况</li>
+</ul>
+<p>用户给absolute元素指定了left/right，top/bottom。位置是absolute元素没有position:static以外的父元素。<br>设置值得是相对没有position:static以外的父元素定位，没有设置值得还是在正常文档流中。</p>
+<h2 id="无依赖的绝对定位实战"><a href="#无依赖的绝对定位实战" class="headerlink" title="无依赖的绝对定位实战"></a>无依赖的绝对定位实战</h2><p>优点对父级无依赖，自适应好</p>
+<ul>
+<li>图片图表定位</li>
+</ul>
+<p>利用跟随性实现</p>
+<p><img src="http://ob6nlbpso.bkt.clouddn.com/sp170107_194857.png" alt=""></p>
+<ul>
+<li>边缘定位</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"course-fixed-x"</span>&gt;</span></div><div class="line">    &amp;nbsp;<span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"course-fixed"</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"http://www.imooc.com/activity/diaocha"</span> <span class="attr">class</span>=<span class="string">"goto_top_diaocha"</span>&gt;</span><span class="tag">&lt;/<span class="name">a</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"http://www.imooc.com/mobile/app"</span> <span class="attr">class</span>=<span class="string">"goto_top_app"</span>&gt;</span><span class="tag">&lt;/<span class="name">a</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"http://www.imooc.com/user/feedback"</span> <span class="attr">class</span>=<span class="string">"goto_top_feed"</span>&gt;</span><span class="tag">&lt;/<span class="name">a</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.course-fixed-x</span> &#123; <span class="attribute">height</span>: <span class="number">0</span>;  <span class="attribute">text-align</span>:right; <span class="attribute">overflow</span>: hidden; &#125;</div><div class="line"><span class="selector-class">.course-fixed</span> &#123; <span class="attribute">display</span>: inline; <span class="attribute">position</span>: fixed; <span class="attribute">margin-left</span>: <span class="number">20px</span>; <span class="attribute">bottom</span>: <span class="number">100px</span>; &#125;</div></pre></td></tr></table></figure>
 
       
     </div>
     <div class="article-info article-info-index">
       
-      <a href="/2016/12/17/css解疑/" class="archive-article-date">
-  	<time datetime="2016-12-17T13:16:04.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-12-17</time>
+      <a href="/2017/01/07/css之absolute/" class="archive-article-date">
+  	<time datetime="2017-01-07T11:15:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-01-07</time>
 </a>
       
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/BFC/">BFC</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Box-Model/">Box Model</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CSS/">CSS</a></li></ul>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/absolute/">absolute</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/css/">css</a></li></ul>
 	</div>
 
       
@@ -227,18 +208,9 @@ Element Width = content Width(Width包含了元素内容宽度、边框宽度、
   
 <nav id="article-nav">
   
-    <a href="/2016/12/21/移动端的自适应/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          移动端的自适应
-        
-      </div>
-    </a>
   
-  
-    <a href="/2016/12/13/编写高效css/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">编写高效CSS</div>
+    <a href="/2017/01/01/css之float/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">css之float</div>
       <i class="icon-circle-right"></i>
     </a>
   

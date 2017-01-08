@@ -121,6 +121,81 @@
       <div class="body-wrap">
         
   
+    <article id="post-css之absolute" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/01/07/css之absolute/">css之absolute</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="关于absolute"><a href="#关于absolute" class="headerlink" title="关于absolute"></a>关于absolute</h2><ul>
+<li>脱离文档流</li>
+<li>去浮动</li>
+<li>超越overflow</li>
+</ul>
+<p>绝对定位和浮动有相似性，同样具有浮动的包裹性和破坏性。一旦给元素加上absolute或float就相当于给元素加上了display:block。</p>
+<p>设置为绝对定位的元素框从文档流完全删除并去浮动也不瘦overflow控制，并相对于其包含块定位，包含块可能是文档中的另一个元素或者是初始包含块。<br>绝对定位使元素的位置与文档流无关，因此不占据空间。</p>
+<h2 id="如何确定定位点"><a href="#如何确定定位点" class="headerlink" title="如何确定定位点"></a>如何确定定位点</h2><ul>
+<li>第一种情况</li>
+</ul>
+<p>用户只给元素指定了absolute，未指定left/top/right/bottom。此时absolute元素的左上角定位点位置就是该元素<code>正常文档流</code>里的位置（也就是位置跟随）。</p>
+<ul>
+<li>第二种情况</li>
+</ul>
+<p>用户给absolute元素指定了left/right，top/bottom。位置是absolute元素没有position:static以外的父元素。<br>设置值得是相对没有position:static以外的父元素定位，没有设置值得还是在正常文档流中。</p>
+<h2 id="无依赖的绝对定位实战"><a href="#无依赖的绝对定位实战" class="headerlink" title="无依赖的绝对定位实战"></a>无依赖的绝对定位实战</h2><p>优点对父级无依赖，自适应好</p>
+<ul>
+<li>图片图表定位</li>
+</ul>
+<p>利用跟随性实现</p>
+<p><img src="http://ob6nlbpso.bkt.clouddn.com/sp170107_194857.png" alt=""></p>
+<ul>
+<li>边缘定位</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"course-fixed-x"</span>&gt;</span></div><div class="line">    &amp;nbsp;<span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"course-fixed"</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"http://www.imooc.com/activity/diaocha"</span> <span class="attr">class</span>=<span class="string">"goto_top_diaocha"</span>&gt;</span><span class="tag">&lt;/<span class="name">a</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"http://www.imooc.com/mobile/app"</span> <span class="attr">class</span>=<span class="string">"goto_top_app"</span>&gt;</span><span class="tag">&lt;/<span class="name">a</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"http://www.imooc.com/user/feedback"</span> <span class="attr">class</span>=<span class="string">"goto_top_feed"</span>&gt;</span><span class="tag">&lt;/<span class="name">a</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.course-fixed-x</span> &#123; <span class="attribute">height</span>: <span class="number">0</span>;  <span class="attribute">text-align</span>:right; <span class="attribute">overflow</span>: hidden; &#125;</div><div class="line"><span class="selector-class">.course-fixed</span> &#123; <span class="attribute">display</span>: inline; <span class="attribute">position</span>: fixed; <span class="attribute">margin-left</span>: <span class="number">20px</span>; <span class="attribute">bottom</span>: <span class="number">100px</span>; &#125;</div></pre></td></tr></table></figure>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2017/01/07/css之absolute/" class="archive-article-date">
+  	<time datetime="2017-01-07T11:15:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-01-07</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/absolute/">absolute</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/css/">css</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-css之float" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -618,6 +693,7 @@ Element Width = content Width(Width包含了元素内容宽度、边框宽度、
 <p>解决出现滚动条后水平方向抖动问题</p>
 <p><img src="http://ob6nlbpso.bkt.clouddn.com/17-1-3/50929365-file_1483456274449_bb3e.png" alt=""></p>
 <p><img src="http://ob6nlbpso.bkt.clouddn.com/17-1-6/66418111-file_1483699900475_6f2c.png" alt="overflow"></p>
+<h2 id="去除图片和标签之间的空格"><a href="#去除图片和标签之间的空格" class="headerlink" title="去除图片和标签之间的空格"></a>去除图片和标签之间的空格</h2><p><img src="http://ob6nlbpso.bkt.clouddn.com/sp170107_195326.png" alt=""></p>
 
       
     </div>
@@ -1121,59 +1197,6 @@ printN(10);
 
 
   
-    <article id="post-关于前后端开发模思考" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/09/19/关于前后端开发模思考/">对于前后端开发模式一点点思考</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="问题的起因"><a href="#问题的起因" class="headerlink" title="问题的起因"></a>问题的起因</h2><p>很多东西真的是用起来才会发现问题，问题是前两天交互需要改一个业务，另个部门A同事发我让我去修改，这页面静态确实是我写的，我也抽时间把它写好重新发给A同事。</p>
-<h2 id="现状"><a href="#现状" class="headerlink" title="现状"></a>现状</h2><p>我们公司目前的开发模式是：交互根据PM出高保真，视觉出视觉稿、切图，然后交给前端出静态，最后交给另一个部门同事把它转换成服务端模板。</p>
-<p>这样问题就来了当出现上述交互要改业务的情况，A同事改不了只能发回前端改，如果A把他已经搞成服务端模板的代码返回给前端，前端没环境也没法下手，只能去改以前的静态，改好后重新发给A，这时候A又麻烦了，他要对比两次修改的部分，把自己前一阵的修改合并进去。这样开发效率会慢很多。</p>
-<h2 id="基于NodeJS的全栈式开发"><a href="#基于NodeJS的全栈式开发" class="headerlink" title="基于NodeJS的全栈式开发"></a>基于NodeJS的全栈式开发</h2><p>这是2014年杭JS，淘宝赫门做的分享（那时候我还在玩泥巴o(╯□╰)o），特意去找了当年的文档，中途岛(Midway Framework)的架构，淘宝的前端团队真的很厉害。</p>
-<p><img src="http://ob6nlbpso.bkt.clouddn.com/T1xW8OFrXkXXXK71TW-590-611.png" alt="Alt text"></p>
-<p>多加了一层中间层。<br>前后端共享模板，前端来决定某个模板是服务端渲染还是客户端渲染，当首屏的时候，就在服务器渲染，次屏和局部刷新的时候，就在浏览器端渲染展示。<br>加入NodeJs还有很多好处，比如NodeJs的高并发特性，请求合并等。同时使用nodeJs做桥梁，前端可以自己决定获取什么格式的数据。</p>
-<p><img src="http://ob6nlbpso.bkt.clouddn.com/sp160926_225215.png" alt="Alt text"></p>
-<p>这样还分清了职责</p>
-<h2 id="我们该怎么做"><a href="#我们该怎么做" class="headerlink" title="我们该怎么做"></a>我们该怎么做</h2><p>在公司产品的角度，觉得我们公司并不需要。其实适合自己就好，没必要占领中间层。相对来说我们公司的前端比较弱，产品线又横向发展并没太深入的产品，分离的还是业务逻辑JS该谁写，把这些都应该交给前端前，端负责展现交互逻辑，去掉A那部分，后端专注于数据接口就好，对于接口接口风格是面向业务 还是面相页面有待统一。这样必然导致前端人员工作量的增加，和水平的相应自我提升。对于数据Mock，可以采用RAP之类接口自动化工具。</p>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2016/09/19/关于前后端开发模思考/" class="archive-article-date">
-  	<time datetime="2016-09-19T14:41:51.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-09-19</time>
-</a>
-      
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
@@ -1237,7 +1260,7 @@ printN(10);
     
     	<section class="tools-section tools-section-tag">
     			<div class="widget tagcloud" id="js-tagcloud">
-    				<a href="/tags/BFC/" style="font-size: 10px;">BFC</a> <a href="/tags/Box-Model/" style="font-size: 10px;">Box Model</a> <a href="/tags/CSS/" style="font-size: 20px;">CSS</a> <a href="/tags/Gulp/" style="font-size: 10px;">Gulp</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/JavaScript/" style="font-size: 10px;">JavaScript</a> <a href="/tags/Promise/" style="font-size: 10px;">Promise</a> <a href="/tags/css/" style="font-size: 20px;">css</a> <a href="/tags/float/" style="font-size: 10px;">float</a> <a href="/tags/line-height/" style="font-size: 10px;">line-height</a> <a href="/tags/vertical-align/" style="font-size: 10px;">vertical-align</a> <a href="/tags/原型/" style="font-size: 10px;">原型</a> <a href="/tags/居中/" style="font-size: 10px;">居中</a> <a href="/tags/布局/" style="font-size: 10px;">布局</a> <a href="/tags/移动端/" style="font-size: 10px;">移动端</a> <a href="/tags/自适应/" style="font-size: 10px;">自适应</a>
+    				<a href="/tags/BFC/" style="font-size: 10px;">BFC</a> <a href="/tags/Box-Model/" style="font-size: 10px;">Box Model</a> <a href="/tags/CSS/" style="font-size: 15px;">CSS</a> <a href="/tags/Gulp/" style="font-size: 10px;">Gulp</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/JavaScript/" style="font-size: 10px;">JavaScript</a> <a href="/tags/Promise/" style="font-size: 10px;">Promise</a> <a href="/tags/absolute/" style="font-size: 10px;">absolute</a> <a href="/tags/css/" style="font-size: 20px;">css</a> <a href="/tags/float/" style="font-size: 10px;">float</a> <a href="/tags/line-height/" style="font-size: 10px;">line-height</a> <a href="/tags/vertical-align/" style="font-size: 10px;">vertical-align</a> <a href="/tags/原型/" style="font-size: 10px;">原型</a> <a href="/tags/居中/" style="font-size: 10px;">居中</a> <a href="/tags/布局/" style="font-size: 10px;">布局</a> <a href="/tags/移动端/" style="font-size: 10px;">移动端</a> <a href="/tags/自适应/" style="font-size: 10px;">自适应</a>
     			</div>
     	</section>
     
