@@ -121,6 +121,74 @@
       <div class="body-wrap">
         
   
+    <article id="w-js原型链" class="article article-type-w" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/01/21/js原型链/">js原型链</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="名词解释"><a href="#名词解释" class="headerlink" title="名词解释"></a>名词解释</h1><h2 id="函数对象"><a href="#函数对象" class="headerlink" title="函数对象"></a>函数对象</h2><p>由Function创造出来的函数 eg：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">function a()&#123;&#125;;</div><div class="line">var b=function()&#123;&#125;;</div></pre></td></tr></table></figure>
+<p>系统内置的函数对象</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Function,Object,Array,String,Number</div></pre></td></tr></table></figure>
+<blockquote>
+<p>只有函数对象才有 prototype属性</p>
+</blockquote>
+<h1 id="普通对象"><a href="#普通对象" class="headerlink" title="普通对象"></a>普通对象</h1><p>函数对象之外的对象都是普通对象</p>
+<h1 id="原型对象"><a href="#原型对象" class="headerlink" title="原型对象"></a>原型对象</h1><p>prototype属性</p>
+<p>对象 <code>a</code> 是由<code>Function</code>创造出来,是函数对象,<code>a</code> 就有了<code>prototype</code>属性.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">function a()&#123;&#125;;</div></pre></td></tr></table></figure>
+<p>对象 <code>a</code> 是由<code>Function</code>创造出来,是函数对象,<code>a</code> 就有了<code>prototype</code>属性.那么这个原型对象是怎么创造出来的呢?<br>来看下面这个例子:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">var temp = new a();</div><div class="line">a.prototype = temp;</div></pre></td></tr></table></figure>
+<p>a的prototype属性就是这样创造出来的</p>
+<h1 id="指针proto"><a href="#指针proto" class="headerlink" title="指针proto"></a>指针<strong>proto</strong></h1><p>所有的对象obj都具有proto属性(null和undefined除外),而且指向创造obj对象的函数对象的prototype属性 eg:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">function a()&#123;&#125;;</div><div class="line">console.log(a.prototype.__proto__===Object.prototype); //true</div><div class="line">console.log(a.__proto__===Function.prototype); //true 指向创造obj对象的函数对象的prototype属性</div></pre></td></tr></table></figure>
+<h1 id="构造器constructor"><a href="#构造器constructor" class="headerlink" title="构造器constructor"></a>构造器constructor</h1><p>constructor 属性返回对创建此对象的函数对象的引用。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">function a()&#123;&#125;;</div><div class="line">console.log(a.constructor===Function); //true</div><div class="line">console.log(a.prototype.constructor===a); //true</div></pre></td></tr></table></figure>
+<p>函数a是由Function创造出来,那么它的constructor指向的Function,<br>a.prototype是由new a()方式创造出来,那么a.prototype.constructor理应指向a</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2017/01/21/js原型链/" class="archive-article-date">
+  	<time datetime="2017-01-21T12:23:20.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-01-21</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/原型链/">原型链</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-css之absolute" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -995,208 +1063,6 @@ Element Width = content Width(Width包含了元素内容宽度、边框宽度、
 
 
   
-    <article id="post-PrES6之Promise对象" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/10/12/PrES6之Promise对象/">ES6之Promise对象</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="Promise"><a href="#Promise" class="headerlink" title="Promise"></a>Promise</h1><h3 id="什么是Promise"><a href="#什么是Promise" class="headerlink" title="什么是Promise"></a>什么是Promise</h3><p>ECMAScript 6中的Promise规范来源于Promises/A+社区。Promise是一个用于异步处理对象，其中包含了对异步进行各种操作的组件。Promise把JavaScript中的异步处理对象和处理规则进行了规范化，并按照统一的接口来编写，使用规定方法之外的写法会出现错误。</p>
-<h3 id="一个promise有下面三个不同状态："><a href="#一个promise有下面三个不同状态：" class="headerlink" title="一个promise有下面三个不同状态："></a>一个promise有下面三个不同状态：</h3><ul>
-<li>pending待承诺         - 初始状态</li>
-<li>fulfilled实现承诺  - 一个承诺成功实现状态</li>
-<li>rejected拒绝承诺   - 一个承诺失败的状态</li>
-</ul>
-<h3 id="promise必须实现-then-方法"><a href="#promise必须实现-then-方法" class="headerlink" title="promise必须实现 then 方法"></a>promise必须实现 then 方法</h3><ul>
-<li>then必须返回一个promise</li>
-<li>可以调用多次</li>
-<li>then方法接受两个参数</li>
-</ul>
-<h3 id="Promise基本语法"><a href="#Promise基本语法" class="headerlink" title="Promise基本语法"></a>Promise基本语法</h3><h4 id="1、创建一个Promise对象"><a href="#1、创建一个Promise对象" class="headerlink" title="1、创建一个Promise对象"></a>1、创建一个Promise对象</h4><p>使用 new 来调用Promise的构造器来进行实例化</p>
-<p>new Promise(fn) 返回一个promise对象<br>在fn 中指定异步等处理<br>处理结果正常的话，调用resolve(处理结果值)<br>处理结果错误的话，调用reject(Error对象)</p>
-<pre><code>var promise = new Promise(function(resolve, reject) {
-// 异步处理
-// 处理结束后、调用resolve 或 reject
-});
-</code></pre><h4 id="2、了解Promise的状态"><a href="#2、了解Promise的状态" class="headerlink" title="2、了解Promise的状态"></a>2、了解Promise的状态</h4><p>用 new Promise 实例化的promise对象有以下三个状态。</p>
-<pre><code>&quot;has-resolution&quot; - Fulfilled
-</code></pre><p>resolve(成功)时。此时会调用 onFulfilled</p>
-<pre><code>&quot;has-rejection&quot; - Rejected
-</code></pre><p>reject(失败)时。此时会调用 onRejected</p>
-<pre><code>&quot;unresolved&quot; - Pending
-</code></pre><p>既不是resolve也不是reject的状态。<br>也就是promise对象刚被创建后的初始化状态等</p>
-<p>关于上面这三种状态的读法，其中 左侧为在 ES6 Promises 规范中定义的术语， 而右侧则是在 Promises/A+ 中描述状态的术语。</p>
-<h4 id="3、Promise-then"><a href="#3、Promise-then" class="headerlink" title="3、Promise.then()"></a>3、Promise.then()</h4><p>对通过 new 生成的promise对象为了设置其值在 resolve(成功) / reject(失败) 时调用的 回调函数 可以使用 promise.then() 实例方法。</p>
-<pre><code>promise.then(onFulfilled, onRejected)
-resolve(成功)时
-onFulfilled 会被调用
-
-reject(失败)时
-onRejected 会被调用
-</code></pre><p>onFulfilled、onRejected 两个都为可选参数。<br>promise.then 成功和失败时都可以使用。 如果只想对异常进行处理时可以采用 promise.then(undefined, onRejected) 这种方式，只指定reject时的回调函数即可。 不过这种情况下 promise.catch(onRejected) 应该是个更好的选择。</p>
-<pre><code>var promise = new Promise(function(resolve, reject){
-    resolve(&quot;传递给then的值&quot;);
-});
-// 写法一
-promise.then(function (value) {
-    console.log(value);
-}, function (error) {
-    console.error(error);
-});
-// 写法二（使用catch)
-promise.then(function (value) {
-    console.log(value);
-}).catch(function (error) {
-    console.error(error);
-});
-</code></pre><h4 id="4、使用快捷方式"><a href="#4、使用快捷方式" class="headerlink" title="4、使用快捷方式"></a>4、使用快捷方式</h4><p>静态方法 Promise.resolve(value) 和 Promise.reject(error) 可以认为是 new Promise() 方法的快捷方式。</p>
-<h5 id="4-1-Promise-resolve"><a href="#4-1-Promise-resolve" class="headerlink" title="4.1 Promise.resolve()"></a>4.1 Promise.resolve()</h5><p>比如 Promise.resolve(1) 可以认为是以下代码的语法糖。</p>
-<pre><code>new Promise(function(resolve){
-    resolve(1);
-});
-</code></pre><p>在这段代码中的 resolve(1)会让这个promise对象立即进入确定（即resolved）状态，并将 1 传递给后面then里所指定的 onFulfilled 函数。</p>
-<p>方法 Promise.resolve(value) 的返回值也是一个promise对象，所以我们可以像下面那样接着对其返回值进行 .then 调用。</p>
-<pre><code>Promise.resolve(1).then(function(value){
-    console.log(value); // 1
-});
-</code></pre><p>运用场景：Promise.resolve()在promise对象的初始化或者编写测试代码的时候都非常方便。</p>
-<h5 id="4-2-Promise-reject"><a href="#4-2-Promise-reject" class="headerlink" title="4.2 Promise.reject()"></a>4.2 Promise.reject()</h5><p>比如 Promise.reject(new Error(“出错了”)) 就是下面代码的语法糖形式。</p>
-<pre><code>new Promise(function(resolve,reject){
-    reject(new Error(&quot;出错了&quot;));
-});
-</code></pre><p>方法 Promise.reject(error) 的返回值也是一个promise对象，所以可以将错误（Error）对象传递到catch里的函数中。</p>
-<pre><code>Promise.reject(new Error(&quot;BOOM!&quot;)).catch(function(error){
-    console.error(error);
-});
-</code></pre><h4 id="5、Promise-all"><a href="#5、Promise-all" class="headerlink" title="5、Promise.all()"></a>5、Promise.all()</h4><p>Promise.all 接收一个 promise对象的数组作为参数，当这个数组里的所有promise对象全部变为resolve或reject状态的时候，它才会去调用 .then 方法。</p>
-<p>运用场景: 批量请求</p>
-<pre><code>var p1 = Promise.resolve(1),
-    p2 = Promise.resolve(2),
-    p3 = Promise.resolve(3);
-Promise.all([p1, p2, p3]).then(function (results) {
-    console.log(results);  // [1, 2, 3]
-});
-传递给 Promise.all 的promise并不是一个个的顺序执行的，而是同时开始、并行执行的。
-
-可以从以下例子的运行结果看出：
-
-// `delay`毫秒后执行resolve
-function timerPromisefy(delay) {
-    return new Promise(function (resolve) {
-        setTimeout(function () {
-            resolve(delay);
-        }, delay);
-    });
-}
-var startDate = Date.now();
-// 所有promise变为resolve后程序退出
-Promise.all([
-    timerPromisefy(1),
-    timerPromisefy(32),
-    timerPromisefy(64),
-    timerPromisefy(128)
-]).then(function (values) {
-    console.log(Date.now() - startDate + &apos;ms&apos;);
-    // 約128ms
-    console.log(values);    // [1,32,64,128]
-});
-</code></pre><h4 id="6、Promise-race"><a href="#6、Promise-race" class="headerlink" title="6、Promise.race()"></a>6、Promise.race()</h4><p>Promise.race 只要有一个promise对象进入 FulFilled 或者 Rejected 状态的话，就会继续进行后面的处理。</p>
-<pre><code>var p1 = Promise.resolve(1),
-    p2 = Promise.resolve(2),
-    p3 = Promise.resolve(3);
-Promise.race([p1, p2, p3]).then(function (value) {
-    console.log(value);  // 1
-});
-进一步分析, 当第一个promise对象变为确定（FulFilled）状态后，它之后的promise对象是否还在继续运行。
-
-// `delay`毫秒后执行resolve
-function timerPromisefy(delay) {
-    return new Promise(function (resolve) {
-        setTimeout(function () {
-            console.log(delay)
-            resolve(delay);
-        }, delay);
-    });
-}
-// 任何一个promise变为resolve或reject 的话程序就停止运行
-Promise.race([
-    timerPromisefy(1),
-    timerPromisefy(10),
-    timerPromisefy(20),
-]).then(function (value) {
-    console.log(value);    // =&gt; 1
-});
-//整体运行结果
-1
-1
-10
-20
-</code></pre><p>执行上面代码，我们会看到setTimeout 方法都会执行完毕， console.log 也会分别输出它们的信息。也就是说， Promise.race 在第一个promise对象变为Fulfilled之后，并不会取消其他promise对象的执行。</p>
-<h4 id="Promise实例练习"><a href="#Promise实例练习" class="headerlink" title="Promise实例练习"></a>Promise实例练习</h4><p>考虑本文一开始的场景，进行小进阶练习，实现每隔一秒依次输出1-10。</p>
-<pre><code>//利用for循环 避免一长串的.then写法
-function log(i) {
-    return new Promise(function(resolve) {
-        setTimeout(function() {
-            console.log(i)
-            resolve();
-        }, 1000)
-    })
-}
-function printN(n) {
-    var p = log(1);
-    for (var i = 2; i &lt;= n; i++) {
-        var a = function(x) { // 注意回调函数闭包的问题
-            return function() {
-                return log(x);
-            }
-        }
-        p = p.then(a(i));
-    }
-}
-printN(10);
-</code></pre>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2016/10/12/PrES6之Promise对象/" class="archive-article-date">
-  	<time datetime="2016-10-12T12:58:40.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-10-12</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Promise/">Promise</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
@@ -1260,7 +1126,7 @@ printN(10);
     
     	<section class="tools-section tools-section-tag">
     			<div class="widget tagcloud" id="js-tagcloud">
-    				<a href="/tags/BFC/" style="font-size: 10px;">BFC</a> <a href="/tags/Box-Model/" style="font-size: 10px;">Box Model</a> <a href="/tags/CSS/" style="font-size: 15px;">CSS</a> <a href="/tags/Gulp/" style="font-size: 10px;">Gulp</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/JavaScript/" style="font-size: 10px;">JavaScript</a> <a href="/tags/Promise/" style="font-size: 10px;">Promise</a> <a href="/tags/absolute/" style="font-size: 10px;">absolute</a> <a href="/tags/css/" style="font-size: 20px;">css</a> <a href="/tags/float/" style="font-size: 10px;">float</a> <a href="/tags/line-height/" style="font-size: 10px;">line-height</a> <a href="/tags/vertical-align/" style="font-size: 10px;">vertical-align</a> <a href="/tags/原型/" style="font-size: 10px;">原型</a> <a href="/tags/居中/" style="font-size: 10px;">居中</a> <a href="/tags/布局/" style="font-size: 10px;">布局</a> <a href="/tags/移动端/" style="font-size: 10px;">移动端</a> <a href="/tags/自适应/" style="font-size: 10px;">自适应</a>
+    				<a href="/tags/BFC/" style="font-size: 10px;">BFC</a> <a href="/tags/Box-Model/" style="font-size: 10px;">Box Model</a> <a href="/tags/CSS/" style="font-size: 15px;">CSS</a> <a href="/tags/Gulp/" style="font-size: 10px;">Gulp</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/JavaScript/" style="font-size: 10px;">JavaScript</a> <a href="/tags/Promise/" style="font-size: 10px;">Promise</a> <a href="/tags/absolute/" style="font-size: 10px;">absolute</a> <a href="/tags/css/" style="font-size: 20px;">css</a> <a href="/tags/float/" style="font-size: 10px;">float</a> <a href="/tags/line-height/" style="font-size: 10px;">line-height</a> <a href="/tags/vertical-align/" style="font-size: 10px;">vertical-align</a> <a href="/tags/原型/" style="font-size: 10px;">原型</a> <a href="/tags/原型链/" style="font-size: 10px;">原型链</a> <a href="/tags/居中/" style="font-size: 10px;">居中</a> <a href="/tags/布局/" style="font-size: 10px;">布局</a> <a href="/tags/移动端/" style="font-size: 10px;">移动端</a> <a href="/tags/自适应/" style="font-size: 10px;">自适应</a>
     			</div>
     	</section>
     

@@ -6,17 +6,45 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Tag: BFC | lennonover</title>
+  <title>js原型链 | lennonover</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="一丿口石砳磊">
-<meta property="og:type" content="website">
-<meta property="og:title" content="lennonover">
-<meta property="og:url" content="http://yoursite.com/tags/BFC/index.html">
+  <meta name="description" content="名词解释函数对象由Function创造出来的函数 eg：
+12function a()&amp;#123;&amp;#125;;var b=function()&amp;#123;&amp;#125;;
+系统内置的函数对象
+1Function,Object,Array,String,Number
+
+只有函数对象才有 prototype属性
+
+普通对象函数对象之外的对象都是普通对象
+原型对象prototype属性
+对象 a 是由F">
+<meta property="og:type" content="article">
+<meta property="og:title" content="js原型链">
+<meta property="og:url" content="http://yoursite.com/2017/01/21/js原型链/index.html">
 <meta property="og:site_name" content="lennonover">
-<meta property="og:description" content="一丿口石砳磊">
+<meta property="og:description" content="名词解释函数对象由Function创造出来的函数 eg：
+12function a()&amp;#123;&amp;#125;;var b=function()&amp;#123;&amp;#125;;
+系统内置的函数对象
+1Function,Object,Array,String,Number
+
+只有函数对象才有 prototype属性
+
+普通对象函数对象之外的对象都是普通对象
+原型对象prototype属性
+对象 a 是由F">
+<meta property="og:updated_time" content="2017-01-21T12:51:12.986Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="lennonover">
-<meta name="twitter:description" content="一丿口石砳磊">
+<meta name="twitter:title" content="js原型链">
+<meta name="twitter:description" content="名词解释函数对象由Function创造出来的函数 eg：
+12function a()&amp;#123;&amp;#125;;var b=function()&amp;#123;&amp;#125;;
+系统内置的函数对象
+1Function,Object,Array,String,Number
+
+只有函数对象才有 prototype属性
+
+普通对象函数对象之外的对象都是普通对象
+原型对象prototype属性
+对象 a 是由F">
   
     <link rel="alternative" href="/atom.xml" title="lennonover" type="application/atom+xml">
   
@@ -119,54 +147,102 @@
 </nav>
 
       <div class="body-wrap">
+        <article id="w-js原型链" class="article article-type-w" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
         
   
-  
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2016" class="archive-year">2016</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2016/12/17/css解疑/" class="archive-article-date">
-  	<time datetime="2016-12-17T13:16:04.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-12-17</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/12/17/css解疑/">CSS解疑</a>
+    <h1 class="article-title" itemprop="name">
+      js原型链
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="名词解释"><a href="#名词解释" class="headerlink" title="名词解释"></a>名词解释</h1><h2 id="函数对象"><a href="#函数对象" class="headerlink" title="函数对象"></a>函数对象</h2><p>由Function创造出来的函数 eg：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">function a()&#123;&#125;;</div><div class="line">var b=function()&#123;&#125;;</div></pre></td></tr></table></figure>
+<p>系统内置的函数对象</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Function,Object,Array,String,Number</div></pre></td></tr></table></figure>
+<blockquote>
+<p>只有函数对象才有 prototype属性</p>
+</blockquote>
+<h1 id="普通对象"><a href="#普通对象" class="headerlink" title="普通对象"></a>普通对象</h1><p>函数对象之外的对象都是普通对象</p>
+<h1 id="原型对象"><a href="#原型对象" class="headerlink" title="原型对象"></a>原型对象</h1><p>prototype属性</p>
+<p>对象 <code>a</code> 是由<code>Function</code>创造出来,是函数对象,<code>a</code> 就有了<code>prototype</code>属性.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">function a()&#123;&#125;;</div></pre></td></tr></table></figure>
+<p>对象 <code>a</code> 是由<code>Function</code>创造出来,是函数对象,<code>a</code> 就有了<code>prototype</code>属性.那么这个原型对象是怎么创造出来的呢?<br>来看下面这个例子:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">var temp = new a();</div><div class="line">a.prototype = temp;</div></pre></td></tr></table></figure>
+<p>a的prototype属性就是这样创造出来的</p>
+<h1 id="指针proto"><a href="#指针proto" class="headerlink" title="指针proto"></a>指针<strong>proto</strong></h1><p>所有的对象obj都具有proto属性(null和undefined除外),而且指向创造obj对象的函数对象的prototype属性 eg:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">function a()&#123;&#125;;</div><div class="line">console.log(a.prototype.__proto__===Object.prototype); //true</div><div class="line">console.log(a.__proto__===Function.prototype); //true 指向创造obj对象的函数对象的prototype属性</div></pre></td></tr></table></figure>
+<h1 id="构造器constructor"><a href="#构造器constructor" class="headerlink" title="构造器constructor"></a>构造器constructor</h1><p>constructor 属性返回对创建此对象的函数对象的引用。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">function a()&#123;&#125;;</div><div class="line">console.log(a.constructor===Function); //true</div><div class="line">console.log(a.prototype.constructor===a); //true</div></pre></td></tr></table></figure>
+<p>函数a是由Function创造出来,那么它的constructor指向的Function,<br>a.prototype是由new a()方式创造出来,那么a.prototype.constructor理应指向a</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2017/01/21/js原型链/" class="archive-article-date">
+  	<time datetime="2017-01-21T12:23:20.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-01-21</time>
+</a>
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/BFC/">BFC</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Box-Model/">Box Model</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CSS/">CSS</a></li></ul>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/原型链/">原型链</a></li></ul>
 	</div>
 
-          
+      
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
-  
-  
-    </div></section>
-  
 
-    
+  
+<nav id="article-nav">
+  
+  
+    <a href="/2017/01/07/css之absolute/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">css之absolute</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+	    <a class="jiathis_button_twitter"></a>
+	    <a class="jiathis_button_plus"></a> 
+	    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+
 
 
       </div>
@@ -189,9 +265,9 @@
 		mathjax: false,
 		animate: true,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
-		isTag: true,
+		isTag: false,
 		isCategory: false,
 		open_in_new: false,
 		root: "/",
