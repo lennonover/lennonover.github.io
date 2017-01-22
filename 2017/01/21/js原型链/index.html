@@ -26,7 +26,7 @@
 
 只有函数对象才有 prototype属性
 引用类型值：指的是那些保存在堆内存中的对象，意思是，变量中保存的实际上只是一个指针，这个指">
-<meta property="og:updated_time" content="2017-01-21T13:26:59.386Z">
+<meta property="og:updated_time" content="2017-01-22T10:14:15.901Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="js原型链">
 <meta name="twitter:description" content="名词解释函数对象由Function创造出来的函数 eg：
@@ -157,9 +157,9 @@
     <div class="article-entry" itemprop="articleBody">
       
         <h1 id="名词解释"><a href="#名词解释" class="headerlink" title="名词解释"></a>名词解释</h1><h2 id="函数对象"><a href="#函数对象" class="headerlink" title="函数对象"></a>函数对象</h2><p>由Function创造出来的函数 eg：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">function a()&#123;&#125;;</div><div class="line">var b=function()&#123;&#125;;</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">a</span>(<span class="params"></span>)</span>&#123;&#125;;</div><div class="line"><span class="keyword">var</span> b=<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;&#125;;</div></pre></td></tr></table></figure>
 <p>系统内置的函数对象</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Function,Object,Array,String,Number</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">Function</span>,<span class="built_in">Object</span>,<span class="built_in">Array</span>,<span class="built_in">String</span>,<span class="built_in">Number</span></div></pre></td></tr></table></figure>
 <blockquote>
 <p>只有函数对象才有 prototype属性</p>
 <p>引用类型值：指的是那些保存在堆内存中的对象，意思是，变量中保存的实际上只是一个指针，这个指针执行内存中的另一个位置，由该位置保存对象,那么数组,普通对象,函数对象都算是引用数据类型,引用数据类型范围包含函数对象的范围</p>
