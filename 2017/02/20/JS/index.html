@@ -8,16 +8,25 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>JS类型检测 | lennonover</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="一丿口石砳磊">
+  <meta name="description" content="数据类型JavaScript中常见的几种数据类型：
+基本类型：string,number,boolean,undefined,null
+引用类型：Object,Function,Function,Array,Date等
+typeoftypeof 返回一个表示数据类型的字符串，返回结果包括：number、boolean、string、object、undefined、function等6种数据类型。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="JS类型检测">
 <meta property="og:url" content="http://yoursite.com/2017/02/20/JS/index.html">
 <meta property="og:site_name" content="lennonover">
-<meta property="og:description" content="一丿口石砳磊">
-<meta property="og:updated_time" content="2017-02-20T14:04:47.028Z">
+<meta property="og:description" content="数据类型JavaScript中常见的几种数据类型：
+基本类型：string,number,boolean,undefined,null
+引用类型：Object,Function,Function,Array,Date等
+typeoftypeof 返回一个表示数据类型的字符串，返回结果包括：number、boolean、string、object、undefined、function等6种数据类型。">
+<meta property="og:updated_time" content="2017-02-21T13:10:52.558Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JS类型检测">
-<meta name="twitter:description" content="一丿口石砳磊">
+<meta name="twitter:description" content="数据类型JavaScript中常见的几种数据类型：
+基本类型：string,number,boolean,undefined,null
+引用类型：Object,Function,Function,Array,Date等
+typeoftypeof 返回一个表示数据类型的字符串，返回结果包括：number、boolean、string、object、undefined、function等6种数据类型。">
   
     <link rel="alternative" href="/atom.xml" title="lennonover" type="application/atom+xml">
   
@@ -138,7 +147,114 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        
+        <h1 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h1><p>JavaScript中常见的几种数据类型：</p>
+<p>基本类型：string,number,boolean,undefined,null</p>
+<p>引用类型：Object,Function,Function,Array,Date等</p>
+<h2 id="typeof"><a href="#typeof" class="headerlink" title="typeof"></a>typeof</h2><p>typeof 返回一个表示数据类型的字符串，返回结果包括：number、boolean、string、object、undefined、function等6种数据类型。<br>typeof 可以对JS基础数据类型做出准确的判断。</p>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Class</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>“foo”</td>
+<td>String</td>
+<td>string</td>
+</tr>
+<tr>
+<td>new String(“foo”)</td>
+<td>String</td>
+<td>object</td>
+</tr>
+<tr>
+<td>1.2</td>
+<td>Number</td>
+<td>number</td>
+</tr>
+<tr>
+<td>new Number(1.2)</td>
+<td>Number</td>
+<td>object</td>
+</tr>
+<tr>
+<td>true</td>
+<td>Boolean</td>
+<td>boolean</td>
+</tr>
+<tr>
+<td>new Boolean(true)</td>
+<td>Boolean</td>
+<td>object</td>
+</tr>
+<tr>
+<td>new Date()</td>
+<td>Date</td>
+<td>object</td>
+</tr>
+<tr>
+<td>new Error()</td>
+<td>Error</td>
+<td>object</td>
+</tr>
+<tr>
+<td>[1,2,3]</td>
+<td>Array</td>
+<td>object</td>
+</tr>
+<tr>
+<td>new Array(1, 2, 3)</td>
+<td>Array</td>
+<td>object</td>
+</tr>
+<tr>
+<td>new Function(“”)</td>
+<td>Function</td>
+<td>function</td>
+</tr>
+<tr>
+<td>/abc/g</td>
+<td>RegExp</td>
+<td>object</td>
+<td>(function in Nitro/V8)</td>
+</tr>
+<tr>
+<td>new RegExp(“meow”)</td>
+<td>RegExp</td>
+<td>object</td>
+<td>(function in Nitro/V8)</td>
+</tr>
+<tr>
+<td>{}</td>
+<td>Object</td>
+<td>object</td>
+</tr>
+<tr>
+<td>new Object()</td>
+<td>Object</td>
+<td>object</td>
+</tr>
+</tbody>
+</table>
+<p>Type 一列表示 typeof 操作符的运算结果。可以看到，这个值在大多数情况下都返回 “object”。</p>
+<p>Class 一列表示对象的内部属性 [[Class]] 的值。</p>
+<blockquote>
+<p>typeof foo !== ‘undefined’</p>
+</blockquote>
+<p>上面代码会检测 foo 是否已经定义；如果没有定义而直接使用会导致 ReferenceError 的异常。 这是 typeof 唯一有用的地方。除非为了检测一个变量是否已经定义，我们应尽量避免使用 typeof 操作符。</p>
+<h2 id="Object-prototype-toString"><a href="#Object-prototype-toString" class="headerlink" title="Object.prototype.toString"></a>Object.prototype.toString</h2><p>公认靠谱的方法。<br>JavaScript 标准文档只给出了一种获取 上表  [[Class]] 值的方法，那就是使用 Object.prototype.toString，<br>该方法默认返回其调用者的具体类型。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">function is(type, obj) &#123;</div><div class="line">    var clas = Object.prototype.toString.call(obj).slice(8, -1);</div><div class="line">    return obj !== undefined &amp;&amp; obj !== null &amp;&amp; clas === type;</div><div class="line">&#125;</div><div class="line"></div><div class="line">is(&apos;String&apos;, &apos;test&apos;); // true</div><div class="line">is(&apos;String&apos;, new String(&apos;test&apos;)); // true</div></pre></td></tr></table></figure>
+<p>更严格的讲，是 toString运行时this指向的对象类型, 返回的类型格式为[object,xxx],xxx是具体的数据类型。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">Object.prototype.toString.call(&apos;&apos;) ;   // [object String]</div><div class="line">Object.prototype.toString.call(1) ;    // [object Number]</div><div class="line">Object.prototype.toString.call(true) ; // [object Boolean]</div><div class="line">Object.prototype.toString.call(undefined) ; // [object Undefined]</div><div class="line">Object.prototype.toString.call(null) ; // [object Null]</div><div class="line">Object.prototype.toString.call(new Function()) ; // [object Function]</div><div class="line">Object.prototype.toString.call(new Date()) ; // [object Date]</div><div class="line">Object.prototype.toString.call([]) ; // [object Array]</div><div class="line">Object.prototype.toString.call(new RegExp()) ; // [object RegExp]</div><div class="line">Object.prototype.toString.call(new Error()) ; // [object Error]</div><div class="line">Object.prototype.toString.call(document) ; // [object HTMLDocument]</div><div class="line">Object.prototype.toString.call(window) ; //[object global] window是全局对象global的引用</div></pre></td></tr></table></figure></p>
+<p>必须通过Object.prototype.toString.call来获取，而不能直接 new Date().toString(),因为大部分的对象都实现了自身的toString方法，这样就可能会导致Object的toString被终止查找，因此要用call来强制执行Object的toString方法。</p>
+<h2 id="instanceof"><a href="#instanceof" class="headerlink" title="instanceof"></a>instanceof</h2><p>instanceof 操作符用来比较两个操作数的构造函数例如来判断 A 是否为 B 的实例。只有在比较自定义的对象时才有意义。</p>
+<blockquote>
+<p>[] instanceof Array     // true<br> [] instanceof Object;   // true</p>
+</blockquote>
+<p>instanceof检测的是原型。</p>
+
       
     </div>
     <div class="article-info article-info-index">
