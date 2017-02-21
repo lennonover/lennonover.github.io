@@ -121,6 +121,100 @@
       <div class="body-wrap">
         
   
+    <article id="post-CSS单位EM" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/11/05/CSS单位EM/">CSS单位EM和REM</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="em-和-rem"><a href="#em-和-rem" class="headerlink" title="em 和 rem"></a>em 和 rem</h2><p>em和rem是一个相对的大小，我们可以这样来设置1em，0.5em，1.5em等，而且“em”还可以指定到小数点后三位，比如“1.234em”。“相对”的意思是：</p>
+<ul>
+<li><p>相对的计算必然会一个参考物，那么这里相对所指的是相对于相对于使用em单位的元素的font-size。比如：如果在一个div中设置字体大小为“16px”，此时这个div的后代元素将继承他的字体大小，除非重新在其后代元素中进行过显示的设置。此时，如果你将其子元素的字体大小设置为<code>0.75em</code>，那么其字体大小计算出来后就相当于<code>0.75 X 16px = 12px</code>；</p>
+</li>
+<li><p>如果用户通过浏览器的UI控件改变了文字的大小，那么我们整个页面也会进行放大（或缩小），不至于用户改变了浏览器的字体后会致使整个页面崩溃。</p>
+</li>
+</ul>
+<p>也就是说em 和 rem都是灵活、 可扩展的单位，由浏览器转换为像素值，具体取决于您的设计中的字体大小设置。 如果你使用值 1em 或 1rem，它可以被浏览器翻译成 从16px到 160px 或其他任意值。</p>
+<h2 id="遇到的问题"><a href="#遇到的问题" class="headerlink" title="遇到的问题"></a>遇到的问题</h2><p>em 和 rem 单位提供的这种灵活性和工作方式都很相似，所以最大的问题是，我们何时应使用 em 值，何时应使用 rem 值呢</p>
+<h2 id="区别"><a href="#区别" class="headerlink" title="区别"></a>区别</h2><p>em 和 rem 单位之间的区别是浏览器根据谁来转化成px值。</p>
+<h3 id="rem-单位如何转换为像素值"><a href="#rem-单位如何转换为像素值" class="headerlink" title="rem 单位如何转换为像素值"></a>rem 单位如何转换为像素值</h3><p>当使用 rem 单位，他们转化为像素大小取决于页根元素的字体大小，即 html 元素的字体大小。 根元素字体大小乘以你 rem 值。<br>例如，根元素的字体大小 16px，10rem 将等同于 160px，即 10 x 16 = 160。</p>
+<h3 id="em-单位如何转换为像素值"><a href="#em-单位如何转换为像素值" class="headerlink" title="em 单位如何转换为像素值"></a>em 单位如何转换为像素值</h3><p>当使用em单位时，像素值将是em值乘以使用em单位的元素的字体大小。<br>例如，如果一个 div 有 18px 字体大小，10em 将等同于 180px，即 10 × 18 = 180。</p>
+<blockquote>
+<p>有一个比较普遍的误解，认为 em 单位是相对于父元素的字体大小。 事实上，根据W3标准 ，它们是相对于使用em单位的元素的字体大小。父元素的字体大小可以影响 em 值，但这种情况的发生，纯粹是因为继承。 让我们看看为什么以及如何起作用。</p>
+</blockquote>
+<h4 id="em-单位的遗传效果"><a href="#em-单位的遗传效果" class="headerlink" title="em 单位的遗传效果"></a>em 单位的遗传效果</h4><p>使用 em 单位存在继承的时候，情况会变得比较棘手，因为每个元素将自动继承其父元素的字体大小。 继承效果只能被明确的字体单位覆盖，比如px,vw。</p>
+<p>使用 em 单位的元素字体大小根据它们来定。 但该元素可能继承其父元素的字体大小，而父元素又继承其父元素的字体大小，等等。 因此，以 em 为单位的元素字体大小可能会受到其任何父元素的字体大小影响。</p>
+<h5 id="em-继承的例子"><a href="#em-继承的例子" class="headerlink" title="em 继承的例子"></a>em 继承的例子</h5><p>如果我们的根元素字体大小为 16px (通常是默认值) 一个子元素 div 里面padding值为 1.5em，该 div 将从根元素继承字体大小 16px。 因此padding会翻译成 24px，即 1.5 x 16 = 24。</p>
+<p>如果我们加多一个div来包裹原先的div，然后设置其字体大小为 1.25em呢?</p>
+<p>我们包裹的 div 继承根元素字体大小 16px ，并乘以它自己的 1.25em 的字体大小。 这将设置包裹 div 字体大小为 20px，即 1.25 x 16 = 20。</p>
+<p>现在我们原始的 div 不再直接从根元素继承,而是从其新的父元素继承字体大小为 20px 1.5em 其padding值现在等于 30px，即 1.5 x 20 = 30。</p>
+<p>这个继承效应可以更复杂，如果我们向我们原始的 div 添加 em 字体单位，比方说 1.2em。</p>
+<p>Div 从其父级继承 20px 字体大小，然后，乘以它自己的 1.2em 设置，给它 24px，即 1.2 × 20 = 24 新字体大小。</p>
+<p>div上的1.5em padding 现在将再次改变大小，用新的字体大小，36px，即 1.5 × 24 = 36 。</p>
+<p>最后，为了进一步说明那个 em 单位是相对于他们最终获得(不是父元素)的字体大小，让我们来看看设置padding 1.5em 如果我们显式设置 div 使用 14px值，不继承字体大小会发生什么。</p>
+<p>现在，我们的padding为 21px，即 1.5 x 14 = 21 已经变小。 它不受父元素的字体大小。</p>
+<blockquote>
+<p>根 html 元素将继承浏览器中设置的字体大小，除非显式设置固定值去覆盖。所以 html 元素的字体大小虽然是直接确定 rem值，但字体大小可能首先来自浏览器设置。因此浏览器的字体大小设置可以影响每个使用 rem 单元以及每个通过 em 单位继承的值。</p>
+</blockquote>
+<h3 id="总结与-rem-差异-em"><a href="#总结与-rem-差异-em" class="headerlink" title="总结与 rem 差异 em"></a>总结与 rem 差异 em</h3><ul>
+<li><p>rem 单位翻译为像素值是由 html 元素的字体大小决定的。 此字体大小会被浏览器中字体大小的设置影响，除非显式重写一个具体单位。</p>
+</li>
+<li><p>em 单位转为像素值，取决于他们使用的字体大小。 此字体大小受从父元素继承过来的字体大小，除非显式重写与一个具体单位。</p>
+</li>
+</ul>
+<h3 id="使用rem的目的"><a href="#使用rem的目的" class="headerlink" title="使用rem的目的"></a>使用rem的目的</h3><p>确保无论用户如何设置自己的浏览器，我们的布局都能调整到合适大小。</p>
+<h3 id="使用em的目的"><a href="#使用em的目的" class="headerlink" title="使用em的目的"></a>使用em的目的</h3><p>em 单位取决于一个font-size值而非 html 元素的字体大小。<br>em 单位的主要目的应该是允许保持在一个特定的设计元素范围内的可扩展性。根据某个元素的字体大小做缩放而不是根元素的字体大小。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
+<li>rem 和 em 单位是由浏览器基于你的设计中的字体大小计算得到的像素值。</li>
+<li>em 单位基于使用他们的元素的字体大小。</li>
+<li>rem 单位基于 html 元素的字体大小。</li>
+<li>em 单位可能受任何继承的父元素字体大小影响</li>
+<li>rem 单位可以从浏览器字体设置中继承字体大小。</li>
+<li>使用 em 单位应根据组件的字体大小而不是根元素的字体大小。</li>
+<li>在不需要使用em单位，并且需要根据浏览器的字体大小设置缩放的情况下使用rem。</li>
+<li>使用rem单位，除非你确定你需要 em 单位，包括对字体大小。</li>
+<li>媒体查询中使用 rem 单位</li>
+<li>不要在多列布局中使用 em 或 rem -改用 %。</li>
+<li>不要使用 em 或 rem，如果缩放会不可避免地导致要打破布局元素。</li>
+</ul>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2016/11/05/CSS单位EM/" class="archive-article-date">
+  	<time datetime="2016-11-05T12:58:56.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-11-05</time>
+</a>
+      
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-Node-js高性能的异步I-O" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1205,116 +1299,9 @@ var father = new Father(&quot;张三&quot;)
 
 
   
-    <article id="post-用Hexo快速搭建站" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/07/08/用Hexo快速搭建站/">用Hexo快速搭建站</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h2><p>首先电脑里需要安装以下两个软件</p>
-<ul>
-<li><strong>git</strong></li>
-<li><strong>Node.js</strong></li>
-</ul>
-<h2 id="Git绑定Github账号"><a href="#Git绑定Github账号" class="headerlink" title="Git绑定Github账号"></a>Git绑定Github账号</h2><ul>
-<li>通过ssh key与github网站帐户绑定<br>使用命令：</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ssh-keygen -C &apos;你的GitHub账号&apos; -t rsa</div></pre></td></tr></table></figure>
-<ul>
-<li><p>会在用户目录 ~/.ssh/下建立相应的密钥文件然后打开这个文件复制密钥</p>
-</li>
-<li><p>打开GithHub设置 增加密钥</p>
-</li>
-<li><p>通过以下命令测试</p>
-</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ssh -v 你的GitHub账号</div></pre></td></tr></table></figure>
-<h2 id="搭建本地Hexo博客"><a href="#搭建本地Hexo博客" class="headerlink" title="搭建本地Hexo博客"></a>搭建本地Hexo博客</h2><ul>
-<li>安装Hexo</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm install -g hexo</div></pre></td></tr></table></figure>
-<ul>
-<li>创建hexo文件夹<br>随便一个文件夹下（如E:\hexo），在E:\hexo内点击鼠标右键，选择Git bash，执行以下指令</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">hexo init</div><div class="line">npm install</div><div class="line">npm install hexo-deployer-git --save（这步很重要）</div></pre></td></tr></table></figure>
-<ul>
-<li>生成和查看本地博客<br>执行以下命令，然后到浏览器输入localhost:4000查看本地博客。</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">hexo generate</div><div class="line">hexo server</div></pre></td></tr></table></figure>
-<h2 id="部署到GitHub"><a href="#部署到GitHub" class="headerlink" title="部署到GitHub"></a>部署到GitHub</h2><ul>
-<li>编辑_config.yml</li>
-</ul>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">deploy:</div><div class="line">  type: git</div><div class="line">  repository: https://github.com/你的用户名/你的用户名.github.io.git</div><div class="line">  branch: master</div></pre></td></tr></table></figure>
-<ul>
-<li>执行下列指令即可完成部署</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">hexo generate</div><div class="line">hexo deploy</div></pre></td></tr></table></figure>
-<h2 id="复制主题"><a href="#复制主题" class="headerlink" title="复制主题"></a>复制主题</h2><p>看的一些大神酷炫的主题，是不是很想要（有能力自己写也可以）</p>
-<ul>
-<li>复制主题<br>例如复制next主题</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git clone https://github.com/iissnan/hexo-theme-next themes/next</div></pre></td></tr></table></figure>
-<ul>
-<li>启用主题<br>修改Hexo目录下的config.yml配置文件中的theme属性</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">theme: next</div></pre></td></tr></table></figure>
-<ul>
-<li>更新主题</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">cd themes/next</div><div class="line">git pull</div></pre></td></tr></table></figure>
-<ul>
-<li><p>主题其他修改配置可以去看作者文档</p>
-</li>
-<li><p>增加一些Hexo常用命令</p>
-</li>
-</ul>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">hexo new <span class="string">"文件名"</span> <span class="comment">#创建新文章，名称可自己定义</span></div><div class="line">hexo n == hexo new <span class="comment">#创建新文章，默认名称为 my new post</span></div><div class="line">hexo g == hexo generate <span class="comment">#生成</span></div><div class="line">hexo s == hexo server <span class="comment">#启动本地服务，进行文章预览调试</span></div><div class="line">hexo d == hexo deploy <span class="comment">#部署到GitHub</span></div><div class="line">hexo d -g == hexo generate hexo deploy</div><div class="line">hexo new page <span class="string">"about"</span></div></pre></td></tr></table></figure>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2016/07/08/用Hexo快速搭建站/" class="archive-article-date">
-  	<time datetime="2016-07-08T14:57:14.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-07-08</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Hexo/">Hexo</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
+      <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
     </nav>
   
 
@@ -1375,7 +1362,7 @@ var father = new Father(&quot;张三&quot;)
     
     	<section class="tools-section tools-section-tag">
     			<div class="widget tagcloud" id="js-tagcloud">
-    				<a href="/tags/BFC/" style="font-size: 10px;">BFC</a> <a href="/tags/Box-Model/" style="font-size: 10px;">Box Model</a> <a href="/tags/CSS/" style="font-size: 15px;">CSS</a> <a href="/tags/Gulp/" style="font-size: 10px;">Gulp</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/JavaScript/" style="font-size: 10px;">JavaScript</a> <a href="/tags/Promise/" style="font-size: 10px;">Promise</a> <a href="/tags/absolute/" style="font-size: 10px;">absolute</a> <a href="/tags/css/" style="font-size: 20px;">css</a> <a href="/tags/float/" style="font-size: 10px;">float</a> <a href="/tags/javascript/" style="font-size: 10px;">javascript</a> <a href="/tags/line-height/" style="font-size: 10px;">line-height</a> <a href="/tags/vertical-align/" style="font-size: 10px;">vertical-align</a> <a href="/tags/原型/" style="font-size: 10px;">原型</a> <a href="/tags/原型链/" style="font-size: 10px;">原型链</a> <a href="/tags/居中/" style="font-size: 10px;">居中</a> <a href="/tags/布局/" style="font-size: 10px;">布局</a> <a href="/tags/数据类型/" style="font-size: 10px;">数据类型</a> <a href="/tags/移动端/" style="font-size: 10px;">移动端</a> <a href="/tags/自适应/" style="font-size: 10px;">自适应</a>
+    				<a href="/tags/BFC/" style="font-size: 10px;">BFC</a> <a href="/tags/Box-Model/" style="font-size: 10px;">Box Model</a> <a href="/tags/CSS/" style="font-size: 16.67px;">CSS</a> <a href="/tags/Gulp/" style="font-size: 10px;">Gulp</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/JavaScript/" style="font-size: 10px;">JavaScript</a> <a href="/tags/Promise/" style="font-size: 10px;">Promise</a> <a href="/tags/absolute/" style="font-size: 10px;">absolute</a> <a href="/tags/css/" style="font-size: 20px;">css</a> <a href="/tags/float/" style="font-size: 10px;">float</a> <a href="/tags/javascript/" style="font-size: 13.33px;">javascript</a> <a href="/tags/line-height/" style="font-size: 10px;">line-height</a> <a href="/tags/vertical-align/" style="font-size: 10px;">vertical-align</a> <a href="/tags/值传递/" style="font-size: 10px;">值传递</a> <a href="/tags/原型/" style="font-size: 10px;">原型</a> <a href="/tags/原型链/" style="font-size: 10px;">原型链</a> <a href="/tags/居中/" style="font-size: 10px;">居中</a> <a href="/tags/布局/" style="font-size: 10px;">布局</a> <a href="/tags/引用传递/" style="font-size: 10px;">引用传递</a> <a href="/tags/数据类型/" style="font-size: 10px;">数据类型</a> <a href="/tags/移动端/" style="font-size: 10px;">移动端</a> <a href="/tags/自适应/" style="font-size: 10px;">自适应</a>
     			</div>
     	</section>
     
