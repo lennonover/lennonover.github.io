@@ -8,16 +8,49 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>JS中值传递 | lennonover</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="一丿口石砳磊">
+  <meta name="description" content="按值传递 VS 按引用传递
+按值传递(call by value)
+函数的形参是被调用时所传实参的副本。修改形参的值并不会影响实参。
+
+
+
+按引用传递(call by reference)
+函数的形参接收实参的隐式引用，而不再是副本。这意味着函数形参的值如果被修改，实参也会被修改。同时两者指向相同的值。
+
+
+探究JS值的传递方式JS的基本类型，是按值传递的。
+123456var c = 3;fun">
 <meta property="og:type" content="article">
 <meta property="og:title" content="JS中值传递">
 <meta property="og:url" content="http://yoursite.com/2017/02/21/JS中值传递/index.html">
 <meta property="og:site_name" content="lennonover">
-<meta property="og:description" content="一丿口石砳磊">
-<meta property="og:updated_time" content="2017-02-21T13:30:39.954Z">
+<meta property="og:description" content="按值传递 VS 按引用传递
+按值传递(call by value)
+函数的形参是被调用时所传实参的副本。修改形参的值并不会影响实参。
+
+
+
+按引用传递(call by reference)
+函数的形参接收实参的隐式引用，而不再是副本。这意味着函数形参的值如果被修改，实参也会被修改。同时两者指向相同的值。
+
+
+探究JS值的传递方式JS的基本类型，是按值传递的。
+123456var c = 3;fun">
+<meta property="og:updated_time" content="2017-02-23T13:23:07.864Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JS中值传递">
-<meta name="twitter:description" content="一丿口石砳磊">
+<meta name="twitter:description" content="按值传递 VS 按引用传递
+按值传递(call by value)
+函数的形参是被调用时所传实参的副本。修改形参的值并不会影响实参。
+
+
+
+按引用传递(call by reference)
+函数的形参接收实参的隐式引用，而不再是副本。这意味着函数形参的值如果被修改，实参也会被修改。同时两者指向相同的值。
+
+
+探究JS值的传递方式JS的基本类型，是按值传递的。
+123456var c = 3;fun">
   
     <link rel="alternative" href="/atom.xml" title="lennonover" type="application/atom+xml">
   
@@ -138,7 +171,26 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        
+        <h2 id="按值传递-VS-按引用传递"><a href="#按值传递-VS-按引用传递" class="headerlink" title="按值传递 VS 按引用传递"></a>按值传递 VS 按引用传递</h2><ul>
+<li><p>按值传递(call by value)</p>
+<p>函数的形参是被调用时所传实参的副本。修改形参的值并不会影响实参。</p>
+</li>
+</ul>
+<ul>
+<li><p>按引用传递(call by reference)</p>
+<p>函数的形参接收实参的隐式引用，而不再是副本。这意味着函数形参的值如果被修改，实参也会被修改。同时两者指向相同的值。</p>
+</li>
+</ul>
+<h2 id="探究JS值的传递方式"><a href="#探究JS值的传递方式" class="headerlink" title="探究JS值的传递方式"></a>探究JS值的传递方式</h2><p>JS的基本类型，是按值传递的。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> c = <span class="number">3</span>;</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params">x</span>) </span>&#123;</div><div class="line">    x = <span class="number">9</span>;</div><div class="line">&#125;</div><div class="line">foo(c);</div><div class="line"><span class="built_in">console</span>.log(c); <span class="comment">// 仍为3, 未受x = 9赋值所影响</span></div></pre></td></tr></table></figure>
+<p>对象</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> obj = &#123;x : <span class="number">1</span>&#125;;</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params">o</span>) </span>&#123;</div><div class="line">    o.x = <span class="number">3</span>;</div><div class="line">&#125;</div><div class="line">foo(obj);</div><div class="line"><span class="built_in">console</span>.log(obj.x); <span class="comment">// 3, 被修改了!</span></div></pre></td></tr></table></figure>
+<p>说明o和obj是同一个对象，o不是obj的副本。所以不是按值传递。 但这样是否说明JS的对象是按引用传递的呢？我们再看</p>
+<p>下面的例子：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> obj = &#123;x : <span class="number">1</span>&#125;;</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params">o</span>) </span>&#123;</div><div class="line">    o = <span class="number">100</span>;</div><div class="line">&#125;</div><div class="line">foo(obj);</div><div class="line"><span class="built_in">console</span>.log(obj.x); <span class="comment">// 仍然是1, obj并未被修改为100.</span></div></pre></td></tr></table></figure>
+<p>如果是按引用传递，修改形参o的值，应该影响到实参才对。但这里修改o的值并未影响obj。 因此JS中的对象并不是按引用传递。那么究竟对象的值在JS中如何传递的呢？</p>
+<h2 id="按对象传递"><a href="#按对象传递" class="headerlink" title="按对象传递"></a>按对象传递</h2><p>JS中的基本类型按值传递，对象类型按按对象传递.</p>
+
       
     </div>
     <div class="article-info article-info-index">
