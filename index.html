@@ -121,6 +121,53 @@
       <div class="body-wrap">
         
   
+    <article id="post-优雅的for循环" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/03/08/优雅的for循环/">优雅的for循环</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="来源"><a href="#来源" class="headerlink" title="来源"></a>来源</h2><p>最近做了一个维度筛选的查询项目，复杂的交互写的一脸懵逼，最后总算功能实现，回过头代码重构，满屏的for循环。。。<br>此时我心里是万马奔腾的，冷静下来整理思路，操作数组的地方能不用循环的全部干掉。</p>
+<h2 id="Array-prototype"><a href="#Array-prototype" class="headerlink" title="Array.prototype"></a>Array.prototype</h2><p>先来复习洗 Array.prototype 的方法</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// ES5</span></div><div class="line"><span class="built_in">Array</span>.prototype.indexOf</div><div class="line"><span class="built_in">Array</span>.prototype.lastIndexOf</div><div class="line"><span class="built_in">Array</span>.prototype.every</div><div class="line"><span class="built_in">Array</span>.prototype.some</div><div class="line"><span class="built_in">Array</span>.prototype.forEach</div><div class="line"><span class="built_in">Array</span>.prototype.map</div><div class="line"><span class="built_in">Array</span>.prototype.filter</div><div class="line"><span class="built_in">Array</span>.prototype.reduce</div><div class="line"><span class="built_in">Array</span>.prototype.reduceRight</div></pre></td></tr></table></figure>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2017/03/08/优雅的for循环/" class="archive-article-date">
+  	<time datetime="2017-03-08T14:30:40.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-03-08</time>
+</a>
+      
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-JS中值传递" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1021,96 +1068,6 @@ Element Width = content Width(Width包含了元素内容宽度、边框宽度、
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
 		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/BFC/">BFC</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Box-Model/">Box Model</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CSS/">CSS</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-编写高效css" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/13/编写高效css/">编写高效CSS</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="热身"><a href="#热身" class="headerlink" title="热身"></a>热身</h1><p>对于CSS的优化，网络上分享的确实找不到什么系统的，整理下平时的积累。<br>主要从以下几个方面：</p>
-<h2 id="1-CSS架构"><a href="#1-CSS架构" class="headerlink" title="1. CSS架构"></a>1. CSS架构</h2><p> 关于如何处理网站的CSS，各个网站做法都不一样，一般分为reset.css, main.css, content.css，然后每个活动页面一个单独的CSS，也是我最常用的。</p>
-<ul>
-<li>关于CSS reset</li>
-</ul>
-<p>CSS reset血多基本上是不需要的，反而增加了页面CSS 的overwrite，有些常用标签我也是会简单重置一下的，而且会避免overwrite（样式重写），以保证样式最精简，渲染最高效。</p>
-<ul>
-<li>CSS通用样式库</li>
-</ul>
-<p>CSS通用样式库就是可以在任何网站使用的CSS样式库</p>
-<ul>
-<li>网站CSS样式库</li>
-</ul>
-<p>根据当前实际的项目内容指定的。例如，文字链接颜色是什么，文字链接经过的样式是什么；一些常用的背景色样式，常用的边框样式等，以及一些高宽等。按照我的经验，网站CSS样式库又可以架构为以下几部分：</p>
-<pre><code>网站常见颜色
-网站常见padding属性、margin属性
-网站常见width属性、height属性
-</code></pre><ul>
-<li><p>网站公共结构样式</p>
-</li>
-<li><p>单页面的精细结构</p>
-</li>
-</ul>
-<h2 id="2-css样式分离"><a href="#2-css样式分离" class="headerlink" title="2. css样式分离"></a>2. css样式分离</h2><p>样式的精简与重用</p>
-<p>eg：</p>
-<pre><code>.dib{display:inline-block;}
-.bdd border:1px solid #ddd;}
-.bgf7{background:#f7f7f7;}
-.p20_40{padding:20px 40px;}
-</code></pre><p>字面上很容易理解，就是把这段样式分离成一个一个单独的样式，这样但是，要实现一个复杂的效果，HTML代码量就是非常庞大，一切都是权衡，何时分离，哪些要分离？样式精简与重用仅仅是通过分离吗。</p>
-<p>这类样式库可惜细分“通用库”和“当前项目库”等。</p>
-<p>样式的独立拆分，使得各种效果可以自由组合，这是有别于一个class类覆盖多个CSS属性的做法的。样式的独立拆分，精简的CSS文件，每个样式的重用性可谓发挥到的最大，同时，页面的后期维护变得异常轻松，样式冲突的可能性也是非常低的。</p>
-<h2 id="3-css命名"><a href="#3-css命名" class="headerlink" title="3. css命名"></a>3. css命名</h2><p>面向属性的命名方法</p>
-<p>也就是上面说的分离，分离为什么可以让样式的重用性放大至最大，就是因为分离后样式的命名就是样式本身，针对自身属性的一种命名方式，只会overwrite，不会冲突。</p>
-<p>eg：</p>
-<pre><code>.tr{text-align:right;}
-.pb8{padding-bottom:8px;}
-</code></pre><p>限制重用</p>
-<p>会使用层级(.test .test1)，会使用标签(ul.test),这样限制越多，越抑制了CSS的重用性</p>
-<p>统一前缀</p>
-<p>减小类名的长度，间接影响CSS文件大小</p>
-<h2 id="4-基于状态类名交互"><a href="#4-基于状态类名交互" class="headerlink" title="4. 基于状态类名交互"></a>4. 基于状态类名交互</h2>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2016/12/13/编写高效css/" class="archive-article-date">
-  	<time datetime="2016-12-13T14:42:07.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-12-13</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CSS/">CSS</a></li></ul>
 	</div>
 
       

@@ -6,17 +6,24 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives | lennonover</title>
+  <title>优雅的for循环 | lennonover</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="一丿口石砳磊">
-<meta property="og:type" content="website">
-<meta property="og:title" content="lennonover">
-<meta property="og:url" content="http://yoursite.com/archives/page/3/index.html">
+  <meta name="description" content="来源最近做了一个维度筛选的查询项目，复杂的交互写的一脸懵逼，最后总算功能实现，回过头代码重构，满屏的for循环。。。此时我心里是万马奔腾的，冷静下来整理思路，操作数组的地方能不用循环的全部干掉。
+Array.prototype先来复习洗 Array.prototype 的方法
+12345678910// ES5Array.prototype.indexOfArray.prototype.lastI">
+<meta property="og:type" content="article">
+<meta property="og:title" content="优雅的for循环">
+<meta property="og:url" content="http://yoursite.com/2017/03/08/优雅的for循环/index.html">
 <meta property="og:site_name" content="lennonover">
-<meta property="og:description" content="一丿口石砳磊">
+<meta property="og:description" content="来源最近做了一个维度筛选的查询项目，复杂的交互写的一脸懵逼，最后总算功能实现，回过头代码重构，满屏的for循环。。。此时我心里是万马奔腾的，冷静下来整理思路，操作数组的地方能不用循环的全部干掉。
+Array.prototype先来复习洗 Array.prototype 的方法
+12345678910// ES5Array.prototype.indexOfArray.prototype.lastI">
+<meta property="og:updated_time" content="2017-03-08T14:38:30.347Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="lennonover">
-<meta name="twitter:description" content="一丿口石砳磊">
+<meta name="twitter:title" content="优雅的for循环">
+<meta name="twitter:description" content="来源最近做了一个维度筛选的查询项目，复杂的交互写的一脸懵逼，最后总算功能实现，回过头代码重构，满屏的for循环。。。此时我心里是万马奔腾的，冷静下来整理思路，操作数组的地方能不用循环的全部干掉。
+Array.prototype先来复习洗 Array.prototype 的方法
+12345678910// ES5Array.prototype.indexOfArray.prototype.lastI">
   
     <link rel="alternative" href="/atom.xml" title="lennonover" type="application/atom+xml">
   
@@ -119,90 +126,81 @@
 </nav>
 
       <div class="body-wrap">
+        <article id="post-优雅的for循环" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
         
   
-  
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2016" class="archive-year">2016</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2016/07/08/JS作用域/" class="archive-article-date">
-  	<time datetime="2016-07-08T15:53:28.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-07-08</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/07/08/JS作用域/">JS作用域</a>
+    <h1 class="article-title" itemprop="name">
+      优雅的for循环
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
+      </header>
     
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2016/07/08/用Hexo快速搭建站/" class="archive-article-date">
-  	<time datetime="2016-07-08T14:57:14.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-07-08</time>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="来源"><a href="#来源" class="headerlink" title="来源"></a>来源</h2><p>最近做了一个维度筛选的查询项目，复杂的交互写的一脸懵逼，最后总算功能实现，回过头代码重构，满屏的for循环。。。<br>此时我心里是万马奔腾的，冷静下来整理思路，操作数组的地方能不用循环的全部干掉。</p>
+<h2 id="Array-prototype"><a href="#Array-prototype" class="headerlink" title="Array.prototype"></a>Array.prototype</h2><p>先来复习洗 Array.prototype 的方法</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// ES5</span></div><div class="line"><span class="built_in">Array</span>.prototype.indexOf</div><div class="line"><span class="built_in">Array</span>.prototype.lastIndexOf</div><div class="line"><span class="built_in">Array</span>.prototype.every</div><div class="line"><span class="built_in">Array</span>.prototype.some</div><div class="line"><span class="built_in">Array</span>.prototype.forEach</div><div class="line"><span class="built_in">Array</span>.prototype.map</div><div class="line"><span class="built_in">Array</span>.prototype.filter</div><div class="line"><span class="built_in">Array</span>.prototype.reduce</div><div class="line"><span class="built_in">Array</span>.prototype.reduceRight</div></pre></td></tr></table></figure>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2017/03/08/优雅的for循环/" class="archive-article-date">
+  	<time datetime="2017-03-08T14:30:40.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-03-08</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/07/08/用Hexo快速搭建站/">用Hexo快速搭建站</a>
-    </h1>
-  
+      
+      
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Hexo/">Hexo</a></li></ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
-  
-  
-    </div></section>
-  
 
-    
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/archives/page/2/">&laquo; Prev</a><a class="page-number" href="/archives/">1</a><a class="page-number" href="/archives/page/2/">2</a><span class="page-number current">3</span>
-    </nav>
   
+<nav id="article-nav">
+  
+  
+    <a href="/2017/02/21/JS中值传递/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">JS中值传递</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+	    <a class="jiathis_button_twitter"></a>
+	    <a class="jiathis_button_plus"></a> 
+	    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+
 
 
       </div>
@@ -225,8 +223,8 @@
 		mathjax: false,
 		animate: true,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
