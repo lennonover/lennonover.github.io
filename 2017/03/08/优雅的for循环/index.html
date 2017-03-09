@@ -18,7 +18,7 @@ Array.prototype先来复习洗 Array.prototype 的方法
 <meta property="og:description" content="来源最近做了一个维度筛选的查询项目，复杂的交互写的一脸懵逼，最后总算功能实现，回过头代码重构，满屏的for循环。。。此时我心里是万马奔腾的，冷静下来整理思路，操作数组的地方能不用循环的全部干掉。
 Array.prototype先来复习洗 Array.prototype 的方法
 12345678910// ES5Array.prototype.indexOfArray.prototype.lastI">
-<meta property="og:updated_time" content="2017-03-08T14:38:30.347Z">
+<meta property="og:updated_time" content="2017-03-09T15:00:39.649Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="优雅的for循环">
 <meta name="twitter:description" content="来源最近做了一个维度筛选的查询项目，复杂的交互写的一脸懵逼，最后总算功能实现，回过头代码重构，满屏的for循环。。。此时我心里是万马奔腾的，冷静下来整理思路，操作数组的地方能不用循环的全部干掉。
@@ -147,6 +147,32 @@ Array.prototype先来复习洗 Array.prototype 的方法
         <h2 id="来源"><a href="#来源" class="headerlink" title="来源"></a>来源</h2><p>最近做了一个维度筛选的查询项目，复杂的交互写的一脸懵逼，最后总算功能实现，回过头代码重构，满屏的for循环。。。<br>此时我心里是万马奔腾的，冷静下来整理思路，操作数组的地方能不用循环的全部干掉。</p>
 <h2 id="Array-prototype"><a href="#Array-prototype" class="headerlink" title="Array.prototype"></a>Array.prototype</h2><p>先来复习洗 Array.prototype 的方法</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// ES5</span></div><div class="line"><span class="built_in">Array</span>.prototype.indexOf</div><div class="line"><span class="built_in">Array</span>.prototype.lastIndexOf</div><div class="line"><span class="built_in">Array</span>.prototype.every</div><div class="line"><span class="built_in">Array</span>.prototype.some</div><div class="line"><span class="built_in">Array</span>.prototype.forEach</div><div class="line"><span class="built_in">Array</span>.prototype.map</div><div class="line"><span class="built_in">Array</span>.prototype.filter</div><div class="line"><span class="built_in">Array</span>.prototype.reduce</div><div class="line"><span class="built_in">Array</span>.prototype.reduceRight</div></pre></td></tr></table></figure>
+<ul>
+<li>indexOf</li>
+</ul>
+<p>返回在该数组中第一个找到的元素位置，如果它不存在则返回-1</p>
+<ul>
+<li>lastindexOf</li>
+</ul>
+<p>返回在该数组中最后一个找到的元素位置，和 indexof相反。</p>
+<ul>
+<li>forEach()</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> arr = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>,<span class="number">8</span>];</div><div class="line"></div><div class="line">arr.forEach(<span class="function"><span class="keyword">function</span>(<span class="params">item,index</span>)</span>&#123;</div><div class="line"><span class="built_in">console</span>.log(item);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<ul>
+<li>map()</li>
+</ul>
+<p>对数组的每个元素进行一定操作（映射）后，会返回一个新的数组， map()是处理服务器返回数据时是一个非常实用的函数。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> oldArr = [</div><div class="line">  &#123;first_name:<span class="string">"Colin"</span>,last_name:<span class="string">"Toh"</span>&#125;,</div><div class="line">  &#123;first_name:<span class="string">"Addy"</span>,last_name:<span class="string">"Osmani"</span>&#125;,</div><div class="line">  &#123;first_name:<span class="string">"Yehuda"</span>,last_name:<span class="string">"Katz"</span>&#125;];</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getNewArr</span>(<span class="params"></span>)</span>&#123;</div><div class="line">  <span class="keyword">return</span> oldArr.map(<span class="function"><span class="keyword">function</span>(<span class="params">item,index</span>)</span>&#123;</div><div class="line">    item.full_name = [item.first_name,item.last_name].join(<span class="string">" "</span>);</div><div class="line">    <span class="keyword">return</span> item;</div><div class="line">  &#125;);</div><div class="line"></div><div class="line">&#125;</div><div class="line"><span class="built_in">console</span>.log(getNewArr());</div></pre></td></tr></table></figure>
+<ul>
+<li>every()</li>
+</ul>
+<p>检测数组中的每一项是否符合条件</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> ary = [<span class="number">12</span>,<span class="number">23</span>,<span class="number">24</span>,<span class="number">42</span>,<span class="number">1</span>];</div><div class="line"><span class="keyword">var</span> result = ary.every(<span class="function"><span class="keyword">function</span>(<span class="params">item, index</span>)</span>&#123;</div><div class="line">  <span class="keyword">return</span> item &gt; <span class="number">0</span></div><div class="line">&#125;)</div><div class="line"><span class="built_in">console</span>.log(result)</div></pre></td></tr></table></figure>
+<ul>
+<li>some()</li>
+</ul>
+<p>检测数组中是否有某一项符合条件</p>
 
       
     </div>
