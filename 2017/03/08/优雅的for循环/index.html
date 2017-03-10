@@ -18,7 +18,7 @@ Array.prototype先来复习洗 Array.prototype 的方法
 <meta property="og:description" content="来源最近做了一个维度筛选的查询项目，复杂的交互写的一脸懵逼，最后总算功能实现，回过头代码重构，满屏的for循环。。。此时我心里是万马奔腾的，冷静下来整理思路，操作数组的地方能不用循环的全部干掉。
 Array.prototype先来复习洗 Array.prototype 的方法
 12345678910// ES5Array.prototype.indexOfArray.prototype.lastI">
-<meta property="og:updated_time" content="2017-03-10T14:53:55.073Z">
+<meta property="og:updated_time" content="2017-03-10T14:54:59.238Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="优雅的for循环">
 <meta name="twitter:description" content="来源最近做了一个维度筛选的查询项目，复杂的交互写的一脸懵逼，最后总算功能实现，回过头代码重构，满屏的for循环。。。此时我心里是万马奔腾的，冷静下来整理思路，操作数组的地方能不用循环的全部干掉。
@@ -185,18 +185,18 @@ Array.prototype先来复习洗 Array.prototype 的方法
 <ul>
 <li>for-of</li>
 </ul>
-<p>它是遍历数组最简单直接的方法，也可以用于遍历字符串,会正确识别32位UTF-16字符等等特性与 <code>forEach()</code> 不同的是，它支持 <code>break</code>、<code>continue</code> 和 <code>return</code> 语句。</p>
+<p>它是遍历数组最简单直接的方法，也可以用于遍历字符串,会正确识别32位 UTF-16字符等等特性与 <code>forEach()</code> 不同的是，它支持 <code>break</code>、<code>continue</code> 和 <code>return</code> 语句。</p>
 <p>它还适用于 <code>Map</code> 和 <code>Set</code> 对象(Map 和 Set 是ES6中的新对象)。</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 例如，可以用一个 Set 对象来对数组元素去重</span></div><div class="line"><span class="keyword">var</span> uniqueWords = <span class="keyword">new</span> <span class="built_in">Set</span>(words);</div><div class="line"></div><div class="line"><span class="comment">// 当得到一个 Set 对象后去遍历该对象</span></div><div class="line"><span class="keyword">for</span> (<span class="keyword">var</span> word <span class="keyword">of</span> uniqueWords) &#123;</div><div class="line">  <span class="built_in">console</span>.log(word);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p><code>for-of</code> 不能直接用来遍历对象的属性,如果你想遍历对象的属性，你可以使用 <code>for-in</code></p>
 <ul>
 <li>Iterator</li>
 </ul>
-<p>Iterator（遍历器）就是一种机制；任何数据结构只要是部署了iterator接口，就可以完成遍历操作</p>
+<p>Iterator（遍历器）就是一种机制；任何数据结构只要是部署了 iterator 接口，就可以完成遍历操作</p>
 <blockquote>
 <p>Iterator的作用有三个：一是为各种数据结构，提供一个统一的、简便的访问接口；二是使得数据结构的成员能够按某种次序排列；三是ES6创造了一种新的遍历命令for…of循环，Iterator接口主要供for…of消费。（阮一峰）；</p>
 </blockquote>
-<p>只要是一个对象部署了Symbol.interator接口，就可以用for…of遍历该对象，同时也可以调用该接口的Symbol.interator方法调用next()方法对对象进行遍历，不同的是for..of是对该对象的值的输出，next()返回的是对象。</p>
+<p>只要是一个对象部署了 Symbol.interator 接口，就可以用 for…of 遍历该对象，同时也可以调用该接口的 Symbol.interator 方法调用 next() 方法对对象进行遍历，不同的是 for..of 是对该对象的值的输出，next() 返回的是对象。</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> arr = [<span class="string">'a'</span>,<span class="string">'b'</span>];</div><div class="line"><span class="keyword">for</span> (variable <span class="keyword">of</span> arr) &#123;</div><div class="line">  <span class="built_in">console</span>.log(variable) <span class="comment">// a b</span></div><div class="line">&#125;</div><div class="line"></div><div class="line">vat it = arr[<span class="built_in">Symbol</span>.iterator]();</div><div class="line"><span class="built_in">console</span>.log(it.next()); <span class="comment">// &#123;value:'a';done:false&#125;</span></div><div class="line"><span class="built_in">console</span>.log(it.next()); <span class="comment">// &#123;value:'b';done:false&#125;</span></div></pre></td></tr></table></figure>
 
       
