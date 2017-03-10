@@ -121,6 +121,67 @@
       <div class="body-wrap">
         
   
+    <article id="post-用Gulp优化项目" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/07/11/用Gulp优化项目/">用Gulp优化项目</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h1><p>公司的项目性能很差,由于刚来实习老大让我尝试优化下就当给我练练手</p>
+<h1 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h1><p>发现这个项目是JSP写的动态网页并没有模块化预加载什么的单纯的引入JS/CSS，每次访问请求用太多时间</p>
+<h1 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h1><p>想到就先合并请求，并压缩代码之类的 工具是基于流的Gulp<br>//然并没用过</p>
+<h2 id="首先安装Gulp"><a href="#首先安装Gulp" class="headerlink" title="首先安装Gulp"></a>首先安装Gulp</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm install -g gulp</div></pre></td></tr></table></figure>
+<h2 id="安装相应的插件"><a href="#安装相应的插件" class="headerlink" title="安装相应的插件"></a>安装相应的插件</h2><p>为了解决插件和模块依赖被重复的引入进来我用了ulp-load-plugins<br>为了以后项目的升级我也进行了参数配置全局化在gulp.config.js<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm install gulp-minify-css gulp-uglify gulp-concat gulp-rename ulp-load-plugins through2 vinyl-source-stream gulp-marked --save-dev gulp</div></pre></td></tr></table></figure></p>
+<h2 id="由于是jsp写的路径useref方法无法识别"><a href="#由于是jsp写的路径useref方法无法识别" class="headerlink" title="由于是jsp写的路径useref方法无法识别"></a>由于是jsp写的路径useref方法无法识别</h2><p>用到filesystem模块先读到index.jsp然后用正则替换路径<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">gulp.task(&apos;readBuffer&apos;, function() &#123;</div><div class="line">    return gulp.src(&apos;app/index.jsp&apos;)</div><div class="line">    .pipe(modify(swapStuff))</div><div class="line">    .pipe(modify(swapStuff_))</div><div class="line">    .pipe(gulp.dest(config.build));</div><div class="line"></div><div class="line">&#125;)</div><div class="line">function modify(modifier) &#123;</div><div class="line">    return through2.obj(function(file, encoding, done) &#123;</div><div class="line">        var content = modifier(String(file.contents));</div><div class="line">        file.contents = new Buffer(content);</div><div class="line">        this.push(file);</div><div class="line">        done();</div><div class="line">    &#125;);</div><div class="line">&#125;</div><div class="line">//正则</div><div class="line">function swapStuff(data) &#123;</div><div class="line">    return data.replace(/\$\&#123;pageContext\.request\.contextPath\s*\&#125;/g, &apos;..&apos;);</div><div class="line">&#125;</div><div class="line">function swapStuff_(data) &#123;</div><div class="line">    return data.replace(/window\.ContextPath \= \&quot;\.\.\/\&quot;/, &apos;window.ContextPath = &quot;$&#123;pageContext.request.contextPath&#125;/&quot;&apos;)</div><div class="line">               .replace(/base\shref\=\&quot;\.\.\/\&quot;/,&apos;base href=&quot;dist/&quot;&apos;);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="然后用useref方法读到所有内容，进行压缩合并等步骤"><a href="#然后用useref方法读到所有内容，进行压缩合并等步骤" class="headerlink" title="然后用useref方法读到所有内容，进行压缩合并等步骤"></a>然后用useref方法读到所有内容，进行压缩合并等步骤</h2><p>这里需要在index.jsp根据你的需求页面配置<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">&lt;!-- build:css css/lib.css --&gt;</div><div class="line">&lt;!-- endbuild --&gt;</div><div class="line">&lt;!-- build:css css/app.css --&gt;</div><div class="line">&lt;!-- endbuild --&gt;</div><div class="line">&lt;!-- build:js js/lib.js --&gt;</div><div class="line">&lt;!-- endbuild --&gt;</div><div class="line">&lt;!-- build:js js/app.js --&gt;</div><div class="line">&lt;!-- endbuild --&gt;</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">gulp.task(&apos;optimize&apos;,[&apos;readBuffer&apos;],function() &#123;</div><div class="line">   return gulp</div><div class="line">            .src(&apos;dist/index.jsp&apos;)</div><div class="line">            .pipe($.useref())  // 解析jsp中build，将里面引用到的文件合并传过来</div><div class="line">            .pipe($.if(&apos;js/app.js&apos;, $.ngAnnotate()))</div><div class="line">            .pipe($.if(&apos;js/*.js&apos;, $.uglify()))</div><div class="line">            .pipe($.if(&apos;css/*.css&apos;, $.minifyCss()))</div><div class="line">            .pipe($.if(&apos;!index.jsp&apos;, $.rev()))</div><div class="line">            .pipe($.revReplace())</div><div class="line">            .pipe(gulp.dest(config.build))</div><div class="line">            .pipe($.rev.manifest())</div><div class="line">            .pipe(gulp.dest(&apos;dist/rev/&apos;));</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<h2 id="给资源文件加时间戳"><a href="#给资源文件加时间戳" class="headerlink" title="给资源文件加时间戳"></a>给资源文件加时间戳</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">gulp.task(&apos;rev&apos;, [&apos;optimize&apos;],function() &#123;</div><div class="line">    return gulp.src([&apos;dist/rev/*.json&apos;, &apos;dist/index.jsp&apos;])  </div><div class="line">        .pipe($.revCollector())                                   </div><div class="line">        .pipe(gulp.dest(config.build));                     </div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<h2 id="由于所有图片都合并到一起、路径就会发生变化这里对路径做个统一"><a href="#由于所有图片都合并到一起、路径就会发生变化这里对路径做个统一" class="headerlink" title="由于所有图片都合并到一起、路径就会发生变化这里对路径做个统一"></a>由于所有图片都合并到一起、路径就会发生变化这里对路径做个统一</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">gulp.task(&apos;images&apos;, function() &#123;</div><div class="line">  return gulp</div><div class="line">      .src(config.images)</div><div class="line">      .pipe($.rename(function(path) &#123;</div><div class="line">        path.dirname = path.dirname.replace(/.*\\images(.*)/, &apos;images$1&apos;);</div><div class="line">        path.dirname = path.dirname.replace(/.*\\img(.*)/, &apos;img$1&apos;);</div><div class="line">      &#125;))</div><div class="line">    .pipe(gulp.dest(config.build + &apos;images/&apos;));</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<h2 id="最后调用任务"><a href="#最后调用任务" class="headerlink" title="最后调用任务"></a>最后调用任务</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">gulp.task(&apos;default&apos;, [&apos;rev&apos;,&apos;images&apos;]);</div></pre></td></tr></table></figure>
+<h2 id="结束"><a href="#结束" class="headerlink" title="结束"></a>结束</h2><p>刚接触gulp目前只是实现了更能，代码还有很多不足和优化地方欢迎指正O(∩_∩)O哈哈~<br><a href="https://github.com/lennonover/Gulp" target="_blank" rel="external">源码</a> </p>
+<h3 id="注：任务依赖要处理好"><a href="#注：任务依赖要处理好" class="headerlink" title="注：任务依赖要处理好"></a>注：任务依赖要处理好</h3>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2016/07/11/用Gulp优化项目/" class="archive-article-date">
+  	<time datetime="2016-07-11T12:49:47.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-07-11</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Gulp/">Gulp</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-JS作用域" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
