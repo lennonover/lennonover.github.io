@@ -139,7 +139,58 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        
+        <p>公司的桌面版运用了 iframe 在取数据方面遇到不少坑，周末空闲把知识点整理下。</p>
+<h2 id="什么是跨域"><a href="#什么是跨域" class="headerlink" title="什么是跨域"></a>什么是跨域</h2><p>JavaScript对安全访问因素的考虑，是不允许js跨域调用其他页面，具体分为以下几类：</p>
+<ul>
+<li><p>不同域名</p>
+</li>
+<li><p>相同域名不同端口号，如 <a href="https://www.baidu.com:8000" target="_blank" rel="external">https://www.baidu.com:8000</a> 和 <a href="https://www.baidu.com:8088" target="_blank" rel="external">https://www.baidu.com:8088</a></p>
+</li>
+<li><p>同一个域名不同协议，如 <a href="https://www.baidu.com" target="_blank" rel="external">https://www.baidu.com</a> 和 <a href="http://www.baidu.com" target="_blank" rel="external">http://www.baidu.com</a></p>
+</li>
+<li><p>域名和域名对应的的IP，如 <a href="http://www.baidu.com:8000" target="_blank" rel="external">http://www.baidu.com:8000</a> 和 <a href="http://119.75.217.109" target="_blank" rel="external">http://119.75.217.109</a></p>
+</li>
+<li><p>主域和子域，如 <a href="http://www.baidu.com" target="_blank" rel="external">http://www.baidu.com</a> 和 <a href="https://test.baidu.com" target="_blank" rel="external">https://test.baidu.com</a></p>
+</li>
+<li><p>子域和子域，如 <a href="https://test1.baidu.com" target="_blank" rel="external">https://test1.baidu.com</a> 和 <a href="https://test2.baidu.com" target="_blank" rel="external">https://test2.baidu.com</a></p>
+</li>
+</ul>
+<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><ul>
+<li>JSONP</li>
+</ul>
+<p>JSONP 和 JSONP？<br>JSON(JavaScript Object Notation) 是一种轻量级的数据交换格式。<br>JSONP是JSON with Padding的略称。它是一个非官方的协议，它允许在服务器端集成Script tags返回至客户端，通过javascript callback的形式实现跨域访问（这仅仅是JSONP简单的实现形式）–百度<br>实际是利用了 <code>&lt;script&gt;</code> 标签的 <code>src</code> 属性并不被同源策略所约束，其实所有的 <code>src</code> 属性的标签都是不被同源策略所约束。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// html</span></div><div class="line">&lt;script type=<span class="string">"text/javascript"</span> src=<span class="string">"http://127.0.0.1:20002/test.js"</span>&gt;&lt;/script&gt;</div><div class="line"></div><div class="line"></div><div class="line"><span class="comment">// test.js 内容</span></div><div class="line">&lt;script type=<span class="string">"text/javascript"</span>&gt;</div><div class="line">  <span class="comment">//回调函数</span></div><div class="line">  <span class="function"><span class="keyword">function</span> <span class="title">callback</span>(<span class="params">data</span>) </span>&#123;</div><div class="line">       alert(data.message);</div><div class="line">  &#125;</div><div class="line">&lt;<span class="regexp">/script&gt;</span></div></pre></td></tr></table></figure>
+<p>这种方案需要注意的是他支持GET这一种HTTP请求类型，还有就是其他域要有一定可靠性。</p>
+<ul>
+<li>跨域资源共享（CORS-Cross Origin Resource Sharing）</li>
+</ul>
+<p>CORS 它是JSONP模式的现代升级版，CORS 定义一种跨域访问的机制，可以让AJAX实现跨域访问。CORS 允许一个域上的网络应用向另一个域提交跨域 AJAX 请求与JSONP不同的是，CORS除了GET要求方法以外也支持其他的 HTTP要求。浏览器CORS请求分成两种。</p>
+<ol>
+<li>请求方式<br>GET<br>HEAD<br>POST  </li>
+<li>HTTP的头信息子段<br>Accept<br>Accept-Language<br>Content-Language<br>Last-Event-ID<br>Content-Type：只限于三个值application/x-www-form-urlencoded、multipart/form-data、text/plain，其中’text/plain’默认支持，其他两种则需要预检请求和服务器协商。</li>
+</ol>
+<p>满足以上两大点的即为简单请求，否则为非简单请求<br>注：个人认为除了 cors 之外的跨域解决方案 都是耍流氓</p>
+<ul>
+<li>document.domain + iframe（适用于跨子域的交互）</li>
+</ul>
+<p>只需要在A.htm与B.htm里都加上一句document.domain = ‘xxx.com’，两个页面就有了互信的基础，而能无碍的交互。</p>
+<ul>
+<li>window.name + iframe</li>
+</ul>
+<p>类似在 a 页面（a.com/app.html）中创建一个iframe，把其src指向 b 页面（b.com/data.html）,数据页面会把数据附加到这个iframe的window.name上。</p>
+<ul>
+<li>HTML5中的postMessage（适用于两个iframe或两个页面之间）</li>
+</ul>
+<p>postMessage()方法允许来自不同源的脚本采用异步方式进行有限的通信，可以实现跨文本档、多窗口、跨域消息传递。<br>eg：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">window</span>.onload=<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="built_in">window</span>.frames[<span class="number">0</span>].postMessage(<span class="string">'ok'</span>,<span class="string">'http://baidu.com'</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>postMessage(data,origin)方法接受两个参数:</p>
+<ol>
+<li><p><code>data</code> 要传递的数据，html5 规范中提到该参数可以是 JavaScript 的任意基本类型或可复制的对象,但是为了兼容性在传递参数的时候需要使用 JSON.stringify() 方法对对象参数序列化。</p>
+</li>
+<li><p><code>origin</code> 字符串参数，指明目标窗口的源，协议+主机+端口号[+URL]，URL会被忽略，只会将message传递给指定窗口.</p>
+</li>
+</ol>
+
       
     </div>
     <div class="article-info article-info-index">
@@ -148,6 +199,11 @@
   	<time datetime="2017-03-10T14:28:04.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-03-10</time>
 </a>
       
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/跨域/">跨域</a></li></ul>
+	</div>
+
       
 
       <div class="clearfix"></div>
@@ -1140,7 +1196,7 @@
     
     	<section class="tools-section tools-section-tag">
     			<div class="widget tagcloud" id="js-tagcloud">
-    				<a href="/tags/BFC/" style="font-size: 10px;">BFC</a> <a href="/tags/Box-Model/" style="font-size: 10px;">Box Model</a> <a href="/tags/CSS/" style="font-size: 16.67px;">CSS</a> <a href="/tags/Gulp/" style="font-size: 10px;">Gulp</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/JavaScript/" style="font-size: 10px;">JavaScript</a> <a href="/tags/Promise/" style="font-size: 10px;">Promise</a> <a href="/tags/absolute/" style="font-size: 10px;">absolute</a> <a href="/tags/css/" style="font-size: 20px;">css</a> <a href="/tags/float/" style="font-size: 10px;">float</a> <a href="/tags/javascript/" style="font-size: 13.33px;">javascript</a> <a href="/tags/line-height/" style="font-size: 10px;">line-height</a> <a href="/tags/vertical-align/" style="font-size: 10px;">vertical-align</a> <a href="/tags/值传递/" style="font-size: 10px;">值传递</a> <a href="/tags/原型/" style="font-size: 10px;">原型</a> <a href="/tags/原型链/" style="font-size: 10px;">原型链</a> <a href="/tags/居中/" style="font-size: 10px;">居中</a> <a href="/tags/布局/" style="font-size: 10px;">布局</a> <a href="/tags/引用传递/" style="font-size: 10px;">引用传递</a> <a href="/tags/数据类型/" style="font-size: 10px;">数据类型</a> <a href="/tags/移动端/" style="font-size: 10px;">移动端</a> <a href="/tags/自适应/" style="font-size: 10px;">自适应</a>
+    				<a href="/tags/BFC/" style="font-size: 10px;">BFC</a> <a href="/tags/Box-Model/" style="font-size: 10px;">Box Model</a> <a href="/tags/CSS/" style="font-size: 16.67px;">CSS</a> <a href="/tags/Gulp/" style="font-size: 10px;">Gulp</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/JavaScript/" style="font-size: 10px;">JavaScript</a> <a href="/tags/Promise/" style="font-size: 10px;">Promise</a> <a href="/tags/absolute/" style="font-size: 10px;">absolute</a> <a href="/tags/css/" style="font-size: 20px;">css</a> <a href="/tags/float/" style="font-size: 10px;">float</a> <a href="/tags/javascript/" style="font-size: 13.33px;">javascript</a> <a href="/tags/line-height/" style="font-size: 10px;">line-height</a> <a href="/tags/vertical-align/" style="font-size: 10px;">vertical-align</a> <a href="/tags/值传递/" style="font-size: 10px;">值传递</a> <a href="/tags/原型/" style="font-size: 10px;">原型</a> <a href="/tags/原型链/" style="font-size: 10px;">原型链</a> <a href="/tags/居中/" style="font-size: 10px;">居中</a> <a href="/tags/布局/" style="font-size: 10px;">布局</a> <a href="/tags/引用传递/" style="font-size: 10px;">引用传递</a> <a href="/tags/数据类型/" style="font-size: 10px;">数据类型</a> <a href="/tags/移动端/" style="font-size: 10px;">移动端</a> <a href="/tags/自适应/" style="font-size: 10px;">自适应</a> <a href="/tags/跨域/" style="font-size: 10px;">跨域</a>
     			</div>
     	</section>
     
