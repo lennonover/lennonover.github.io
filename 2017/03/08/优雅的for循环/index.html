@@ -18,7 +18,7 @@ Array.prototype先来复习洗 Array.prototype 的方法
 <meta property="og:description" content="来源最近做了一个维度筛选的查询项目，复杂的交互写的一脸懵逼，最后总算功能实现，回过头代码重构，满屏的for循环。。。此时我心里是万马奔腾的，冷静下来整理思路，操作数组的地方能不用循环的全部干掉。
 Array.prototype先来复习洗 Array.prototype 的方法
 12345678910// ES5Array.prototype.indexOfArray.prototype.lastI">
-<meta property="og:updated_time" content="2017-03-10T14:54:59.238Z">
+<meta property="og:updated_time" content="2017-03-14T15:03:02.589Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="优雅的for循环">
 <meta name="twitter:description" content="来源最近做了一个维度筛选的查询项目，复杂的交互写的一脸懵逼，最后总算功能实现，回过头代码重构，满屏的for循环。。。此时我心里是万马奔腾的，冷静下来整理思路，操作数组的地方能不用循环的全部干掉。
@@ -165,6 +165,17 @@ Array.prototype先来复习洗 Array.prototype 的方法
 </ul>
 <p>对数组的每个元素进行一定操作（映射）后，会返回一个新的数组， map()是处理服务器返回数据时是一个非常实用的函数。</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> oldArr = [</div><div class="line">  &#123;first_name:<span class="string">"Colin"</span>,last_name:<span class="string">"Toh"</span>&#125;,</div><div class="line">  &#123;first_name:<span class="string">"Addy"</span>,last_name:<span class="string">"Osmani"</span>&#125;,</div><div class="line">  &#123;first_name:<span class="string">"Yehuda"</span>,last_name:<span class="string">"Katz"</span>&#125;];</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getNewArr</span>(<span class="params"></span>)</span>&#123;</div><div class="line">  <span class="keyword">return</span> oldArr.map(<span class="function"><span class="keyword">function</span>(<span class="params">item,index</span>)</span>&#123;</div><div class="line">    item.full_name = [item.first_name,item.last_name].join(<span class="string">" "</span>);</div><div class="line">    <span class="keyword">return</span> item;</div><div class="line">  &#125;);</div><div class="line"></div><div class="line">&#125;</div><div class="line"><span class="built_in">console</span>.log(getNewArr());</div></pre></td></tr></table></figure>
+<p>说道map，前两天看到过一个面试题</p>
+<blockquote>
+<p>不用循环，创建一个包含从0到99(n)的连续整数的数组</p>
+</blockquote>
+<p>一般这样写</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> arr = <span class="built_in">Array</span>(<span class="number">100</span>).join(<span class="string">' '</span>).split(<span class="string">''</span>).map(<span class="function"><span class="keyword">function</span>(<span class="params">item,index</span>)</span>&#123;<span class="keyword">return</span> index&#125;);</div></pre></td></tr></table></figure>
+<p>Array(100) 创建了一个包含100个 undefined 的数组,但是这样的数组是没法迭代的(参考 forEach 方法的 定义 )，所以要通过字符串转换，覆盖 undefined ，最后调用 map 修改元素值。</p>
+<p>有了 es6 ,用 Array.from 的写法是这样的</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> arr = <span class="built_in">Array</span>.from(&#123;length:<span class="number">100</span>&#125;).map(<span class="function"><span class="keyword">function</span>(<span class="params">item,index</span>)</span>&#123;<span class="keyword">return</span> index&#125;);</div></pre></td></tr></table></figure>
+<p>Array.from({length:100}) 也是创建了一个包含100个 undefined 的数组，但是这个数组可以迭代<code>( [].slice.call({length:100})</code>创建的不可迭代 )，可以直接调用 map 方法。</p>
+<p>不过在性能上却有些尴尬。直接 for 循环性能最好，第二种次之，Array.from 最差。</p>
 <ul>
 <li>every()</li>
 </ul>
