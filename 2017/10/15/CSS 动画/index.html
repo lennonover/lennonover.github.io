@@ -87,16 +87,22 @@
 
 
 
-<meta name="description" content="一丿口石砳磊">
+<meta name="description" content="Transition页面元素从旧的属性值立即变成新的属性值的效果。Transition (转变)能让页面元素不是立即的、而是慢慢的从一种状态变成另外一种状态，从而表现出一种动画过程。
+
+12345678910transition-property – 什么属性将用动画表现，例如, opacity。       transition-duration – 转变过程持续时间。     transiti">
 <meta property="og:type" content="article">
 <meta property="og:title" content="CSS 动画">
 <meta property="og:url" content="https://github.com/lennonover/2017/10/15/CSS 动画/index.html">
 <meta property="og:site_name" content="lennonover">
-<meta property="og:description" content="一丿口石砳磊">
-<meta property="og:updated_time" content="2017-10-15T14:55:53.965Z">
+<meta property="og:description" content="Transition页面元素从旧的属性值立即变成新的属性值的效果。Transition (转变)能让页面元素不是立即的、而是慢慢的从一种状态变成另外一种状态，从而表现出一种动画过程。
+
+12345678910transition-property – 什么属性将用动画表现，例如, opacity。       transition-duration – 转变过程持续时间。     transiti">
+<meta property="og:updated_time" content="2017-10-15T15:12:27.484Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="CSS 动画">
-<meta name="twitter:description" content="一丿口石砳磊">
+<meta name="twitter:description" content="Transition页面元素从旧的属性值立即变成新的属性值的效果。Transition (转变)能让页面元素不是立即的、而是慢慢的从一种状态变成另外一种状态，从而表现出一种动画过程。
+
+12345678910transition-property – 什么属性将用动画表现，例如, opacity。       transition-duration – 转变过程持续时间。     transiti">
 
 
 
@@ -321,7 +327,12 @@
       
 
       
-        
+        <h2 id="Transition"><a href="#Transition" class="headerlink" title="Transition"></a>Transition</h2><pre><code>页面元素从旧的属性值立即变成新的属性值的效果。Transition (转变)能让页面元素不是立即的、而是慢慢的从一种状态变成另外一种状态，从而表现出一种动画过程。
+
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">transition-property</span> – 什么属性将用动画表现，例如, <span class="selector-tag">opacity</span>。       </div><div class="line"></div><div class="line"><span class="selector-tag">transition-duration</span> – 转变过程持续时间。     </div><div class="line"></div><div class="line"><span class="selector-tag">transition-timing-function</span> – 转变时使用的调速函数(比如, <span class="selector-tag">linear</span>、 <span class="selector-tag">ease-in</span> 或自定义的 <span class="selector-tag">cubic</span> <span class="selector-tag">bezier</span> 函数)。     </div><div class="line">    <span class="selector-tag">linear</span> – 线性函数，返回值一个输入值一样的结果。        </div><div class="line">    <span class="selector-tag">ease</span> – 减缓函数, 是缺省值, 等同于 <span class="selector-tag">cubic-bezier</span>(0<span class="selector-class">.25</span>, 0<span class="selector-class">.1</span>, 0<span class="selector-class">.25</span>, 1<span class="selector-class">.0</span>).      </div><div class="line">    <span class="selector-tag">ease-in</span> – 等同于 <span class="selector-tag">cubic-bezier</span>(0<span class="selector-class">.42</span>, 0, 1<span class="selector-class">.0</span>, 1<span class="selector-class">.0</span>).      </div><div class="line">    <span class="selector-tag">ease-out</span> – 等同于 <span class="selector-tag">cubic-bezier</span>(0, 0, 0<span class="selector-class">.58</span>, 1<span class="selector-class">.0</span>).       </div><div class="line">    <span class="selector-tag">ease-in-out</span> – 等同于 <span class="selector-tag">cubic-bezier</span>(0<span class="selector-class">.42</span>, 0, 0<span class="selector-class">.58</span>, 1<span class="selector-class">.0</span>)</div></pre></td></tr></table></figure>
+
+&lt;iframe width=&quot;100%&quot; height=&quot;300&quot; src=&quot;//jsfiddle.net/lennonover/hf83eckt/embedded/html,css,result/&quot; allowfullscreen=&quot;allowfullscreen&quot; frameborder=&quot;0&quot;&gt;&lt;/iframe&gt;
+</code></pre>
       
     </div>
 
@@ -412,8 +423,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.gif"
@@ -466,6 +486,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Transition"><span class="nav-number">1.</span> <span class="nav-text">Transition</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
