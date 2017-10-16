@@ -327,11 +327,37 @@
       
         
           
-            <h2 id="Transition"><a href="#Transition" class="headerlink" title="Transition"></a>Transition</h2><pre><code>页面元素从旧的属性值立即变成新的属性值的效果。Transition (转变)能让页面元素不是立即的、而是慢慢的从一种状态变成另外一种状态，从而表现出一种动画过程。
+            <h2 id="转换（transition）"><a href="#转换（transition）" class="headerlink" title="转换（transition）"></a>转换（transition）</h2><pre><code>页面元素从旧的属性值立即变成新的属性值的效果。Transition (转变)能让页面元素不是立即的、而是慢慢的从一种状态变成另外一种状态，从而表现出一种动画过程。
 
 <figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">transition-property</span> – 什么属性将用动画表现，例如, <span class="selector-tag">opacity</span>。       </div><div class="line"></div><div class="line"><span class="selector-tag">transition-duration</span> – 转变过程持续时间。     </div><div class="line"></div><div class="line"><span class="selector-tag">transition-timing-function</span> – 转变时使用的调速函数(比如, <span class="selector-tag">linear</span>、 <span class="selector-tag">ease-in</span> 或自定义的 <span class="selector-tag">cubic</span> <span class="selector-tag">bezier</span> 函数)。     </div><div class="line">    <span class="selector-tag">linear</span> – 线性函数，返回值一个输入值一样的结果。        </div><div class="line">    <span class="selector-tag">ease</span> – 减缓函数, 是缺省值, 等同于 <span class="selector-tag">cubic-bezier</span>(0<span class="selector-class">.25</span>, 0<span class="selector-class">.1</span>, 0<span class="selector-class">.25</span>, 1<span class="selector-class">.0</span>).      </div><div class="line">    <span class="selector-tag">ease-in</span> – 等同于 <span class="selector-tag">cubic-bezier</span>(0<span class="selector-class">.42</span>, 0, 1<span class="selector-class">.0</span>, 1<span class="selector-class">.0</span>).      </div><div class="line">    <span class="selector-tag">ease-out</span> – 等同于 <span class="selector-tag">cubic-bezier</span>(0, 0, 0<span class="selector-class">.58</span>, 1<span class="selector-class">.0</span>).       </div><div class="line">    <span class="selector-tag">ease-in-out</span> – 等同于 <span class="selector-tag">cubic-bezier</span>(0<span class="selector-class">.42</span>, 0, 0<span class="selector-class">.58</span>, 1<span class="selector-class">.0</span>)</div></pre></td></tr></table></figure>
 
 &lt;iframe width=&quot;100%&quot; height=&quot;300&quot; src=&quot;//jsfiddle.net/lennonover/hf83eckt/embedded/html,css,result/&quot; allowfullscreen=&quot;allowfullscreen&quot; frameborder=&quot;0&quot;&gt;&lt;/iframe&gt;
+</code></pre><h2 id="变形（transform）"><a href="#变形（transform）" class="headerlink" title="变形（transform）"></a>变形（transform）</h2><pre><code>- 旋转 rotate（中心为原点）
+    transform: rotate(10deg)，其中“10deg”表示“10度”。
+
+- 扭曲、倾斜skew（skew(x,y), skewX(x), skewY(y)）
+    transform: skew(20deg);
+
+- 缩放scale（scale(x,y), scaleX(x), scaleY(y)）
+    transform: scale(1.5);
+
+- 移动translate（translateX,translateY）
+    transform: translate(120px,0)，如下表示向右位移120像素，如果向上位移，把后面的“0”改个值就行，向左向下位移则为负“-”。
+
+- 矩阵变形matrix。
+</code></pre><h2 id="关键帧动画"><a href="#关键帧动画" class="headerlink" title="关键帧动画"></a>关键帧动画</h2><pre><code>语法：
+
+animation: name duration timing-function delay iteration-count direction;   
+
+- animation-name    规定需要绑定到选择器的 keyframe 名称。
+- animation-duration    规定完成动画所花费的时间，以秒或毫秒计。
+- animation-timing-function    规定动画的速度曲线。
+- animation-delay    规定在动画开始之前的延迟。
+- animation-iteration-count    规定动画应该播放的次数。
+- animation-direction    规定是否应该轮流反向播放动画。
+
+&lt;iframe width=&quot;100%&quot; height=&quot;300&quot; src=&quot;//jsfiddle.net/lennonover/2ebcq7y4/1/embedded/html,css,result/&quot; allowfullscreen=&quot;allowfullscreen&quot; frameborder=&quot;0&quot;&gt;&lt;/iframe&gt;
+</code></pre><h2 id="transition-和-animation-主要区别"><a href="#transition-和-animation-主要区别" class="headerlink" title="transition 和 animation 主要区别"></a>transition 和 animation 主要区别</h2><pre><code>transition 也可以看做animation 的缩略版，transition 是着重于属性的变化，而animation 重点是在时间轴和关键帧,是在于创建帧，让不同帧在不同的时间节点发生不同变化，基于animation和@keyframe 的动画一方面也是为了实现表现与行为的分离，另一方面也使得前端设计师可以专注得进行动画开发而不是冗余的代码中。
 </code></pre>
           
         
