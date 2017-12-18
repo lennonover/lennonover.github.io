@@ -328,9 +328,39 @@
         
           
             <h2 id="QUIC"><a href="#QUIC" class="headerlink" title="QUIC"></a>QUIC</h2><pre><code>昨天在参加阿里 D2 的时候听腾讯的黄佳琳老师分享 `QQ空间HTTP2加速实践` 时她提到在今 QQ 开始使用 QUIC 协议。看到 QUIC 时一脸懵逼的这货是啥？？？
-特意去 GOOGLE 了一下。
 </code></pre><h2 id="关于-QUIC"><a href="#关于-QUIC" class="headerlink" title="关于 QUIC"></a>关于 QUIC</h2><p>  <a href="https://en.wikipedia.org/wiki/QUIC" target="_blank" rel="external">QUIC 维基百科</a><br>  <a href="https://www.youtube.com/watch?v=hQZ-0mXFmk8" target="_blank" rel="external">Google Develop Live</a></p>
 <p>  QUIC 全称是 Quick UDP Internet Connections 就是快速 UDP 网络连接。一个它以UDP为基础，实验性传输层协议。大家都知道TCP、UDP都是计算机网络通信层的主要协议。TCP是面向连接的，更强调的是传输的可靠性，UDP是面向无连接的，也即在通信双方进行数据交换之前，无需建立连接,只要知道对方地址即可发送数据，由于UDP协议是无连接方式的协议，所以它的效率高，速度快，占资源少。为了集合两者的优点，谷歌推出了QUIC。</p>
+<h2 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h2><p>  具有 SPDY 所有的优点；0-RTT连接；减少丢包；前向纠错，减少重传时延；自适应拥塞控制，减少重新连接；相当于TLS加密。</p>
+<ul>
+<li><p>重传与恢复</p>
+<p>丢包恢复一共有两种方法：前向纠错（FEC）和重传。前向纠错可以减少重传，但需要在保重添加冗余信息，用XOR实现。如果前向纠错不能回复包，才启用重传，重传的不是旧包，而是重新构造的包。</p>
+<p>前向纠错（FEC）：FEC采用简单异或的方式。每次发送一组数据，包括若干个数据包后，并对这些数据包依次作异或运算，最后的结果作为一个FEC包再发送出去。接收方收到一组数据后，根据数据包和FEC包即可以进行校验和纠错。</p>
+<p>对于某些重要的数据包，如初始密钥协商时的数据包，在建立连接时非常重要，如果这类包丢失会阻塞整体数据流。QUIC对于这一类数据包在确认发生丢失前就会尝试重传，通常是等待较短的时间(如20ms)没收到确认后就马上再次发送。这样在网络中会有若干个相同的包同时传输，只要有一个能成功抵达就完成了连接，这样降低了丢包率。接收方对于关键数据包的多次发送和普通数据包的超时重传，都采用相同的重复包处理机制</p>
+<p>QUIC在拥塞避免算法的基础上还加入了心跳包，用于减少丢包率</p>
+</li>
+</ul>
+<ul>
+<li><p>安全性</p>
+<p>  QUIC对每个散装的UDP包都进行了加密和认证的保护，并且避免使用前向依赖的处理方法(如CBC模式)，这样每个UDP包可以独立地根据IV进行加密或认证处理。 QUIC采用了两级密钥机制：初始密钥和会话密钥。初次连接时不加密，并协商初始密钥。初始密钥协商完毕后会马上再协商会话密钥，这样可以保证密钥的前向安全性，之后可以在通信的过程中就实现对密钥的更新。接收方意识到有新的密钥要更新时，会尝试用新旧两种密钥对数据进行解密，直到成功才会正式更新密钥，否则会一直保留旧密钥有效。</p>
+</li>
+<li><p>0-RTT连接</p>
+<p>  o-RTT握手过程 QUIC握手的过程是需要一次数据交互，0-RTT时延即可完成握手过程中的密钥协商，比TLS相比效率提高了5倍，且具有更高的安全性。 QUIC在握手过程中使用Diffie-Hellman算法协商初始密钥，初始密钥依赖于服务器存储的一组配置参数，该参数会周期性的更新。初始密钥协商成功后，服务器会提供一个临时随机数，双方根据这个数再生成会话密钥。</p>
+<p>  <a href="https://cs.chromium.org/chromium/src/net/quic/?q=quic&amp;sq=package:chromium" target="_blank" rel="external">​QUIC客户端源码</a></p>
+<p>  <a href="https://cs.chromium.org/chromium/src/net/tools/quic/?q=quic&amp;sq=package:chromium" target="_blank" rel="external">QUIC服务端源码</a></p>
+</li>
+</ul>
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><ul>
+<li><p>启用</p>
+<p>  Chrome 浏览器（版本50.0或更高）中打开地址： <code>chrome://flags/</code> 在Experimental QUIC protocol 项目勾选 Enabled;然后重启。</p>
+</li>
+<li><p>查看站点是否通过 QUIC 通信</p>
+<p>  使用Chrome 选项卡 <code>chrome://net-internals/#quic</code></p>
+</li>
+<li><p>Chrome 插件</p>
+<p>  插件 <code>HTTP/2 and SPDY indicator</code> HTTP/2显示蓝色标志，HTTP/2 + QUIC显示绿色,可以看到 QQ 空间用的 QUIC。</p>
+<p>  <img src="http://ob6nlbpso.bkt.clouddn.com/sp171218_224234.png" alt="QQ 空间"></p>
+</li>
+</ul>
 
           
         
