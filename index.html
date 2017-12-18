@@ -327,7 +327,9 @@
       
         
           
-            <h2 id="QUIC"><a href="#QUIC" class="headerlink" title="QUIC"></a>QUIC</h2><pre><code>昨天在参加阿里 D2 的时候听腾讯的黄佳琳老师分享 `QQ空间HTTP2加速实践` 时她提到在今 QQ 开始使用 QUIC 协议。看到 QUIC 时一脸懵逼的这货是啥？？？
+            <h2 id="QUIC"><a href="#QUIC" class="headerlink" title="QUIC"></a>QUIC</h2><pre><code>昨天在参加阿里 D2 的时候听腾讯的黄佳琳老师分享 `QQ空间HTTP2加速实践` 时她提到在今 QQ 开始使用 QUIC 协议。
+
+看到 QUIC 时一脸懵逼的这货是啥？？？
 </code></pre><h2 id="关于-QUIC"><a href="#关于-QUIC" class="headerlink" title="关于 QUIC"></a>关于 QUIC</h2><p>  <a href="https://en.wikipedia.org/wiki/QUIC" target="_blank" rel="external">QUIC 维基百科</a><br>  <a href="https://www.youtube.com/watch?v=hQZ-0mXFmk8" target="_blank" rel="external">Google Develop Live</a></p>
 <p>  QUIC 全称是 Quick UDP Internet Connections 就是快速 UDP 网络连接。一个它以UDP为基础，实验性传输层协议。大家都知道TCP、UDP都是计算机网络通信层的主要协议。TCP是面向连接的，更强调的是传输的可靠性，UDP是面向无连接的，也即在通信双方进行数据交换之前，无需建立连接,只要知道对方地址即可发送数据，由于UDP协议是无连接方式的协议，所以它的效率高，速度快，占资源少。为了集合两者的优点，谷歌推出了QUIC。</p>
 <h2 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h2><p>  具有 SPDY 所有的优点；0-RTT连接；减少丢包；前向纠错，减少重传时延；自适应拥塞控制，减少重新连接；相当于TLS加密。</p>
