@@ -483,7 +483,10 @@
       
         
           
-            <p>window.requestAnimationFrame() 方法告诉浏览器您希望执行动画并请求浏览器调用指定的函数在下一次重绘之前更新动画。该方法使用一个回调函数作为参数，这个回调函数会在浏览器重绘之前调用。</p>
+            <blockquote>
+<p><a href="http://www.zhangxinxu.com/wordpress/2013/09/css3-animation-requestanimationframe-tween-%E5%8A%A8%E7%94%BB%E7%AE%97%E6%B3%95/" target="_blank" rel="external">参考自张鑫旭老师</a></p>
+</blockquote>
+<p>window.requestAnimationFrame() 方法告诉浏览器您希望执行动画并请求浏览器调用指定的函数在下一次重绘之前更新动画。该方法使用一个回调函数作为参数，这个回调函数会在浏览器重绘之前调用。</p>
 <h2 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h2><p>window.requestAnimationFrame(callback);</p>
 <h2 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h2><p><code>callback</code> 一个在每次需要重新绘制动画时调用的包含指定函数的参数。这个回调函数有一个传参，DOMHighResTimeStamp，指示从触发 requestAnimationFrame 回调到现在的时间（从 performance.now() 取得）。</p>
 <h2 id="返回值"><a href="#返回值" class="headerlink" title="返回值"></a>返回值</h2><p>一个 long 整数，请求 ID ，也是回调列表中唯一的标识。这是一个非零值，但你恐怕也不能从其值中作出什么臆想。你可以传此值到 window.cancelAnimationFrame() 以取消回调函数。</p>
@@ -765,7 +768,10 @@
       
         
           
-            <h2 id="常规的区别就是大家常说的这些："><a href="#常规的区别就是大家常说的这些：" class="headerlink" title="常规的区别就是大家常说的这些："></a>常规的区别就是大家常说的这些：</h2><ul>
+            <blockquote>
+<p><a href="http://mp.weixin.qq.com/s?__biz=MzI3NzIzMzg3Mw==&amp;mid=100000054&amp;idx=1&amp;sn=71f6c214f3833d9ca20b9f7dcd9d33e4#rd" target="_blank" rel="external">来源自</a></p>
+</blockquote>
+<h2 id="常规的区别就是大家常说的这些："><a href="#常规的区别就是大家常说的这些：" class="headerlink" title="常规的区别就是大家常说的这些："></a>常规的区别就是大家常说的这些：</h2><ul>
 <li><p>GET 在浏览器回退时是无害的，而 POST 会再次提交请求。</p>
 </li>
 <li><p>GET 产生的 URL 地址可以被 Bookmark，而 POST 不可以。</p>

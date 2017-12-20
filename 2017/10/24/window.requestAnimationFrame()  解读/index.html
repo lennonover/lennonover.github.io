@@ -87,23 +87,29 @@
 
 
 
-<meta name="description" content="window.requestAnimationFrame() 方法告诉浏览器您希望执行动画并请求浏览器调用指定的函数在下一次重绘之前更新动画。该方法使用一个回调函数作为参数，这个回调函数会在浏览器重绘之前调用。
+<meta name="description" content="参考自张鑫旭老师
+
+window.requestAnimationFrame() 方法告诉浏览器您希望执行动画并请求浏览器调用指定的函数在下一次重绘之前更新动画。该方法使用一个回调函数作为参数，这个回调函数会在浏览器重绘之前调用。
 语法window.requestAnimationFrame(callback);
-参数callback 一个在每次需要重新绘制动画时调用的包含指定函数的参数。这个回调函数有一个传参，DO">
+参数callback 一个在每次需要重新绘制动画时调用的包含指定函数的参数。这个回">
 <meta property="og:type" content="article">
 <meta property="og:title" content="window.requestanimationfram 解读">
 <meta property="og:url" content="https://github.com/lennonover/2017/10/24/window.requestAnimationFrame()  解读/index.html">
 <meta property="og:site_name" content="lennonover">
-<meta property="og:description" content="window.requestAnimationFrame() 方法告诉浏览器您希望执行动画并请求浏览器调用指定的函数在下一次重绘之前更新动画。该方法使用一个回调函数作为参数，这个回调函数会在浏览器重绘之前调用。
+<meta property="og:description" content="参考自张鑫旭老师
+
+window.requestAnimationFrame() 方法告诉浏览器您希望执行动画并请求浏览器调用指定的函数在下一次重绘之前更新动画。该方法使用一个回调函数作为参数，这个回调函数会在浏览器重绘之前调用。
 语法window.requestAnimationFrame(callback);
-参数callback 一个在每次需要重新绘制动画时调用的包含指定函数的参数。这个回调函数有一个传参，DO">
+参数callback 一个在每次需要重新绘制动画时调用的包含指定函数的参数。这个回">
 <meta property="og:image" content="http://ob6nlbpso.bkt.clouddn.com/sp171024_220945.png">
-<meta property="og:updated_time" content="2017-10-24T14:17:26.729Z">
+<meta property="og:updated_time" content="2017-12-20T12:40:28.048Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="window.requestanimationfram 解读">
-<meta name="twitter:description" content="window.requestAnimationFrame() 方法告诉浏览器您希望执行动画并请求浏览器调用指定的函数在下一次重绘之前更新动画。该方法使用一个回调函数作为参数，这个回调函数会在浏览器重绘之前调用。
+<meta name="twitter:description" content="参考自张鑫旭老师
+
+window.requestAnimationFrame() 方法告诉浏览器您希望执行动画并请求浏览器调用指定的函数在下一次重绘之前更新动画。该方法使用一个回调函数作为参数，这个回调函数会在浏览器重绘之前调用。
 语法window.requestAnimationFrame(callback);
-参数callback 一个在每次需要重新绘制动画时调用的包含指定函数的参数。这个回调函数有一个传参，DO">
+参数callback 一个在每次需要重新绘制动画时调用的包含指定函数的参数。这个回">
 <meta name="twitter:image" content="http://ob6nlbpso.bkt.clouddn.com/sp171024_220945.png">
 
 
@@ -329,7 +335,10 @@
       
 
       
-        <p>window.requestAnimationFrame() 方法告诉浏览器您希望执行动画并请求浏览器调用指定的函数在下一次重绘之前更新动画。该方法使用一个回调函数作为参数，这个回调函数会在浏览器重绘之前调用。</p>
+        <blockquote>
+<p><a href="http://www.zhangxinxu.com/wordpress/2013/09/css3-animation-requestanimationframe-tween-%E5%8A%A8%E7%94%BB%E7%AE%97%E6%B3%95/" target="_blank" rel="external">参考自张鑫旭老师</a></p>
+</blockquote>
+<p>window.requestAnimationFrame() 方法告诉浏览器您希望执行动画并请求浏览器调用指定的函数在下一次重绘之前更新动画。该方法使用一个回调函数作为参数，这个回调函数会在浏览器重绘之前调用。</p>
 <h2 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h2><p>window.requestAnimationFrame(callback);</p>
 <h2 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h2><p><code>callback</code> 一个在每次需要重新绘制动画时调用的包含指定函数的参数。这个回调函数有一个传参，DOMHighResTimeStamp，指示从触发 requestAnimationFrame 回调到现在的时间（从 performance.now() 取得）。</p>
 <h2 id="返回值"><a href="#返回值" class="headerlink" title="返回值"></a>返回值</h2><p>一个 long 整数，请求 ID ，也是回调列表中唯一的标识。这是一个非零值，但你恐怕也不能从其值中作出什么臆想。你可以传此值到 window.cancelAnimationFrame() 以取消回调函数。</p>
