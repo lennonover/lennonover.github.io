@@ -101,7 +101,7 @@ QUIC  QUIC 维基百科  Google Develop Live
 <meta property="og:image" content="http://ob6nlbpso.bkt.clouddn.com/sp171219_185424.png">
 <meta property="og:image" content="http://ob6nlbpso.bkt.clouddn.com/sp171219_193117.png">
 <meta property="og:image" content="http://ob6nlbpso.bkt.clouddn.com/sp171218_224234.png">
-<meta property="og:updated_time" content="2017-12-26T14:12:17.246Z">
+<meta property="og:updated_time" content="2017-12-26T14:14:33.730Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="D2-QUIC">
 <meta name="twitter:description" content="昨天在参加阿里 D2 的时候听腾讯的黄佳琳老师分享 QQ空间HTTP2加速实践 时她提到在今 QQ 空间 2017年开始使用 QUIC 协议。看到 QUIC 时就想腾讯这么冒进了敢用它！！！至于为什么会这么想，请继续。
@@ -348,7 +348,7 @@ QUIC  QUIC 维基百科  Google Develop Live
 <h2 id="TCP-和-UDP"><a href="#TCP-和-UDP" class="headerlink" title="TCP 和 UDP"></a>TCP 和 UDP</h2><p>  web 平台的数据传输都基于 TCP 协议。TCP协议在创建连接之前需要进行三次握手，如果需要提高数据交互的安全性，既增加传输层安全协议（TLS），还会增加更多的握手次数。<br>  正因为TCP协议连接建立的成本相对较高，可以通过TCP快速打开（TCP Fast Open）来减少建立连接时的握手次数。但是该技术目前应用较少。</p>
 <p>  UDP协议是无连接协议。客户端发出UDP数据包后，只能“假设”这个数据包已经被服务端接收。这样的好处是在网络传输层无需对数据包进行确认，但存在的问题就是为了确保数据传输的可靠性，应用层协议需要自己完成包传输情况的确认。</p>
 <blockquote>
-<p>来源维基百科 ： 对于Google来说优化TCP协议是一个长期目标，QUIC旨在创建几乎等同于TCP的独立连接，但有着低延迟，并对类似SPDY的多路复用流协议有更好的支持。 如果QUIC协议的特性被证明是有效的，这些特性以后可能会被迁移入后续版本的TCP和TLS协议（它们都有很长的开发周期）。</p>
+<p>来源维基百科 ： 对于 Google 来说优化 TCP 协议是一个长期目标，QUIC 旨在创建几乎等同于 TCP 的独立连接，但有着低延迟，并对类似 SPDY 的多路复用流协议有更好的支持。 如果 QUIC 协议的特性被证明是有效的，这些特性以后可能会被迁移入后续版本的 TCP 和 TLS 协议（它们都有很长的开发周期）。</p>
 </blockquote>
 <p>  TCP 协议的实现是高度管制的。TCP 协议栈通常由操作系统实现，如 Linux、Windows 内核或者其他移动设备操作系统。修改 TCP 协议是一项浩大的工程，因为每种设备、系统的实现都需要更新。</p>
 <p>  UDP 协议在操作系统层面实现相对简单，基于 UDP 协议实现新的协议以验证 Google 对于 TCP 协议改进的理论，不需要操作系统内核层面的更改，验证成本相对较低。</p>
