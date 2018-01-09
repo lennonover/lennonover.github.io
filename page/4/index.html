@@ -660,7 +660,9 @@
 <p>正常的人是能正确识别的，但是屏幕阅读器却不会给予任何指示来说明该元素旨在作为复选框使用，因此弱视用户可能会完全错过该元素。<br>如果使用 ARIA 属性，我们就可以为元素提供缺少的信息，以便屏幕阅读器能正确解读它。 我们在以上代码中添加了 role 和 aria-checked 属性，将该元素显式标识为一个复选框，并指定它在默认情况下处于选中状态。该列表项现在将添加到无障碍树中，屏幕阅读器将把它正确地报告为一个复选框。</p>
 <figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">li</span> <span class="attr">class</span>=<span class="string">"checkbox"</span> <span class="attr">role</span>=<span class="string">"checkbox"</span> <span class="attr">checked</span> <span class="attr">aria-checked</span>=<span class="string">"true"</span>&gt;</span></div><div class="line">  javcscript</div><div class="line"><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div></pre></td></tr></table></figure>
 <p>ARIA 通过更改和补充标准 DOM 无障碍树来发挥作用。并且尽可能正确地使用 html 标签，原生标签对 ARIA 支持得更好。在实再自定义控件的时候，添加 ARIA 相关属性可以例控件能正确被读屏软件识别。 html5 语义化标签与 ARIA 有重叠的地方，用新的语义化标签但还是推荐添加 ARIA 属性。<br>例如上面的自定义复选框,标准 HTML <input type="checkbox"> 元素都不需要额外的 role=”checkbox” ARIA 属性就能正确声明。</p>
-<h2 id="ARIA-on-HTML-规则"><a href="#ARIA-on-HTML-规则" class="headerlink" title="ARIA on HTML 规则"></a>ARIA on HTML 规则</h2><p>ARIA on HTML 中使用有其自己的规范，在 <a href="http://validator.w3.org/nu/" target="_blank" rel="external">这个</a> 网站可以检测 ARIA 使用的是否标准。</p>
+<h2 id="ARIA-on-HTML"><a href="#ARIA-on-HTML" class="headerlink" title="ARIA on HTML"></a>ARIA on HTML</h2><p>ARIA on HTML 中使用有其自己的规范，在 <a href="http://validator.w3.org/nu/" target="_blank" rel="external">这个</a> 网站可以检测 ARIA 使用的是否标准。</p>
+<p>ARIA 属性包括三个方面：角色属性值(roles), 状态属性值(states), 和属性表(properties)  参考网站： <a href="https://www.w3.org/TR/html-aria/#index-aria-main" target="_blank" rel="external">W3C</a></p>
+<p>浏览器支持情况参见<br><a href="https://caniuse.com/#search=aria" target="_blank" rel="external">caniuse</a> </p>
 <ul>
 <li><p>规则一</p>
 <p>  如果你使用的元素(HTML5)具有语义化，应该使用这些元素，而不应该重新定义一个添加ARIA的角色、状态或属性的元素。</p>
@@ -682,7 +684,6 @@
 <p>  所有的ARIA制作控件都必须具有键盘 (keyboard) 事件。</p>
 </li>
 </ul>
-<h2 id="ARIA-属性表"><a href="#ARIA-属性表" class="headerlink" title="ARIA 属性表"></a>ARIA 属性表</h2><p>下表提供了使用的规范每个元素文档的一致性要求ARIA在HTML文档中的标记，并描述了<a href="https://www.w3.org/TR/html-aria/#dfn-implicit-aria-semantics" target="_blank" rel="external">隐式ARIA语义</a>适用于 <a href="https://www.w3.org/TR/html/dom.html#elements" target="_blank" rel="external">HTML</a> 元素中的定义，<a href="https://w3c.github.io/html-aam/" target="_blank" rel="external">HTML辅助API映射</a> 规范。</p>
 
           
         
