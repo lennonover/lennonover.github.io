@@ -260,6 +260,145 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2018/01/09/树莓派安装-Ubuntu-Mate/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lennonover">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lennonover">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2018/01/09/树莓派安装-Ubuntu-Mate/" itemprop="url">
+                  树莓派安装 Ubuntu Mate
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-09T22:53:36+08:00">
+                2018-01-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>最近买个树莓派准备做下载机和低配版的 NAS ，昨天晚上装了 Ubuntu Mate的系统挺简单的特意分享下</p>
+<h2 id="树莓派"><a href="#树莓派" class="headerlink" title="树莓派"></a>树莓派</h2><p><a href="https://zh.wikipedia.org/wiki/%E6%A0%91%E8%8E%93%E6%B4%BE" target="_blank" rel="external">树莓派</a>（英语：Raspberry Pi），是一款基于Linux的单板机电脑。它由英国的树莓派基金会所开发，目的是以低价硬件及自由软件促进学校的基本计算机科学教育。</p>
+<p>我买的是最新的3代 B ，增加了无线和蓝牙模块方便了很多。<br>树莓派检查,树莓派在没有插入TF卡的时候通电，如果红灯亮了并且可以持续亮着而不是闪烁，就证明硬件是没问题的。</p>
+<p>电源没有购买用的是手机的 5v/2A 的电源，有四个 USB 接口和一个 HDMI 接口</p>
+<h2 id="安装系统"><a href="#安装系统" class="headerlink" title="安装系统"></a>安装系统</h2><p>一开始的时候树莓派是没有系统的，需要自己准备内存卡。官方推荐是使用其官方工具NOOBS安装工具，很小白，</p>
+<ul>
+<li>解压<a href="https://www.raspberrypi.org/downloads/noobs/" target="_blank" rel="external">NOOBS.zip</a>文件</li>
+<li>将解压的文件复制到SD卡上面(SD 格式话推荐用 <a href="https://www.sdcard.org/downloads/formatter_4/eula_windows/" target="_blank" rel="external">sdcard</a>)</li>
+<li>将 SD 卡插入到树莓派里面开机按照指示做就可以了</li>
+</ul>
+<p>我今天要说的是写入系统进去。那么怎么写入呢？在windows下写入，用Win32DiskImager写入镜像。</p>
+<ul>
+<li>在官网下载最新版的Ubuntu Mate，<a href="https://ubuntu-mate.org/raspberry-pi/" target="_blank" rel="external">官网</a></li>
+<li>下载 <a href="https://sourceforge.net/projects/win32diskimager/" target="_blank" rel="external">Win32DiskImager</a></li>
+<li>下载 <a href="https://www.sdcard.org/downloads/formatter_4/" target="_blank" rel="external">sdformatter</a> 格式化 SD 卡</li>
+<li>用 Win32DiskImager 写入之前下载的 ubuntu-mate-16.10-desktop-armhf-raspberry-pi-3.img 镜像</li>
+<li>将TF卡插入树莓派，启动按照界面提示选择安装语言、用户名、计算机名、选择时区。系统将自行安装后重启。进度条有可能会卡在安装界面等个几分钟重启就好了</li>
+</ul>
+<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>树莓派也可以装个 web 服务器，要想外网访问可以做个内网穿透，推荐个好用的 <a href="https://www.zerotier.com/" target="_blank" rel="external">ZeroTier</a> 一款非常简单易用的内网穿透工具，不需要配置，就能实现虚拟局域网的组建,支持 Windows、macOS、Linux 三大主流平台，iOS、Android 两大移动平台，以及 QNAP（威连通）、Synology（群晖）、Western Digital MyCloud NAS（西部数据）三个 NAS 平台</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2017/12/28/2017-总结/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1639,177 +1778,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2017/03/10/跨域的二三事/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="lennonover">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="lennonover">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/03/10/跨域的二三事/" itemprop="url">
-                  跨域的二三事
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-10T22:28:04+08:00">
-                2017-03-10
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>公司的桌面版运用了 iframe 在取数据方面遇到不少坑，周末空闲把知识点整理下。</p>
-<h2 id="什么是跨域"><a href="#什么是跨域" class="headerlink" title="什么是跨域"></a>什么是跨域</h2><p>JavaScript对安全访问因素的考虑，是不允许js跨域调用其他页面，具体分为以下几类：</p>
-<ul>
-<li><p>不同域名</p>
-</li>
-<li><p>相同域名不同端口号，如 <a href="https://www.baidu.com:8000" target="_blank" rel="external">https://www.baidu.com:8000</a> 和 <a href="https://www.baidu.com:8088" target="_blank" rel="external">https://www.baidu.com:8088</a></p>
-</li>
-<li><p>同一个域名不同协议，如 <a href="https://www.baidu.com" target="_blank" rel="external">https://www.baidu.com</a> 和 <a href="http://www.baidu.com" target="_blank" rel="external">http://www.baidu.com</a></p>
-</li>
-<li><p>域名和域名对应的的IP，如 <a href="http://www.baidu.com:8000" target="_blank" rel="external">http://www.baidu.com:8000</a> 和 <a href="http://119.75.217.109" target="_blank" rel="external">http://119.75.217.109</a></p>
-</li>
-<li><p>主域和子域，如 <a href="http://www.baidu.com" target="_blank" rel="external">http://www.baidu.com</a> 和 <a href="https://test.baidu.com" target="_blank" rel="external">https://test.baidu.com</a></p>
-</li>
-<li><p>子域和子域，如 <a href="https://test1.baidu.com" target="_blank" rel="external">https://test1.baidu.com</a> 和 <a href="https://test2.baidu.com" target="_blank" rel="external">https://test2.baidu.com</a></p>
-</li>
-</ul>
-<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><ul>
-<li>JSONP</li>
-</ul>
-<p>JSONP 和 JSONP？<br>JSON(JavaScript Object Notation) 是一种轻量级的数据交换格式。<br>JSONP是JSON with Padding的略称。它是一个非官方的协议，它允许在服务器端集成Script tags返回至客户端，通过javascript callback的形式实现跨域访问（这仅仅是JSONP简单的实现形式）–百度<br>实际是利用了 <code>&lt;script&gt;</code> 标签的 <code>src</code> 属性并不被同源策略所约束，其实所有的 <code>src</code> 属性的标签都是不被同源策略所约束。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// html</span></div><div class="line">&lt;script type=<span class="string">"text/javascript"</span> src=<span class="string">"http://127.0.0.1:20002/test.js"</span>&gt;<span class="xml"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></div><div class="line"></div><div class="line"></div><div class="line"><span class="comment">// test.js 内容</span></div><div class="line">&lt;script type=<span class="string">"text/javascript"</span>&gt;</div><div class="line">  <span class="comment">//回调函数</span></div><div class="line">  <span class="function"><span class="keyword">function</span> <span class="title">callback</span>(<span class="params">data</span>) </span>&#123;</div><div class="line">       alert(data.message);</div><div class="line">  &#125;</div><div class="line">&lt;<span class="regexp">/script&gt;</span></div></pre></td></tr></table></figure>
-<p>这种方案需要注意的是他支持GET这一种HTTP请求类型，还有就是其他域要有一定可靠性。</p>
-<ul>
-<li>跨域资源共享（CORS-Cross Origin Resource Sharing）</li>
-</ul>
-<p>CORS 它是JSONP模式的现代升级版，CORS 定义一种跨域访问的机制，可以让AJAX实现跨域访问。CORS 允许一个域上的网络应用向另一个域提交跨域 AJAX 请求与JSONP不同的是，CORS除了GET要求方法以外也支持其他的 HTTP要求。浏览器CORS请求分成两种。</p>
-<ol>
-<li>请求方式<br>GET<br>HEAD<br>POST  </li>
-<li>HTTP的头信息子段<br>Accept<br>Accept-Language<br>Content-Language<br>Last-Event-ID<br>Content-Type：只限于三个值application/x-www-form-urlencoded、multipart/form-data、text/plain，其中’text/plain’默认支持，其他两种则需要预检请求和服务器协商。</li>
-</ol>
-<p>满足以上两大点的即为简单请求，否则为非简单请求<br>注：个人认为除了 cors 之外的跨域解决方案 都是耍流氓</p>
-<ul>
-<li>document.domain + iframe（适用于跨子域的交互）</li>
-</ul>
-<p>只需要在A.htm与B.htm里都加上一句document.domain = ‘xxx.com’，两个页面就有了互信的基础，而能无碍的交互。</p>
-<ul>
-<li>window.name + iframe</li>
-</ul>
-<p>类似在 a 页面（a.com/app.html）中创建一个iframe，把其src指向 b 页面（b.com/data.html）,数据页面会把数据附加到这个iframe的window.name上。</p>
-<ul>
-<li>HTML5中的postMessage（适用于两个iframe或两个页面之间）</li>
-</ul>
-<p>postMessage()方法允许来自不同源的脚本采用异步方式进行有限的通信，可以实现跨文本档、多窗口、跨域消息传递。<br>eg：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">window</span>.onload=<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="built_in">window</span>.frames[<span class="number">0</span>].postMessage(<span class="string">'ok'</span>,<span class="string">'http://baidu.com'</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>postMessage(data,origin)方法接受两个参数:</p>
-<ol>
-<li><p><code>data</code> 要传递的数据，html5 规范中提到该参数可以是 JavaScript 的任意基本类型或可复制的对象,但是为了兼容性在传递参数的时候需要使用 JSON.stringify() 方法对对象参数序列化。</p>
-</li>
-<li><p><code>origin</code> 字符串参数，指明目标窗口的源，协议+主机+端口号[+URL]，URL会被忽略，只会将message传递给指定窗口.</p>
-</li>
-</ol>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1859,7 +1827,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">33</span>
+                <span class="site-state-item-count">34</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
