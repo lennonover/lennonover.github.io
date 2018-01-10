@@ -399,6 +399,177 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2018/01/03/ARIA/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lennonover">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lennonover">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2018/01/03/ARIA/" itemprop="url">
+                  ARIA
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-03T22:57:29+08:00">
+                2018-01-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <hr>
+<p>title: WAI-ARIA<br>date: 2016-01-03 20:16:04<br>tags:</p>
+<pre><code>- ARIA
+- 无障碍
+</code></pre><hr>
+<p>ARIA 是 <code>Accessible Rich Internet Applications</code> 的缩写。它是 W3C 的 Web 无障碍推进组织 <a href="https://www.w3.org/WAI/" target="_blank" rel="external">Web Accessibility Initiative / WAI</a> 在2014年3月20日发布的可访问富互联网应用实现指南。2017年11月2日，发布了 <a href="https://www.w3.org/TR/wai-aria-1.1/" target="_blank" rel="external">WAI-ARIA 1.1</a> 的提案推荐标准,在1.0版本的基础上，添加了一些新机制，使 HTML + ARIA 无障碍模型更加完整，并支持图形及数字出版的无障碍需求。</p>
+<ul>
+<li>几种场景<ul>
+<li>一个由 js 生成的页面</li>
+<li>一个不支持鼠标的页面</li>
+<li>一个不支持键盘的页面</li>
+<li>一部没有字幕的电影</li>
+</ul>
+</li>
+<li>两组数据<ul>
+<li>全球目前有超过10亿残疾人 占全球人口约15%</li>
+<li>全球网民数量突破30亿约占总人口42%</li>
+</ul>
+</li>
+</ul>
+<p>以上这种场景的对于一个视觉或者听觉有障碍的人来说还能正常访问吗？这就是要 <code>WAI-ARIA</code> 的目的。<code>WAI-ARIA</code> 适用于跨越某些领域的障碍，这些领域存在的无障碍问题无法通过原生 HTML 进行管理。它通过允许您指定某些属性来发挥作用，这些属性可以修改元素转换成无障碍树的方式。</p>
+<h2 id="ARIA-是怎么做的"><a href="#ARIA-是怎么做的" class="headerlink" title="ARIA 是怎么做的"></a>ARIA 是怎么做的</h2><p>ARIA属性可以被 <a href="https://www.nvaccess.org/" target="_blank" rel="external">NVDA</a> 等读屏软件调用系统API识别， 转化成语音。</p>
+<p>例如我们使用列表项作为一种自定义复选框</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">li</span> <span class="attr">class</span>=<span class="string">"checkbox"</span> <span class="attr">checked</span>&gt;</span></div><div class="line">  javcscript</div><div class="line"><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>正常的人是能正确识别的，但是屏幕阅读器却不会给予任何指示来说明该元素旨在作为复选框使用，因此弱视用户可能会完全错过该元素。<br>如果使用 ARIA 属性，我们就可以为元素提供缺少的信息，以便屏幕阅读器能正确解读它。 我们在以上代码中添加了 role 和 aria-checked 属性，将该元素显式标识为一个复选框，并指定它在默认情况下处于选中状态。该列表项现在将添加到无障碍树中，屏幕阅读器将把它正确地报告为一个复选框。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">li</span> <span class="attr">class</span>=<span class="string">"checkbox"</span> <span class="attr">role</span>=<span class="string">"checkbox"</span> <span class="attr">checked</span> <span class="attr">aria-checked</span>=<span class="string">"true"</span>&gt;</span></div><div class="line">  javcscript</div><div class="line"><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>ARIA 通过更改和补充标准 DOM 无障碍树来发挥作用。并且尽可能正确地使用 html 标签，原生标签对 ARIA 支持得更好。在实再自定义控件的时候，添加 ARIA 相关属性可以例控件能正确被读屏软件识别。 html5 语义化标签与 ARIA 有重叠的地方，用新的语义化标签但还是推荐添加 ARIA 属性。<br>例如上面的自定义复选框,标准 HTML <input type="checkbox"> 元素都不需要额外的 role=”checkbox” ARIA 属性就能正确声明。</p>
+<h2 id="ARIA-on-HTML"><a href="#ARIA-on-HTML" class="headerlink" title="ARIA on HTML"></a>ARIA on HTML</h2><p>ARIA on HTML 中使用有其自己的规范，在 <a href="http://validator.w3.org/nu/" target="_blank" rel="external">这个</a> 网站可以检测 ARIA 使用的是否标准。</p>
+<p>ARIA 属性包括三个方面：角色属性值(roles), 状态属性值(states), 和属性表(properties)  参考网站： <a href="https://www.w3.org/TR/html-aria/#index-aria-main" target="_blank" rel="external">W3C</a></p>
+<p>浏览器支持情况参见<br><a href="https://caniuse.com/#search=aria" target="_blank" rel="external">caniuse</a> </p>
+<ul>
+<li><p>规则一</p>
+<p>  如果你使用的元素(HTML5)具有语义化，应该使用这些元素，而不应该重新定义一个添加ARIA的角色、状态或属性的元素。</p>
+<p>  下面以 role=heading 一个上button元素。这是不允许的，因为该 button 元素具有默认特征与标题角色冲突。</p>
+  <figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">role</span>=<span class="string">"heading"</span>&gt;</span>search<span class="tag">&lt;/<span class="name">button</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>  哪些情况下可以使用？</p>
+<ul>
+<li>在HTML(HTML5)元素特性不管支持或不支持，只要不具语义化，就可以使用ARIA</li>
+<li>排除视觉设计约束使用一个特定的元素，但不能是样式上所需的元素</li>
+<li>目前尚不支持的HTML特性</li>
+</ul>
+</li>
+<li><p>规则二</p>
+<p>  不改变 HTML 语义。错误的写法</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;h1 role=button&gt;按钮&lt;/h1&gt;</div></pre></td></tr></table></figure>
+<p>  不可以改变 h1 的语义</p>
+</li>
+<li><p>规则三</p>
+<p>  所有的ARIA制作控件都必须具有键盘 (keyboard) 事件。</p>
+</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2017/12/28/2017-总结/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1624,160 +1795,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2017/07/12/ES5-bing-的实现/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="lennonover">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="lennonover">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/07/12/ES5-bing-的实现/" itemprop="url">
-                  ES5 bing 的实现
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-12T23:02:13+08:00">
-                2017-07-12
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="bind函数的实现"><a href="#bind函数的实现" class="headerlink" title="bind函数的实现"></a>bind函数的实现</h1><blockquote>
-<p>bind() 函数会创建一个新函数（称为绑定函数），新函数与被调函数（绑定函数的目标函数）具有相同的函数体（在 ECMAScript 5 规范中内置的call属性）。当目标函数被调用时 this 值绑定到 bind() 的第一个参数，该参数不能被重写。绑定函数被调用时，bind() 也接受预设的参数提供给原函数。一个绑定函数也能使用new操作符创建对象：这种行为就像把原函数当成构造器。提供的 this 值被忽略，同时调用时的参数被提供给模拟函数。</p>
-</blockquote>
-<h2 id="实现功能"><a href="#实现功能" class="headerlink" title="实现功能"></a>实现功能</h2><ul>
-<li>返回新函数，调用新函数的返回值与调用旧函数的返回值相同</li>
-<li>新函数的this指向bind的第一个参数</li>
-<li>其余参数将在新函数后续被调用时位于其它实参前被传入</li>
-<li>新函数也能使用new操作符创建对象，构造器为原函数</li>
-</ul>
-<h2 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h2><ul>
-<li>返回新函数，很简单，return一个包裹着旧函数调用的新函数</li>
-</ul>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">bind</span> (<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="keyword">var</span> t = <span class="keyword">this</span></div><div class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> t()</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<ul>
-<li>新函数的this要指向bind的第一个参数，也简单，用js的call或apply函数</li>
-</ul>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">bind</span> (<span class="params">that</span>) </span>&#123;</div><div class="line">  <span class="keyword">var</span> t = <span class="keyword">this</span></div><div class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> tt.call(that)</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<ul>
-<li>其余参数将在新函数后续被调用时在其它实参前被传入，类似实现curry化时通过闭包保存参数</li>
-</ul>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">bind</span> (<span class="params">that</span>) </span>&#123;</div><div class="line">  <span class="keyword">var</span> target = <span class="keyword">this</span></div><div class="line">  <span class="keyword">var</span> bindArgs = <span class="built_in">Array</span>.prototype.slice.call(<span class="built_in">arguments</span>, <span class="number">1</span>)</div><div class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">var</span> callArgs = <span class="built_in">Array</span>.prototype.slice.call(<span class="built_in">arguments</span>)</div><div class="line">    <span class="keyword">return</span> target.apply(that, bindArgs.concat(callArgs))</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>这里的 Array.prototype.slice.apply(arguments) 指的是这个返回函数执行的时候传递的一系列参数，所以是从第一个参数开始 [0] ,之前的 args = slice.apply(arguments,1) 指的是 testBind 方法执行时候传递的参数，所以从第二个开始 [1]，两则有本质区别，不能搞混，只有两者合并了之后才是返回函数的完整参数</p>
-<ul>
-<li>最后要达成的目标是在使用new操作符时，旧函数能作为构造器被调用。</li>
-</ul>
-<p>函数被 new 实例化之后，需要继承原函数的原型链方法，且绑定过程中提供的 this 被忽略（继承原函数的 this 对象），但是参数还是会使用。这里就需要一个中转函数把原型链传递下去,我们需要看看 new 这个方法做了哪些操作 比如说 var a = new b()。</p>
-<ul>
-<li>创建一个空对象 a = {}，并且this变量引用指向到这个空对象a</li>
-<li>继承被实例化函数的原型 ：a.<strong>proto</strong> = b.prototype</li>
-<li>被实例化方法b的this对象的属性和方法将被加入到这个新的 this 引用的对象中： b的属性和方法被加入的 a里面</li>
-<li>新创建的对象由 this 所引用 ：b.call(a)</li>
-</ul>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">bind</span> (<span class="params">that</span>) </span>&#123;</div><div class="line">  <span class="keyword">var</span> target = <span class="keyword">this</span></div><div class="line">  <span class="keyword">var</span> bindArgs = <span class="built_in">Array</span>.prototype.slice.call(<span class="built_in">arguments</span>, <span class="number">1</span>)</div><div class="line">  <span class="function"><span class="keyword">function</span> <span class="title">bound</span> (<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">var</span> callArgs = <span class="built_in">Array</span>.prototype.slice.call(<span class="built_in">arguments</span>)</div><div class="line">    <span class="keyword">if</span> (<span class="keyword">this</span> <span class="keyword">instanceof</span> fn) &#123;</div><div class="line">      <span class="keyword">return</span> target.apply(<span class="keyword">this</span>, callArgs.concat(callArgs))</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">      <span class="keyword">return</span> target.apply(that, callArgs.concat(callArgs))</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">  <span class="comment">// 实现继承，让bound函数生成的实例通过原型链能追溯到target函数</span></div><div class="line">  <span class="comment">// 即 实例可以获取/调用target.prototype上的属性/方法</span></div><div class="line">  <span class="keyword">var</span> Empty = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;&#125;</div><div class="line">  Empty.prototype = target.prototype</div><div class="line">  bound.prototype = <span class="keyword">new</span> Empty()  </div><div class="line">  <span class="comment">// 这里如果不加入Empty，直接bound.prototype = target.prototype的话</span></div><div class="line">  <span class="comment">// 改变bound.prototype则会影响到target.prototype，原型继承基本都会加入这么一个中间对象做屏障</span></div><div class="line">  <span class="keyword">return</span> bound</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h3 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> test = <span class="function"><span class="keyword">function</span>(<span class="params">a,b</span>)</span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'作用域绑定 '</span>+ <span class="keyword">this</span>.value)</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'testBind参数传递 '</span>+ a.value2)</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'调用参数传递 '</span> + b)</div><div class="line">&#125;</div><div class="line"><span class="keyword">var</span> obj = &#123;</div><div class="line">    value:<span class="string">'ok'</span></div><div class="line">&#125;</div><div class="line"><span class="keyword">var</span> fun_new = test.bind(obj,&#123;value2:<span class="string">'also ok'</span>&#125;)</div><div class="line"></div><div class="line">fun_new (<span class="string">'hello bind'</span>)</div></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1840,7 +1857,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">27</span>
+                <span class="site-state-item-count">25</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
