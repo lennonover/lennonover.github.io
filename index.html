@@ -397,12 +397,10 @@
 <li>提交合并请求</li>
 </ul>
 <p>完成上述设置后，相关同学将会收到邮件通知，此时可进入 GitLab 进行 code review。如果发现问题则对问题代码进行点评并拒绝关闭申请，反之则通过合并申请。</p>
-<h2 id="修复-Bug"><a href="#修复-Bug" class="headerlink" title="修复 Bug"></a>修复 Bug</h2><pre><code>发现 bug 了,从 develop 分支上新建分支
-
+<h2 id="修复-Bug"><a href="#修复-Bug" class="headerlink" title="修复 Bug"></a>修复 Bug</h2><p>发现 bug 了,从 develop 分支上新建分支</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git checkout -b hotfix/xxx develop</div></pre></td></tr></table></figure>
-
-改完推送到仓库后提交 Merge Request 申请
-</code></pre><h2 id="减少冲突"><a href="#减少冲突" class="headerlink" title="减少冲突"></a>减少冲突</h2><p>从我们的工作流程上来说，代码合并导致的问题，一般都发生在特性、修复分支合并到 master 或者 develop 的时候，因为这个时候开始，才是真正与其他分支汇合，不同的改动会发生冲突。而且合并没法完全避免，我们只能去思考如何减少合并冲突。</p>
+<p>改完推送到仓库后提交 Merge Request 申请</p>
+<h2 id="减少冲突"><a href="#减少冲突" class="headerlink" title="减少冲突"></a>减少冲突</h2><p>从我们的工作流程上来说，代码合并导致的问题，一般都发生在特性、修复分支合并到 master 或者 develop 的时候，因为这个时候开始，才是真正与其他分支汇合，不同的改动会发生冲突。而且合并没法完全避免，我们只能去思考如何减少合并冲突。</p>
 <ul>
 <li>合理的分工，人员职责划分尽量清晰，减少互相之间的交叉，减少多个人同时改动同一份代码的几率</li>
 <li>合适的合并工具</li>
