@@ -93,7 +93,7 @@
 <meta property="og:url" content="https://github.com/lennonover/2018/01/03/ARIA/index.html">
 <meta property="og:site_name" content="lennonover">
 <meta property="og:description" content="ARIA 是 Accessible Rich Internet Applications 的缩写。它是 W3C 的 Web 无障碍推进组织 Web Accessibility Initiative / WAI 在2014年3月20日发布的可访问富互联网应用实现指南。2017年11月2日，发布了 WAI-ARIA 1.1 的提案推荐标准,在1.0版本的基础上，添加了一些新机制，使 HTML + AR">
-<meta property="og:updated_time" content="2018-01-10T15:01:20.075Z">
+<meta property="og:updated_time" content="2018-02-04T13:55:42.007Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="ARIA">
 <meta name="twitter:description" content="ARIA 是 Accessible Rich Internet Applications 的缩写。它是 W3C 的 Web 无障碍推进组织 Web Accessibility Initiative / WAI 在2014年3月20日发布的可访问富互联网应用实现指南。2017年11月2日，发布了 WAI-ARIA 1.1 的提案推荐标准,在1.0版本的基础上，添加了一些新机制，使 HTML + AR">
@@ -357,7 +357,7 @@
 <p>ARIA 属性包括三个方面：角色属性值(roles), 状态属性值(states), 和属性表(properties)  参考网站： <a href="https://www.w3.org/TR/html-aria/#index-aria-main" target="_blank" rel="external">W3C</a></p>
 <p>浏览器支持情况参见 <a href="https://caniuse.com/#search=aria" target="_blank" rel="external">caniuse</a> </p>
 <ul>
-<li><p>规则一</p>
+<li><p>HTML5 元素有的不应该重新定义一个添加ARIA</p>
 <p>  如果你使用的元素(HTML5)具有语义化，应该使用这些元素，而不应该重新定义一个添加ARIA的角色、状态或属性的元素。</p>
 <p>  下面以 role=heading 一个上button元素。这是不允许的，因为该 button 元素具有默认特征与标题角色冲突。</p>
   <figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">role</span>=<span class="string">"heading"</span>&gt;</span>search<span class="tag">&lt;/<span class="name">button</span>&gt;</span></div></pre></td></tr></table></figure>
@@ -368,13 +368,149 @@
 <li>目前尚不支持的HTML特性</li>
 </ul>
 </li>
-<li><p>规则二</p>
-<p>  不改变 HTML 语义。错误的写法</p>
-  <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;h1 role=button&gt;按钮&lt;/h1&gt;</div></pre></td></tr></table></figure>
-<p>  不可以改变 h1 的语义</p>
+</ul>
+<ul>
+<li><p>规所有的ARIA制作控件都必须具有键盘 (keyboard) 事件。</p>
 </li>
-<li><p>规则三</p>
-<p>  所有的ARIA制作控件都必须具有键盘 (keyboard) 事件。</p>
+<li><p>ARIA role的必需属性不可省略</p>
+<p>  正确</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;span role=&quot;checkbox&quot; aria-checked=&quot;false&quot; aria-labelledby=&quot;foo&quot; tabindex=&quot;0&quot;&gt;&lt;/span&gt;</div></pre></td></tr></table></figure>
+<p>  错误</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;span role=&quot;checkbox&quot; aria-labelledby=&quot;foo&quot; tabindex=&quot;0&quot;&gt;&lt;/span&gt;</div></pre></td></tr></table></figure>
+</li>
+<li><p>具有ARIA role的元素必须在正确的范围内</p>
+<p>  正确</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&lt;div role=&quot;list&quot;&gt; </div><div class="line">	&lt;span role=&quot;listitem&quot;&gt;Rainbow Trout&lt;/span&gt; </div><div class="line">	&lt;span role=&quot;listitem&quot;&gt;Brook Trout&lt;/span&gt;</div><div class="line">	&lt;span role=&quot;listitem&quot;&gt;Lake Trout&lt;/span&gt;</div><div class="line">&lt;/div&gt;</div></pre></td></tr></table></figure>
+<p>  错误</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&lt;div&gt; </div><div class="line">	&lt;span role=&quot;listitem&quot;&gt;Rainbow Trout&lt;/span&gt; </div><div class="line">	&lt;span role=&quot;listitem&quot;&gt;Brook Trout&lt;/span&gt;</div><div class="line">	&lt;span role=&quot;listitem&quot;&gt;Lake Trout&lt;/span&gt;</div><div class="line">&lt;/div&gt;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="ARIA-在-HTML-中由组成"><a href="#ARIA-在-HTML-中由组成" class="headerlink" title="ARIA 在 HTML 中由组成"></a>ARIA 在 HTML 中由组成</h2><p>ARIA 在 HTML 中由两部分组成，一个 role ，表示元素的作用；一个是 aria- 表示元素的属性或状态。</p>
+<ul>
+<li>role</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">role值</th>
+<th style="text-align:left">含义</th>
+<th style="text-align:left">role值</th>
+<th style="text-align:left">含义</th>
+<th style="text-align:left">role值</th>
+<th style="text-align:left">含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">alert</td>
+<td style="text-align:left">警告</td>
+<td style="text-align:left">alertdialog</td>
+<td style="text-align:left">警告框</td>
+<td style="text-align:left">application</td>
+<td style="text-align:left">应用</td>
+</tr>
+<tr>
+<td style="text-align:left">button</td>
+<td style="text-align:left">按钮</td>
+<td style="text-align:left">checkbox</td>
+<td style="text-align:left">复选框</td>
+<td style="text-align:left">grid</td>
+<td style="text-align:left">网格</td>
+</tr>
+<tr>
+<td style="text-align:left">gridcell</td>
+<td style="text-align:left">网格单元</td>
+<td style="text-align:left">group</td>
+<td style="text-align:left">组合</td>
+<td style="text-align:left">heading</td>
+<td style="text-align:left">应用程序标题</td>
+</tr>
+<tr>
+<td style="text-align:left">listbox</td>
+<td style="text-align:left">列表框log    日志</td>
+<td style="text-align:left">menu</td>
+<td style="text-align:left">菜单</td>
+<td style="text-align:left">treeitem</td>
+<td style="text-align:left">树结构选项</td>
+</tr>
+<tr>
+<td style="text-align:left">menubar</td>
+<td style="text-align:left">菜单栏</td>
+<td style="text-align:left">menuitem</td>
+<td style="text-align:left">菜单项</td>
+<td style="text-align:left">menuitemcheckbox</td>
+<td style="text-align:left">可复选的菜单项</td>
+</tr>
+<tr>
+<td style="text-align:left">menuitemradio</td>
+<td style="text-align:left">只能单选的菜单项</td>
+<td style="text-align:left">option</td>
+<td style="text-align:left">选项</td>
+<td style="text-align:left">presentation</td>
+<td style="text-align:left">陈述</td>
+</tr>
+<tr>
+<td style="text-align:left">progressbar</td>
+<td style="text-align:left">进度条</td>
+<td style="text-align:left">radio</td>
+<td style="text-align:left">单选</td>
+<td style="text-align:left">radiogroup</td>
+<td style="text-align:left">单选按钮组</td>
+</tr>
+<tr>
+<td style="text-align:left">region</td>
+<td style="text-align:left">区域row    行</td>
+<td style="text-align:left">separator</td>
+<td style="text-align:left">分割</td>
+<td style="text-align:left">tree</td>
+<td style="text-align:left">树形</td>
+</tr>
+<tr>
+<td style="text-align:left">slider</td>
+<td style="text-align:left">滑动条</td>
+<td style="text-align:left">spinbutton</td>
+<td style="text-align:left">微调</td>
+<td style="text-align:left">tab</td>
+<td style="text-align:left">tab标签</td>
+</tr>
+<tr>
+<td style="text-align:left">tablist</td>
+<td style="text-align:left">标签列表</td>
+<td style="text-align:left">tabpanel</td>
+<td style="text-align:left">标签面板</td>
+<td style="text-align:left">timer</td>
+<td style="text-align:left">计数</td>
+</tr>
+<tr>
+<td style="text-align:left">toolbar</td>
+<td style="text-align:left">工具栏</td>
+<td style="text-align:left">tooltip</td>
+<td style="text-align:left">提示文本</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><p>aria 属性或状态</p>
+<ul>
+<li><p>aria-label</p>
+<ul>
+<li>视觉上能理解，读屏软件不能理解的可以用 aria-label，和 img alt 属性效果相同。</li>
+<li>placeholder 不能被读屏软件识别，如果不带 label 的 form 表单，需要用 aria-label标注。个人测试 iOS10 上 VoiceOver 是可以读 placeholder ，如果两个属性同时存在会先读 aria-label 后读 placeholder ，chrome 插件的 Accessibility Developer Tools 不识别 placeholder。</li>
+</ul>
+</li>
+<li><p>aria-hidden</p>
+<p>  隐藏元素的一些对比</p>
+<p>| 方法 | 行为 | 读屏软件行为 | 兼容性 |<br>| :— | :—   | :—  | :— |<br>|CSS：visibility:hidden;    |从视觉中隐藏元素，但其原始空间仍然被占用（很像opacity:0）    |不可读    |兼容性好|<br>|CSS: display:none;    |从视觉中隐藏元素，它的原始空间丢失，下一个元素将取代它的位置    |不可读    |兼容性好|<br>|HTML5: hidden属性    |类似display：none    |不可读    |IE11+|<br>|aria-hidden = “true”    |内容显示在浏览器，但读屏软件不可读    |不可读    |IE11+|<br>|CSS: .visuallyHidden类    |视觉不显示，工作流不存在    |可读    |兼容性好|</p>
+</li>
+<li><p>aria-pressed</p>
+<p>  表示按下的状态，可选值有：true, false, mixed, undfined.默认为undfined, 表示按下状态未知；true表示元素往下（按钮按下）；false表示元素抬起；mixed表示元素同时有按下和没有按下的状态</p>
+  <figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">role</span>=<span class="string">"button"</span> <span class="attr">tabindex</span>=<span class="string">"0"</span> <span class="attr">aria-pressed</span>=<span class="string">"false"</span> <span class="attr">aria-disabled</span>=<span class="string">"false"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure>
+</li>
+<li><p>aria-selected</p>
+<p>  表示选择状态,可选值有：true, false, undefined。 默认为undefined，表示元素选择状态未知;true表示元素已选择;false表示未被选中。</p>
+  <figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">ul</span> <span class="attr">class</span>=<span class="string">"tablist"</span> <span class="attr">role</span>=<span class="string">"tablist"</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">li</span> <span class="attr">role</span>=<span class="string">"tab"</span> <span class="attr">aria-selected</span>=<span class="string">"true"</span> <span class="attr">tabindex</span>=<span class="string">"0"</span>&gt;</span>中国<span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">li</span> <span class="attr">role</span>=<span class="string">"tab"</span> <span class="attr">aria-selected</span>=<span class="string">"false"</span> <span class="attr">tabindex</span>=<span class="string">"-1"</span>&gt;</span>美国<span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">ul</span>&gt;</span></div></pre></td></tr></table></figure>
+</li>
+</ul>
 </li>
 </ul>
 
@@ -545,7 +681,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#ARIA-是怎么做的"><span class="nav-number">1.</span> <span class="nav-text">ARIA 是怎么做的</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ARIA-on-HTML"><span class="nav-number">2.</span> <span class="nav-text">ARIA on HTML</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#ARIA-是怎么做的"><span class="nav-number">1.</span> <span class="nav-text">ARIA 是怎么做的</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ARIA-on-HTML"><span class="nav-number">2.</span> <span class="nav-text">ARIA on HTML</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ARIA-在-HTML-中由组成"><span class="nav-number">3.</span> <span class="nav-text">ARIA 在 HTML 中由组成</span></a></li></ol></div>
             
 
           </div>
