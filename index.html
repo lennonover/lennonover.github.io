@@ -982,20 +982,64 @@
 </li>
 <li><p>aria-hidden</p>
 <p>  隐藏元素的一些对比</p>
-<p>| 方法 | 行为 | 读屏软件行为 | 兼容性 |<br>| :— | :—   | :—  | :— |<br>|CSS：visibility:hidden;    |从视觉中隐藏元素，但其原始空间仍然被占用（很像opacity:0）    |不可读    |兼容性好|<br>|CSS: display:none;    |从视觉中隐藏元素，它的原始空间丢失，下一个元素将取代它的位置    |不可读    |兼容性好|<br>|HTML5: hidden属性    |类似display：none    |不可读    |IE11+|<br>|aria-hidden = “true”    |内容显示在浏览器，但读屏软件不可读    |不可读    |IE11+|<br>|CSS: .visuallyHidden类    |视觉不显示，工作流不存在    |可读    |兼容性好|</p>
-</li>
-<li><p>aria-pressed</p>
-<p>  表示按下的状态，可选值有：true, false, mixed, undfined.默认为undfined, 表示按下状态未知；true表示元素往下（按钮按下）；false表示元素抬起；mixed表示元素同时有按下和没有按下的状态</p>
-  <figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">role</span>=<span class="string">"button"</span> <span class="attr">tabindex</span>=<span class="string">"0"</span> <span class="attr">aria-pressed</span>=<span class="string">"false"</span> <span class="attr">aria-disabled</span>=<span class="string">"false"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure>
-</li>
-<li><p>aria-selected</p>
-<p>  表示选择状态,可选值有：true, false, undefined。 默认为undefined，表示元素选择状态未知;true表示元素已选择;false表示未被选中。</p>
-  <figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">ul</span> <span class="attr">class</span>=<span class="string">"tablist"</span> <span class="attr">role</span>=<span class="string">"tablist"</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">li</span> <span class="attr">role</span>=<span class="string">"tab"</span> <span class="attr">aria-selected</span>=<span class="string">"true"</span> <span class="attr">tabindex</span>=<span class="string">"0"</span>&gt;</span>中国<span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">li</span> <span class="attr">role</span>=<span class="string">"tab"</span> <span class="attr">aria-selected</span>=<span class="string">"false"</span> <span class="attr">tabindex</span>=<span class="string">"-1"</span>&gt;</span>美国<span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">ul</span>&gt;</span></div></pre></td></tr></table></figure>
 </li>
 </ul>
 </li>
 </ul>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">方法</th>
+<th style="text-align:left">行为</th>
+<th style="text-align:left">读屏软件行为</th>
+<th style="text-align:left">兼容性</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">CSS：visibility:hidden;</td>
+<td style="text-align:left">从视觉中隐藏元素，但其原始空间仍然被占用（很像opacity:0）</td>
+<td style="text-align:left">不可读</td>
+<td style="text-align:left">兼容性好</td>
+</tr>
+<tr>
+<td style="text-align:left">CSS: display:none;</td>
+<td style="text-align:left">从视觉中隐藏元素，它的原始空间丢失，下一个元素将取代它的位置</td>
+<td style="text-align:left">不可读</td>
+<td style="text-align:left">兼容性好</td>
+</tr>
+<tr>
+<td style="text-align:left">HTML5: hidden属性</td>
+<td style="text-align:left">类似display：none</td>
+<td style="text-align:left">不可读</td>
+<td style="text-align:left">IE11+</td>
+</tr>
+<tr>
+<td style="text-align:left">aria-hidden = “true”</td>
+<td style="text-align:left">内容显示在浏览器，但读屏软件不可读</td>
+<td style="text-align:left">不可读</td>
+<td style="text-align:left">IE11+</td>
+</tr>
+<tr>
+<td style="text-align:left">CSS: .visuallyHidden类</td>
+<td style="text-align:left">视觉不显示，工作流不存在</td>
+<td style="text-align:left">可读</td>
+<td style="text-align:left">兼容性好</td>
+</tr>
+</tbody>
+</table>
+<pre><code>- aria-pressed
 
+    表示按下的状态，可选值有：true, false, mixed, undfined.默认为undfined, 表示按下状态未知；true表示元素往下（按钮按下）；false表示元素抬起；mixed表示元素同时有按下和没有按下的状态
+
+    <figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">role</span>=<span class="string">"button"</span> <span class="attr">tabindex</span>=<span class="string">"0"</span> <span class="attr">aria-pressed</span>=<span class="string">"false"</span> <span class="attr">aria-disabled</span>=<span class="string">"false"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure>
+
+- aria-selected
+
+    表示选择状态,可选值有：true, false, undefined。 默认为undefined，表示元素选择状态未知;true表示元素已选择;false表示未被选中。
+
+    <figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">ul</span> <span class="attr">class</span>=<span class="string">"tablist"</span> <span class="attr">role</span>=<span class="string">"tablist"</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">li</span> <span class="attr">role</span>=<span class="string">"tab"</span> <span class="attr">aria-selected</span>=<span class="string">"true"</span> <span class="attr">tabindex</span>=<span class="string">"0"</span>&gt;</span>中国<span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">li</span> <span class="attr">role</span>=<span class="string">"tab"</span> <span class="attr">aria-selected</span>=<span class="string">"false"</span> <span class="attr">tabindex</span>=<span class="string">"-1"</span>&gt;</span>美国<span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">ul</span>&gt;</span></div></pre></td></tr></table></figure>
+</code></pre>
           
         
       
