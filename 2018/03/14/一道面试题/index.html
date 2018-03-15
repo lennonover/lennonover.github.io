@@ -107,7 +107,7 @@ Browser进程：浏览器的主进程（负责协调、主控），只有一个
 
 Browser进程：浏览器的主进程（负责协调、主控），只有一个
 第三方插件进程：每">
-<meta property="og:updated_time" content="2018-03-14T12:34:08.846Z">
+<meta property="og:updated_time" content="2018-03-15T10:18:32.223Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="一道面试题">
 <meta name="twitter:description" content="浏览器中输入www.baidu.com 直到看到页面之间发生了什么？
@@ -526,37 +526,50 @@ Browser进程：浏览器的主进程（负责协调、主控），只有一个
 </ul>
 </li>
 <li><p>浏览器接收响应</p>
-<ul>
-<li><p>HTML解析，构建DOM</p>
-<p>  解析HTML到构建出DOM当然过程可以简述如下：</p>
-<p>  <code>Bytes → characters → tokens → nodes → DOM</code></p>
-</li>
-<li><p>生成CSS规则</p>
-<p>  CSS规则树的生成也是类似。简述为：</p>
-<p>  <code>Bytes → characters → tokens → nodes → CSSOM</code></p>
-</li>
-<li><p>构建渲染树</p>
-</li>
-<li><p>渲染</p>
-  <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">1. 计算 CSS 样式</div><div class="line"></div><div class="line">2. 构建渲染树</div><div class="line"></div><div class="line">3. 布局，主要定位坐标和大小，是否换行，各种 position overflow z-index 属性</div><div class="line"></div><div class="line">4. 绘制，将图像绘制出来</div></pre></td></tr></table></figure>
-<p>  如果动态修改了 DOM 或 CSS，就会重新布局（Layout）或渲染（Repaint）这里 Layou t和 Repaint 的概念是有区别的：</p>
-<ul>
-<li><p>Layout，也称为Reflow，即回流。一般意味着元素的内容、结构、位置或尺寸发生了变化，需要重新计算样式和渲染树</p>
-</li>
-<li><p>Repaint，即重绘。意味着元素发生的改变只是影响了元素的一些外观之类的时候（例如，背景色，边框颜色，文字颜色等），此时只需要应用新样式绘制这个元素就可以了</p>
-<p>什么会引起回流？</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">1.页面渲染初始化</div><div class="line"></div><div class="line">2.DOM结构改变，比如删除了某个节点</div><div class="line"></div><div class="line">3.render树变化，比如减少了padding</div><div class="line"></div><div class="line">4.窗口resize</div><div class="line"></div><div class="line">5.改变字体大小会引发回流</div><div class="line"></div><div class="line">5.最复杂的一种：获取某些属性，引发回流，</div><div class="line">很多浏览器会对回流做优化，会等到数量足够时做一次批处理回流，</div><div class="line">但是除了render树的直接变化，当获取一些属性时，浏览器为了获得正确的值也会触发回流，这样使得浏览器优化无效，包括</div><div class="line">    (1) offset(Top/Left/Width/Height)</div><div class="line">    (2) scroll(Top/Left/Width/Height)</div><div class="line">    (3) cilent(Top/Left/Width/Height)</div><div class="line">    (4) width,height</div><div class="line">    (5) 调用了getComputedStyle()或者IE的currentStyle</div></pre></td></tr></table></figure>
-<p>回流一定伴随着重绘，重绘却可以单独出现</p>
-<p>所以一般会有一些优化方案，如：</p>
-</li>
-<li><p>减少逐项更改样式，最好一次性更改style，或者将样式定义为class并一次性更新</p>
-</li>
-<li>避免循环操作dom，创建一个documentFragment或div，在它上面应用所有DOM操作，最后再把它添加到window.document</li>
-<li>避免多次读取offset等属性。无法避免则将它们缓存到变量</li>
-<li>将复杂的元素绝对定位或固定定位，使得它脱离文档流，否则回流代价会很高</li>
-</ul>
 </li>
 </ul>
+<pre><code>- 构建渲染树
+
+    浏览器进行解析渲染呈现给用户。整个过程涉及两个方面：解析和渲染。在渲染页面之前，需要构建DOM树和CSSOM树。
+
+    - HTML解析，构建DOM
+
+    解析 HTML 到构建出DOM当然过程可以简述如下：
+
+    `Bytes → characters → tokens → nodes → DOM`
+
+    - 生成CSS规则
+
+    CSS 规则树的生成也是类似。简述为：
+
+    `Bytes → characters → tokens → nodes → CSSOM`
+- 渲染
+
+    <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">Style：该区域为样式计算阶段，浏览器会根据选择器（就是CSS选择器，如.td）计算出哪些节点应用哪些CSS规则，然后计算出每个节点的最终样式并应用到节点上。</div><div class="line"></div><div class="line">Layout：该区域为布局计算阶段，浏览器会在该过程中根据节点的样式规则来计算它要占据的空间大小以及在屏幕中的位置。</div><div class="line"></div><div class="line">Paint：该区域为绘制阶段，浏览器会先创建绘图调用的列表，然后填充像素。绘制阶段会涉及到文本、颜色、图像、边框和阴影，基本上包括了每个可视部分。绘制一般是在多个图层（用过Photoshop等图片编辑软件的童鞋一定很眼熟图层这个词，这里的图层的含义其实是差不多的）上完成的。</div><div class="line"></div><div class="line">Composite：该区域为合成阶段，浏览器将多个图层按照正确顺序绘制到屏幕上。</div></pre></td></tr></table></figure>
+
+    如果动态修改了 DOM 或 CSS，就会重新布局（Layout）或渲染（Repaint）这里 Layou t和 Repaint 的概念是有区别的：
+
+    - Layout，也称为Reflow，即回流。一般意味着元素的内容、结构、位置或尺寸发生了变化，需要重新计算样式和渲染树
+
+    - Repaint，即重绘。意味着元素发生的改变只是影响了元素的一些外观之类的时候（例如，背景色，边框颜色，文字颜色等），此时只需要应用新样式绘制这个元素就可以了
+
+    什么会引起回流？
+
+    <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">1.页面渲染初始化</div><div class="line"></div><div class="line">2.DOM结构改变，比如删除了某个节点</div><div class="line"></div><div class="line">3.render树变化，比如减少了padding</div><div class="line"></div><div class="line">4.窗口resize</div><div class="line"></div><div class="line">5.改变字体大小会引发回流</div><div class="line"></div><div class="line">5.最复杂的一种：获取某些属性，引发回流，</div><div class="line">很多浏览器会对回流做优化，会等到数量足够时做一次批处理回流，</div><div class="line">但是除了render树的直接变化，当获取一些属性时，浏览器为了获得正确的值也会触发回流，这样使得浏览器优化无效，包括</div><div class="line">    (1) offset(Top/Left/Width/Height)</div><div class="line">    (2) scroll(Top/Left/Width/Height)</div><div class="line">    (3) cilent(Top/Left/Width/Height)</div><div class="line">    (4) width,height</div><div class="line">    (5) 调用了getComputedStyle()或者IE的currentStyle</div></pre></td></tr></table></figure>
+
+    回流一定伴随着重绘，重绘却可以单独出现
+
+    所以一般会有一些优化方案，如：
+
+    - 减少逐项更改样式，最好一次性更改style，或者将样式定义为class并一次性更新
+    - 避免循环操作dom，创建一个documentFragment或div，在它上面应用所有DOM操作，最后再把它添加到window.document
+    - 避免多次读取offset等属性。无法避免则将它们缓存到变量
+    - 将复杂的元素绝对定位或固定定位，使得它脱离文档流，否则回流代价会很高
+
+    最后如果想要知道每个CSS属性将会对哪个阶段产生怎样的影响，请去 [CSS Triggers](https://csstriggers.com/)，该网站详细地说明了每个CSS属性会影响到哪个阶段。
+</code></pre><ul>
+<li><p>关闭TCP连接或继续保持连接</p>
+<p>  通过四次挥手关闭连接</p>
 </li>
 </ul>
 
