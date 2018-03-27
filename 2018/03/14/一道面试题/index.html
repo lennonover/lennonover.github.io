@@ -92,8 +92,8 @@
 今天就说说根据这道题梳理自己的前端知识！
 解析 URL解释 URL 是浏览器的活，所以首先要搞明白浏览器的工作方式。浏览器是多进程的，有一个主控进程，进程可能包括主控进程，插件进程，GPU，tab 页（浏览器内核）等等，主要包括：
 
-Browser进程：浏览器的主进程（负责协调、主控），只有一个
-第三方插件进程：每种类型的插">
+Browser 进程：浏览器的主进程（负责协调、主控），只有一个
+第三方插件进程：每种类型的">
 <meta property="og:type" content="article">
 <meta property="og:title" content="一道面试题">
 <meta property="og:url" content="https://github.com/lennonover/2018/03/14/一道面试题/index.html">
@@ -103,9 +103,9 @@ Browser进程：浏览器的主进程（负责协调、主控），只有一个
 今天就说说根据这道题梳理自己的前端知识！
 解析 URL解释 URL 是浏览器的活，所以首先要搞明白浏览器的工作方式。浏览器是多进程的，有一个主控进程，进程可能包括主控进程，插件进程，GPU，tab 页（浏览器内核）等等，主要包括：
 
-Browser进程：浏览器的主进程（负责协调、主控），只有一个
-第三方插件进程：每种类型的插">
-<meta property="og:updated_time" content="2018-03-22T14:49:32.864Z">
+Browser 进程：浏览器的主进程（负责协调、主控），只有一个
+第三方插件进程：每种类型的">
+<meta property="og:updated_time" content="2018-03-26T14:20:24.682Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="一道面试题">
 <meta name="twitter:description" content="浏览器中输入www.baidu.com 直到看到页面之间发生了什么？
@@ -113,8 +113,8 @@ Browser进程：浏览器的主进程（负责协调、主控），只有一个
 今天就说说根据这道题梳理自己的前端知识！
 解析 URL解释 URL 是浏览器的活，所以首先要搞明白浏览器的工作方式。浏览器是多进程的，有一个主控进程，进程可能包括主控进程，插件进程，GPU，tab 页（浏览器内核）等等，主要包括：
 
-Browser进程：浏览器的主进程（负责协调、主控），只有一个
-第三方插件进程：每种类型的插">
+Browser 进程：浏览器的主进程（负责协调、主控），只有一个
+第三方插件进程：每种类型的">
 
 
 
@@ -345,7 +345,7 @@ Browser进程：浏览器的主进程（负责协调、主控），只有一个
 <p>今天就说说根据这道题梳理自己的前端知识！</p>
 <h2 id="解析-URL"><a href="#解析-URL" class="headerlink" title="解析 URL"></a>解析 URL</h2><p>解释 URL 是浏览器的活，所以首先要搞明白浏览器的工作方式。<br>浏览器是多进程的，有一个主控进程，进程可能包括主控进程，插件进程，GPU，tab 页（浏览器内核）等等，主要包括：</p>
 <ul>
-<li>Browser进程：浏览器的主进程（负责协调、主控），只有一个</li>
+<li>Browser 进程：浏览器的主进程（负责协调、主控），只有一个</li>
 <li>第三方插件进程：每种类型的插件对应一个进程，仅当使用该插件时才创建</li>
 <li>GPU进程：最多一个，用于 3D 绘制</li>
 <li>浏览器渲染进程（内核）：默认每个 Tab 页面一个进程，互不影响，控制页面渲染，脚本执行，事件处理等（有时候会优化，如多个空白 tab 会合并成一个进程）</li>
@@ -370,8 +370,10 @@ Browser进程：浏览器的主进程（负责协调、主控），只有一个
 <p>每次网络请求时都需要开辟单独的线程进行,览器会根据解析出得协议，开辟一个网络线程，前往请求资源.</p>
 <h2 id="http-缓存"><a href="#http-缓存" class="headerlink" title="http 缓存"></a>http 缓存</h2><p>网络请求之前会先都差缓存，HTTP 缓存有多种规则，根据是否需要重新向服务器发起请求来分类，将其分为强制缓存，对比缓存。</p>
 <ul>
-<li>强缓存（200 from cache）时，浏览器如果判断本地缓存未过期，就直接使用，无需发起 http 请求</li>
-<li>对比缓存（304）时，浏览器会向服务端发起 http 请求，然后服务端告诉浏览器文件未改变，让浏览器使用本地缓存，可以使用 <code>Ctrl + F5</code> 强制刷新可以使得对比缓存无效</li>
+<li><p>强缓存（200 from cache）时，浏览器如果判断本地缓存未过期，就直接使用，无需发起 http 请求</p>
+</li>
+<li><p>对比缓存（304）时，浏览器会向服务端发起 http 请求，然后服务端告诉浏览器文件未改变，让浏览器使用本地缓存，可以使用 <code>Ctrl + F5</code> 强制刷新可以使得对比缓存无效</p>
+</li>
 </ul>
 <p>http1.0中的缓存控制：</p>
 <ul>
@@ -382,14 +384,16 @@ Browser进程：浏览器的主进程（负责协调、主控），只有一个
 <p>http1.1中的缓存控制：</p>
 <ul>
 <li>Cache-Control：缓存控制头部，有no-cache、max-age等多种取值</li>
-<li>Max-Age：服务端配置的，用来控制强缓存，在规定的时间之内，浏览器无需发出请求，直接使用本地缓存，注意，Max-Age 是 Cache-Control 头部的值，不是独立的头部，譬如 Cache-Control: max-age=3600，而且它值得是绝对时间，由浏览器自己计算</li>
-<li>If-None-Match/E-tag：这两个是成对出现的，属于协商缓存的内容，其中浏览器的头部是 If-None-Match，而服务端的是 E-tag，同样，发出请求后，如果 If-None-Match 和 E-tag 匹配，则代表内容未变，通知浏览器使用本地缓存，和 Last-Modified 不同，E-tag 更精确，它是类似于指纹一样的东西，基于 FileEtag INode Mtime Size 生成，也就是说，只要文件变，指纹就会变，而且没有1s精确度的限制。</li>
+<li><p>Max-Age：服务端配置的，用来控制强缓存，在规定的时间之内，浏览器无需发出请求，直接使用本地缓存，注意，Max-Age 是 Cache-Control 头部的值，不是独立的头部，譬如 Cache-Control: max-age=3600，而且它值得是绝对时间，由浏览器自己计算</p>
+</li>
+<li><p>If-None-Match/E-tag：这两个是成对出现的，属于协商缓存的内容，其中浏览器的头部是 If-None-Match，而服务端的是 E-tag，同样，发出请求后，如果 If-None-Match 和 E-tag 匹配，则代表内容未变，通知浏览器使用本地缓存，和 Last-Modified 不同，E-tag 更精确，它是类似于指纹一样的东西，基于 FileEtag INode Mtime Size 生成，也就是说，只要文件变，指纹就会变，而且没有1s精确度的限制。</p>
+</li>
 </ul>
 <p>强缓存判断依据</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">（http1.1）Cache-Control/Max-Age</div><div class="line">（http1.0）Pragma/Expires</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">（http1.1）Cache-Control =&gt; Cache-Control: max-age = 35600</div><div class="line">（http1.0）Expires =&gt; 服务器端的时间</div></pre></td></tr></table></figure>
 <p>cache-control 中的 max-age 保存一个相对时间。例如 Cache-Control: max-age = 35600，表示浏览器收到文件后，缓存在35600s内均有效。如果同时存在 cache-control 和 Expires ，浏览器总是优先使用cache-control。<br>Max-Age 相比 Expires，Expires 使用的是服务器端的时间，但是有时候会有这样一种情况-客户端时间和服务端不同步。所以一般 http1.1 后不推荐使用 Expires。</p>
 <p>对比缓存判断依据</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">（http1.1）If-None-Match/E-tag</div><div class="line">（http1.0）If-Modified-Since/Last-Modified</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">（http1.1）E-tag/If-None-Match</div><div class="line">（http1.0）Last-Modified/If-Modified-Since</div></pre></td></tr></table></figure>
 <p>last-modified 是第一次请求资源时，服务器返回的字段，表示最后一次更新的时间。下一次浏览器请求资源时就发送 if-modified-since 字段。服务器用本地 Last-modified 时间与 if-modified-since 时间比较，如果不一致则认为缓存已过期并返回新资源给浏览器；如果时间一致则发送304状态码，让浏览器继续使用缓存。</p>
 <p>E-tag：资源的实体标识（哈希字符串），当资源内容更新时，E-tag 会改变。服务器会判断E-tag是否发生变化，如果变化则返回新资源，否则返回304。<br>　　<br>如果同时带有 E-tag 和 Last-Modified，服务端会优先检查 E-tag
 　　
@@ -403,6 +407,7 @@ Browser进程：浏览器的主进程（负责协调、主控），只有一个
 <li>如果本地没有，就向 dns 域名服务器查询（当然，中间可能还会经过路由，也有缓存等），查询到对应的 IP</li>
 </ul>
 <p>dns 解析是很耗时的，因此如果解析域名过多，会让首屏加载变得过慢，可以考虑 <code>dns-prefetch</code> 优化</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">a 标签的 DNS 预解析 默认是开启的 但是当 使用 https 的时候是默认关闭的需要手动开启 a 标签的预解析</div><div class="line">&lt;meta http-equiv=&quot;x-dns-prefetch-control&quot; content=&quot;on&quot;&gt;    </div><div class="line"></div><div class="line">开启 dns 预解析</div><div class="line">&lt;link rel=&quot;dns-refetch&quot; href=&quot;IP地址&quot;&gt;</div></pre></td></tr></table></figure>
 <ul>
 <li>tcp/ip 请求</li>
 </ul>
@@ -525,7 +530,7 @@ Browser进程：浏览器的主进程（负责协调、主控），只有一个
 </li>
 </ul>
 <p>什么会引起回流？</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">1.页面渲染初始化</div><div class="line"></div><div class="line">2.DOM结构改变，比如删除了某个节点</div><div class="line"></div><div class="line">3.render树变化，比如减少了padding</div><div class="line"></div><div class="line">4.窗口resize</div><div class="line"></div><div class="line">5.改变字体大小会引发回流</div><div class="line"></div><div class="line">5.最复杂的一种：获取某些属性，引发回流，</div><div class="line">很多浏览器会对回流做优化，会等到数量足够时做一次批处理回流，</div><div class="line">但是除了render树的直接变化，当获取一些属性时，浏览器为了获得正确的值也会触发回流，这样使得浏览器优化无效，包括</div><div class="line">    (1) offset(Top/Left/Width/Height)</div><div class="line">    (2) scroll(Top/Left/Width/Height)</div><div class="line">    (3) cilent(Top/Left/Width/Height)</div><div class="line">    (4) width,height</div><div class="line">    (5) 调用了getComputedStyle()或者IE的currentStyle</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">1.页面渲染初始化</div><div class="line"></div><div class="line">2.DOM结构改变，比如删除了某个节点</div><div class="line"></div><div class="line">3.render树变化，比如减少了padding</div><div class="line"></div><div class="line">4.窗口resize</div><div class="line"></div><div class="line">5.改变字体大小会引发回流</div><div class="line"></div><div class="line">6.最复杂的一种：获取某些属性，引发回流</div><div class="line">很多浏览器会对回流做优化，会等到数量足够时做一次批处理回流，但是除了render树的直接变化，当获取一些属性时，浏览器为了获得正确的值也会触发回流，这样使得浏览器优化无效，包括</div><div class="line">    (1) offset(Top/Left/Width/Height)</div><div class="line">    (2) scroll(Top/Left/Width/Height)</div><div class="line">    (3) cilent(Top/Left/Width/Height)</div><div class="line">    (4) width,height</div><div class="line">    (5) 调用了getComputedStyle()或者IE的currentStyle</div></pre></td></tr></table></figure>
 <p>回流一定伴随着重绘，重绘却可以单独出现</p>
 <p>所以一般会有一些优化方案，如：</p>
 <ul>
