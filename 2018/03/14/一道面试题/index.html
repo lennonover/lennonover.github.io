@@ -105,7 +105,7 @@ Browser 进程：浏览器的主进程（负责协调、主控），只有一个
 
 Browser 进程：浏览器的主进程（负责协调、主控），只有一个
 第三方插件进程：每种类型的">
-<meta property="og:updated_time" content="2018-03-26T14:20:24.682Z">
+<meta property="og:updated_time" content="2018-03-29T15:11:15.227Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="一道面试题">
 <meta name="twitter:description" content="浏览器中输入www.baidu.com 直到看到页面之间发生了什么？
@@ -407,7 +407,7 @@ Browser 进程：浏览器的主进程（负责协调、主控），只有一个
 <li>如果本地没有，就向 dns 域名服务器查询（当然，中间可能还会经过路由，也有缓存等），查询到对应的 IP</li>
 </ul>
 <p>dns 解析是很耗时的，因此如果解析域名过多，会让首屏加载变得过慢，可以考虑 <code>dns-prefetch</code> 优化</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">a 标签的 DNS 预解析 默认是开启的 但是当 使用 https 的时候是默认关闭的需要手动开启 a 标签的预解析</div><div class="line">&lt;meta http-equiv=&quot;x-dns-prefetch-control&quot; content=&quot;on&quot;&gt;    </div><div class="line"></div><div class="line">开启 dns 预解析</div><div class="line">&lt;link rel=&quot;dns-refetch&quot; href=&quot;IP地址&quot;&gt;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">a 标签的 DNS 预解析 默认是开启的 但是当 使用 https 的时候是默认关闭的需要手动开启 a 标签的预解析</div><div class="line">&lt;meta http-equiv=&quot;x-dns-prefetch-control&quot; content=&quot;on&quot;&gt;    </div><div class="line"></div><div class="line">开启 dns 预解析</div><div class="line">&lt;link rel=&quot;dns-prefetch&quot; href=&quot;IP地址&quot;&gt;</div></pre></td></tr></table></figure>
 <ul>
 <li>tcp/ip 请求</li>
 </ul>
@@ -590,6 +590,10 @@ Browser 进程：浏览器的主进程（负责协调、主控），只有一个
 
           <div class="post-nav-prev post-nav-item">
             
+              <a href="/2018/03/30/函数式编程/" rel="prev" title=" 函数式编程(一)">
+                 函数式编程(一) <i class="fa fa-chevron-right"></i>
+              </a>
+            
           </div>
         </div>
       
@@ -660,7 +664,7 @@ Browser 进程：浏览器的主进程（负责协调、主控），只有一个
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">38</span>
+                <span class="site-state-item-count">39</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>

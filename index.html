@@ -250,6 +250,141 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2018/03/30/函数式编程/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lennonover">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lennonover">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2018/03/30/函数式编程/" itemprop="url">
+                   函数式编程(一)
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-30T20:20:09+08:00">
+                2018-03-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>函数式语言给了我一个全新的视角，从一个完全不同的方式去看待编程，开始会感到不自然，需要时间去适应。所有的定义都是基于函数，值不可更改，无状态，但是时间久了就会发现代码会更加简洁，而且容易复用。</p>
+<h2 id="if-简化"><a href="#if-简化" class="headerlink" title="if 简化"></a>if 简化</h2><p>几乎每个if语句的实例都可以用一个等价的三元操作来替代。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">// 典型的</div><div class="line">function saveCustomer(customer) &#123;</div><div class="line">  if (isCustomerValid(customer)) &#123;</div><div class="line">    database.save(customer)</div><div class="line">  &#125; else &#123;</div><div class="line">    alert(&apos;customer is invalid&apos;)</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line">// 三元</div><div class="line">function saveCustomer(customer) &#123;</div><div class="line">  return isCustomerValid(customer)</div><div class="line">    ? database.save(customer)</div><div class="line">    : alert(&apos;customer is invalid&apos;)</div><div class="line">&#125;</div><div class="line">// ES6 的写法</div><div class="line">const saveCustomer = customer =&gt;</div><div class="line">  isCustomerValid(customer)</div><div class="line">    ? database.save(customer)</div><div class="line">    : alert(&apos;customer is invalid&apos;)</div></pre></td></tr></table></figure>
+<p>多层嵌套</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">// 多层 else-if</div><div class="line">function customerValidation(customer) &#123;</div><div class="line">  if (!customer.email) &#123;</div><div class="line">    return error(&apos;email is require&apos;)</div><div class="line">  &#125; else if (!customer.login) &#123;</div><div class="line">    return error(&apos;login is required&apos;)</div><div class="line">  &#125; else if (!customer.name) &#123;</div><div class="line">    return error(&apos;name is required&apos;)</div><div class="line">  &#125; else &#123;</div><div class="line">    return customer</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">// ES6 三元修正</div><div class="line">const customerValidation = customer =&gt;</div><div class="line">  !customer.email   ? error(&apos;email is required&apos;)</div><div class="line">  : !customer.login ? error(&apos;login is required&apos;)</div><div class="line">  : !customer.name  ? error(&apos;name is required&apos;)</div><div class="line">                    : customer</div></pre></td></tr></table></figure>
+<p>现在就可以清楚地看到左侧定义的所有条件以及右侧返回的值。</p>
+<h2 id="没有-for-循环"><a href="#没有-for-循环" class="headerlink" title="没有 for 循环"></a>没有 for 循环</h2><p>filter, map 和 reduce 可以满足所有情况, filter、map 和 reduce 共同点就是并不会对原数组做任何改动，结果都是生成一个新变量。</p>
+<p>原始代码 获得小于 10个月的<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">const peoples = [</div><div class="line">  &#123; name: &apos;小明&apos;,     months: 84 &#125;,</div><div class="line">  &#123; name: &apos;小小明&apos;,   months: 24 &#125;,</div><div class="line">  &#123; name: &apos;小小小明&apos;, months: 4 &#125;</div><div class="line">]</div><div class="line">var children = []</div><div class="line">for (var i = 0; i &lt; peoples.length; i++) &#123;</div><div class="line">  if (peoples[i].months &lt; 10) &#123;</div><div class="line">    children.push(peoples[i].name)</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line">console.log(children)</div></pre></td></tr></table></figure></p>
+<p>将 if 语句提取到它自己的函数中</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">const isChildren = people =&gt; people.months &lt; 10</div><div class="line">var children = []</div><div class="line">for (var i = 0; i &lt; peoples.length; i++) &#123;</div><div class="line">  if (isChildren(peoples[i])) &#123;</div><div class="line">    children.push(peoples[i].name)</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>下一个改变是从 people 类型的对象中提取转换（或映射）到名称。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">const isChildren = people =&gt; people.months &lt; 10</div><div class="line">const getName = people =&gt; people.name</div><div class="line">var children = []</div><div class="line">for (var i = 0; i &lt; peoples.length; i++) &#123;</div><div class="line">  if (isChildren(peoples[i])) &#123;</div><div class="line">    children.push(getName(peoples[i]))</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>最后一步 使用 map 操作，最好地展示您的代码的可读性</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">const isChildren = people =&gt; people.months &lt; 10</div><div class="line">const getName = people =&gt; people.name</div><div class="line">const children =</div><div class="line">  peoples.filter(isChildren)</div><div class="line">      .map(getName)</div></pre></td></tr></table></figure>
+<p>完成</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">const isChildren = people =&gt; people.months &lt; 10</div><div class="line">const getName = people =&gt; people.name</div><div class="line">const getChildrenNames = peoples =&gt;</div><div class="line">  peoples.filter(isChildren)</div><div class="line">      .map(getName)</div><div class="line">const peoples = [</div><div class="line">    &#123; name: &apos;小明&apos;,     months: 84 &#125;,</div><div class="line">    &#123; name: &apos;小小明&apos;,   months: 24 &#125;,</div><div class="line">    &#123; name: &apos;小小小明&apos;, months: 4 &#125;</div><div class="line">]</div><div class="line">const children = getChildrenNames(peoples)</div><div class="line">console.log(children)</div></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2018/03/14/一道面试题/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -395,7 +530,7 @@
 <li>如果本地没有，就向 dns 域名服务器查询（当然，中间可能还会经过路由，也有缓存等），查询到对应的 IP</li>
 </ul>
 <p>dns 解析是很耗时的，因此如果解析域名过多，会让首屏加载变得过慢，可以考虑 <code>dns-prefetch</code> 优化</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">a 标签的 DNS 预解析 默认是开启的 但是当 使用 https 的时候是默认关闭的需要手动开启 a 标签的预解析</div><div class="line">&lt;meta http-equiv=&quot;x-dns-prefetch-control&quot; content=&quot;on&quot;&gt;    </div><div class="line"></div><div class="line">开启 dns 预解析</div><div class="line">&lt;link rel=&quot;dns-refetch&quot; href=&quot;IP地址&quot;&gt;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">a 标签的 DNS 预解析 默认是开启的 但是当 使用 https 的时候是默认关闭的需要手动开启 a 标签的预解析</div><div class="line">&lt;meta http-equiv=&quot;x-dns-prefetch-control&quot; content=&quot;on&quot;&gt;    </div><div class="line"></div><div class="line">开启 dns 预解析</div><div class="line">&lt;link rel=&quot;dns-prefetch&quot; href=&quot;IP地址&quot;&gt;</div></pre></td></tr></table></figure>
 <ul>
 <li>tcp/ip 请求</li>
 </ul>
@@ -2025,142 +2160,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2017/10/24/window.requestAnimationFrame()  解读/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="lennonover">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="lennonover">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/10/24/window.requestAnimationFrame()  解读/" itemprop="url">
-                  window.requestanimationfram 解读
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-24T21:24:45+08:00">
-                2017-10-24
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <blockquote>
-<p><a href="http://www.zhangxinxu.com/wordpress/2013/09/css3-animation-requestanimationframe-tween-%E5%8A%A8%E7%94%BB%E7%AE%97%E6%B3%95/" target="_blank" rel="external">参考自张鑫旭老师</a></p>
-</blockquote>
-<p>window.requestAnimationFrame() 方法告诉浏览器您希望执行动画并请求浏览器调用指定的函数在下一次重绘之前更新动画。该方法使用一个回调函数作为参数，这个回调函数会在浏览器重绘之前调用。</p>
-<h2 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h2><p>window.requestAnimationFrame(callback);</p>
-<h2 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h2><p><code>callback</code> 一个在每次需要重新绘制动画时调用的包含指定函数的参数。这个回调函数有一个传参，DOMHighResTimeStamp，指示从触发 requestAnimationFrame 回调到现在的时间（从 performance.now() 取得）。</p>
-<h2 id="返回值"><a href="#返回值" class="headerlink" title="返回值"></a>返回值</h2><p>一个 long 整数，请求 ID ，也是回调列表中唯一的标识。这是一个非零值，但你恐怕也不能从其值中作出什么臆想。你可以传此值到 window.cancelAnimationFrame() 以取消回调函数。</p>
-<h2 id="使用RequestAnimationFrame函数实现动画"><a href="#使用RequestAnimationFrame函数实现动画" class="headerlink" title="使用RequestAnimationFrame函数实现动画"></a>使用RequestAnimationFrame函数实现动画</h2><p>我们经常使用 JavaScript 来实现动画效果，然而时机不当或长时间运行的 JavaScript 可能就是导致你性能下降的原因。显示器 16.7ms 刷新间隔之前发生了其他绘制请求(setTimeout)，导致所有第三帧丢失，继而导致动画断续显示这种做法的主要问题是回调将会在帧中的某个时间点运行，这可能会刚好在末尾，这就是过度绘制带来的问题。这也是为何 setTimeout 的定时器值推荐最小使用 16.7ms 的原因（16.7 = 1000 / 60, 即每秒 60 帧）。</p>
-<p><img src="http://ob6nlbpso.bkt.clouddn.com/sp171024_220945.png" alt="setTimeout"></p>
-<p>有些第三方库仍在使用 setTimeout()&amp;setInterval() 函数来实现动画效果，这会产生很多不必要的性能下降，例如老版本的 JQuery，如果你使用的是 JQuery3，那么不必为此担心，JQuery3 已经全面改写了动画模块，采用了requestAnimationFrame() 函数来实现动画效果。但如果你使用的是之前版本的 JQuery，那么就需要 jquery-requestAnimationFrame 来将 setTimeout() 替换为 requestAnimationFrame() 函数。本质上它与setTimeout()没有什么区别，都是在递归调用同一个回调函数来不断更新画面以达到动画的效果,优点：</p>
-<ul>
-<li>就算很多个 requestAnimationFrame，浏览器只要通知一次就可以了。而 setTimeout 是多个独立绘制。</li>
-<li>页面最小化了，或者被Tab切换关灯了，页面绘制全部停止，资源高效利用。</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">function updateScreen(time) &#123;</div><div class="line">    // 这是你的动画效果函数</div><div class="line">&#125;</div><div class="line"></div><div class="line">// 将你的动画效果函数放入requestAnimationFrame()作为回调函数</div><div class="line">requestAnimationFrame(updateScreen);</div></pre></td></tr></table></figure>
-<h2 id="弊端-CSS3动画不能应用所有属性"><a href="#弊端-CSS3动画不能应用所有属性" class="headerlink" title="弊端 CSS3动画不能应用所有属性"></a>弊端 CSS3动画不能应用所有属性</h2><p>类似滚动 scrollTop 是不支持的，这时需要 JS 来。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2210,7 +2209,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">38</span>
+                <span class="site-state-item-count">39</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
