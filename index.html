@@ -518,7 +518,8 @@
 <p>对比缓存判断依据</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">（http1.1）E-tag/If-None-Match</div><div class="line">（http1.0）Last-Modified/If-Modified-Since</div></pre></td></tr></table></figure>
 <p>last-modified 是第一次请求资源时，服务器返回的字段，表示最后一次更新的时间。下一次浏览器请求资源时就发送 if-modified-since 字段。服务器用本地 Last-modified 时间与 if-modified-since 时间比较，如果不一致则认为缓存已过期并返回新资源给浏览器；如果时间一致则发送304状态码，让浏览器继续使用缓存。</p>
-<p>E-tag：资源的实体标识（哈希字符串），当资源内容更新时，E-tag 会改变。服务器会判断E-tag是否发生变化，如果变化则返回新资源，否则返回304。<br>　　<br>如果同时带有 E-tag 和 Last-Modified，服务端会优先检查 E-tag
+<p>E-tag：资源的实体标识（哈希字符串），当资源内容更新时，E-tag 会改变。服务器会判断E-tag是否发生变化，如果变化则返回新资源，否则返回304。<br>　　<br>如果同时带有 E-tag 和 Last-Modified，服务端会优先检查 E-tag</p>
+<p>在浏览器接收到服务器响应后，会检测响应头部（Header），如果有nEtag 字段，那么浏览器就会将本次缓存写入硬盘中。
 　　
 　　</p>
 <h2 id="开启线程发出请求"><a href="#开启线程发出请求" class="headerlink" title="开启线程发出请求"></a>开启线程发出请求</h2><ul>
@@ -644,6 +645,9 @@
 <ul>
 <li>渲染</li>
 </ul>
+<p>布局是由 CPU 处理的，而绘制则是由 GPU 完成的,GPU 会对我们的渲染层作缓存，如果我们把那些一直发生大量重排重绘的元素提取出来，单独触发一个渲染层，那样这个元素不就不会“连累”其他元素一块重绘。<br>Video 元素、WebGL、Canvas、CSS3 3D、CSS滤镜、z-index 大于某个相邻节点的元素都会触发新的 Layer，剩下的其实我们最常用的方法，就是给某个元素加上下面的样式：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">transform</span>: <span class="selector-tag">translateZ</span>(0);</div><div class="line"><span class="selector-tag">backface-visibility</span>: <span class="selector-tag">hidden</span>;</div></pre></td></tr></table></figure>
+<p>也会触发渲染层，把容易触发重排重绘的元素单独触发渲染层，让它与那些“静态”元素隔离，让GPU分担更多的渲染工作，我们通常把这样的措施成为硬件加速，或者是GPU加速。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">Style：该区域为样式计算阶段，浏览器会根据选择器（就是CSS选择器，如.td）计算出哪些节点应用哪些CSS规则，然后计算出每个节点的最终样式并应用到节点上。</div><div class="line"></div><div class="line">Layout：该区域为布局计算阶段，浏览器会在该过程中根据节点的样式规则来计算它要占据的空间大小以及在屏幕中的位置。</div><div class="line"></div><div class="line">Paint：该区域为绘制阶段，浏览器会先创建绘图调用的列表，然后填充像素。绘制阶段会涉及到文本、颜色、图像、边框和阴影，基本上包括了每个可视部分。绘制一般是在多个图层（用过Photoshop等图片编辑软件的童鞋一定很眼熟图层这个词，这里的图层的含义其实是差不多的）上完成的。</div><div class="line"></div><div class="line">Composite：该区域为合成阶段，浏览器将多个图层按照正确顺序绘制到屏幕上。</div></pre></td></tr></table></figure>
 <p>如果动态修改了 DOM 或 CSS，就会重新布局（Layout）或渲染（Repaint）这里 Layou t和 Repaint 的概念是有区别的：</p>
 <ul>
