@@ -250,6 +250,187 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2017/12/17/D2-quic/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lennonover">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lennonover">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/12/17/D2-quic/" itemprop="url">
+                  D2-QUIC
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-17T22:04:10+08:00">
+                2017-12-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>  昨天在参加阿里 D2 的时候听腾讯的黄佳琳老师分享 <code>QQ空间HTTP2加速实践</code> 时她提到在今 QQ 空间 2017年开始使用 QUIC 协议。看到 QUIC 时就想腾讯这么冒进了敢用它！！！至于为什么会这么想，请继续。</p>
+<h2 id="QUIC"><a href="#QUIC" class="headerlink" title="QUIC"></a>QUIC</h2><p>  <a href="https://en.wikipedia.org/wiki/QUIC" target="_blank" rel="external">QUIC 维基百科</a><br>  <a href="https://www.youtube.com/watch?v=hQZ-0mXFmk8" target="_blank" rel="external">Google Develop Live</a></p>
+<p>  QUIC 是谷歌在 2013 年实现，2014 推出的一种实验性的传输层网络传输协议。 QUIC 全称是 Quick UDP Internet Connections 就是快速 UDP 网络连接。一个它以UDP为基础，实验性传输层协议。</p>
+<h2 id="TCP-和-UDP"><a href="#TCP-和-UDP" class="headerlink" title="TCP 和 UDP"></a>TCP 和 UDP</h2><p>  web 平台的数据传输都基于 TCP 协议。TCP协议在创建连接之前需要进行三次握手，如果需要提高数据交互的安全性，既增加传输层安全协议（TLS），还会增加更多的握手次数。<br>  正因为TCP协议连接建立的成本相对较高，可以通过TCP快速打开（TCP Fast Open）来减少建立连接时的握手次数。但是该技术目前应用较少。</p>
+<p>  UDP协议是无连接协议。客户端发出UDP数据包后，只能“假设”这个数据包已经被服务端接收。这样的好处是在网络传输层无需对数据包进行确认，但存在的问题就是为了确保数据传输的可靠性，应用层协议需要自己完成包传输情况的确认。</p>
+<blockquote>
+<p>来源维基百科 ： 对于 Google 来说优化 TCP 协议是一个长期目标，QUIC 旨在创建几乎等同于 TCP 的独立连接，但有着低延迟，并对类似 SPDY 的多路复用流协议有更好的支持。 如果 QUIC 协议的特性被证明是有效的，这些特性以后可能会被迁移入后续版本的 TCP 和 TLS 协议（它们都有很长的开发周期）。</p>
+</blockquote>
+<p>  TCP 协议的实现是高度管制的。TCP 协议栈通常由操作系统实现，如 Linux、Windows 内核或者其他移动设备操作系统。修改 TCP 协议是一项浩大的工程，因为每种设备、系统的实现都需要更新。</p>
+<p>  UDP 协议在操作系统层面实现相对简单，基于 UDP 协议实现新的协议以验证 Google 对于 TCP 协议改进的理论，不需要操作系统内核层面的更改，验证成本相对较低。</p>
+<p>  可以说 QUIC 是夹在 HTTP2 和 UDP 的中间部分就像汉堡。</p>
+<p>  <img src="http://ob6nlbpso.bkt.clouddn.com/053.png" alt="地位"></p>
+<h2 id="QUIC-特点"><a href="#QUIC-特点" class="headerlink" title="QUIC 特点"></a>QUIC 特点</h2><p>  QUIC 协议的主要目的，是为了整合 TCP 协议的可靠性和 UDP 协议的速度和效率。</p>
+<ul>
+<li><p>避免队头阻塞</p>
+<p>HTTP 1.1 协议的并发请求并非是直接解决了 HOC 的问题，而是尽可能减少 HOC 造成的影响。 </p>
+<p>SPDY 它采用了多路复用(Multiplexing) 技术也是解决不了这个问题。TCP 协议如果发生了丢包或者错包，数据就会被重传，后面的包就得停下来等这个包重新传输，也就是发生了队头阻塞，TCP 协议的设计者们又发明了滑动窗口，滑动窗口的概念大幅度提高了 TCP 传输数据时抗干扰的能力，一般丢失一两个 ACK 根本没关系。但如果是发送的包丢失，或者出错，窗口就无法向前滑动，出现了队头阻塞的现象。       </p>
+<p>队头阻塞不仅仅在 HTTP 层存在，在 TCP 层也存在，这也正是 QUIC 协议要解决的问题。QUIC 协议也采用了多路复用思想。</p>
+<p>QUIC协议直接通过底层使用 UDP 协议天然的避免了 SPDY 和 HTTP/2 协议由于 TCP 协议在处理包时是有严格顺序而遇到前序包阻塞的问题。由于UDP协议没有严格的顺序，当一个数据包遇到问题需要重传时，只会影响该数据包对应的资源，其他独立的资源不会受到影响。</p>
+</li>
+<li><p>重传与恢复</p>
+<p>丢包恢复一共有两种方法：前向纠错（FEC）和重传。前向纠错可以减少重传，但需要在保重添加冗余信息，用 XOR 实现。如果前向纠错不能回复包，才启用重传，重传的不是旧包，而是重新构造的包。</p>
+<p>前向纠错（FEC）：FEC 采用简单异或的方式（也就是相同数字异或成 0，不同数字异或成 1）。每次发送一组数据，包括若干个数据包后，并对这些数据包依次作异或运算，最后的结果作为一个 FEC 包再发送出去。接收方收到一组数据后，根据数据包和 FEC 包即可以进行校验和纠错。</p>
+<p>对于某些重要的数据包，如初始密钥协商时的数据包，在建立连接时非常重要，如果这类包丢失会阻塞整体数据流。QUIC 对于这一类数据包在确认发生丢失前就会尝试重传，通常是等待较短的时间(如20ms)没收到确认后就马上再次发送。这样在网络中会有若干个相同的包同时传输，只要有一个能成功抵达就完成了连接，这样降低了丢包率。接收方对于关键数据包的多次发送和普通数据包的超时重传，都采用相同的重复包处理机制</p>
+<p>QUIC在拥塞避免算法的基础上还加入了心跳包，用于减少丢包率</p>
+</li>
+</ul>
+<ul>
+<li><p>减少数据包</p>
+<p>  QUIC协议在创建连接握手时，只需要1到2个数据包对比传统TCP+TLS协议的传输方式，在创建连接时的4个数据包。</p>
+</li>
+<li><p>TCP 快速打开 0 个 RTT</p>
+<p>  核心思想：将当前会话的上下文缓存在客户端。如果以后需要恢复对话，只需要将缓存发给服务器校验，而不必花费一个 RTT 去等待。<br>  QUIC 握手的过程是需要一次数据交互，0-RTT 时延即可完成握手过程中的密钥协商，比 TLS 相比效率提高了5倍，且具有更高的安全性。 QUIC 在握手过程中使用 Diffie-Hellman 算法协商初始密钥，初始密钥依赖于服务器存储的一组配置参数，该参数会周期性的更新。初始密钥协商成功后，服务器会提供一个临时随机数，双方根据这个数再生成会话密钥。</p>
+</li>
+<li><p>安全性</p>
+<p>  QUIC 协议内置了 TLS 栈，实现了自己的传输加密层，QUIC 对每个散装的 UDP 包都进行了加密和认证的保护，并且避免使用前向依赖的处理方法(，这样每个 UDP 包可以独立地根据 IV 进行加密或认证处理。 QUIC 采用了两级密钥机制：初始密钥和会话密钥。初次连接时不加密，并协商初始密钥。初始密钥协商完毕后会马上再协商会话密钥，这样可以保证密钥的前向安全性，之后可以在通信的过程中就实现对密钥的更新。接收方意识到有新的密钥要更新时，会尝试用新旧两种密钥对数据进行解密，直到成功才会正式更新密钥，否则会一直保留旧密钥有效。</p>
+<p>  <a href="https://cs.chromium.org/chromium/src/net/quic/?q=quic&amp;sq=package:chromium" target="_blank" rel="external">​QUIC客户端源码</a></p>
+<p>  <a href="https://cs.chromium.org/chromium/src/net/tools/quic/?q=quic&amp;sq=package:chromium" target="_blank" rel="external">QUIC服务端源码</a></p>
+</li>
+</ul>
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><ul>
+<li><p>启用</p>
+<p>  Chrome 浏览器（版本50.0或更高）中打开地址： <code>chrome://flags/</code> 在Experimental QUIC protocol 项目勾选 Enabled;然后重启。</p>
+<p>  <img src="http://ob6nlbpso.bkt.clouddn.com/sp171219_185424.png" alt="tab"></p>
+</li>
+<li><p>查看站点是否通过 QUIC 通信</p>
+<p>  使用Chrome 选项卡 <code>chrome://net-internals/#quic</code></p>
+<p>  <img src="http://ob6nlbpso.bkt.clouddn.com/sp171219_193117.png" alt="sea"></p>
+</li>
+<li><p>Chrome 插件</p>
+<p>  插件 <code>HTTP/2 and SPDY indicator</code> HTTP/2显示蓝色标志，HTTP/2 + QUIC 显示绿色,可以看到 QQ 空间没用 HTTP/2 + QUIC。</p>
+<p>  <img src="http://ob6nlbpso.bkt.clouddn.com/sp171218_224234.png" alt="QQ 空间"></p>
+</li>
+</ul>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
+<li>QUIC 目前处于实验阶段国内”不存在”的协议</li>
+<li>QUIC 是基于 UDP 的同为传输层</li>
+<li>UDP 通信，所以服务器上的防火墙要打开。网站或项目的服务器需要有传入 443/UDP 的策略，对于客户端来说，允许 443/UDP 接入互联网</li>
+<li>想想就目前国内宽带运营商的各种 UDP 限制 。。</li>
+</ul>
+<p>PS： 今天重新看了下黄佳琳老师分享并没有说支持 QUIC 只是说了 2017 在实验 。。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2017/10/24/window.requestAnimationFrame()  解读/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1641,233 +1822,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2017/02/20/JS/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="lennonover">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="lennonover">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/02/20/JS/" itemprop="url">
-                  JS类型检测
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-20T22:01:55+08:00">
-                2017-02-20
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h1><p>JavaScript中常见的几种数据类型：</p>
-<p>基本类型：string,number,boolean,undefined,null</p>
-<p>引用类型：Object,Function,Function,Array,Date等</p>
-<h2 id="typeof"><a href="#typeof" class="headerlink" title="typeof"></a>typeof</h2><p>typeof 返回一个表示数据类型的字符串，返回结果包括：number、boolean、string、object、undefined、function等6种数据类型。<br>typeof 可以对JS基础数据类型做出准确的判断。</p>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Class</th>
-<th>Type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>“foo”</td>
-<td>String</td>
-<td>string</td>
-</tr>
-<tr>
-<td>new String(“foo”)</td>
-<td>String</td>
-<td>object</td>
-</tr>
-<tr>
-<td>1.2</td>
-<td>Number</td>
-<td>number</td>
-</tr>
-<tr>
-<td>new Number(1.2)</td>
-<td>Number</td>
-<td>object</td>
-</tr>
-<tr>
-<td>true</td>
-<td>Boolean</td>
-<td>boolean</td>
-</tr>
-<tr>
-<td>new Boolean(true)</td>
-<td>Boolean</td>
-<td>object</td>
-</tr>
-<tr>
-<td>new Date()</td>
-<td>Date</td>
-<td>object</td>
-</tr>
-<tr>
-<td>new Error()</td>
-<td>Error</td>
-<td>object</td>
-</tr>
-<tr>
-<td>[1,2,3]</td>
-<td>Array</td>
-<td>object</td>
-</tr>
-<tr>
-<td>new Array(1, 2, 3)</td>
-<td>Array</td>
-<td>object</td>
-</tr>
-<tr>
-<td>new Function(“”)</td>
-<td>Function</td>
-<td>function</td>
-</tr>
-<tr>
-<td>/abc/g</td>
-<td>RegExp</td>
-<td>object</td>
-<td>(function in Nitro/V8)</td>
-</tr>
-<tr>
-<td>new RegExp(“meow”)</td>
-<td>RegExp</td>
-<td>object</td>
-<td>(function in Nitro/V8)</td>
-</tr>
-<tr>
-<td>{}</td>
-<td>Object</td>
-<td>object</td>
-</tr>
-<tr>
-<td>new Object()</td>
-<td>Object</td>
-<td>object</td>
-</tr>
-</tbody>
-</table>
-<p>Type 一列表示 typeof 操作符的运算结果。可以看到，这个值在大多数情况下都返回 “object”。</p>
-<p>Class 一列表示对象的内部属性 [[Class]] 的值。</p>
-<blockquote>
-<p>typeof foo !== ‘undefined’</p>
-</blockquote>
-<p>上面代码会检测 foo 是否已经定义；如果没有定义而直接使用会导致 ReferenceError 的异常。 这是 typeof 唯一有用的地方。除非为了检测一个变量是否已经定义，我们应尽量避免使用 typeof 操作符。</p>
-<h2 id="Object-prototype-toString"><a href="#Object-prototype-toString" class="headerlink" title="Object.prototype.toString"></a>Object.prototype.toString</h2><p>公认靠谱的方法。<br>JavaScript 标准文档只给出了一种获取 上表  [[Class]] 值的方法，那就是使用 Object.prototype.toString，<br>该方法默认返回其调用者的具体类型。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">function is(type, obj) &#123;</div><div class="line">    var clas = Object.prototype.toString.call(obj).slice(8, -1);</div><div class="line">    return obj !== undefined &amp;&amp; obj !== null &amp;&amp; clas === type;</div><div class="line">&#125;</div><div class="line"></div><div class="line">is(&apos;String&apos;, &apos;test&apos;); // true</div><div class="line">is(&apos;String&apos;, new String(&apos;test&apos;)); // true</div></pre></td></tr></table></figure>
-<p>更严格的讲，是 toString运行时this指向的对象类型, 返回的类型格式为[object,xxx],xxx是具体的数据类型。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">Object.prototype.toString.call(&apos;&apos;) ;   // [object String]</div><div class="line">Object.prototype.toString.call(1) ;    // [object Number]</div><div class="line">Object.prototype.toString.call(true) ; // [object Boolean]</div><div class="line">Object.prototype.toString.call(undefined) ; // [object Undefined]</div><div class="line">Object.prototype.toString.call(null) ; // [object Null]</div><div class="line">Object.prototype.toString.call(new Function()) ; // [object Function]</div><div class="line">Object.prototype.toString.call(new Date()) ; // [object Date]</div><div class="line">Object.prototype.toString.call([]) ; // [object Array]</div><div class="line">Object.prototype.toString.call(new RegExp()) ; // [object RegExp]</div><div class="line">Object.prototype.toString.call(new Error()) ; // [object Error]</div><div class="line">Object.prototype.toString.call(document) ; // [object HTMLDocument]</div><div class="line">Object.prototype.toString.call(window) ; //[object global] window是全局对象global的引用</div></pre></td></tr></table></figure></p>
-<p>必须通过Object.prototype.toString.call来获取，而不能直接 new Date().toString(),因为大部分的对象都实现了自身的toString方法，这样就可能会导致Object的toString被终止查找，因此要用call来强制执行Object的toString方法。</p>
-<h2 id="instanceof"><a href="#instanceof" class="headerlink" title="instanceof"></a>instanceof</h2><p>instanceof 操作符用来比较两个操作数的构造函数例如来判断 A 是否为 B 的实例。只有在比较自定义的对象时才有意义。</p>
-<blockquote>
-<p>[] instanceof Array     // true<br> [] instanceof Object;   // true</p>
-</blockquote>
-<p>instanceof检测的是原型。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1917,7 +1871,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">39</span>
+                <span class="site-state-item-count">40</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
