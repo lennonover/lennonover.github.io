@@ -87,40 +87,18 @@
 
 
 
-<meta name="description" content="Js 异常JavaScript 一般有三种错误，语法错误、运行期错误、逻辑错误。
-
-语法错误
-
-语法错误同样也被称为解析错误，对于传统的编程语言，该错误出现先编译的时候，对于 JavaScript 该错误出现在解释时期，最常见比如打了中文分号，语法错误不会通过解析器。
-
-运行时错误
-
-运行期错误也被称为异常，通常在编译或者解释之后运行时会出现。异常出现时会影响进程创建时的正常执行，但是允许对于其他">
+<meta name="description" content="Js 异常JavaScript 一般有三种错误，语法错误、运行期错误、逻辑错误。  语法错误  语法错误同样也被称为解析错误，对于传统的编程语言，该错误出现先编译的时候，对于 JavaScript 该错误出现在解释时期，最常见比如打了中文分号，语法错误不会通过解析器。  运行时错误  运行期错误也被称为异常，通常在编译或者解释之后运行时会出现。异常出现时会影响进程创建时的正常执行，但是允许对于其他">
+<meta name="keywords" content="javascript">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Js 异常处理">
 <meta property="og:url" content="https://github.com/lennonover/2017/09/18/Js-异常处理/index.html">
 <meta property="og:site_name" content="lennonover">
-<meta property="og:description" content="Js 异常JavaScript 一般有三种错误，语法错误、运行期错误、逻辑错误。
-
-语法错误
-
-语法错误同样也被称为解析错误，对于传统的编程语言，该错误出现先编译的时候，对于 JavaScript 该错误出现在解释时期，最常见比如打了中文分号，语法错误不会通过解析器。
-
-运行时错误
-
-运行期错误也被称为异常，通常在编译或者解释之后运行时会出现。异常出现时会影响进程创建时的正常执行，但是允许对于其他">
+<meta property="og:description" content="Js 异常JavaScript 一般有三种错误，语法错误、运行期错误、逻辑错误。  语法错误  语法错误同样也被称为解析错误，对于传统的编程语言，该错误出现先编译的时候，对于 JavaScript 该错误出现在解释时期，最常见比如打了中文分号，语法错误不会通过解析器。  运行时错误  运行期错误也被称为异常，通常在编译或者解释之后运行时会出现。异常出现时会影响进程创建时的正常执行，但是允许对于其他">
+<meta property="og:locale" content="zh-Hans">
 <meta property="og:updated_time" content="2017-09-18T15:26:10.728Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Js 异常处理">
-<meta name="twitter:description" content="Js 异常JavaScript 一般有三种错误，语法错误、运行期错误、逻辑错误。
-
-语法错误
-
-语法错误同样也被称为解析错误，对于传统的编程语言，该错误出现先编译的时候，对于 JavaScript 该错误出现在解释时期，最常见比如打了中文分号，语法错误不会通过解析器。
-
-运行时错误
-
-运行期错误也被称为异常，通常在编译或者解释之后运行时会出现。异常出现时会影响进程创建时的正常执行，但是允许对于其他">
+<meta name="twitter:description" content="Js 异常JavaScript 一般有三种错误，语法错误、运行期错误、逻辑错误。  语法错误  语法错误同样也被称为解析错误，对于传统的编程语言，该错误出现先编译的时候，对于 JavaScript 该错误出现在解释时期，最常见比如打了中文分号，语法错误不会通过解析器。  运行时错误  运行期错误也被称为异常，通常在编译或者解释之后运行时会出现。异常出现时会影响进程创建时的正常执行，但是允许对于其他">
 
 
 
@@ -358,12 +336,12 @@
 <li>try…catch…finally 语句</li>
 </ul>
 <p>JavaScript 的最新版本中添加了异常处理的功能。它实现了 try…catch…finally 结构和 throw 操作用来处理异常。 你可以捕获程序员和运行期产生的异常，但是对于用户不能捕获 JavaScript 的语法错误。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">A</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">"A报错"</span>);</div><div class="line">&#125;</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">B</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">try</span> &#123;</div><div class="line">        A(); </div><div class="line">    &#125; <span class="keyword">catch</span>(error) &#123;</div><div class="line">        <span class="built_in">console</span>.log(error);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">B()</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">A</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">"A报错"</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">B</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        A(); </span><br><span class="line">    &#125; <span class="keyword">catch</span>(error) &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(error);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">B()</span><br></pre></td></tr></table></figure>
 <ul>
 <li>throw 语句</li>
 </ul>
 <p>用 throw 语句产生一个内置的异常或者你自己定制的异常。之后这些异常可以被捕获，而且捕获后你可以采取合适的操作</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">A</span>(<span class="params">a</span>)</span>&#123;</div><div class="line">    <span class="keyword">if</span> ( a === <span class="number">0</span> )&#123;</div><div class="line">    &#125;<span class="keyword">else</span>&#123;</div><div class="line">        <span class="keyword">var</span> err =  <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">"a 不等于0"</span>);</div><div class="line">        err.statusCode = <span class="number">000</span>;  </div><div class="line">        <span class="keyword">throw</span> err;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">A(<span class="number">1</span>);</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">A</span>(<span class="params">a</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">if</span> ( a === <span class="number">0</span> )&#123;</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="keyword">var</span> err =  <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">"a 不等于0"</span>);</span><br><span class="line">        err.statusCode = <span class="number">000</span>;  </span><br><span class="line">        <span class="keyword">throw</span> err;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">A(<span class="number">1</span>);</span><br></pre></td></tr></table></figure>
 <ul>
 <li>onerror() 方法</li>
 </ul>
@@ -371,7 +349,7 @@
 <ul>
 <li>错误消息。 浏览器显示给定错误的相关信息。</li>
 <li>URL。 错误出现的文件。</li>
-<li>行数。 在指定的 URL 中造成错误的行数。<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">window</span>.onerror = <span class="function"><span class="keyword">function</span> (<span class="params">msg, url, line</span>) </span>&#123;</div><div class="line">    alert(<span class="string">"Message : "</span> + msg );</div><div class="line">    alert(<span class="string">"url : "</span> + url );</div><div class="line">    alert(<span class="string">"Line number : "</span> + line );</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<li>行数。 在指定的 URL 中造成错误的行数。<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">window</span>.onerror = <span class="function"><span class="keyword">function</span> (<span class="params">msg, url, line</span>) </span>&#123;</span><br><span class="line">    alert(<span class="string">"Message : "</span> + msg );</span><br><span class="line">    alert(<span class="string">"url : "</span> + url );</span><br><span class="line">    alert(<span class="string">"Line number : "</span> + line );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
 <h4 id="对于异常处理"><a href="#对于异常处理" class="headerlink" title="对于异常处理"></a>对于异常处理</h4><ul>
@@ -380,7 +358,7 @@
 <li>可以直接在异常上面提供一下附加属性来提供上下文</li>
 </ul>
 <h4 id="异步回调异常处理"><a href="#异步回调异常处理" class="headerlink" title="异步回调异常处理"></a>异步回调异常处理</h4><p>try catch 无法捕获异步队列中抛出的异常，因为执行栈执行完，异步队列才开始执行，所以执行栈无法捕获异步<br>函数抛出的异常<br>对于异步函数，我们对异常的处理原则为, 异步函数里面使用自己的try catch<br>自处理异常</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">asyncCallbackError</span>(<span class="params">callback</span>) </span>&#123;</div><div class="line">    setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            <span class="keyword">if</span> (发送了异常) &#123;</div><div class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">"异步出现了异常"</span>);</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">else</span>  没有异常 &#123;</div><div class="line">                callback(<span class="literal">null</span>, value);  无异常的话 第一个参数设置为<span class="literal">null</span> 第二个自己的值</div><div class="line">            &#125;</div><div class="line">        &#125; <span class="keyword">catch</span>(error) &#123;</div><div class="line">            callback(error);</div><div class="line">        &#125;</div><div class="line">    &#125;, <span class="number">0</span>);</div><div class="line">&#125;</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">callAsync</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="comment">//callback 判断获取异步异常值</span></div><div class="line">    asyncCallbackError(<span class="function"><span class="keyword">function</span>(<span class="params">error, value</span>)</span>&#123;</div><div class="line">        error ? <span class="built_in">console</span>.log(error) : <span class="string">"执行方法"</span>;</div><div class="line">    &#125;);</div><div class="line">&#125;</div><div class="line">callAsync();</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">asyncCallbackError</span>(<span class="params">callback</span>) </span>&#123;</span><br><span class="line">    setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> (发送了异常) &#123;</span><br><span class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">"异步出现了异常"</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span>  没有异常 &#123;</span><br><span class="line">                callback(<span class="literal">null</span>, value);  无异常的话 第一个参数设置为<span class="literal">null</span> 第二个自己的值</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">catch</span>(error) &#123;</span><br><span class="line">            callback(error);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;, <span class="number">0</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">callAsync</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="comment">//callback 判断获取异步异常值</span></span><br><span class="line">    asyncCallbackError(<span class="function"><span class="keyword">function</span>(<span class="params">error, value</span>)</span>&#123;</span><br><span class="line">        error ? <span class="built_in">console</span>.log(error) : <span class="string">"执行方法"</span>;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br><span class="line">callAsync();</span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -507,7 +485,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">40</span>
+                <span class="site-state-item-count">41</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -520,7 +498,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">26</span>
+                <span class="site-state-item-count">28</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

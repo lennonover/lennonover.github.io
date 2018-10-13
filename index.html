@@ -93,6 +93,7 @@
 <meta property="og:url" content="https://github.com/lennonover/index.html">
 <meta property="og:site_name" content="lennonover">
 <meta property="og:description" content="一丿口石砳磊">
+<meta property="og:locale" content="zh-Hans">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="lennonover">
 <meta name="twitter:description" content="一丿口石砳磊">
@@ -250,6 +251,127 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2018/10/13/视频优化/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lennonover">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lennonover">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2018/10/13/视频优化/" itemprop="url">
+                  视频优化
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-13T18:04:00+08:00">
+                2018-10-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>现在创意 H5 做的堪比电影，传统方式的动画、gif 已经满足不了性能需求，越来越多的内容正在以 HTML5 视频的方式呈现，随之而来的视频优化变得的越来越重要。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2018/04/17/硬件渲染了解一下/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -327,7 +449,45 @@
       
         
           
-            
+            <p>浏览器的渲染方式，主要分为两种，第一种是软件渲染，第二种是硬件渲染。如果绘制工作只是由 CPU 完成，那么称之为软件渲染，如果绘制工作由 GPU 完成，则称之为硬件渲染。软件渲染与硬件渲染有不同的缓存机制，只要我们合理利用，就能发挥出最好的效果。</p>
+<h2 id="开启"><a href="#开启" class="headerlink" title="开启"></a>开启</h2><p>浏览器还有一种名为硬件渲染的渲染方式，它是使用 GPU 的硬件能力来帮助渲染页面,那么是怎么设置的？</p>
+<ul>
+<li>启用硬件加速<br>  在<code>chrome</code>的地址栏中输入<code>chrome://settings/</code>回车滚动页面到地步，点击<code>显示高级设置</code>再次滚动到页面地步，找到<code>使用硬件加速模式</code></li>
+<li>开启gup硬件加速<br>  在<code>chrome</code>的地址栏中输入<code>chrome://flags/#disable-accelerated-video-decode</code>找到<code>硬件加速的视频解码</code>，点击<code>启用</code></li>
+</ul>
+<p>完成上面两步后重启浏览器</p>
+<h2 id="能做什么"><a href="#能做什么" class="headerlink" title="能做什么"></a>能做什么</h2><p>大家都知道在页面性能优化的时候都会用到 <code>GPU 加速</code>、<code>硬件加速</code>类似方式，浏览器一帧（1000/16ms）会依次执行以下，减少或者避免 layout，paint 可以让页更加流畅：</p>
+<blockquote>
+<ol>
+<li>JavaScript：JavaScript 实现动画效果，DOM 元素操作等。</li>
+<li>Style（计算样式）：确定每个 DOM 元素应该应用什么 CSS 规则。</li>
+<li>Layout（布局）：计算每个 DOM 元素在最终屏幕上显示的大小和位置。由于 web 页面的元素布局是相对的，所以其中任意一个元素的位置发生变化，都会联动的引起其他元素发生变化，这个过程叫 reflow。</li>
+<li>Paint（绘制）：在多个层上绘制 DOM 元素的的文字、颜色、图像、边框和阴影等。</li>
+<li>Composite（渲染层合并）：按照合理的顺序合并图层然后显示到屏幕上。</li>
+</ol>
+</blockquote>
+<p>一个页面是由多个图层最后形成一个完整的合成层才被渲染出来效果就像这样：<br><img src="https://user-gold-cdn.xitu.io/2018/4/17/162d382466397a7a?w=973&amp;h=602&amp;f=png&amp;s=358760" alt="渲染图"></p>
+<p>硬件渲染 WebKit 会依据指定条件决定将那些 RenderLayer 对象组合在一起形成一个新层并缓存在 GPU，这些新层我们统称为合成层（Compositing Layer）。这些合成层提升成独立的层，被独立出来之后，便不会再影响其他 dom 的布局。如果发生 偏移、透明度等等变换 GPU 要做的只是把更新的合成层进行相应的变换并送入 Compositor 重新合成即可，利用这个优点我们可以把页面中一些布局经常变换的 dom 提升到独立的层。</p>
+<p><img src="https://user-gold-cdn.xitu.io/2018/4/17/162d39bcf891cd34?w=1742&amp;h=667&amp;f=png&amp;s=269284" alt=""></p>
+<p>在上图中黄色边框表示放到了一个新的复合层（composited layer）中渲染，左侧的列表里列出页面里存在哪些渲染层，右侧的 Details 显示的是这些渲染层的详细信息，包括渲染层的大小、形成原因等。</p>
+<h2 id="如何触发合成层"><a href="#如何触发合成层" class="headerlink" title="如何触发合成层"></a>如何触发合成层</h2><ol>
+<li>根节点 document</li>
+<li>HTML5 Video或者Canvas元素。</li>
+<li>元素有一个 z-index 较低且包含一个复合层的兄弟元素</li>
+<li>3D 或透视变换(perspective，transform) CSS 属性 比如常用的 （设置translateZ()、backface-visibility为hidden）</li>
+</ol>
+<h2 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h2><p>也就是上面第三条，英文原版是这么说</p>
+<blockquote>
+<p>Element has a sibling with a lower z-index which has a compositing layer (in other words the it’s rendered on top of a composited layer)</p>
+</blockquote>
+<p>意思是，如果有一个元素，它的兄弟元素在复合层中渲染，而这个兄弟元素的z-index比较小，那么这个元素（不管是不是应用了硬件加速样式）也会被放到复合层中。</p>
+<p>所以用轮播、动画loading等页面的时候要注意下要遵循最小化影响原则，如果调试看到有很多 <code>黄色边框</code> 就要注意了。</p>
+<blockquote>
+<p>使用 3D 硬件加速提升动画性能时，最好给元素增加一个 z-index 属性，人为干扰复合层的排序，可以有效减少 chrome 创建不必要的复合层，提升渲染性能，移动端优化效果尤为明显。</p>
+</blockquote>
+<h2 id="关于-CSS3-will-change"><a href="#关于-CSS3-will-change" class="headerlink" title="关于 CSS3 will-change"></a>关于 CSS3 will-change</h2><p>前面说的那些有点hach，CSS3 will-change 才是正规军是属于 web 标准属性，兼容性这块 Chrome/FireFox/Opera 是支持的，他是提前通知浏览器元素将要做什么动画，让浏览器提前准备合适的优化设置，具体值：<br><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 关键字值 */</span></span><br><span class="line"><span class="selector-tag">will-change</span>: <span class="selector-tag">auto</span>;</span><br><span class="line"><span class="selector-tag">will-change</span>: <span class="selector-tag">scroll-position</span>;</span><br><span class="line"><span class="selector-tag">will-change</span>: <span class="selector-tag">contents</span>;</span><br><span class="line"><span class="selector-tag">will-change</span>: <span class="selector-tag">transform</span>;        <span class="comment">/* &lt;custom-ident&gt;示例 */</span></span><br><span class="line"><span class="selector-tag">will-change</span>: <span class="selector-tag">opacity</span>;          <span class="comment">/* &lt;custom-ident&gt;示例 */</span></span><br><span class="line"><span class="selector-tag">will-change</span>: <span class="selector-tag">left</span>, <span class="selector-tag">top</span>;        <span class="comment">/* 两个&lt;animateable-feature&gt;示例 */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* 全局值 */</span></span><br><span class="line"><span class="selector-tag">will-change</span>: <span class="selector-tag">inherit</span>;</span><br><span class="line"><span class="selector-tag">will-change</span>: <span class="selector-tag">initial</span>;</span><br><span class="line"><span class="selector-tag">will-change</span>: <span class="selector-tag">unset</span>;</span><br></pre></td></tr></table></figure></p>
+<p>will-change 虽然可以加速,但是不可滥用。。。</p>
+
           
         
       
@@ -449,20 +609,20 @@
           
             <p>函数式语言给了我一个全新的视角，从一个完全不同的方式去看待编程，开始会感到不自然，需要时间去适应。所有的定义都是基于函数，值不可更改，无状态，但是时间久了就会发现代码会更加简洁，而且容易复用。</p>
 <h2 id="if-简化"><a href="#if-简化" class="headerlink" title="if 简化"></a>if 简化</h2><p>几乎每个if语句的实例都可以用一个等价的三元操作来替代。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">// 典型的</div><div class="line">function saveCustomer(customer) &#123;</div><div class="line">  if (isCustomerValid(customer)) &#123;</div><div class="line">    database.save(customer)</div><div class="line">  &#125; else &#123;</div><div class="line">    alert(&apos;customer is invalid&apos;)</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line">// 三元</div><div class="line">function saveCustomer(customer) &#123;</div><div class="line">  return isCustomerValid(customer)</div><div class="line">    ? database.save(customer)</div><div class="line">    : alert(&apos;customer is invalid&apos;)</div><div class="line">&#125;</div><div class="line">// ES6 的写法</div><div class="line">const saveCustomer = customer =&gt;</div><div class="line">  isCustomerValid(customer)</div><div class="line">    ? database.save(customer)</div><div class="line">    : alert(&apos;customer is invalid&apos;)</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">// 典型的</span><br><span class="line">function saveCustomer(customer) &#123;</span><br><span class="line">  if (isCustomerValid(customer)) &#123;</span><br><span class="line">    database.save(customer)</span><br><span class="line">  &#125; else &#123;</span><br><span class="line">    alert(&apos;customer is invalid&apos;)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">// 三元</span><br><span class="line">function saveCustomer(customer) &#123;</span><br><span class="line">  return isCustomerValid(customer)</span><br><span class="line">    ? database.save(customer)</span><br><span class="line">    : alert(&apos;customer is invalid&apos;)</span><br><span class="line">&#125;</span><br><span class="line">// ES6 的写法</span><br><span class="line">const saveCustomer = customer =&gt;</span><br><span class="line">  isCustomerValid(customer)</span><br><span class="line">    ? database.save(customer)</span><br><span class="line">    : alert(&apos;customer is invalid&apos;)</span><br></pre></td></tr></table></figure>
 <p>多层嵌套</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">// 多层 else-if</div><div class="line">function customerValidation(customer) &#123;</div><div class="line">  if (!customer.email) &#123;</div><div class="line">    return error(&apos;email is require&apos;)</div><div class="line">  &#125; else if (!customer.login) &#123;</div><div class="line">    return error(&apos;login is required&apos;)</div><div class="line">  &#125; else if (!customer.name) &#123;</div><div class="line">    return error(&apos;name is required&apos;)</div><div class="line">  &#125; else &#123;</div><div class="line">    return customer</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">// ES6 三元修正</div><div class="line">const customerValidation = customer =&gt;</div><div class="line">  !customer.email   ? error(&apos;email is required&apos;)</div><div class="line">  : !customer.login ? error(&apos;login is required&apos;)</div><div class="line">  : !customer.name  ? error(&apos;name is required&apos;)</div><div class="line">                    : customer</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">// 多层 else-if</span><br><span class="line">function customerValidation(customer) &#123;</span><br><span class="line">  if (!customer.email) &#123;</span><br><span class="line">    return error(&apos;email is require&apos;)</span><br><span class="line">  &#125; else if (!customer.login) &#123;</span><br><span class="line">    return error(&apos;login is required&apos;)</span><br><span class="line">  &#125; else if (!customer.name) &#123;</span><br><span class="line">    return error(&apos;name is required&apos;)</span><br><span class="line">  &#125; else &#123;</span><br><span class="line">    return customer</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// ES6 三元修正</span><br><span class="line">const customerValidation = customer =&gt;</span><br><span class="line">  !customer.email   ? error(&apos;email is required&apos;)</span><br><span class="line">  : !customer.login ? error(&apos;login is required&apos;)</span><br><span class="line">  : !customer.name  ? error(&apos;name is required&apos;)</span><br><span class="line">                    : customer</span><br></pre></td></tr></table></figure>
 <p>现在就可以清楚地看到左侧定义的所有条件以及右侧返回的值。</p>
 <h2 id="没有-for-循环"><a href="#没有-for-循环" class="headerlink" title="没有 for 循环"></a>没有 for 循环</h2><p>filter, map 和 reduce 可以满足所有情况, filter、map 和 reduce 共同点就是并不会对原数组做任何改动，结果都是生成一个新变量。</p>
-<p>原始代码 获得小于 10个月的<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">const peoples = [</div><div class="line">  &#123; name: &apos;小明&apos;,     months: 84 &#125;,</div><div class="line">  &#123; name: &apos;小小明&apos;,   months: 24 &#125;,</div><div class="line">  &#123; name: &apos;小小小明&apos;, months: 4 &#125;</div><div class="line">]</div><div class="line">var children = []</div><div class="line">for (var i = 0; i &lt; peoples.length; i++) &#123;</div><div class="line">  if (peoples[i].months &lt; 10) &#123;</div><div class="line">    children.push(peoples[i].name)</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line">console.log(children)</div></pre></td></tr></table></figure></p>
+<p>原始代码 获得小于 10个月的<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">const peoples = [</span><br><span class="line">  &#123; name: &apos;小明&apos;,     months: 84 &#125;,</span><br><span class="line">  &#123; name: &apos;小小明&apos;,   months: 24 &#125;,</span><br><span class="line">  &#123; name: &apos;小小小明&apos;, months: 4 &#125;</span><br><span class="line">]</span><br><span class="line">var children = []</span><br><span class="line">for (var i = 0; i &lt; peoples.length; i++) &#123;</span><br><span class="line">  if (peoples[i].months &lt; 10) &#123;</span><br><span class="line">    children.push(peoples[i].name)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">console.log(children)</span><br></pre></td></tr></table></figure></p>
 <p>将 if 语句提取到它自己的函数中</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">const isChildren = people =&gt; people.months &lt; 10</div><div class="line">var children = []</div><div class="line">for (var i = 0; i &lt; peoples.length; i++) &#123;</div><div class="line">  if (isChildren(peoples[i])) &#123;</div><div class="line">    children.push(peoples[i].name)</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">const isChildren = people =&gt; people.months &lt; 10</span><br><span class="line">var children = []</span><br><span class="line">for (var i = 0; i &lt; peoples.length; i++) &#123;</span><br><span class="line">  if (isChildren(peoples[i])) &#123;</span><br><span class="line">    children.push(peoples[i].name)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>下一个改变是从 people 类型的对象中提取转换（或映射）到名称。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">const isChildren = people =&gt; people.months &lt; 10</div><div class="line">const getName = people =&gt; people.name</div><div class="line">var children = []</div><div class="line">for (var i = 0; i &lt; peoples.length; i++) &#123;</div><div class="line">  if (isChildren(peoples[i])) &#123;</div><div class="line">    children.push(getName(peoples[i]))</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">const isChildren = people =&gt; people.months &lt; 10</span><br><span class="line">const getName = people =&gt; people.name</span><br><span class="line">var children = []</span><br><span class="line">for (var i = 0; i &lt; peoples.length; i++) &#123;</span><br><span class="line">  if (isChildren(peoples[i])) &#123;</span><br><span class="line">    children.push(getName(peoples[i]))</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>最后一步 使用 map 操作，最好地展示您的代码的可读性</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">const isChildren = people =&gt; people.months &lt; 10</div><div class="line">const getName = people =&gt; people.name</div><div class="line">const children =</div><div class="line">  peoples.filter(isChildren)</div><div class="line">      .map(getName)</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">const isChildren = people =&gt; people.months &lt; 10</span><br><span class="line">const getName = people =&gt; people.name</span><br><span class="line">const children =</span><br><span class="line">  peoples.filter(isChildren)</span><br><span class="line">      .map(getName)</span><br></pre></td></tr></table></figure>
 <p>完成</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">const isChildren = people =&gt; people.months &lt; 10</div><div class="line">const getName = people =&gt; people.name</div><div class="line">const getChildrenNames = peoples =&gt;</div><div class="line">  peoples.filter(isChildren)</div><div class="line">      .map(getName)</div><div class="line">const peoples = [</div><div class="line">    &#123; name: &apos;小明&apos;,     months: 84 &#125;,</div><div class="line">    &#123; name: &apos;小小明&apos;,   months: 24 &#125;,</div><div class="line">    &#123; name: &apos;小小小明&apos;, months: 4 &#125;</div><div class="line">]</div><div class="line">const children = getChildrenNames(peoples)</div><div class="line">console.log(children)</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">const isChildren = people =&gt; people.months &lt; 10</span><br><span class="line">const getName = people =&gt; people.name</span><br><span class="line">const getChildrenNames = peoples =&gt;</span><br><span class="line">  peoples.filter(isChildren)</span><br><span class="line">      .map(getName)</span><br><span class="line">const peoples = [</span><br><span class="line">    &#123; name: &apos;小明&apos;,     months: 84 &#125;,</span><br><span class="line">    &#123; name: &apos;小小明&apos;,   months: 24 &#125;,</span><br><span class="line">    &#123; name: &apos;小小小明&apos;, months: 4 &#125;</span><br><span class="line">]</span><br><span class="line">const children = getChildrenNames(peoples)</span><br><span class="line">console.log(children)</span><br></pre></td></tr></table></figure>
           
         
       
@@ -583,7 +743,7 @@
         
           
             <blockquote>
-<p>浏览器中输入www.baidu.com 直到看到页面之间发生了什么？</p>
+<p>浏览器中输入<a href="http://www.baidu.com" target="_blank" rel="noopener">www.baidu.com</a> 直到看到页面之间发生了什么？</p>
 </blockquote>
 <p>今天就说说根据这道题梳理自己的前端知识！</p>
 <h2 id="解析-URL"><a href="#解析-URL" class="headerlink" title="解析 URL"></a>解析 URL</h2><p>解释 URL 是浏览器的活，所以首先要搞明白浏览器的工作方式。<br>浏览器是多进程的，有一个主控进程，进程可能包括主控进程，插件进程，GPU，tab 页（浏览器内核）等等，主要包括：</p>
@@ -633,10 +793,10 @@
 </li>
 </ul>
 <p>强缓存判断依据</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">（http1.1）Cache-Control =&gt; Cache-Control: max-age = 35600</div><div class="line">（http1.0）Expires =&gt; 服务器端的时间</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">（http1.1）Cache-Control =&gt; Cache-Control: max-age = 35600</span><br><span class="line">（http1.0）Expires =&gt; 服务器端的时间</span><br></pre></td></tr></table></figure>
 <p>cache-control 中的 max-age 保存一个相对时间。例如 Cache-Control: max-age = 35600，表示浏览器收到文件后，缓存在35600s内均有效。如果同时存在 cache-control 和 Expires ，浏览器总是优先使用cache-control。<br>Max-Age 相比 Expires，Expires 使用的是服务器端的时间，但是有时候会有这样一种情况-客户端时间和服务端不同步。所以一般 http1.1 后不推荐使用 Expires。</p>
 <p>对比缓存判断依据</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">（http1.1）E-tag/If-None-Match</div><div class="line">（http1.0）Last-Modified/If-Modified-Since</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">（http1.1）E-tag/If-None-Match</span><br><span class="line">（http1.0）Last-Modified/If-Modified-Since</span><br></pre></td></tr></table></figure>
 <p>last-modified 是第一次请求资源时，服务器返回的字段，表示最后一次更新的时间。下一次浏览器请求资源时就发送 if-modified-since 字段。服务器用本地 Last-modified 时间与 if-modified-since 时间比较，如果不一致则认为缓存已过期并返回新资源给浏览器；如果时间一致则发送304状态码，让浏览器继续使用缓存。</p>
 <p>E-tag：资源的实体标识（哈希字符串），当资源内容更新时，E-tag 会改变。服务器会判断E-tag是否发生变化，如果变化则返回新资源，否则返回304。<br>　　<br>如果同时带有 E-tag 和 Last-Modified，服务端会优先检查 E-tag</p>
 <p>在浏览器接收到服务器响应后，会检测响应头部（Header），如果有nEtag 字段，那么浏览器就会将本次缓存写入硬盘中。
@@ -651,7 +811,7 @@
 <li>如果本地没有，就向 dns 域名服务器查询（当然，中间可能还会经过路由，也有缓存等），查询到对应的 IP</li>
 </ul>
 <p>dns 解析是很耗时的，因此如果解析域名过多，会让首屏加载变得过慢，可以考虑 <code>dns-prefetch</code> 优化</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">a 标签的 DNS 预解析 默认是开启的 但是当 使用 https 的时候是默认关闭的需要手动开启 a 标签的预解析</div><div class="line">&lt;meta http-equiv=&quot;x-dns-prefetch-control&quot; content=&quot;on&quot;&gt;    </div><div class="line"></div><div class="line">开启 dns 预解析</div><div class="line">&lt;link rel=&quot;dns-prefetch&quot; href=&quot;IP地址&quot;&gt;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">a 标签的 DNS 预解析 默认是开启的 但是当 使用 https 的时候是默认关闭的需要手动开启 a 标签的预解析</span><br><span class="line">&lt;meta http-equiv=&quot;x-dns-prefetch-control&quot; content=&quot;on&quot;&gt;    </span><br><span class="line"></span><br><span class="line">开启 dns 预解析</span><br><span class="line">&lt;link rel=&quot;dns-prefetch&quot; href=&quot;IP地址&quot;&gt;</span><br></pre></td></tr></table></figure>
 <ul>
 <li>tcp/ip 请求</li>
 </ul>
@@ -659,13 +819,13 @@
 <ul>
 <li>建立链接（三次握手）</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">客户端发个请求“开门呐，我要进来”给服务器</div><div class="line">服务器发个“进来吧，我去给你开门”给客户端</div><div class="line">客户端有很客气的发个“谢谢，我要进来了”给服务器</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">客户端发个请求“开门呐，我要进来”给服务器</span><br><span class="line">服务器发个“进来吧，我去给你开门”给客户端</span><br><span class="line">客户端有很客气的发个“谢谢，我要进来了”给服务器</span><br></pre></td></tr></table></figure>
 <p>建立连接也会断开连接只是不是这时候断开，先提前说下</p>
 <ul>
 <li>断开连接（四次挥手）</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">客户端发个“时间不早了，我要走了”给服务器，等服务器起身送他</div><div class="line">服务器听到了，发个“我知道了，那我送你出门吧”给客户端，等客户端走</div><div class="line">服务器把门关上后，发个“我关门了”给客户端，然后等客户端走（尼玛~矫情啊）</div><div class="line">客户端发个“我知道了，我走了”，之后自己就走了</div></pre></td></tr></table></figure>
-<p>由于 tcp/ip 对链接有并发的控制，所以有甚多针对请求的优化，比如合并请求的雪碧图。<br>关于这里有涉及到五层网络协议，就是从客户端发出 http 请求到服务器接收，中间会经过一系列的流程。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">应用层（dns,http） DNS 解析成IP并发送 http 请求</div><div class="line">传输层（tcp/ip）建立连接</div><div class="line">网络层（ip）IP 寻址</div><div class="line">数据链层（ppp）封装成二进制帧</div><div class="line">物理层 物理传输</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">客户端发个“时间不早了，我要走了”给服务器，等服务器起身送他</span><br><span class="line">服务器听到了，发个“我知道了，那我送你出门吧”给客户端，等客户端走</span><br><span class="line">服务器把门关上后，发个“我关门了”给客户端，然后等客户端走（尼玛~矫情啊）</span><br><span class="line">客户端发个“我知道了，我走了”，之后自己就走了</span><br></pre></td></tr></table></figure>
+<p>由于 tcp/ip 对链接有并发的控制，所以有甚多针对请求的优化，比如合并请求的雪碧图。<br>关于这里有涉及到五层网络协议，就是从客户端发出 http 请求到服务器接收，中间会经过一系列的流程。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">应用层（dns,http） DNS 解析成IP并发送 http 请求</span><br><span class="line">传输层（tcp/ip）建立连接</span><br><span class="line">网络层（ip）IP 寻址</span><br><span class="line">数据链层（ppp）封装成二进制帧</span><br><span class="line">物理层 物理传输</span><br></pre></td></tr></table></figure></p>
 <p>其实也有一个完整的 OSI 七层框架，与之相比，多了会话层、表示层。</p>
 <p>浏览器向服务器发送 HTTP 请求。</p>
 <ul>
@@ -673,15 +833,15 @@
 </ul>
 <p>报文一般包括了：通用头部，请求/响应头部，请求/响应体</p>
 <ul>
-<li>通用头部<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">Request Url: 请求的web服务器地址</div><div class="line">Request Method: 请求方式</div><div class="line">（Get、POST、OPTIONS、PUT、HEAD、DELETE、CONNECT、TRACE）</div><div class="line">Status Code: 请求的返回状态码，如200代表成功</div><div class="line">Remote Address: 请求的远程服务器地址（会转为IP）</div></pre></td></tr></table></figure>
+<li>通用头部<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Request Url: 请求的web服务器地址</span><br><span class="line">Request Method: 请求方式</span><br><span class="line">（Get、POST、OPTIONS、PUT、HEAD、DELETE、CONNECT、TRACE）</span><br><span class="line">Status Code: 请求的返回状态码，如200代表成功</span><br><span class="line">Remote Address: 请求的远程服务器地址（会转为IP）</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
-<p>code 状态码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">1xx——指示信息，表示请求已接收，继续处理</div><div class="line">2xx——成功，表示请求已被成功接收、理解、接受</div><div class="line">3xx——重定向，要完成请求必须进行更进一步的操作</div><div class="line">4xx——客户端错误，请求有语法错误或请求无法实现</div><div class="line">5xx——服务器端错误，服务器未能实现合法的请求</div></pre></td></tr></table></figure></p>
+<p>code 状态码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">1xx——指示信息，表示请求已接收，继续处理</span><br><span class="line">2xx——成功，表示请求已被成功接收、理解、接受</span><br><span class="line">3xx——重定向，要完成请求必须进行更进一步的操作</span><br><span class="line">4xx——客户端错误，请求有语法错误或请求无法实现</span><br><span class="line">5xx——服务器端错误，服务器未能实现合法的请求</span><br></pre></td></tr></table></figure></p>
 <p>请求/响应头部</p>
 <p>常用的请求头部（部分）：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">Accept: 接收类型，表示浏览器支持的MIME类型（对标服务端返回的 Content-Type ）</div><div class="line">Accept-Encoding：浏览器支持的压缩类型,如 gzip 等,超出类型不能接收</div><div class="line">Content-Type：客户端发送出去实体内容的类型</div><div class="line">Cache-Control: 指定请求和响应遵循的缓存机制，如 no-cache</div><div class="line">If-Modified-Since：对应服务端的 Last-Modified ，用来匹配看文件是否变动，只能精确到 1s 之内，http1.0中</div><div class="line">Expires：缓存控制，在这个时间内不会请求，直接使用缓存，http1.0，而且是服务端时间</div><div class="line">Max-age：代表资源在本地缓存多少秒，有效时间内不会请求，而是使用缓存，http1.1中</div><div class="line">If-None-Match：对应服务端的 E-tag，用来匹配文件内容是否改变（非常精确），http1.1 中</div><div class="line">Cookie: 有 cookie 并且同域访问时会自动带上</div><div class="line">Connection: 当浏览器与服务器通信时对于长连接如何进行处理,如 keep-alive</div><div class="line">Host：请求的服务器 URL</div><div class="line">Origin：最初的请求是从哪里发起的（只会精确到端口）,Origin 比 Referer 更尊重隐私</div><div class="line">Referer：该页面的来源URL(适用于所有类型的请求，会精确到详细页面地址，csrf拦截常用到这个字段)</div><div class="line">User-Agent：用户客户端的一些必要信息，如 UA 头部等</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">Accept: 接收类型，表示浏览器支持的MIME类型（对标服务端返回的 Content-Type ）</span><br><span class="line">Accept-Encoding：浏览器支持的压缩类型,如 gzip 等,超出类型不能接收</span><br><span class="line">Content-Type：客户端发送出去实体内容的类型</span><br><span class="line">Cache-Control: 指定请求和响应遵循的缓存机制，如 no-cache</span><br><span class="line">If-Modified-Since：对应服务端的 Last-Modified ，用来匹配看文件是否变动，只能精确到 1s 之内，http1.0中</span><br><span class="line">Expires：缓存控制，在这个时间内不会请求，直接使用缓存，http1.0，而且是服务端时间</span><br><span class="line">Max-age：代表资源在本地缓存多少秒，有效时间内不会请求，而是使用缓存，http1.1中</span><br><span class="line">If-None-Match：对应服务端的 E-tag，用来匹配文件内容是否改变（非常精确），http1.1 中</span><br><span class="line">Cookie: 有 cookie 并且同域访问时会自动带上</span><br><span class="line">Connection: 当浏览器与服务器通信时对于长连接如何进行处理,如 keep-alive</span><br><span class="line">Host：请求的服务器 URL</span><br><span class="line">Origin：最初的请求是从哪里发起的（只会精确到端口）,Origin 比 Referer 更尊重隐私</span><br><span class="line">Referer：该页面的来源URL(适用于所有类型的请求，会精确到详细页面地址，csrf拦截常用到这个字段)</span><br><span class="line">User-Agent：用户客户端的一些必要信息，如 UA 头部等</span><br></pre></td></tr></table></figure>
 <p>常用的响应头部（部分）：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">Access-Control-Allow-Headers: 服务器端允许的请求 Headers</div><div class="line">Access-Control-Allow-Methods: 服务器端允许的请求方法</div><div class="line">Access-Control-Allow-Origin: 服务器端允许的请求 Origin 头部（譬如为*）</div><div class="line">Content-Type：服务端返回的实体内容的类型</div><div class="line">Date：数据从服务器发送的时间</div><div class="line">Cache-Control：告诉浏览器或其他客户，什么环境可以安全的缓存文档</div><div class="line">Last-Modified：请求资源的最后修改时间</div><div class="line">Expires：应该在什么时候认为文档已经过期,从而不再缓存它</div><div class="line">Max-age：客户端的本地资源应该缓存多少秒，开启了Cache-Control 后有效</div><div class="line">E-tag：请求变量的实体标签的当前值</div><div class="line">Set-Cookie：设置和页面关联的 cookie，服务器通过这个头部把 cookie 传给客户端</div><div class="line">Keep-Alive：如果客户端有 keep-alive，服务端也会有响应（如 timeout=38 ）</div><div class="line">Server：服务器的一些相关信息</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">Access-Control-Allow-Headers: 服务器端允许的请求 Headers</span><br><span class="line">Access-Control-Allow-Methods: 服务器端允许的请求方法</span><br><span class="line">Access-Control-Allow-Origin: 服务器端允许的请求 Origin 头部（譬如为*）</span><br><span class="line">Content-Type：服务端返回的实体内容的类型</span><br><span class="line">Date：数据从服务器发送的时间</span><br><span class="line">Cache-Control：告诉浏览器或其他客户，什么环境可以安全的缓存文档</span><br><span class="line">Last-Modified：请求资源的最后修改时间</span><br><span class="line">Expires：应该在什么时候认为文档已经过期,从而不再缓存它</span><br><span class="line">Max-age：客户端的本地资源应该缓存多少秒，开启了Cache-Control 后有效</span><br><span class="line">E-tag：请求变量的实体标签的当前值</span><br><span class="line">Set-Cookie：设置和页面关联的 cookie，服务器通过这个头部把 cookie 传给客户端</span><br><span class="line">Keep-Alive：如果客户端有 keep-alive，服务端也会有响应（如 timeout=38 ）</span><br><span class="line">Server：服务器的一些相关信息</span><br></pre></td></tr></table></figure>
 <p>一般来说，请求头部和响应头部是匹配分析的。</p>
 <p>譬如，请求头部的 Accept 要和响应头部的 Content-Type 匹配，否则会报错</p>
 <p>譬如，跨域请求时，请求头部的 Origin 要匹配响应头部的 Access-Control-Allow-Origin，否则会报跨域错误</p>
@@ -702,7 +862,7 @@
 <p>说到了多域名拆分，这里再提一个问题，那就是：</p>
 <p>在移动端，如果请求的域名数过多，会降低请求速度（因为域名整套解析流程是很耗费时间的，而且移动端一般带宽都比不上pc）此时就需要用到一种优化方案：dns-prefetch（让浏览器空闲时提前解析dns域名，不过也请合理使用，勿滥用）</p>
 <p>说到 cookie 就要把 localStorage，sessionStorage 区分下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">cookie 数据始终在同源的 http 请求中携带（即使不需要），即 cookie 在浏览器和服务器间来回传递。而 sessionStorage 和 localStorage 不会自动把数据发给服务器，仅在本地保存。</div><div class="line"></div><div class="line">cookie 数据还有路径（path）的概念，可以限制 cookie 只属于某个路径下。</div><div class="line"></div><div class="line">存储大小限制也不同，cookie 数据不能超过 4k，同时因为每次 http 请求都会携带cookie，所以 cookie 只适合保存很小的数据，如会话标识。sessionStorage 和 localStorage 虽然也有存储大小的限制，但比 cookie 大得多，可以达到5M或更大。</div><div class="line"></div><div class="line">数据有效期不同，sessionStorage：仅在当前浏览器窗口关闭前有效，自然也就不可能持久保持；localStorage：始终有效，窗口或浏览器关闭也一直保存，因此用作持久数据；cookie只在设置的 cookie 过期时间之前一直有效，即使窗口或浏览器关闭。</div><div class="line"></div><div class="line">作用域不同，sessionStorage 不在不同的浏览器窗口中共享，即使是同一个页面；localStorage 在所有同源窗口中都是共享的；cookie 也是在所有同源窗口中都是共享的。</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">cookie 数据始终在同源的 http 请求中携带（即使不需要），即 cookie 在浏览器和服务器间来回传递。而 sessionStorage 和 localStorage 不会自动把数据发给服务器，仅在本地保存。</span><br><span class="line"></span><br><span class="line">cookie 数据还有路径（path）的概念，可以限制 cookie 只属于某个路径下。</span><br><span class="line"></span><br><span class="line">存储大小限制也不同，cookie 数据不能超过 4k，同时因为每次 http 请求都会携带cookie，所以 cookie 只适合保存很小的数据，如会话标识。sessionStorage 和 localStorage 虽然也有存储大小的限制，但比 cookie 大得多，可以达到5M或更大。</span><br><span class="line"></span><br><span class="line">数据有效期不同，sessionStorage：仅在当前浏览器窗口关闭前有效，自然也就不可能持久保持；localStorage：始终有效，窗口或浏览器关闭也一直保存，因此用作持久数据；cookie只在设置的 cookie 过期时间之前一直有效，即使窗口或浏览器关闭。</span><br><span class="line"></span><br><span class="line">作用域不同，sessionStorage 不在不同的浏览器窗口中共享，即使是同一个页面；localStorage 在所有同源窗口中都是共享的；cookie 也是在所有同源窗口中都是共享的。</span><br></pre></td></tr></table></figure>
 <ul>
 <li>gzip 压缩</li>
 </ul>
@@ -725,7 +885,7 @@
 <li>https</li>
 </ul>
 <p>简单来看，https 与 http 的区别就是： 在请求前，会建立 ssl 链接，确保接下来的通信都是加密的，无法被轻易截取分析。如果要将网站升级成 https，需要后端支持（后端需要申请证书等），然后 https 的开销也比http要大（因为需要额外建立安全链接以及加密等），所以一般来说 http2.0 配合 https 的体验更佳（因为 http2.0 更快了）SSL/TLS 的握手流程握手流程：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">1. 浏览器建立 SSL 连接，像服务端 发送一个随机数和加密方法</div><div class="line">2. 服务端选取加密方法回复一个随机数并将自己的证书发送过去</div><div class="line">3. 浏览器收到证书后</div><div class="line">    - 验证证书合法性</div><div class="line">    - 用户街道证书后生成新的随机数，然后证书中的公钥以及指定的加密方法加密发送</div><div class="line">    - 通过一定的算法生成 HTTP 链接数据传输的对称加密 key</div><div class="line">    - 使用约定好的算法计算握手消息，并使用生成的 key 对消息进行加密，最后将之前生成的所有信息发送给服务端。 </div><div class="line">4. 服务端收到浏览器的回复</div><div class="line">    - 利用已知的加解密方式与自己的私钥进行解密</div><div class="line">    - 和浏览器相同规则生成 key</div><div class="line">    - 使用 key 解密浏览器发来的握手消息，并验证Hash是否与浏览器发来的一致</div><div class="line">    - 使用 key 加密一段握手消息，发送给浏览器</div><div class="line">5. 浏览器解密并计算握手消息的HASH，如果与服务端发来的HASH一致，此时握手过程结束</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">1. 浏览器建立 SSL 连接，像服务端 发送一个随机数和加密方法</span><br><span class="line">2. 服务端选取加密方法回复一个随机数并将自己的证书发送过去</span><br><span class="line">3. 浏览器收到证书后</span><br><span class="line">    - 验证证书合法性</span><br><span class="line">    - 用户街道证书后生成新的随机数，然后证书中的公钥以及指定的加密方法加密发送</span><br><span class="line">    - 通过一定的算法生成 HTTP 链接数据传输的对称加密 key</span><br><span class="line">    - 使用约定好的算法计算握手消息，并使用生成的 key 对消息进行加密，最后将之前生成的所有信息发送给服务端。 </span><br><span class="line">4. 服务端收到浏览器的回复</span><br><span class="line">    - 利用已知的加解密方式与自己的私钥进行解密</span><br><span class="line">    - 和浏览器相同规则生成 key</span><br><span class="line">    - 使用 key 解密浏览器发来的握手消息，并验证Hash是否与浏览器发来的一致</span><br><span class="line">    - 使用 key 加密一段握手消息，发送给浏览器</span><br><span class="line">5. 浏览器解密并计算握手消息的HASH，如果与服务端发来的HASH一致，此时握手过程结束</span><br></pre></td></tr></table></figure>
 <ul>
 <li>http 2.0</li>
 </ul>
@@ -765,9 +925,9 @@
 <ul>
 <li>渲染</li>
 </ul>
-<p>布局是由 CPU 处理的，而绘制则是由 GPU 完成的,GPU 会对我们的渲染层作缓存，如果我们把那些一直发生大量重排重绘的元素提取出来，单独触发一个渲染层，那样这个元素不就不会“连累”其他元素一块重绘。<br>Video 元素、WebGL、Canvas、CSS3 3D、CSS滤镜、z-index 大于某个相邻节点的元素都会触发新的 Layer，如果图层中某个元素需要重绘，那么整个图层都需要重绘。比如一个图层包含很多节点，其中有个 gif 图，gif 图的每一帧，都会重回整个图层的其他节点，然后生成最终的图层位图。所以这需要通过特殊的方式来强制 gif 图属于自己一个图层，就是给某个元素加上下面的样式：<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">transform</span>: <span class="selector-tag">translateZ</span>(0);</div><div class="line"><span class="selector-tag">backface-visibility</span>: <span class="selector-tag">hidden</span>;</div></pre></td></tr></table></figure></p>
+<p>布局是由 CPU 处理的，而绘制则是由 GPU 完成的,GPU 会对我们的渲染层作缓存，如果我们把那些一直发生大量重排重绘的元素提取出来，单独触发一个渲染层，那样这个元素不就不会“连累”其他元素一块重绘。<br>Video 元素、WebGL、Canvas、CSS3 3D、CSS滤镜、z-index 大于某个相邻节点的元素都会触发新的 Layer，如果图层中某个元素需要重绘，那么整个图层都需要重绘。比如一个图层包含很多节点，其中有个 gif 图，gif 图的每一帧，都会重回整个图层的其他节点，然后生成最终的图层位图。所以这需要通过特殊的方式来强制 gif 图属于自己一个图层，就是给某个元素加上下面的样式：<br><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">transform</span>: <span class="selector-tag">translateZ</span>(0);</span><br><span class="line"><span class="selector-tag">backface-visibility</span>: <span class="selector-tag">hidden</span>;</span><br></pre></td></tr></table></figure></p>
 <p>也会触发渲染层，把容易触发重排重绘的元素单独触发渲染层，让它与那些“静态”元素隔离，让GPU分担更多的渲染工作，我们通常把这样的措施成为硬件加速，或者是GPU加速。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">Style：该区域为样式计算阶段，浏览器会根据选择器（就是CSS选择器，如.td）计算出哪些节点应用哪些CSS规则，然后计算出每个节点的最终样式并应用到节点上。</div><div class="line"></div><div class="line">Layout：该区域为布局计算阶段，浏览器会在该过程中根据节点的样式规则来计算它要占据的空间大小以及在屏幕中的位置。</div><div class="line"></div><div class="line">Paint：该区域为绘制阶段，浏览器会先创建绘图调用的列表，然后填充像素。绘制阶段会涉及到文本、颜色、图像、边框和阴影，基本上包括了每个可视部分。绘制一般是在多个图层（用过Photoshop等图片编辑软件的童鞋一定很眼熟图层这个词，这里的图层的含义其实是差不多的）上完成的。</div><div class="line"></div><div class="line">Composite：该区域为合成阶段，浏览器将多个图层按照正确顺序绘制到屏幕上。</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Style：该区域为样式计算阶段，浏览器会根据选择器（就是CSS选择器，如.td）计算出哪些节点应用哪些CSS规则，然后计算出每个节点的最终样式并应用到节点上。</span><br><span class="line"></span><br><span class="line">Layout：该区域为布局计算阶段，浏览器会在该过程中根据节点的样式规则来计算它要占据的空间大小以及在屏幕中的位置。</span><br><span class="line"></span><br><span class="line">Paint：该区域为绘制阶段，浏览器会先创建绘图调用的列表，然后填充像素。绘制阶段会涉及到文本、颜色、图像、边框和阴影，基本上包括了每个可视部分。绘制一般是在多个图层（用过Photoshop等图片编辑软件的童鞋一定很眼熟图层这个词，这里的图层的含义其实是差不多的）上完成的。</span><br><span class="line"></span><br><span class="line">Composite：该区域为合成阶段，浏览器将多个图层按照正确顺序绘制到屏幕上。</span><br></pre></td></tr></table></figure>
 <p>如果动态修改了 DOM 或 CSS，就会重新布局（Layout）或渲染（Repaint）这里 Layou t和 Repaint 的概念是有区别的：</p>
 <ul>
 <li><p>Layout，也称为Reflow，即回流。一般意味着元素的内容、结构、位置或尺寸发生了变化，需要重新计算样式和渲染树</p>
@@ -776,7 +936,7 @@
 </li>
 </ul>
 <p>什么会引起回流？</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">1.页面渲染初始化</div><div class="line"></div><div class="line">2.DOM结构改变，比如删除了某个节点</div><div class="line"></div><div class="line">3.render树变化，比如减少了padding</div><div class="line"></div><div class="line">4.窗口resize</div><div class="line"></div><div class="line">5.改变字体大小会引发回流</div><div class="line"></div><div class="line">6.最复杂的一种：获取某些属性，引发回流</div><div class="line">很多浏览器会对回流做优化，会等到数量足够时做一次批处理回流，但是除了render树的直接变化，当获取一些属性时，浏览器为了获得正确的值也会触发回流，这样使得浏览器优化无效，包括</div><div class="line">    (1) offset(Top/Left/Width/Height)</div><div class="line">    (2) scroll(Top/Left/Width/Height)</div><div class="line">    (3) cilent(Top/Left/Width/Height)</div><div class="line">    (4) width,height</div><div class="line">    (5) 调用了getComputedStyle()或者IE的currentStyle</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">1.页面渲染初始化</span><br><span class="line"></span><br><span class="line">2.DOM结构改变，比如删除了某个节点</span><br><span class="line"></span><br><span class="line">3.render树变化，比如减少了padding</span><br><span class="line"></span><br><span class="line">4.窗口resize</span><br><span class="line"></span><br><span class="line">5.改变字体大小会引发回流</span><br><span class="line"></span><br><span class="line">6.最复杂的一种：获取某些属性，引发回流</span><br><span class="line">很多浏览器会对回流做优化，会等到数量足够时做一次批处理回流，但是除了render树的直接变化，当获取一些属性时，浏览器为了获得正确的值也会触发回流，这样使得浏览器优化无效，包括</span><br><span class="line">    (1) offset(Top/Left/Width/Height)</span><br><span class="line">    (2) scroll(Top/Left/Width/Height)</span><br><span class="line">    (3) cilent(Top/Left/Width/Height)</span><br><span class="line">    (4) width,height</span><br><span class="line">    (5) 调用了getComputedStyle()或者IE的currentStyle</span><br></pre></td></tr></table></figure>
 <p>回流一定伴随着重绘，重绘却可以单独出现</p>
 <p>所以一般会有一些优化方案，如：</p>
 <ul>
@@ -785,7 +945,7 @@
 <li>避免多次读取offset等属性。无法避免则将它们缓存到变量</li>
 <li>将复杂的元素绝对定位或固定定位，使得它脱离文档流，否则回流代价会很高</li>
 </ul>
-<p>最后如果想要知道每个CSS属性将会对哪个阶段产生怎样的影响，请去 <a href="https://csstriggers.com/" target="_blank" rel="external">CSS Triggers</a>，该网站详细地说明了每个CSS属性会影响到哪个阶段。</p>
+<p>最后如果想要知道每个CSS属性将会对哪个阶段产生怎样的影响，请去 <a href="https://csstriggers.com/" target="_blank" rel="noopener">CSS Triggers</a>，该网站详细地说明了每个CSS属性会影响到哪个阶段。</p>
 <ul>
 <li>关闭TCP连接或继续保持连接</li>
 </ul>
@@ -912,33 +1072,33 @@
           
             <p>webGis 经常会遇到地图上标记文字问题，但是文字空间不够时，就会造成文字重叠显示混乱的现象，导致效果很不好，下面就说说解决方案。</p>
 <h2 id="文字避让"><a href="#文字避让" class="headerlink" title="文字避让"></a>文字避让</h2><p>文字标注算法是 GIS 中最复杂（NP）的问题之一，本篇将介绍四分位模型算法。<br>关于文字在地图上的坐标是经纬度坐标根据墨卡托转换而来。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">[</div><div class="line">  &#123;</div><div class="line">    &quot;name&quot;: &quot;南京市&quot;,//要显示的文字</div><div class="line">    &quot;lon&quot;: 118.15,</div><div class="line">    &quot;lat&quot;: 32.89,</div><div class="line">    &quot;pixel&quot;: &#123; //像素坐标</div><div class="line">      &quot;x&quot;: 968,</div><div class="line">      &quot;y&quot;: 736</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">]</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[</span><br><span class="line">  &#123;</span><br><span class="line">    &quot;name&quot;: &quot;南京市&quot;,//要显示的文字</span><br><span class="line">    &quot;lon&quot;: 118.15,</span><br><span class="line">    &quot;lat&quot;: 32.89,</span><br><span class="line">    &quot;pixel&quot;: &#123; //像素坐标</span><br><span class="line">      &quot;x&quot;: 968,</span><br><span class="line">      &quot;y&quot;: 736</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
 <ul>
 <li>求出每段文字矩形的实际大小</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">let ctx = this.container.getContext(&apos;2d&apos;); // canvas 上下文</div><div class="line">let width= ctx.measureText(name).width;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">let ctx = this.container.getContext(&apos;2d&apos;); // canvas 上下文</span><br><span class="line">let width= ctx.measureText(name).width;</span><br></pre></td></tr></table></figure>
 <p>通过 measureText 得到每个文字的宽度，canvas 并没有直接获取文字的方法，那文字的高度如何的得到呢？</p>
 <p>我们通过反复测试发现 canvas 的 font 等于 “13px Arial” 字体的时候，文字的高度大概是 fontSize 的 1.1 倍。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">let fontSize = parseInt(ctx.font);</div><div class="line">let height = fontSize * 1.1;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">let fontSize = parseInt(ctx.font);</span><br><span class="line">let height = fontSize * 1.1;</span><br></pre></td></tr></table></figure>
 <p>文字的宽度和高度得到后，我们就可以创建文字矩形的坐标系了。</p>
 <p>所谓四分位模型，每一个标记点都有上下左右四个放文字的位子，如果左边放不下，那就放右边试试，还不行就放到下面试试，以此类推</p>
 <p>创建右侧虚拟矩形坐标描述：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">_getLeftAnchor() &#123;</div><div class="line">    let x = this.center.x - this.radius - this.textReact.width,</div><div class="line">        y = this.center.y - this.textReact.height / 2,</div><div class="line">        diam = this.radius * 2,</div><div class="line">        maxH = diam &gt; this.textReact.height ? diam : this.textReact.height; //矩形的高度</div><div class="line">    return &#123;</div><div class="line">        x,</div><div class="line">        y,</div><div class="line">        minX: x,</div><div class="line">        maxX: this.center.x + this.radius,</div><div class="line">        minY: this.center.y - maxH / 2,</div><div class="line">        maxY: this.center.y + maxH / 2</div><div class="line">    &#125;;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">_getLeftAnchor() &#123;</span><br><span class="line">    let x = this.center.x - this.radius - this.textReact.width,</span><br><span class="line">        y = this.center.y - this.textReact.height / 2,</span><br><span class="line">        diam = this.radius * 2,</span><br><span class="line">        maxH = diam &gt; this.textReact.height ? diam : this.textReact.height; //矩形的高度</span><br><span class="line">    return &#123;</span><br><span class="line">        x,</span><br><span class="line">        y,</span><br><span class="line">        minX: x,</span><br><span class="line">        maxX: this.center.x + this.radius,</span><br><span class="line">        minY: this.center.y - maxH / 2,</span><br><span class="line">        maxY: this.center.y + maxH / 2</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>以此类推，描述下面、左面、上面的虚拟矩形坐标。</p>
 <ul>
 <li>判断碰撞</li>
 </ul>
-<p>判断两个矩形是否覆盖相交，根据矩形的 minX,maxX,minY,maxY 判断相交，原理比较简单，代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line"> * 判断分位是否相交</div><div class="line"> * @param &#123;*&#125; target </div><div class="line"> */</div><div class="line"> </div><div class="line">isAnchorMeet(target) &#123;</div><div class="line">    let react = this.getCurrentRect(),</div><div class="line">        targetReact = target.getCurrentRect();</div><div class="line">    if ((react.minX &lt; targetReact.maxX) &amp;&amp; (targetReact.minX &lt; react.maxX) &amp;&amp;</div><div class="line">        (react.minY &lt; targetReact.maxY) &amp;&amp; (targetReact.minY &lt; react.maxY)) &#123;</div><div class="line">        return true;</div><div class="line">    &#125;</div><div class="line">    return false;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>判断两个矩形是否覆盖相交，根据矩形的 minX,maxX,minY,maxY 判断相交，原理比较简单，代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 判断分位是否相交</span><br><span class="line"> * @param &#123;*&#125; target </span><br><span class="line"> */</span><br><span class="line"> </span><br><span class="line">isAnchorMeet(target) &#123;</span><br><span class="line">    let react = this.getCurrentRect(),</span><br><span class="line">        targetReact = target.getCurrentRect();</span><br><span class="line">    if ((react.minX &lt; targetReact.maxX) &amp;&amp; (targetReact.minX &lt; react.maxX) &amp;&amp;</span><br><span class="line">        (react.minY &lt; targetReact.maxY) &amp;&amp; (targetReact.minY &lt; react.maxY)) &#123;</span><br><span class="line">        return true;</span><br><span class="line">    &#125;</span><br><span class="line">    return false;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <ul>
 <li>创建虚拟文字集合对象</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">let labels = pixels.map((val) =&gt; &#123;</div><div class="line">    let radius = val.pixel.radius + this.style.normal.borderWidth; //圆点半径</div><div class="line">    return new Label(val.pixel.x, val.pixel.y, radius, fontSize, byteWidth, val.name);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">let labels = pixels.map((val) =&gt; &#123;</span><br><span class="line">    let radius = val.pixel.radius + this.style.normal.borderWidth; //圆点半径</span><br><span class="line">    return new Label(val.pixel.x, val.pixel.y, radius, fontSize, byteWidth, val.name);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
 <p>递归遍历虚拟文字集合、判断是否与其他相交，如果有相交就移动当前文字位子，直到不相交为止。当找不到合适位置时，就选择隐藏当前文字。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">do &#123;</div><div class="line">    var meet = false; //本轮是否有相交</div><div class="line">    for (let i = 0; i &lt; labels.length; i++) &#123;</div><div class="line">        let temp = labels[i];</div><div class="line">        for (let j = 0; j &lt; labels.length; j++) &#123;</div><div class="line">            if (i != j &amp;&amp; temp.show &amp;&amp; temp.isAnchorMeet(labels[j])) &#123;</div><div class="line">                temp.next();</div><div class="line">                meet = true;</div><div class="line">                break;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125; while (meet);</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">do &#123;</span><br><span class="line">    var meet = false; //本轮是否有相交</span><br><span class="line">    for (let i = 0; i &lt; labels.length; i++) &#123;</span><br><span class="line">        let temp = labels[i];</span><br><span class="line">        for (let j = 0; j &lt; labels.length; j++) &#123;</span><br><span class="line">            if (i != j &amp;&amp; temp.show &amp;&amp; temp.isAnchorMeet(labels[j])) &#123;</span><br><span class="line">                temp.next();</span><br><span class="line">                meet = true;</span><br><span class="line">                break;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125; while (meet);</span><br></pre></td></tr></table></figure>
 <ul>
 <li>绘画文字</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">labels.forEach(function (item) &#123;</div><div class="line">    if (item.show) &#123; //是否显示</div><div class="line">        let pixel = item.getCurrentRect();</div><div class="line">        ctx.beginPath();</div><div class="line">        ctx.fillText(item.text, pixel.x, pixel.y);</div><div class="line">        ctx.fill();</div><div class="line">    &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">labels.forEach(function (item) &#123;</span><br><span class="line">    if (item.show) &#123; //是否显示</span><br><span class="line">        let pixel = item.getCurrentRect();</span><br><span class="line">        ctx.beginPath();</span><br><span class="line">        ctx.fillText(item.text, pixel.x, pixel.y);</span><br><span class="line">        ctx.fill();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
           
         
       
@@ -1062,9 +1222,9 @@
 <p>我们采用的是 git-flow 流程,包含 4 类分支，分别是 master、develop、新功能分支（feature）和 hotfix。</p>
 <h2 id="新建仓库"><a href="#新建仓库" class="headerlink" title="新建仓库"></a>新建仓库</h2><p>在 github 中创建一个新的仓库，只有一个 master 分支</p>
 <h2 id="新建分支"><a href="#新建分支" class="headerlink" title="新建分支"></a>新建分支</h2><p>每次开发新功能，都应该从当前主开发分支新建一个功能分支。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git checkout -b feature-wz-qx</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout -b feature-wz-qx</span><br></pre></td></tr></table></figure>
 <h2 id="提交分支"><a href="#提交分支" class="headerlink" title="提交分支"></a>提交分支</h2><p>模块开发差不多，提交代码</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">git status</div><div class="line">git add -F</div><div class="line">git commit -m &apos;add xxxxx&apos;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git status</span><br><span class="line">git add -F</span><br><span class="line">git commit -m &apos;add xxxxx&apos;</span><br></pre></td></tr></table></figure>
 <p>关于 commit 完整的 log 由 类别(必须)  简短描述(必须) 详细描述(可选) 三部分组成：</p>
 <ul>
 <li>类别<ul>
@@ -1078,25 +1238,25 @@
 </li>
 </ul>
 <p>eg:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git commit -m &apos;add xxxxx&apos;</div></pre></td></tr></table></figure>
-<p>如果增加详细描述，具体内容前空一行，兼容 Markdown。<br>还可以可以配合 <a href="https://gitmoji.carloscuesta.me/" target="_blank" rel="external">gitmoji</a> 强化信息可读性。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git commit -m &apos;add xxxxx&apos;</span><br></pre></td></tr></table></figure>
+<p>如果增加详细描述，具体内容前空一行，兼容 Markdown。<br>还可以可以配合 <a href="https://gitmoji.carloscuesta.me/" target="_blank" rel="noopener">gitmoji</a> 强化信息可读性。</p>
 <h2 id="合并提交记录"><a href="#合并提交记录" class="headerlink" title="合并提交记录"></a>合并提交记录</h2><p>为了避免太多的 commit 而造成版本控制的混乱，通常我们推荐将这些 commit 合并成一个。假如我们提交了四次记录。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">commit 14c69cf825c17bd3e48154994e6f722db251fcfb</div><div class="line">Author: lennonover &lt;lennonover@163.com&gt;</div><div class="line">Date:   Tue Jan 23 16:38:57 2018 +0800</div><div class="line"></div><div class="line">    add forth </div><div class="line"></div><div class="line">commit 969161b68ab3b479fc52a26c4f053395ce4f3c63</div><div class="line">Author: lennonover &lt;lennonover@163.com&gt;</div><div class="line">Date:   Tue Jan 23 16:01:12 2018 +0800</div><div class="line"></div><div class="line">    add third </div><div class="line"></div><div class="line">commit 44adff48febeb65e5f89e2dc18ecc3ba7c9c31ba</div><div class="line">Author: lennonover &lt;lennonover@gmail.com&gt;</div><div class="line">Date:   Tue Jan 23 15:56:27 2018 +0800</div><div class="line"></div><div class="line">    add second </div><div class="line"></div><div class="line">commit a897c7ac82eb2de3e8268454d19f2ec91a5be9bd</div><div class="line">Author: lennonover &lt;lennonover@gmail.com&gt;</div><div class="line">Date:   Tue Jan 23 15:56:04 2018 +0800</div><div class="line"></div><div class="line">    add first</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">commit 14c69cf825c17bd3e48154994e6f722db251fcfb</span><br><span class="line">Author: lennonover &lt;lennonover@163.com&gt;</span><br><span class="line">Date:   Tue Jan 23 16:38:57 2018 +0800</span><br><span class="line"></span><br><span class="line">    add forth </span><br><span class="line"></span><br><span class="line">commit 969161b68ab3b479fc52a26c4f053395ce4f3c63</span><br><span class="line">Author: lennonover &lt;lennonover@163.com&gt;</span><br><span class="line">Date:   Tue Jan 23 16:01:12 2018 +0800</span><br><span class="line"></span><br><span class="line">    add third </span><br><span class="line"></span><br><span class="line">commit 44adff48febeb65e5f89e2dc18ecc3ba7c9c31ba</span><br><span class="line">Author: lennonover &lt;lennonover@gmail.com&gt;</span><br><span class="line">Date:   Tue Jan 23 15:56:27 2018 +0800</span><br><span class="line"></span><br><span class="line">    add second </span><br><span class="line"></span><br><span class="line">commit a897c7ac82eb2de3e8268454d19f2ec91a5be9bd</span><br><span class="line">Author: lennonover &lt;lennonover@gmail.com&gt;</span><br><span class="line">Date:   Tue Jan 23 15:56:04 2018 +0800</span><br><span class="line"></span><br><span class="line">    add first</span><br></pre></td></tr></table></figure>
 <p>如何把四次合并到一起，并且只保留 最后一次 的 Git message 呢？推荐 git rebase 进行合并操作。</p>
 <p>合并最后四个</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git rebase -i HEAD~4</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git rebase -i HEAD~4</span><br></pre></td></tr></table></figure>
 <p>git 会打开一个互动界面，方便用户对历史提交进行修改</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">pick 969161b add first</div><div class="line">pick 14c69cf add second </div><div class="line">pick b246936 add third</div><div class="line">pick 5b192dc add forth </div><div class="line"></div><div class="line"># Rebase 44adff4..5b192dc onto 44adff4 (4 command(s))</div><div class="line">#</div><div class="line"># Commands:</div><div class="line"># p, pick = 使用该提交</div><div class="line"># r, reword = 使用该提交，但需要编辑提交信息</div><div class="line"># e, edit = 使用该提交，但此处暂停并提供修改机会</div><div class="line"># s, squash = 使用该提交，但合并到上一个提交记录中</div><div class="line"># f, fixup = 类似 squash，但丢弃当前提交记录的提交信息</div><div class="line"># x, exec = 执行 shell 命令</div><div class="line"># d, drop = 移除当前提交</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">pick 969161b add first</span><br><span class="line">pick 14c69cf add second </span><br><span class="line">pick b246936 add third</span><br><span class="line">pick 5b192dc add forth </span><br><span class="line"></span><br><span class="line"># Rebase 44adff4..5b192dc onto 44adff4 (4 command(s))</span><br><span class="line">#</span><br><span class="line"># Commands:</span><br><span class="line"># p, pick = 使用该提交</span><br><span class="line"># r, reword = 使用该提交，但需要编辑提交信息</span><br><span class="line"># e, edit = 使用该提交，但此处暂停并提供修改机会</span><br><span class="line"># s, squash = 使用该提交，但合并到上一个提交记录中</span><br><span class="line"># f, fixup = 类似 squash，但丢弃当前提交记录的提交信息</span><br><span class="line"># x, exec = 执行 shell 命令</span><br><span class="line"># d, drop = 移除当前提交</span><br></pre></td></tr></table></figure>
 <p>我们需要把前面的 pick 改为 squash 这样：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">pick 969161b add first</div><div class="line">squash 14c69cf add second </div><div class="line">squash b246936 add third</div><div class="line">squash 5b192dc add forth</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">pick 969161b add first</span><br><span class="line">squash 14c69cf add second </span><br><span class="line">squash b246936 add third</span><br><span class="line">squash 5b192dc add forth</span><br></pre></td></tr></table></figure>
 <p>完成后，使用 <code>:wq</code> 保存并退出。这个时候则需要在下一步中对这 4 条 commit 信息进行修改和保存(如果 fixup 的话，则直接丢弃其它记录，省去下一步操作)：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"># This is a combinatin of 4 commits.</div><div class="line"># This is the 1st commit message:</div><div class="line">add first </div><div class="line"># This is the commit message #2:</div><div class="line">add second </div><div class="line"># This is the commit message #3:</div><div class="line">add third</div><div class="line"># This is the commit message #4:</div><div class="line">add forth</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># This is a combinatin of 4 commits.</span><br><span class="line"># This is the 1st commit message:</span><br><span class="line">add first </span><br><span class="line"># This is the commit message #2:</span><br><span class="line">add second </span><br><span class="line"># This is the commit message #3:</span><br><span class="line">add third</span><br><span class="line"># This is the commit message #4:</span><br><span class="line">add forth</span><br></pre></td></tr></table></figure>
 <p>使用 <code>:wq</code> 后，通过 git log 可以看到仅剩一条 commit 记录：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">commit c2391a59bf51240a60ab4c8455b251cff1ec3cdd</div><div class="line">Author: lennonover &lt;lennonover@163.com&gt;</div><div class="line">Date:   Wed Jan 24 15:01:12 2018 +0800</div><div class="line"></div><div class="line">    add stylelint-0.0.3</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">commit c2391a59bf51240a60ab4c8455b251cff1ec3cdd</span><br><span class="line">Author: lennonover &lt;lennonover@163.com&gt;</span><br><span class="line">Date:   Wed Jan 24 15:01:12 2018 +0800</span><br><span class="line"></span><br><span class="line">    add stylelint-0.0.3</span><br></pre></td></tr></table></figure>
 <p>rebase 的风险：</p>
 <p>当待合并 commit 记录中杂糅着他人的 commit 记录，此时就不可以再对这部分 commit 记录做合并操作。</p>
 <p>但只要新开分支且保持分支独立开发，杂糅的情况就不存在。</p>
-<h2 id="推送到仓库"><a href="#推送到仓库" class="headerlink" title="推送到仓库"></a>推送到仓库</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git push origin feature-wz-qx</div></pre></td></tr></table></figure>
+<h2 id="推送到仓库"><a href="#推送到仓库" class="headerlink" title="推送到仓库"></a>推送到仓库</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git push origin feature-wz-qx</span><br></pre></td></tr></table></figure>
 <h2 id="提交-Merge-Request-申请"><a href="#提交-Merge-Request-申请" class="headerlink" title="提交 Merge Request 申请"></a>提交 Merge Request 申请</h2><p>请求相关同学从你的 feature-wz-qx 合并分支</p>
 <ul>
 <li>提交 Merge Request：</li>
@@ -1119,7 +1279,7 @@
 </ul>
 <p>完成上述设置后，相关同学将会收到邮件通知，此时可进入 GitLab 进行 code review。如果发现问题则对问题代码进行点评并拒绝关闭申请，反之则通过合并申请。</p>
 <h2 id="修复-Bug"><a href="#修复-Bug" class="headerlink" title="修复 Bug"></a>修复 Bug</h2><p>发现 bug 了,从 develop 分支上新建分支</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git checkout -b hotfix/xxx develop</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout -b hotfix/xxx develop</span><br></pre></td></tr></table></figure>
 <p>改完推送到仓库后提交 Merge Request 申请</p>
 <h2 id="减少冲突"><a href="#减少冲突" class="headerlink" title="减少冲突"></a>减少冲突</h2><p>从我们的工作流程上来说，代码合并导致的问题，一般都发生在特性、修复分支合并到 master 或者 develop 的时候，因为这个时候开始，才是真正与其他分支汇合，不同的改动会发生冲突。而且合并没法完全避免，我们只能去思考如何减少合并冲突。</p>
 <ul>
@@ -1249,31 +1409,31 @@
       
         
           
-            <p>读书少了最近才看到这篇文章 <a href="https://www.keithcirkel.co.uk/why-we-should-stop-using-grunt/" target="_blank" rel="external">Why we should stop using Grunt &amp; Gulp</a>。文章中笔者建议大家使用 npm 作为替代方案，绝对要打 call。npm 的 scripts 配置可以更简单的实现这些构建工具的所有功能。确实，npm script 相比 grunt、gulp 之类的构建工具简单很多，它消除了这些构建工具所带来的抽象层，并带给我们更大的自由度。而且随着社区的发展，各种基础工具你都可以信手拈来，只要你会使用 <a href="https://www.npmjs.com/" target="_blank" rel="external">npmjs.com</a> 去搜索，或者去 <a href="https://libraries.io/" target="_blank" rel="external">libraries.io</a> 上搜索（当然我们公司的工作流还是在农耕火种时代。</p>
+            <p>读书少了最近才看到这篇文章 <a href="https://www.keithcirkel.co.uk/why-we-should-stop-using-grunt/" target="_blank" rel="noopener">Why we should stop using Grunt &amp; Gulp</a>。文章中笔者建议大家使用 npm 作为替代方案，绝对要打 call。npm 的 scripts 配置可以更简单的实现这些构建工具的所有功能。确实，npm script 相比 grunt、gulp 之类的构建工具简单很多，它消除了这些构建工具所带来的抽象层，并带给我们更大的自由度。而且随着社区的发展，各种基础工具你都可以信手拈来，只要你会使用 <a href="https://www.npmjs.com/" target="_blank" rel="noopener">npmjs.com</a> 去搜索，或者去 <a href="https://libraries.io/" target="_blank" rel="noopener">libraries.io</a> 上搜索（当然我们公司的工作流还是在农耕火种时代。</p>
 <h2 id="npm-script"><a href="#npm-script" class="headerlink" title="npm script"></a>npm script</h2><p>npm 为我们提供了快速创建 package.json 文件的命令 npm init，执行该命令会问几个基本问题，如包名称、版本号、作者信息、入口文件、仓库地址、许可协议等，多数问题已经提供了默认值。</p>
 <p>npm 允许在 package.json 文件里面，使用 scripts 字段定义脚本命令，而执行它的是 npm 核心命令之一的 npm run-script 命令（简称 npm run ），npm run 就会自动新建一个 Shell 并且可以从 package.json 中解析出 scripts 对象，然后将该对象的键作为 npm run 的第一个参数，它会在操作系统的默认终端中执行该键对应的命令。例如下面的 package.json：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  <span class="string">'name'</span>: <span class="string">'hello-npm-script'</span>,</div><div class="line">  <span class="string">'version'</span>: <span class="string">'0.1.0'</span>,</div><div class="line">  <span class="string">'main'</span>: <span class="string">'index.js'</span>,</div><div class="line">  <span class="string">'scripts'</span>: &#123;</div><div class="line">    <span class="string">'lint:js'</span>: <span class="string">'eslint *.js'</span>,</div><div class="line">    <span class="string">'lint:css'</span>: <span class="string">'stylelint *.less'</span>,</div><div class="line">    <span class="string">'test'</span>: <span class="string">'npm run lint:js &amp;&amp; npm run lint:css'</span></div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="string">'name'</span>: <span class="string">'hello-npm-script'</span>,</span><br><span class="line">  <span class="string">'version'</span>: <span class="string">'0.1.0'</span>,</span><br><span class="line">  <span class="string">'main'</span>: <span class="string">'index.js'</span>,</span><br><span class="line">  <span class="string">'scripts'</span>: &#123;</span><br><span class="line">    <span class="string">'lint:js'</span>: <span class="string">'eslint *.js'</span>,</span><br><span class="line">    <span class="string">'lint:css'</span>: <span class="string">'stylelint *.less'</span>,</span><br><span class="line">    <span class="string">'test'</span>: <span class="string">'npm run lint:js &amp;&amp; npm run lint:css'</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>如果运行 <code>npm run lint:js</code> ，npm 将在终端中执行 <code>eslint *.js</code>。执行 <code>npm run xxx</code> 时会将 <code>node_modules/.bin</code> 加入终端的 PATH 环境变量中，这样你就可以直接运行那些作为依赖安装的二进制模块，也就是说你不需要 <code>./node_modules/.bin/eslint **.js</code> 或 <code>$(npm bin)/eslint **.js</code> 这样来指定命令的路径。</p>
 <p>如果运行 <code>npm run test</code> 则表示子命令的执行顺序是先 <code>lint:js</code> 后  <code>lint:css</code> 来，实现了多个 npm script 串行执行。</p>
 <p>由于 npm 脚本就是 Shell 脚本，因为可以使用 Shell 通配符 也就是 <code>*</code>。</p>
 <h2 id="钩子"><a href="#钩子" class="headerlink" title="钩子"></a>钩子</h2><p>npm 可以在 scripts 中为任何可执行的命令指定 <code>pre-</code> 和 <code>post-</code> 钩子。例如，当运行 <code>npm run lint:js</code> 时，即便是没有在 scripts 中定义对应的 <code>pre-</code> 命令，npm 也会首先执行 <code>npm run prelint:js</code>，接着才是 <code>npm run lint:js</code>，最后是 <code>npm run postlint:js</code>。</p>
-<h2 id="传递参数"><a href="#传递参数" class="headerlink" title="传递参数"></a>传递参数</h2><p><code>--</code> 是 npm 用来传递参数的，例如 <code>npm run lint:js -- a.js</code> 将运行 <code>`eslint *.js a.js</code></p>
+<h2 id="传递参数"><a href="#传递参数" class="headerlink" title="传递参数"></a>传递参数</h2><p><code>--</code> 是 npm 用来传递参数的，例如 <code>npm run lint:js -- a.js</code> 将运行 <code></code>eslint *.js a.js`</p>
 <h2 id="命令行自动补全"><a href="#命令行自动补全" class="headerlink" title="命令行自动补全"></a>命令行自动补全</h2><ul>
 <li><p>不带任何参数运行 npm run 能列出 scripts 对象中定义的所有命令，，再结合管道操作符、less 命令（ less 是 linux 里面的工具）</p>
 </li>
-<li><p>npm 自身也提供了自动完成工具 <a href="https://docs.npmjs.com/cli/completion" target="_blank" rel="external">completion</a></p>
+<li><p>npm 自身也提供了自动完成工具 <a href="https://docs.npmjs.com/cli/completion" target="_blank" rel="noopener">completion</a></p>
 </li>
 </ul>
 <h2 id="跨平台运行"><a href="#跨平台运行" class="headerlink" title="跨平台运行"></a>跨平台运行</h2><ul>
-<li><p>使用 <a href="http://www.yolinux.com/TUTORIALS/unix_for_dos_users.html" target="_blank" rel="external">跨平台的命令</a></p>
+<li><p>使用 <a href="http://www.yolinux.com/TUTORIALS/unix_for_dos_users.html" target="_blank" rel="noopener">跨平台的命令</a></p>
 </li>
 <li><p>使用 node packages 。可以使用 node packages 来取代 shell 命令。</p>
 </li>
 </ul>
 <h2 id="痛点"><a href="#痛点" class="headerlink" title="痛点"></a>痛点</h2><p>  因为 JSON 规范不支持添加注释，所以不能在 package.json 里添加注释。</p>
-<h2 id="常用脚本"><a href="#常用脚本" class="headerlink" title="常用脚本"></a>常用脚本</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 删除目录</span></div><div class="line"><span class="string">"clean"</span>: <span class="string">"rimraf dist/*"</span>,</div><div class="line"></div><div class="line"><span class="comment">// 本地搭建一个 HTTP 服务</span></div><div class="line"><span class="string">"serve"</span>: <span class="string">"http-server -p 9090 dist/"</span>,</div><div class="line"></div><div class="line"><span class="comment">// 打开浏览器</span></div><div class="line"><span class="string">"open:dev"</span>: <span class="string">"opener http://localhost:9090"</span>,</div><div class="line"></div><div class="line"><span class="comment">// 实时刷新</span></div><div class="line"> <span class="string">"livereload"</span>: <span class="string">"live-reload --port 9091 dist/"</span>,</div><div class="line"></div><div class="line"><span class="comment">// 构建 HTML 文件</span></div><div class="line"><span class="string">"build:html"</span>: <span class="string">"jade index.jade &gt; dist/index.html"</span>,</div><div class="line"></div><div class="line"><span class="comment">// 只要 CSS 文件有变动，就重新执行构建</span></div><div class="line"><span class="string">"watch:css"</span>: <span class="string">"watch 'npm run build:css' assets/styles/"</span>,</div><div class="line"></div><div class="line"><span class="comment">// 只要 HTML 文件有变动，就重新执行构建</span></div><div class="line"><span class="string">"watch:html"</span>: <span class="string">"watch 'npm run build:html' assets/html"</span>,</div><div class="line"></div><div class="line"><span class="comment">// 部署到 Amazon S3</span></div><div class="line"><span class="string">"deploy:prod"</span>: <span class="string">"s3-cli sync ./dist/ s3://example-com/prod-site/"</span>,</div><div class="line"></div><div class="line"><span class="comment">// 构建 favicon</span></div><div class="line"><span class="string">"build:favicon"</span>: <span class="string">"node scripts/favicon.js"</span>,</div></pre></td></tr></table></figure>
+<h2 id="常用脚本"><a href="#常用脚本" class="headerlink" title="常用脚本"></a>常用脚本</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 删除目录</span></span><br><span class="line"><span class="string">"clean"</span>: <span class="string">"rimraf dist/*"</span>,</span><br><span class="line"></span><br><span class="line"><span class="comment">// 本地搭建一个 HTTP 服务</span></span><br><span class="line"><span class="string">"serve"</span>: <span class="string">"http-server -p 9090 dist/"</span>,</span><br><span class="line"></span><br><span class="line"><span class="comment">// 打开浏览器</span></span><br><span class="line"><span class="string">"open:dev"</span>: <span class="string">"opener http://localhost:9090"</span>,</span><br><span class="line"></span><br><span class="line"><span class="comment">// 实时刷新</span></span><br><span class="line"> <span class="string">"livereload"</span>: <span class="string">"live-reload --port 9091 dist/"</span>,</span><br><span class="line"></span><br><span class="line"><span class="comment">// 构建 HTML 文件</span></span><br><span class="line"><span class="string">"build:html"</span>: <span class="string">"jade index.jade &gt; dist/index.html"</span>,</span><br><span class="line"></span><br><span class="line"><span class="comment">// 只要 CSS 文件有变动，就重新执行构建</span></span><br><span class="line"><span class="string">"watch:css"</span>: <span class="string">"watch 'npm run build:css' assets/styles/"</span>,</span><br><span class="line"></span><br><span class="line"><span class="comment">// 只要 HTML 文件有变动，就重新执行构建</span></span><br><span class="line"><span class="string">"watch:html"</span>: <span class="string">"watch 'npm run build:html' assets/html"</span>,</span><br><span class="line"></span><br><span class="line"><span class="comment">// 部署到 Amazon S3</span></span><br><span class="line"><span class="string">"deploy:prod"</span>: <span class="string">"s3-cli sync ./dist/ s3://example-com/prod-site/"</span>,</span><br><span class="line"></span><br><span class="line"><span class="comment">// 构建 favicon</span></span><br><span class="line"><span class="string">"build:favicon"</span>: <span class="string">"node scripts/favicon.js"</span>,</span><br></pre></td></tr></table></figure>
 <h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
-<li><a href="http://www.ruanyifeng.com/blog/2016/10/npm_scripts.html" target="_blank" rel="external">npm scripts 使用指南</a></li>
+<li><a href="http://www.ruanyifeng.com/blog/2016/10/npm_scripts.html" target="_blank" rel="noopener">npm scripts 使用指南</a></li>
 </ul>
 
           
@@ -1396,24 +1556,24 @@
         
           
             <p>最近买个树莓派准备做下载机和低配版的 NAS ，昨天晚上装了 Ubuntu Mate的系统挺简单的特意分享下</p>
-<h2 id="树莓派"><a href="#树莓派" class="headerlink" title="树莓派"></a>树莓派</h2><p><a href="https://zh.wikipedia.org/wiki/%E6%A0%91%E8%8E%93%E6%B4%BE" target="_blank" rel="external">树莓派</a>（英语：Raspberry Pi），是一款基于Linux的单板机电脑。它由英国的树莓派基金会所开发，目的是以低价硬件及自由软件促进学校的基本计算机科学教育。</p>
+<h2 id="树莓派"><a href="#树莓派" class="headerlink" title="树莓派"></a>树莓派</h2><p><a href="https://zh.wikipedia.org/wiki/%E6%A0%91%E8%8E%93%E6%B4%BE" target="_blank" rel="noopener">树莓派</a>（英语：Raspberry Pi），是一款基于Linux的单板机电脑。它由英国的树莓派基金会所开发，目的是以低价硬件及自由软件促进学校的基本计算机科学教育。</p>
 <p>我买的是最新的3代 B ，增加了无线和蓝牙模块方便了很多。<br>树莓派检查,树莓派在没有插入TF卡的时候通电，如果红灯亮了并且可以持续亮着而不是闪烁，就证明硬件是没问题的。</p>
 <p>电源没有购买用的是手机的 5v/2A 的电源，有四个 USB 接口和一个 HDMI 接口</p>
 <h2 id="安装系统"><a href="#安装系统" class="headerlink" title="安装系统"></a>安装系统</h2><p>一开始的时候树莓派是没有系统的，需要自己准备内存卡。官方推荐是使用其官方工具NOOBS安装工具，很小白，</p>
 <ul>
-<li>解压<a href="https://www.raspberrypi.org/downloads/noobs/" target="_blank" rel="external">NOOBS.zip</a>文件</li>
-<li>将解压的文件复制到SD卡上面(SD 格式话推荐用 <a href="https://www.sdcard.org/downloads/formatter_4/eula_windows/" target="_blank" rel="external">sdcard</a>)</li>
+<li>解压<a href="https://www.raspberrypi.org/downloads/noobs/" target="_blank" rel="noopener">NOOBS.zip</a>文件</li>
+<li>将解压的文件复制到SD卡上面(SD 格式话推荐用 <a href="https://www.sdcard.org/downloads/formatter_4/eula_windows/" target="_blank" rel="noopener">sdcard</a>)</li>
 <li>将 SD 卡插入到树莓派里面开机按照指示做就可以了</li>
 </ul>
 <p>我今天要说的是写入系统进去。那么怎么写入呢？在windows下写入，用Win32DiskImager写入镜像。</p>
 <ul>
-<li>在官网下载最新版的Ubuntu Mate，<a href="https://ubuntu-mate.org/raspberry-pi/" target="_blank" rel="external">官网</a></li>
-<li>下载 <a href="https://sourceforge.net/projects/win32diskimager/" target="_blank" rel="external">Win32DiskImager</a></li>
-<li>下载 <a href="https://www.sdcard.org/downloads/formatter_4/" target="_blank" rel="external">sdformatter</a> 格式化 SD 卡</li>
+<li>在官网下载最新版的Ubuntu Mate，<a href="https://ubuntu-mate.org/raspberry-pi/" target="_blank" rel="noopener">官网</a></li>
+<li>下载 <a href="https://sourceforge.net/projects/win32diskimager/" target="_blank" rel="noopener">Win32DiskImager</a></li>
+<li>下载 <a href="https://www.sdcard.org/downloads/formatter_4/" target="_blank" rel="noopener">sdformatter</a> 格式化 SD 卡</li>
 <li>用 Win32DiskImager 写入之前下载的 ubuntu-mate-16.10-desktop-armhf-raspberry-pi-3.img 镜像</li>
 <li>将TF卡插入树莓派，启动按照界面提示选择安装语言、用户名、计算机名、选择时区。系统将自行安装后重启。进度条有可能会卡在安装界面等个几分钟重启就好了</li>
 </ul>
-<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>树莓派也可以装个 web 服务器，要想外网访问可以做个内网穿透，推荐个好用的 <a href="https://www.zerotier.com/" target="_blank" rel="external">ZeroTier</a> 一款非常简单易用的内网穿透工具，不需要配置，就能实现虚拟局域网的组建,支持 Windows、macOS、Linux 三大主流平台，iOS、Android 两大移动平台，以及 QNAP（威连通）、Synology（群晖）、Western Digital MyCloud NAS（西部数据）三个 NAS 平台</p>
+<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>树莓派也可以装个 web 服务器，要想外网访问可以做个内网穿透，推荐个好用的 <a href="https://www.zerotier.com/" target="_blank" rel="noopener">ZeroTier</a> 一款非常简单易用的内网穿透工具，不需要配置，就能实现虚拟局域网的组建,支持 Windows、macOS、Linux 三大主流平台，iOS、Android 两大移动平台，以及 QNAP（威连通）、Synology（群晖）、Western Digital MyCloud NAS（西部数据）三个 NAS 平台</p>
 
           
         
@@ -1534,7 +1694,7 @@
       
         
           
-            <p>ARIA 是 <code>Accessible Rich Internet Applications</code> 的缩写。它是 W3C 的 Web 无障碍推进组织 <a href="https://www.w3.org/WAI/" target="_blank" rel="external">Web Accessibility Initiative / WAI</a> 在2014年3月20日发布的可访问富互联网应用实现指南。2017年11月2日，发布了 <a href="https://www.w3.org/TR/wai-aria-1.1/" target="_blank" rel="external">WAI-ARIA 1.1</a> 的提案推荐标准,在1.0版本的基础上，添加了一些新机制，使 HTML + ARIA 无障碍模型更加完整，并支持图形及数字出版的无障碍需求。</p>
+            <p>ARIA 是 <code>Accessible Rich Internet Applications</code> 的缩写。它是 W3C 的 Web 无障碍推进组织 <a href="https://www.w3.org/WAI/" target="_blank" rel="noopener">Web Accessibility Initiative / WAI</a> 在2014年3月20日发布的可访问富互联网应用实现指南。2017年11月2日，发布了 <a href="https://www.w3.org/TR/wai-aria-1.1/" target="_blank" rel="noopener">WAI-ARIA 1.1</a> 的提案推荐标准,在1.0版本的基础上，添加了一些新机制，使 HTML + ARIA 无障碍模型更加完整，并支持图形及数字出版的无障碍需求。</p>
 <ul>
 <li>几种场景<ul>
 <li>一个由 js 生成的页面</li>
@@ -1550,20 +1710,20 @@
 </li>
 </ul>
 <p>以上这种场景的对于一个视觉或者听觉有障碍的人来说还能正常访问吗？这就是要 <code>WAI-ARIA</code> 的目的。<code>WAI-ARIA</code> 适用于跨越某些领域的障碍，这些领域存在的无障碍问题无法通过原生 HTML 进行管理。它通过允许您指定某些属性来发挥作用，这些属性可以修改元素转换成无障碍树的方式。</p>
-<h2 id="ARIA-是怎么做的"><a href="#ARIA-是怎么做的" class="headerlink" title="ARIA 是怎么做的"></a>ARIA 是怎么做的</h2><p>ARIA属性可以被 <a href="https://www.nvaccess.org/" target="_blank" rel="external">NVDA</a> 等读屏软件调用系统API识别， 转化成语音。</p>
+<h2 id="ARIA-是怎么做的"><a href="#ARIA-是怎么做的" class="headerlink" title="ARIA 是怎么做的"></a>ARIA 是怎么做的</h2><p>ARIA属性可以被 <a href="https://www.nvaccess.org/" target="_blank" rel="noopener">NVDA</a> 等读屏软件调用系统API识别， 转化成语音。</p>
 <p>例如我们使用列表项作为一种自定义复选框</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">li</span> <span class="attr">class</span>=<span class="string">"checkbox"</span> <span class="attr">checked</span>&gt;</span></div><div class="line">  javcscript</div><div class="line"><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">li</span> <span class="attr">class</span>=<span class="string">"checkbox"</span> <span class="attr">checked</span>&gt;</span></span><br><span class="line">  javcscript</span><br><span class="line"><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br></pre></td></tr></table></figure>
 <p>正常的人是能正确识别的，但是屏幕阅读器却不会给予任何指示来说明该元素旨在作为复选框使用，因此弱视用户可能会完全错过该元素。<br>如果使用 ARIA 属性，我们就可以为元素提供缺少的信息，以便屏幕阅读器能正确解读它。 我们在以上代码中添加了 role 和 aria-checked 属性，将该元素显式标识为一个复选框，并指定它在默认情况下处于选中状态。该列表项现在将添加到无障碍树中，屏幕阅读器将把它正确地报告为一个复选框。</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">li</span> <span class="attr">class</span>=<span class="string">"checkbox"</span> <span class="attr">role</span>=<span class="string">"checkbox"</span> <span class="attr">checked</span> <span class="attr">aria-checked</span>=<span class="string">"true"</span>&gt;</span></div><div class="line">  javcscript</div><div class="line"><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">li</span> <span class="attr">class</span>=<span class="string">"checkbox"</span> <span class="attr">role</span>=<span class="string">"checkbox"</span> <span class="attr">checked</span> <span class="attr">aria-checked</span>=<span class="string">"true"</span>&gt;</span></span><br><span class="line">  javcscript</span><br><span class="line"><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br></pre></td></tr></table></figure>
 <p>ARIA 通过更改和补充标准 DOM 无障碍树来发挥作用。并且尽可能正确地使用 html 标签，原生标签对 ARIA 支持得更好。在实再自定义控件的时候，添加 ARIA 相关属性可以例控件能正确被读屏软件识别。 html5 语义化标签与 ARIA 有重叠的地方，用新的语义化标签但还是推荐添加 ARIA 属性。<br>例如上面的自定义复选框,标准 HTML <input type="checkbox"> 元素都不需要额外的 role=”checkbox” ARIA 属性就能正确声明。</p>
-<h2 id="ARIA-on-HTML"><a href="#ARIA-on-HTML" class="headerlink" title="ARIA on HTML"></a>ARIA on HTML</h2><p>ARIA on HTML 中使用有其自己的规范，在 <a href="http://validator.w3.org/nu/" target="_blank" rel="external">这个</a> 网站可以检测 ARIA 使用的是否标准。</p>
-<p>ARIA 属性包括三个方面：角色属性值(roles), 状态属性值(states), 和属性表(properties)  参考网站： <a href="https://www.w3.org/TR/html-aria/#index-aria-main" target="_blank" rel="external">W3C</a></p>
-<p>浏览器支持情况参见 <a href="https://caniuse.com/#search=aria" target="_blank" rel="external">caniuse</a> </p>
+<h2 id="ARIA-on-HTML"><a href="#ARIA-on-HTML" class="headerlink" title="ARIA on HTML"></a>ARIA on HTML</h2><p>ARIA on HTML 中使用有其自己的规范，在 <a href="http://validator.w3.org/nu/" target="_blank" rel="noopener">这个</a> 网站可以检测 ARIA 使用的是否标准。</p>
+<p>ARIA 属性包括三个方面：角色属性值(roles), 状态属性值(states), 和属性表(properties)  参考网站： <a href="https://www.w3.org/TR/html-aria/#index-aria-main" target="_blank" rel="noopener">W3C</a></p>
+<p>浏览器支持情况参见 <a href="https://caniuse.com/#search=aria" target="_blank" rel="noopener">caniuse</a> </p>
 <ul>
 <li><p>HTML5 元素有的不应该重新定义一个添加ARIA</p>
 <p>  如果你使用的元素(HTML5)具有语义化，应该使用这些元素，而不应该重新定义一个添加ARIA的角色、状态或属性的元素。</p>
 <p>  下面以 role=heading 一个上button元素。这是不允许的，因为该 button 元素具有默认特征与标题角色冲突。</p>
-  <figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">role</span>=<span class="string">"heading"</span>&gt;</span>search<span class="tag">&lt;/<span class="name">button</span>&gt;</span></div></pre></td></tr></table></figure>
+  <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">role</span>=<span class="string">"heading"</span>&gt;</span>search<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br></pre></td></tr></table></figure>
 <p>  哪些情况下可以使用？</p>
 <ul>
 <li>在HTML(HTML5)元素特性不管支持或不支持，只要不具语义化，就可以使用ARIA</li>
@@ -1577,15 +1737,15 @@
 </li>
 <li><p>ARIA role的必需属性不可省略</p>
 <p>  正确</p>
-  <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;span role=&quot;checkbox&quot; aria-checked=&quot;false&quot; aria-labelledby=&quot;foo&quot; tabindex=&quot;0&quot;&gt;&lt;/span&gt;</div></pre></td></tr></table></figure>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;span role=&quot;checkbox&quot; aria-checked=&quot;false&quot; aria-labelledby=&quot;foo&quot; tabindex=&quot;0&quot;&gt;&lt;/span&gt;</span><br></pre></td></tr></table></figure>
 <p>  错误</p>
-  <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;span role=&quot;checkbox&quot; aria-labelledby=&quot;foo&quot; tabindex=&quot;0&quot;&gt;&lt;/span&gt;</div></pre></td></tr></table></figure>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;span role=&quot;checkbox&quot; aria-labelledby=&quot;foo&quot; tabindex=&quot;0&quot;&gt;&lt;/span&gt;</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>具有ARIA role的元素必须在正确的范围内</p>
 <p>  正确</p>
-  <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&lt;div role=&quot;list&quot;&gt; </div><div class="line">	&lt;span role=&quot;listitem&quot;&gt;Rainbow Trout&lt;/span&gt; </div><div class="line">	&lt;span role=&quot;listitem&quot;&gt;Brook Trout&lt;/span&gt;</div><div class="line">	&lt;span role=&quot;listitem&quot;&gt;Lake Trout&lt;/span&gt;</div><div class="line">&lt;/div&gt;</div></pre></td></tr></table></figure>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;div role=&quot;list&quot;&gt; </span><br><span class="line">	&lt;span role=&quot;listitem&quot;&gt;Rainbow Trout&lt;/span&gt; </span><br><span class="line">	&lt;span role=&quot;listitem&quot;&gt;Brook Trout&lt;/span&gt;</span><br><span class="line">	&lt;span role=&quot;listitem&quot;&gt;Lake Trout&lt;/span&gt;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
 <p>  错误</p>
-  <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&lt;div&gt; </div><div class="line">	&lt;span role=&quot;listitem&quot;&gt;Rainbow Trout&lt;/span&gt; </div><div class="line">	&lt;span role=&quot;listitem&quot;&gt;Brook Trout&lt;/span&gt;</div><div class="line">	&lt;span role=&quot;listitem&quot;&gt;Lake Trout&lt;/span&gt;</div><div class="line">&lt;/div&gt;</div></pre></td></tr></table></figure>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;div&gt; </span><br><span class="line">	&lt;span role=&quot;listitem&quot;&gt;Rainbow Trout&lt;/span&gt; </span><br><span class="line">	&lt;span role=&quot;listitem&quot;&gt;Brook Trout&lt;/span&gt;</span><br><span class="line">	&lt;span role=&quot;listitem&quot;&gt;Lake Trout&lt;/span&gt;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
 <h2 id="ARIA-在-HTML-中由组成"><a href="#ARIA-在-HTML-中由组成" class="headerlink" title="ARIA 在 HTML 中由组成"></a>ARIA 在 HTML 中由组成</h2><p>ARIA 在 HTML 中由两部分组成，一个 role ，表示元素的作用；一个是 aria- 表示元素的属性或状态。</p>
@@ -1753,13 +1913,13 @@
 
     表示按下的状态，可选值有：true, false, mixed, undfined.默认为undfined, 表示按下状态未知；true表示元素往下（按钮按下）；false表示元素抬起；mixed表示元素同时有按下和没有按下的状态
 
-    <figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">role</span>=<span class="string">"button"</span> <span class="attr">tabindex</span>=<span class="string">"0"</span> <span class="attr">aria-pressed</span>=<span class="string">"false"</span> <span class="attr">aria-disabled</span>=<span class="string">"false"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure>
+    <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">role</span>=<span class="string">"button"</span> <span class="attr">tabindex</span>=<span class="string">"0"</span> <span class="attr">aria-pressed</span>=<span class="string">"false"</span> <span class="attr">aria-disabled</span>=<span class="string">"false"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
 - aria-selected
 
     表示选择状态,可选值有：true, false, undefined。 默认为undefined，表示元素选择状态未知;true表示元素已选择;false表示未被选中。
 
-    <figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">ul</span> <span class="attr">class</span>=<span class="string">"tablist"</span> <span class="attr">role</span>=<span class="string">"tablist"</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">li</span> <span class="attr">role</span>=<span class="string">"tab"</span> <span class="attr">aria-selected</span>=<span class="string">"true"</span> <span class="attr">tabindex</span>=<span class="string">"0"</span>&gt;</span>中国<span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">li</span> <span class="attr">role</span>=<span class="string">"tab"</span> <span class="attr">aria-selected</span>=<span class="string">"false"</span> <span class="attr">tabindex</span>=<span class="string">"-1"</span>&gt;</span>美国<span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">ul</span>&gt;</span></div></pre></td></tr></table></figure>
+    <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">ul</span> <span class="attr">class</span>=<span class="string">"tablist"</span> <span class="attr">role</span>=<span class="string">"tablist"</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">li</span> <span class="attr">role</span>=<span class="string">"tab"</span> <span class="attr">aria-selected</span>=<span class="string">"true"</span> <span class="attr">tabindex</span>=<span class="string">"0"</span>&gt;</span>中国<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">li</span> <span class="attr">role</span>=<span class="string">"tab"</span> <span class="attr">aria-selected</span>=<span class="string">"false"</span> <span class="attr">tabindex</span>=<span class="string">"-1"</span>&gt;</span>美国<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br></pre></td></tr></table></figure>
 </code></pre>
           
         
@@ -1962,151 +2122,11 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2017/12/22/混乱/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="lennonover">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="lennonover">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/12/22/混乱/" itemprop="url">
-                  混乱
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-22T23:11:30+08:00">
-                2017-12-22
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>在地下墓穴里有一个死去的女人，     </p>
-<p>这个死去的女人不愿意死去。           </p>
-<p>在书架的某一层上，           </p>
-<p>有一些非常古老的书讲述着一段梦想者所不曾经历的过去。          </p>
-<p>一段无法忆起的记忆在前世中活动。            </p>
-<p>幻想、思想和回忆交织在一起。          </p>
-<p>灵魂梦想着，思想着，然后想象着。            </p>
-<p>诗人把我们带到了一个临界状态，         </p>
-<p>接近一个我们害怕超出的边界，介于疯癫与理性，生者与死者。            </p>
-<p>最轻的声响酝酿着一场灾难。           </p>
-<p>四面吹来的风酝酿着万物的混乱一片。           </p>
-<p>喃喃细语和大声喧哗互相伴随。          </p>
-<p>我们学会了预感的存在论。            </p>
-<p>我们被放入前听觉中。          </p>
-<p>我们被要求留心最细弱的迹象。          </p>
-<p>在这宇宙的边界处，一切都是现象前的迹象。            </p>
-<p>迹象越是微弱，它就越有意义，因为它预示着起源。         </p>
-<p>由于所有的迹象都被理解为起源，         </p>
-<p>它们好像不断地反复重新开始着故事。           </p>
-<p>我们从中接受了天才的基本教导。         </p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -2151,7 +2171,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">40</span>
+                <span class="site-state-item-count">41</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -2164,7 +2184,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">26</span>
+                <span class="site-state-item-count">28</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

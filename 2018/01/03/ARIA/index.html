@@ -93,6 +93,7 @@
 <meta property="og:url" content="https://github.com/lennonover/2018/01/03/ARIA/index.html">
 <meta property="og:site_name" content="lennonover">
 <meta property="og:description" content="ARIA 是 Accessible Rich Internet Applications 的缩写。它是 W3C 的 Web 无障碍推进组织 Web Accessibility Initiative / WAI 在2014年3月20日发布的可访问富互联网应用实现指南。2017年11月2日，发布了 WAI-ARIA 1.1 的提案推荐标准,在1.0版本的基础上，添加了一些新机制，使 HTML + AR">
+<meta property="og:locale" content="zh-Hans">
 <meta property="og:updated_time" content="2018-02-10T10:11:31.418Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="ARIA">
@@ -321,7 +322,7 @@
       
 
       
-        <p>ARIA 是 <code>Accessible Rich Internet Applications</code> 的缩写。它是 W3C 的 Web 无障碍推进组织 <a href="https://www.w3.org/WAI/" target="_blank" rel="external">Web Accessibility Initiative / WAI</a> 在2014年3月20日发布的可访问富互联网应用实现指南。2017年11月2日，发布了 <a href="https://www.w3.org/TR/wai-aria-1.1/" target="_blank" rel="external">WAI-ARIA 1.1</a> 的提案推荐标准,在1.0版本的基础上，添加了一些新机制，使 HTML + ARIA 无障碍模型更加完整，并支持图形及数字出版的无障碍需求。</p>
+        <p>ARIA 是 <code>Accessible Rich Internet Applications</code> 的缩写。它是 W3C 的 Web 无障碍推进组织 <a href="https://www.w3.org/WAI/" target="_blank" rel="noopener">Web Accessibility Initiative / WAI</a> 在2014年3月20日发布的可访问富互联网应用实现指南。2017年11月2日，发布了 <a href="https://www.w3.org/TR/wai-aria-1.1/" target="_blank" rel="noopener">WAI-ARIA 1.1</a> 的提案推荐标准,在1.0版本的基础上，添加了一些新机制，使 HTML + ARIA 无障碍模型更加完整，并支持图形及数字出版的无障碍需求。</p>
 <ul>
 <li>几种场景<ul>
 <li>一个由 js 生成的页面</li>
@@ -337,20 +338,20 @@
 </li>
 </ul>
 <p>以上这种场景的对于一个视觉或者听觉有障碍的人来说还能正常访问吗？这就是要 <code>WAI-ARIA</code> 的目的。<code>WAI-ARIA</code> 适用于跨越某些领域的障碍，这些领域存在的无障碍问题无法通过原生 HTML 进行管理。它通过允许您指定某些属性来发挥作用，这些属性可以修改元素转换成无障碍树的方式。</p>
-<h2 id="ARIA-是怎么做的"><a href="#ARIA-是怎么做的" class="headerlink" title="ARIA 是怎么做的"></a>ARIA 是怎么做的</h2><p>ARIA属性可以被 <a href="https://www.nvaccess.org/" target="_blank" rel="external">NVDA</a> 等读屏软件调用系统API识别， 转化成语音。</p>
+<h2 id="ARIA-是怎么做的"><a href="#ARIA-是怎么做的" class="headerlink" title="ARIA 是怎么做的"></a>ARIA 是怎么做的</h2><p>ARIA属性可以被 <a href="https://www.nvaccess.org/" target="_blank" rel="noopener">NVDA</a> 等读屏软件调用系统API识别， 转化成语音。</p>
 <p>例如我们使用列表项作为一种自定义复选框</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">li</span> <span class="attr">class</span>=<span class="string">"checkbox"</span> <span class="attr">checked</span>&gt;</span></div><div class="line">  javcscript</div><div class="line"><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">li</span> <span class="attr">class</span>=<span class="string">"checkbox"</span> <span class="attr">checked</span>&gt;</span></span><br><span class="line">  javcscript</span><br><span class="line"><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br></pre></td></tr></table></figure>
 <p>正常的人是能正确识别的，但是屏幕阅读器却不会给予任何指示来说明该元素旨在作为复选框使用，因此弱视用户可能会完全错过该元素。<br>如果使用 ARIA 属性，我们就可以为元素提供缺少的信息，以便屏幕阅读器能正确解读它。 我们在以上代码中添加了 role 和 aria-checked 属性，将该元素显式标识为一个复选框，并指定它在默认情况下处于选中状态。该列表项现在将添加到无障碍树中，屏幕阅读器将把它正确地报告为一个复选框。</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">li</span> <span class="attr">class</span>=<span class="string">"checkbox"</span> <span class="attr">role</span>=<span class="string">"checkbox"</span> <span class="attr">checked</span> <span class="attr">aria-checked</span>=<span class="string">"true"</span>&gt;</span></div><div class="line">  javcscript</div><div class="line"><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">li</span> <span class="attr">class</span>=<span class="string">"checkbox"</span> <span class="attr">role</span>=<span class="string">"checkbox"</span> <span class="attr">checked</span> <span class="attr">aria-checked</span>=<span class="string">"true"</span>&gt;</span></span><br><span class="line">  javcscript</span><br><span class="line"><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br></pre></td></tr></table></figure>
 <p>ARIA 通过更改和补充标准 DOM 无障碍树来发挥作用。并且尽可能正确地使用 html 标签，原生标签对 ARIA 支持得更好。在实再自定义控件的时候，添加 ARIA 相关属性可以例控件能正确被读屏软件识别。 html5 语义化标签与 ARIA 有重叠的地方，用新的语义化标签但还是推荐添加 ARIA 属性。<br>例如上面的自定义复选框,标准 HTML <input type="checkbox"> 元素都不需要额外的 role=”checkbox” ARIA 属性就能正确声明。</p>
-<h2 id="ARIA-on-HTML"><a href="#ARIA-on-HTML" class="headerlink" title="ARIA on HTML"></a>ARIA on HTML</h2><p>ARIA on HTML 中使用有其自己的规范，在 <a href="http://validator.w3.org/nu/" target="_blank" rel="external">这个</a> 网站可以检测 ARIA 使用的是否标准。</p>
-<p>ARIA 属性包括三个方面：角色属性值(roles), 状态属性值(states), 和属性表(properties)  参考网站： <a href="https://www.w3.org/TR/html-aria/#index-aria-main" target="_blank" rel="external">W3C</a></p>
-<p>浏览器支持情况参见 <a href="https://caniuse.com/#search=aria" target="_blank" rel="external">caniuse</a> </p>
+<h2 id="ARIA-on-HTML"><a href="#ARIA-on-HTML" class="headerlink" title="ARIA on HTML"></a>ARIA on HTML</h2><p>ARIA on HTML 中使用有其自己的规范，在 <a href="http://validator.w3.org/nu/" target="_blank" rel="noopener">这个</a> 网站可以检测 ARIA 使用的是否标准。</p>
+<p>ARIA 属性包括三个方面：角色属性值(roles), 状态属性值(states), 和属性表(properties)  参考网站： <a href="https://www.w3.org/TR/html-aria/#index-aria-main" target="_blank" rel="noopener">W3C</a></p>
+<p>浏览器支持情况参见 <a href="https://caniuse.com/#search=aria" target="_blank" rel="noopener">caniuse</a> </p>
 <ul>
 <li><p>HTML5 元素有的不应该重新定义一个添加ARIA</p>
 <p>  如果你使用的元素(HTML5)具有语义化，应该使用这些元素，而不应该重新定义一个添加ARIA的角色、状态或属性的元素。</p>
 <p>  下面以 role=heading 一个上button元素。这是不允许的，因为该 button 元素具有默认特征与标题角色冲突。</p>
-  <figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">role</span>=<span class="string">"heading"</span>&gt;</span>search<span class="tag">&lt;/<span class="name">button</span>&gt;</span></div></pre></td></tr></table></figure>
+  <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">role</span>=<span class="string">"heading"</span>&gt;</span>search<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br></pre></td></tr></table></figure>
 <p>  哪些情况下可以使用？</p>
 <ul>
 <li>在HTML(HTML5)元素特性不管支持或不支持，只要不具语义化，就可以使用ARIA</li>
@@ -364,15 +365,15 @@
 </li>
 <li><p>ARIA role的必需属性不可省略</p>
 <p>  正确</p>
-  <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;span role=&quot;checkbox&quot; aria-checked=&quot;false&quot; aria-labelledby=&quot;foo&quot; tabindex=&quot;0&quot;&gt;&lt;/span&gt;</div></pre></td></tr></table></figure>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;span role=&quot;checkbox&quot; aria-checked=&quot;false&quot; aria-labelledby=&quot;foo&quot; tabindex=&quot;0&quot;&gt;&lt;/span&gt;</span><br></pre></td></tr></table></figure>
 <p>  错误</p>
-  <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;span role=&quot;checkbox&quot; aria-labelledby=&quot;foo&quot; tabindex=&quot;0&quot;&gt;&lt;/span&gt;</div></pre></td></tr></table></figure>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;span role=&quot;checkbox&quot; aria-labelledby=&quot;foo&quot; tabindex=&quot;0&quot;&gt;&lt;/span&gt;</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>具有ARIA role的元素必须在正确的范围内</p>
 <p>  正确</p>
-  <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&lt;div role=&quot;list&quot;&gt; </div><div class="line">	&lt;span role=&quot;listitem&quot;&gt;Rainbow Trout&lt;/span&gt; </div><div class="line">	&lt;span role=&quot;listitem&quot;&gt;Brook Trout&lt;/span&gt;</div><div class="line">	&lt;span role=&quot;listitem&quot;&gt;Lake Trout&lt;/span&gt;</div><div class="line">&lt;/div&gt;</div></pre></td></tr></table></figure>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;div role=&quot;list&quot;&gt; </span><br><span class="line">	&lt;span role=&quot;listitem&quot;&gt;Rainbow Trout&lt;/span&gt; </span><br><span class="line">	&lt;span role=&quot;listitem&quot;&gt;Brook Trout&lt;/span&gt;</span><br><span class="line">	&lt;span role=&quot;listitem&quot;&gt;Lake Trout&lt;/span&gt;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
 <p>  错误</p>
-  <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&lt;div&gt; </div><div class="line">	&lt;span role=&quot;listitem&quot;&gt;Rainbow Trout&lt;/span&gt; </div><div class="line">	&lt;span role=&quot;listitem&quot;&gt;Brook Trout&lt;/span&gt;</div><div class="line">	&lt;span role=&quot;listitem&quot;&gt;Lake Trout&lt;/span&gt;</div><div class="line">&lt;/div&gt;</div></pre></td></tr></table></figure>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;div&gt; </span><br><span class="line">	&lt;span role=&quot;listitem&quot;&gt;Rainbow Trout&lt;/span&gt; </span><br><span class="line">	&lt;span role=&quot;listitem&quot;&gt;Brook Trout&lt;/span&gt;</span><br><span class="line">	&lt;span role=&quot;listitem&quot;&gt;Lake Trout&lt;/span&gt;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
 <h2 id="ARIA-在-HTML-中由组成"><a href="#ARIA-在-HTML-中由组成" class="headerlink" title="ARIA 在 HTML 中由组成"></a>ARIA 在 HTML 中由组成</h2><p>ARIA 在 HTML 中由两部分组成，一个 role ，表示元素的作用；一个是 aria- 表示元素的属性或状态。</p>
@@ -540,13 +541,13 @@
 
     表示按下的状态，可选值有：true, false, mixed, undfined.默认为undfined, 表示按下状态未知；true表示元素往下（按钮按下）；false表示元素抬起；mixed表示元素同时有按下和没有按下的状态
 
-    <figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">role</span>=<span class="string">"button"</span> <span class="attr">tabindex</span>=<span class="string">"0"</span> <span class="attr">aria-pressed</span>=<span class="string">"false"</span> <span class="attr">aria-disabled</span>=<span class="string">"false"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure>
+    <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">role</span>=<span class="string">"button"</span> <span class="attr">tabindex</span>=<span class="string">"0"</span> <span class="attr">aria-pressed</span>=<span class="string">"false"</span> <span class="attr">aria-disabled</span>=<span class="string">"false"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
 - aria-selected
 
     表示选择状态,可选值有：true, false, undefined。 默认为undefined，表示元素选择状态未知;true表示元素已选择;false表示未被选中。
 
-    <figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">ul</span> <span class="attr">class</span>=<span class="string">"tablist"</span> <span class="attr">role</span>=<span class="string">"tablist"</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">li</span> <span class="attr">role</span>=<span class="string">"tab"</span> <span class="attr">aria-selected</span>=<span class="string">"true"</span> <span class="attr">tabindex</span>=<span class="string">"0"</span>&gt;</span>中国<span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">li</span> <span class="attr">role</span>=<span class="string">"tab"</span> <span class="attr">aria-selected</span>=<span class="string">"false"</span> <span class="attr">tabindex</span>=<span class="string">"-1"</span>&gt;</span>美国<span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">ul</span>&gt;</span></div></pre></td></tr></table></figure>
+    <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">ul</span> <span class="attr">class</span>=<span class="string">"tablist"</span> <span class="attr">role</span>=<span class="string">"tablist"</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">li</span> <span class="attr">role</span>=<span class="string">"tab"</span> <span class="attr">aria-selected</span>=<span class="string">"true"</span> <span class="attr">tabindex</span>=<span class="string">"0"</span>&gt;</span>中国<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">li</span> <span class="attr">role</span>=<span class="string">"tab"</span> <span class="attr">aria-selected</span>=<span class="string">"false"</span> <span class="attr">tabindex</span>=<span class="string">"-1"</span>&gt;</span>美国<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br></pre></td></tr></table></figure>
 </code></pre>
       
     </div>
@@ -667,7 +668,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">40</span>
+                <span class="site-state-item-count">41</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -680,7 +681,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">26</span>
+                <span class="site-state-item-count">28</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

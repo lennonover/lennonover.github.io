@@ -87,28 +87,17 @@
 
 
 
-<meta name="description" content="JS原生事件事件流，所谓的事件流就是页面接受事件的顺序。IE 的事件流叫冒泡事件，Netscape 提出了另一个事件流叫事件捕获。事件的三阶段，分别为捕获，目标，冒泡。
-
-捕获阶段：从最上层元素，一直到最下层，你点击的那个 target 元素，路过的所有节点都可以捕捉到这事件
-目标阶段：如果给事件成功的到达了 target 元素，它会进行事件处理
-冒泡阶段：事件从最下层向上传递，依次出发父元素的该">
+<meta name="description" content="JS原生事件事件流，所谓的事件流就是页面接受事件的顺序。IE 的事件流叫冒泡事件，Netscape 提出了另一个事件流叫事件捕获。事件的三阶段，分别为捕获，目标，冒泡。  捕获阶段：从最上层元素，一直到最下层，你点击的那个 target 元素，路过的所有节点都可以捕捉到这事件 目标阶段：如果给事件成功的到达了 target 元素，它会进行事件处理 冒泡阶段：事件从最下层向上传递，依次出发父元素的该">
 <meta property="og:type" content="article">
 <meta property="og:title" content="JS 原生事件">
 <meta property="og:url" content="https://github.com/lennonover/2017/09/20/JS-原生事件/index.html">
 <meta property="og:site_name" content="lennonover">
-<meta property="og:description" content="JS原生事件事件流，所谓的事件流就是页面接受事件的顺序。IE 的事件流叫冒泡事件，Netscape 提出了另一个事件流叫事件捕获。事件的三阶段，分别为捕获，目标，冒泡。
-
-捕获阶段：从最上层元素，一直到最下层，你点击的那个 target 元素，路过的所有节点都可以捕捉到这事件
-目标阶段：如果给事件成功的到达了 target 元素，它会进行事件处理
-冒泡阶段：事件从最下层向上传递，依次出发父元素的该">
+<meta property="og:description" content="JS原生事件事件流，所谓的事件流就是页面接受事件的顺序。IE 的事件流叫冒泡事件，Netscape 提出了另一个事件流叫事件捕获。事件的三阶段，分别为捕获，目标，冒泡。  捕获阶段：从最上层元素，一直到最下层，你点击的那个 target 元素，路过的所有节点都可以捕捉到这事件 目标阶段：如果给事件成功的到达了 target 元素，它会进行事件处理 冒泡阶段：事件从最下层向上传递，依次出发父元素的该">
+<meta property="og:locale" content="zh-Hans">
 <meta property="og:updated_time" content="2017-09-20T15:14:08.420Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JS 原生事件">
-<meta name="twitter:description" content="JS原生事件事件流，所谓的事件流就是页面接受事件的顺序。IE 的事件流叫冒泡事件，Netscape 提出了另一个事件流叫事件捕获。事件的三阶段，分别为捕获，目标，冒泡。
-
-捕获阶段：从最上层元素，一直到最下层，你点击的那个 target 元素，路过的所有节点都可以捕捉到这事件
-目标阶段：如果给事件成功的到达了 target 元素，它会进行事件处理
-冒泡阶段：事件从最下层向上传递，依次出发父元素的该">
+<meta name="twitter:description" content="JS原生事件事件流，所谓的事件流就是页面接受事件的顺序。IE 的事件流叫冒泡事件，Netscape 提出了另一个事件流叫事件捕获。事件的三阶段，分别为捕获，目标，冒泡。  捕获阶段：从最上层元素，一直到最下层，你点击的那个 target 元素，路过的所有节点都可以捕捉到这事件 目标阶段：如果给事件成功的到达了 target 元素，它会进行事件处理 冒泡阶段：事件从最下层向上传递，依次出发父元素的该">
 
 
 
@@ -341,13 +330,13 @@
 </ul>
 <p>阻止事件冒泡，可以使用 <code>e.stopPropagation()</code>（Firefox，chrome）或者 <code>e.cancelBubble=true</code>（IE）来阻止事件的冒泡传播。</p>
 <h4 id="事件绑定"><a href="#事件绑定" class="headerlink" title="事件绑定"></a>事件绑定</h4><p>直接在 DOM 元素上绑定 onclick、onmouseover、onmouseout、onmousedown、onmouseup、ondblclick、onkeydown、onkeypress、onkeyup 等事件,缺点是只能实现一个绑定，也就是说我们再为 element 绑定第二个 click 事件时候，会覆盖掉之前的 click 事件</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">// 在 html 中直接写</div><div class="line">&lt;button onclick="alert('你点击了这个按钮');"&gt; 点击这个按钮 &lt;/button&gt;  </div><div class="line"></div><div class="line">// DOM 绑定</div><div class="line">var node = document.getElementById('div')</div><div class="line">node.onclick = function() &#123;</div><div class="line">    console.log('click 事件绑定成功')</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 在 html 中直接写</span></span><br><span class="line">&lt;button onclick=<span class="string">"alert('你点击了这个按钮');"</span>&gt; 点击这个按钮 &lt;<span class="regexp">/button&gt;  </span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">/</span><span class="regexp">/ DOM 绑定</span></span><br><span class="line"><span class="regexp">var node = document.getElementById('div')</span></span><br><span class="line"><span class="regexp">node.onclick = function() &#123;</span></span><br><span class="line"><span class="regexp">    console.log('click 事件绑定成功')</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br></pre></td></tr></table></figure>
 <h4 id="事件监听"><a href="#事件监听" class="headerlink" title="事件监听"></a>事件监听</h4><p>事件监听实现的功能和直接绑定差不多新增了一个特点。无论监听多少次，都不会覆盖掉前面的监听事件。本质原因是监听事件每次都会生产一个全新的匿名函数，和前面的函数完全不同。<br>原生的事件绑定是这样的 <code>btn.addEventListener(“click”,function(event){}, false)</code><br>IE 浏览器提供的是 <code>btn.attachEvent(“click”,function(event){}, false)</code><br><code>true</code> 表示捕获阶段调用事件处理程序<br><code>false</code> 表示冒泡阶段调用事件处理程序<br>相应的移除事件绑定这是 <code>removeEventListener</code> 和 <code>detachEvent</code> </p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> div = <span class="built_in">document</span>.getElementById(<span class="string">'div'</span>)</div><div class="line">div.addEventListener(<span class="string">'click'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'事件绑定成功1'</span>)</div><div class="line">&#125;)</div><div class="line">div.addEventListener(<span class="string">'click'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'事件绑定成功2'</span>)</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> div = <span class="built_in">document</span>.getElementById(<span class="string">'div'</span>)</span><br><span class="line">div.addEventListener(<span class="string">'click'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'事件绑定成功1'</span>)</span><br><span class="line">&#125;)</span><br><span class="line">div.addEventListener(<span class="string">'click'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'事件绑定成功2'</span>)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
 <h4 id="事件委托"><a href="#事件委托" class="headerlink" title="事件委托"></a>事件委托</h4><p>事件委托是基于上面利用了事件冒泡，只指定一个事件处理程序，优点减少监听器,监听动态内容。</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">// html</div><div class="line">&lt;ul class="list"&gt;</div><div class="line">    &lt;li&gt;&lt;/li&gt;</div><div class="line">&lt;/ul&gt;</div><div class="line">// js</div><div class="line">var ul = document.querySelector('.list')</div><div class="line">list.addEventListener('click',function (e)&#123;</div><div class="line">    var l = e.target</div><div class="line">    while(l.tagName !== 'LI')&#123;</div><div class="line">        l = l.parentNode</div><div class="line">        if(l === ul)&#123;</div><div class="line">            l = null</div><div class="line">            break;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    if (l) &#123;</div><div class="line">        console.log('执行回调')</div><div class="line">    &#125;</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// html</span></span><br><span class="line">&lt;ul <span class="class"><span class="keyword">class</span></span>=<span class="string">"list"</span>&gt;</span><br><span class="line">    &lt;li&gt;<span class="xml"><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span></span><br><span class="line">&lt;<span class="regexp">/ul&gt;</span></span><br><span class="line"><span class="regexp">/</span><span class="regexp">/ js</span></span><br><span class="line"><span class="regexp">var ul = document.querySelector('.list')</span></span><br><span class="line"><span class="regexp">list.addEventListener('click',function (e)&#123;</span></span><br><span class="line"><span class="regexp">    var l = e.target</span></span><br><span class="line"><span class="regexp">    while(l.tagName !== 'LI')&#123;</span></span><br><span class="line"><span class="regexp">        l = l.parentNode</span></span><br><span class="line"><span class="regexp">        if(l === ul)&#123;</span></span><br><span class="line"><span class="regexp">            l = null</span></span><br><span class="line"><span class="regexp">            break;</span></span><br><span class="line"><span class="regexp">        &#125;</span></span><br><span class="line"><span class="regexp">    &#125;</span></span><br><span class="line"><span class="regexp">    if (l) &#123;</span></span><br><span class="line"><span class="regexp">        console.log('执行回调')</span></span><br><span class="line"><span class="regexp">    &#125;</span></span><br><span class="line"><span class="regexp">&#125;)</span></span><br></pre></td></tr></table></figure>
 <h4 id="DOM3-级事件"><a href="#DOM3-级事件" class="headerlink" title="DOM3 级事件"></a>DOM3 级事件</h4><p>DOM0 就是直接通过 onclick 写在 html 里面的事件<br>DOM2 是通过 addEventListener 绑定的事件,  IE 下的 DOM2 事件通过 attachEvent 绑定<br>DOM3 是一些新的事件     </p>
-<p>判定浏览器是否支持该事件类型<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> isSupported=<span class="built_in">document</span>.implementation.hasFeature(<span class="string">'HTMLEvents'</span>,<span class="string">'2.0'</span>);</div><div class="line">alert(isSupported);<span class="comment">//true or false</span></div><div class="line"><span class="keyword">var</span> isSupported=<span class="built_in">document</span>.implementation.hasFeature(<span class="string">"UIEvent"</span>,<span class="string">'3.0'</span>);</div><div class="line">alert(isSupported);<span class="comment">//true or false</span></div></pre></td></tr></table></figure></p>
+<p>判定浏览器是否支持该事件类型<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> isSupported=<span class="built_in">document</span>.implementation.hasFeature(<span class="string">'HTMLEvents'</span>,<span class="string">'2.0'</span>);</span><br><span class="line">alert(isSupported);<span class="comment">//true or false</span></span><br><span class="line"><span class="keyword">var</span> isSupported=<span class="built_in">document</span>.implementation.hasFeature(<span class="string">"UIEvent"</span>,<span class="string">'3.0'</span>);</span><br><span class="line">alert(isSupported);<span class="comment">//true or false</span></span><br></pre></td></tr></table></figure></p>
 <p>第 DOM3 级事件</p>
 <ul>
 <li>UI 事件：当用户与页面上的元素交互时除法<br>  load, unload,abord,error,select,resize,scroll</li>
@@ -489,7 +478,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">40</span>
+                <span class="site-state-item-count">41</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -502,7 +491,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">26</span>
+                <span class="site-state-item-count">28</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

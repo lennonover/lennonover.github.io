@@ -71,7 +71,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="性能优化,硬件加速," />
 
 
 
@@ -87,16 +87,21 @@
 
 
 
-<meta name="description" content="一丿口石砳磊">
+<meta name="description" content="浏览器的渲染方式，主要分为两种，第一种是软件渲染，第二种是硬件渲染。如果绘制工作只是由 CPU 完成，那么称之为软件渲染，如果绘制工作由 GPU 完成，则称之为硬件渲染。软件渲染与硬件渲染有不同的缓存机制，只要我们合理利用，就能发挥出最好的效果。 开启浏览器还有一种名为硬件渲染的渲染方式，它是使用 GPU 的硬件能力来帮助渲染页面,那么是怎么设置的？  启用硬件加速  在chrome的地址栏中输入">
+<meta name="keywords" content="性能优化,硬件加速">
 <meta property="og:type" content="article">
 <meta property="og:title" content="硬件渲染了解一下">
 <meta property="og:url" content="https://github.com/lennonover/2018/04/17/硬件渲染了解一下/index.html">
 <meta property="og:site_name" content="lennonover">
-<meta property="og:description" content="一丿口石砳磊">
-<meta property="og:updated_time" content="2018-04-17T13:26:41.507Z">
+<meta property="og:description" content="浏览器的渲染方式，主要分为两种，第一种是软件渲染，第二种是硬件渲染。如果绘制工作只是由 CPU 完成，那么称之为软件渲染，如果绘制工作由 GPU 完成，则称之为硬件渲染。软件渲染与硬件渲染有不同的缓存机制，只要我们合理利用，就能发挥出最好的效果。 开启浏览器还有一种名为硬件渲染的渲染方式，它是使用 GPU 的硬件能力来帮助渲染页面,那么是怎么设置的？  启用硬件加速  在chrome的地址栏中输入">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/4/17/162d382466397a7a?w=973&h=602&f=png&s=358760">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/4/17/162d39bcf891cd34?w=1742&h=667&f=png&s=269284">
+<meta property="og:updated_time" content="2018-07-05T13:32:16.649Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="硬件渲染了解一下">
-<meta name="twitter:description" content="一丿口石砳磊">
+<meta name="twitter:description" content="浏览器的渲染方式，主要分为两种，第一种是软件渲染，第二种是硬件渲染。如果绘制工作只是由 CPU 完成，那么称之为软件渲染，如果绘制工作由 GPU 完成，则称之为硬件渲染。软件渲染与硬件渲染有不同的缓存机制，只要我们合理利用，就能发挥出最好的效果。 开启浏览器还有一种名为硬件渲染的渲染方式，它是使用 GPU 的硬件能力来帮助渲染页面,那么是怎么设置的？  启用硬件加速  在chrome的地址栏中输入">
+<meta name="twitter:image" content="https://user-gold-cdn.xitu.io/2018/4/17/162d382466397a7a?w=973&h=602&f=png&s=358760">
 
 
 
@@ -321,7 +326,45 @@
       
 
       
-        
+        <p>浏览器的渲染方式，主要分为两种，第一种是软件渲染，第二种是硬件渲染。如果绘制工作只是由 CPU 完成，那么称之为软件渲染，如果绘制工作由 GPU 完成，则称之为硬件渲染。软件渲染与硬件渲染有不同的缓存机制，只要我们合理利用，就能发挥出最好的效果。</p>
+<h2 id="开启"><a href="#开启" class="headerlink" title="开启"></a>开启</h2><p>浏览器还有一种名为硬件渲染的渲染方式，它是使用 GPU 的硬件能力来帮助渲染页面,那么是怎么设置的？</p>
+<ul>
+<li>启用硬件加速<br>  在<code>chrome</code>的地址栏中输入<code>chrome://settings/</code>回车滚动页面到地步，点击<code>显示高级设置</code>再次滚动到页面地步，找到<code>使用硬件加速模式</code></li>
+<li>开启gup硬件加速<br>  在<code>chrome</code>的地址栏中输入<code>chrome://flags/#disable-accelerated-video-decode</code>找到<code>硬件加速的视频解码</code>，点击<code>启用</code></li>
+</ul>
+<p>完成上面两步后重启浏览器</p>
+<h2 id="能做什么"><a href="#能做什么" class="headerlink" title="能做什么"></a>能做什么</h2><p>大家都知道在页面性能优化的时候都会用到 <code>GPU 加速</code>、<code>硬件加速</code>类似方式，浏览器一帧（1000/16ms）会依次执行以下，减少或者避免 layout，paint 可以让页更加流畅：</p>
+<blockquote>
+<ol>
+<li>JavaScript：JavaScript 实现动画效果，DOM 元素操作等。</li>
+<li>Style（计算样式）：确定每个 DOM 元素应该应用什么 CSS 规则。</li>
+<li>Layout（布局）：计算每个 DOM 元素在最终屏幕上显示的大小和位置。由于 web 页面的元素布局是相对的，所以其中任意一个元素的位置发生变化，都会联动的引起其他元素发生变化，这个过程叫 reflow。</li>
+<li>Paint（绘制）：在多个层上绘制 DOM 元素的的文字、颜色、图像、边框和阴影等。</li>
+<li>Composite（渲染层合并）：按照合理的顺序合并图层然后显示到屏幕上。</li>
+</ol>
+</blockquote>
+<p>一个页面是由多个图层最后形成一个完整的合成层才被渲染出来效果就像这样：<br><img src="https://user-gold-cdn.xitu.io/2018/4/17/162d382466397a7a?w=973&amp;h=602&amp;f=png&amp;s=358760" alt="渲染图"></p>
+<p>硬件渲染 WebKit 会依据指定条件决定将那些 RenderLayer 对象组合在一起形成一个新层并缓存在 GPU，这些新层我们统称为合成层（Compositing Layer）。这些合成层提升成独立的层，被独立出来之后，便不会再影响其他 dom 的布局。如果发生 偏移、透明度等等变换 GPU 要做的只是把更新的合成层进行相应的变换并送入 Compositor 重新合成即可，利用这个优点我们可以把页面中一些布局经常变换的 dom 提升到独立的层。</p>
+<p><img src="https://user-gold-cdn.xitu.io/2018/4/17/162d39bcf891cd34?w=1742&amp;h=667&amp;f=png&amp;s=269284" alt=""></p>
+<p>在上图中黄色边框表示放到了一个新的复合层（composited layer）中渲染，左侧的列表里列出页面里存在哪些渲染层，右侧的 Details 显示的是这些渲染层的详细信息，包括渲染层的大小、形成原因等。</p>
+<h2 id="如何触发合成层"><a href="#如何触发合成层" class="headerlink" title="如何触发合成层"></a>如何触发合成层</h2><ol>
+<li>根节点 document</li>
+<li>HTML5 Video或者Canvas元素。</li>
+<li>元素有一个 z-index 较低且包含一个复合层的兄弟元素</li>
+<li>3D 或透视变换(perspective，transform) CSS 属性 比如常用的 （设置translateZ()、backface-visibility为hidden）</li>
+</ol>
+<h2 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h2><p>也就是上面第三条，英文原版是这么说</p>
+<blockquote>
+<p>Element has a sibling with a lower z-index which has a compositing layer (in other words the it’s rendered on top of a composited layer)</p>
+</blockquote>
+<p>意思是，如果有一个元素，它的兄弟元素在复合层中渲染，而这个兄弟元素的z-index比较小，那么这个元素（不管是不是应用了硬件加速样式）也会被放到复合层中。</p>
+<p>所以用轮播、动画loading等页面的时候要注意下要遵循最小化影响原则，如果调试看到有很多 <code>黄色边框</code> 就要注意了。</p>
+<blockquote>
+<p>使用 3D 硬件加速提升动画性能时，最好给元素增加一个 z-index 属性，人为干扰复合层的排序，可以有效减少 chrome 创建不必要的复合层，提升渲染性能，移动端优化效果尤为明显。</p>
+</blockquote>
+<h2 id="关于-CSS3-will-change"><a href="#关于-CSS3-will-change" class="headerlink" title="关于 CSS3 will-change"></a>关于 CSS3 will-change</h2><p>前面说的那些有点hach，CSS3 will-change 才是正规军是属于 web 标准属性，兼容性这块 Chrome/FireFox/Opera 是支持的，他是提前通知浏览器元素将要做什么动画，让浏览器提前准备合适的优化设置，具体值：<br><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 关键字值 */</span></span><br><span class="line"><span class="selector-tag">will-change</span>: <span class="selector-tag">auto</span>;</span><br><span class="line"><span class="selector-tag">will-change</span>: <span class="selector-tag">scroll-position</span>;</span><br><span class="line"><span class="selector-tag">will-change</span>: <span class="selector-tag">contents</span>;</span><br><span class="line"><span class="selector-tag">will-change</span>: <span class="selector-tag">transform</span>;        <span class="comment">/* &lt;custom-ident&gt;示例 */</span></span><br><span class="line"><span class="selector-tag">will-change</span>: <span class="selector-tag">opacity</span>;          <span class="comment">/* &lt;custom-ident&gt;示例 */</span></span><br><span class="line"><span class="selector-tag">will-change</span>: <span class="selector-tag">left</span>, <span class="selector-tag">top</span>;        <span class="comment">/* 两个&lt;animateable-feature&gt;示例 */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* 全局值 */</span></span><br><span class="line"><span class="selector-tag">will-change</span>: <span class="selector-tag">inherit</span>;</span><br><span class="line"><span class="selector-tag">will-change</span>: <span class="selector-tag">initial</span>;</span><br><span class="line"><span class="selector-tag">will-change</span>: <span class="selector-tag">unset</span>;</span><br></pre></td></tr></table></figure></p>
+<p>will-change 虽然可以加速,但是不可滥用。。。</p>
+
       
     </div>
 
@@ -348,6 +391,14 @@
 
     <footer class="post-footer">
       
+        <div class="post-tags">
+          
+            <a href="/tags/性能优化/" rel="tag"># 性能优化</a>
+          
+            <a href="/tags/硬件加速/" rel="tag"># 硬件加速</a>
+          
+        </div>
+      
 
       
         
@@ -366,6 +417,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/10/13/视频优化/" rel="prev" title="视频优化">
+                视频优化 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -412,8 +467,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.gif"
@@ -428,7 +492,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">40</span>
+                <span class="site-state-item-count">41</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -441,7 +505,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">26</span>
+                <span class="site-state-item-count">28</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -466,6 +530,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#开启"><span class="nav-number">1.</span> <span class="nav-text">开启</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#能做什么"><span class="nav-number">2.</span> <span class="nav-text">能做什么</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何触发合成层"><span class="nav-number">3.</span> <span class="nav-text">如何触发合成层</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#注意事项"><span class="nav-number">4.</span> <span class="nav-text">注意事项</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关于-CSS3-will-change"><span class="nav-number">5.</span> <span class="nav-text">关于 CSS3 will-change</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       

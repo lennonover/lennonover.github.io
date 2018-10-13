@@ -87,22 +87,18 @@
 
 
 
-<meta name="description" content="webGis 经常会遇到地图上标记文字问题，但是文字空间不够时，就会造成文字重叠显示混乱的现象，导致效果很不好，下面就说说解决方案。
-文字避让文字标注算法是 GIS 中最复杂（NP）的问题之一，本篇将介绍四分位模型算法。关于文字在地图上的坐标是经纬度坐标根据墨卡托转换而来。
-1234567891011[  &amp;#123;    &amp;quot;name&amp;quot;: &amp;quot;南京市&amp;quot;,//">
+<meta name="description" content="webGis 经常会遇到地图上标记文字问题，但是文字空间不够时，就会造成文字重叠显示混乱的现象，导致效果很不好，下面就说说解决方案。 文字避让文字标注算法是 GIS 中最复杂（NP）的问题之一，本篇将介绍四分位模型算法。关于文字在地图上的坐标是经纬度坐标根据墨卡托转换而来。 1234567891011[  &amp;#123;    &amp;quot;name&amp;quot;: &amp;quot;南京市&amp;quot;,//">
+<meta name="keywords" content="webgis">
 <meta property="og:type" content="article">
 <meta property="og:title" content="文字避让">
 <meta property="og:url" content="https://github.com/lennonover/2018/03/02/文字避让/index.html">
 <meta property="og:site_name" content="lennonover">
-<meta property="og:description" content="webGis 经常会遇到地图上标记文字问题，但是文字空间不够时，就会造成文字重叠显示混乱的现象，导致效果很不好，下面就说说解决方案。
-文字避让文字标注算法是 GIS 中最复杂（NP）的问题之一，本篇将介绍四分位模型算法。关于文字在地图上的坐标是经纬度坐标根据墨卡托转换而来。
-1234567891011[  &amp;#123;    &amp;quot;name&amp;quot;: &amp;quot;南京市&amp;quot;,//">
+<meta property="og:description" content="webGis 经常会遇到地图上标记文字问题，但是文字空间不够时，就会造成文字重叠显示混乱的现象，导致效果很不好，下面就说说解决方案。 文字避让文字标注算法是 GIS 中最复杂（NP）的问题之一，本篇将介绍四分位模型算法。关于文字在地图上的坐标是经纬度坐标根据墨卡托转换而来。 1234567891011[  &amp;#123;    &amp;quot;name&amp;quot;: &amp;quot;南京市&amp;quot;,//">
+<meta property="og:locale" content="zh-Hans">
 <meta property="og:updated_time" content="2018-03-02T12:59:35.829Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="文字避让">
-<meta name="twitter:description" content="webGis 经常会遇到地图上标记文字问题，但是文字空间不够时，就会造成文字重叠显示混乱的现象，导致效果很不好，下面就说说解决方案。
-文字避让文字标注算法是 GIS 中最复杂（NP）的问题之一，本篇将介绍四分位模型算法。关于文字在地图上的坐标是经纬度坐标根据墨卡托转换而来。
-1234567891011[  &amp;#123;    &amp;quot;name&amp;quot;: &amp;quot;南京市&amp;quot;,//">
+<meta name="twitter:description" content="webGis 经常会遇到地图上标记文字问题，但是文字空间不够时，就会造成文字重叠显示混乱的现象，导致效果很不好，下面就说说解决方案。 文字避让文字标注算法是 GIS 中最复杂（NP）的问题之一，本篇将介绍四分位模型算法。关于文字在地图上的坐标是经纬度坐标根据墨卡托转换而来。 1234567891011[  &amp;#123;    &amp;quot;name&amp;quot;: &amp;quot;南京市&amp;quot;,//">
 
 
 
@@ -329,33 +325,33 @@
       
         <p>webGis 经常会遇到地图上标记文字问题，但是文字空间不够时，就会造成文字重叠显示混乱的现象，导致效果很不好，下面就说说解决方案。</p>
 <h2 id="文字避让"><a href="#文字避让" class="headerlink" title="文字避让"></a>文字避让</h2><p>文字标注算法是 GIS 中最复杂（NP）的问题之一，本篇将介绍四分位模型算法。<br>关于文字在地图上的坐标是经纬度坐标根据墨卡托转换而来。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">[</div><div class="line">  &#123;</div><div class="line">    &quot;name&quot;: &quot;南京市&quot;,//要显示的文字</div><div class="line">    &quot;lon&quot;: 118.15,</div><div class="line">    &quot;lat&quot;: 32.89,</div><div class="line">    &quot;pixel&quot;: &#123; //像素坐标</div><div class="line">      &quot;x&quot;: 968,</div><div class="line">      &quot;y&quot;: 736</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">]</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[</span><br><span class="line">  &#123;</span><br><span class="line">    &quot;name&quot;: &quot;南京市&quot;,//要显示的文字</span><br><span class="line">    &quot;lon&quot;: 118.15,</span><br><span class="line">    &quot;lat&quot;: 32.89,</span><br><span class="line">    &quot;pixel&quot;: &#123; //像素坐标</span><br><span class="line">      &quot;x&quot;: 968,</span><br><span class="line">      &quot;y&quot;: 736</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
 <ul>
 <li>求出每段文字矩形的实际大小</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">let ctx = this.container.getContext(&apos;2d&apos;); // canvas 上下文</div><div class="line">let width= ctx.measureText(name).width;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">let ctx = this.container.getContext(&apos;2d&apos;); // canvas 上下文</span><br><span class="line">let width= ctx.measureText(name).width;</span><br></pre></td></tr></table></figure>
 <p>通过 measureText 得到每个文字的宽度，canvas 并没有直接获取文字的方法，那文字的高度如何的得到呢？</p>
 <p>我们通过反复测试发现 canvas 的 font 等于 “13px Arial” 字体的时候，文字的高度大概是 fontSize 的 1.1 倍。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">let fontSize = parseInt(ctx.font);</div><div class="line">let height = fontSize * 1.1;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">let fontSize = parseInt(ctx.font);</span><br><span class="line">let height = fontSize * 1.1;</span><br></pre></td></tr></table></figure>
 <p>文字的宽度和高度得到后，我们就可以创建文字矩形的坐标系了。</p>
 <p>所谓四分位模型，每一个标记点都有上下左右四个放文字的位子，如果左边放不下，那就放右边试试，还不行就放到下面试试，以此类推</p>
 <p>创建右侧虚拟矩形坐标描述：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">_getLeftAnchor() &#123;</div><div class="line">    let x = this.center.x - this.radius - this.textReact.width,</div><div class="line">        y = this.center.y - this.textReact.height / 2,</div><div class="line">        diam = this.radius * 2,</div><div class="line">        maxH = diam &gt; this.textReact.height ? diam : this.textReact.height; //矩形的高度</div><div class="line">    return &#123;</div><div class="line">        x,</div><div class="line">        y,</div><div class="line">        minX: x,</div><div class="line">        maxX: this.center.x + this.radius,</div><div class="line">        minY: this.center.y - maxH / 2,</div><div class="line">        maxY: this.center.y + maxH / 2</div><div class="line">    &#125;;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">_getLeftAnchor() &#123;</span><br><span class="line">    let x = this.center.x - this.radius - this.textReact.width,</span><br><span class="line">        y = this.center.y - this.textReact.height / 2,</span><br><span class="line">        diam = this.radius * 2,</span><br><span class="line">        maxH = diam &gt; this.textReact.height ? diam : this.textReact.height; //矩形的高度</span><br><span class="line">    return &#123;</span><br><span class="line">        x,</span><br><span class="line">        y,</span><br><span class="line">        minX: x,</span><br><span class="line">        maxX: this.center.x + this.radius,</span><br><span class="line">        minY: this.center.y - maxH / 2,</span><br><span class="line">        maxY: this.center.y + maxH / 2</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>以此类推，描述下面、左面、上面的虚拟矩形坐标。</p>
 <ul>
 <li>判断碰撞</li>
 </ul>
-<p>判断两个矩形是否覆盖相交，根据矩形的 minX,maxX,minY,maxY 判断相交，原理比较简单，代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line"> * 判断分位是否相交</div><div class="line"> * @param &#123;*&#125; target </div><div class="line"> */</div><div class="line"> </div><div class="line">isAnchorMeet(target) &#123;</div><div class="line">    let react = this.getCurrentRect(),</div><div class="line">        targetReact = target.getCurrentRect();</div><div class="line">    if ((react.minX &lt; targetReact.maxX) &amp;&amp; (targetReact.minX &lt; react.maxX) &amp;&amp;</div><div class="line">        (react.minY &lt; targetReact.maxY) &amp;&amp; (targetReact.minY &lt; react.maxY)) &#123;</div><div class="line">        return true;</div><div class="line">    &#125;</div><div class="line">    return false;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>判断两个矩形是否覆盖相交，根据矩形的 minX,maxX,minY,maxY 判断相交，原理比较简单，代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 判断分位是否相交</span><br><span class="line"> * @param &#123;*&#125; target </span><br><span class="line"> */</span><br><span class="line"> </span><br><span class="line">isAnchorMeet(target) &#123;</span><br><span class="line">    let react = this.getCurrentRect(),</span><br><span class="line">        targetReact = target.getCurrentRect();</span><br><span class="line">    if ((react.minX &lt; targetReact.maxX) &amp;&amp; (targetReact.minX &lt; react.maxX) &amp;&amp;</span><br><span class="line">        (react.minY &lt; targetReact.maxY) &amp;&amp; (targetReact.minY &lt; react.maxY)) &#123;</span><br><span class="line">        return true;</span><br><span class="line">    &#125;</span><br><span class="line">    return false;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <ul>
 <li>创建虚拟文字集合对象</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">let labels = pixels.map((val) =&gt; &#123;</div><div class="line">    let radius = val.pixel.radius + this.style.normal.borderWidth; //圆点半径</div><div class="line">    return new Label(val.pixel.x, val.pixel.y, radius, fontSize, byteWidth, val.name);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">let labels = pixels.map((val) =&gt; &#123;</span><br><span class="line">    let radius = val.pixel.radius + this.style.normal.borderWidth; //圆点半径</span><br><span class="line">    return new Label(val.pixel.x, val.pixel.y, radius, fontSize, byteWidth, val.name);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
 <p>递归遍历虚拟文字集合、判断是否与其他相交，如果有相交就移动当前文字位子，直到不相交为止。当找不到合适位置时，就选择隐藏当前文字。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">do &#123;</div><div class="line">    var meet = false; //本轮是否有相交</div><div class="line">    for (let i = 0; i &lt; labels.length; i++) &#123;</div><div class="line">        let temp = labels[i];</div><div class="line">        for (let j = 0; j &lt; labels.length; j++) &#123;</div><div class="line">            if (i != j &amp;&amp; temp.show &amp;&amp; temp.isAnchorMeet(labels[j])) &#123;</div><div class="line">                temp.next();</div><div class="line">                meet = true;</div><div class="line">                break;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125; while (meet);</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">do &#123;</span><br><span class="line">    var meet = false; //本轮是否有相交</span><br><span class="line">    for (let i = 0; i &lt; labels.length; i++) &#123;</span><br><span class="line">        let temp = labels[i];</span><br><span class="line">        for (let j = 0; j &lt; labels.length; j++) &#123;</span><br><span class="line">            if (i != j &amp;&amp; temp.show &amp;&amp; temp.isAnchorMeet(labels[j])) &#123;</span><br><span class="line">                temp.next();</span><br><span class="line">                meet = true;</span><br><span class="line">                break;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125; while (meet);</span><br></pre></td></tr></table></figure>
 <ul>
 <li>绘画文字</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">labels.forEach(function (item) &#123;</div><div class="line">    if (item.show) &#123; //是否显示</div><div class="line">        let pixel = item.getCurrentRect();</div><div class="line">        ctx.beginPath();</div><div class="line">        ctx.fillText(item.text, pixel.x, pixel.y);</div><div class="line">        ctx.fill();</div><div class="line">    &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">labels.forEach(function (item) &#123;</span><br><span class="line">    if (item.show) &#123; //是否显示</span><br><span class="line">        let pixel = item.getCurrentRect();</span><br><span class="line">        ctx.beginPath();</span><br><span class="line">        ctx.fillText(item.text, pixel.x, pixel.y);</span><br><span class="line">        ctx.fill();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
       
     </div>
 
@@ -481,7 +477,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">40</span>
+                <span class="site-state-item-count">41</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -494,7 +490,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">26</span>
+                <span class="site-state-item-count">28</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

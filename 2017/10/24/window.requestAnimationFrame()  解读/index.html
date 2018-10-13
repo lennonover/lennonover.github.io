@@ -87,29 +87,19 @@
 
 
 
-<meta name="description" content="参考自张鑫旭老师
-
-window.requestAnimationFrame() 方法告诉浏览器您希望执行动画并请求浏览器调用指定的函数在下一次重绘之前更新动画。该方法使用一个回调函数作为参数，这个回调函数会在浏览器重绘之前调用。
-语法window.requestAnimationFrame(callback);
-参数callback 一个在每次需要重新绘制动画时调用的包含指定函数的参数。这个回">
+<meta name="description" content="参考自张鑫旭老师  window.requestAnimationFrame() 方法告诉浏览器您希望执行动画并请求浏览器调用指定的函数在下一次重绘之前更新动画。该方法使用一个回调函数作为参数，这个回调函数会在浏览器重绘之前调用。 语法window.requestAnimationFrame(callback); 参数callback 一个在每次需要重新绘制动画时调用的包含指定函数的参数。这个回">
+<meta name="keywords" content="window.requestanimationfram">
 <meta property="og:type" content="article">
 <meta property="og:title" content="window.requestanimationfram 解读">
 <meta property="og:url" content="https://github.com/lennonover/2017/10/24/window.requestAnimationFrame()  解读/index.html">
 <meta property="og:site_name" content="lennonover">
-<meta property="og:description" content="参考自张鑫旭老师
-
-window.requestAnimationFrame() 方法告诉浏览器您希望执行动画并请求浏览器调用指定的函数在下一次重绘之前更新动画。该方法使用一个回调函数作为参数，这个回调函数会在浏览器重绘之前调用。
-语法window.requestAnimationFrame(callback);
-参数callback 一个在每次需要重新绘制动画时调用的包含指定函数的参数。这个回">
+<meta property="og:description" content="参考自张鑫旭老师  window.requestAnimationFrame() 方法告诉浏览器您希望执行动画并请求浏览器调用指定的函数在下一次重绘之前更新动画。该方法使用一个回调函数作为参数，这个回调函数会在浏览器重绘之前调用。 语法window.requestAnimationFrame(callback); 参数callback 一个在每次需要重新绘制动画时调用的包含指定函数的参数。这个回">
+<meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://ob6nlbpso.bkt.clouddn.com/sp171024_220945.png">
 <meta property="og:updated_time" content="2017-12-20T12:40:28.048Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="window.requestanimationfram 解读">
-<meta name="twitter:description" content="参考自张鑫旭老师
-
-window.requestAnimationFrame() 方法告诉浏览器您希望执行动画并请求浏览器调用指定的函数在下一次重绘之前更新动画。该方法使用一个回调函数作为参数，这个回调函数会在浏览器重绘之前调用。
-语法window.requestAnimationFrame(callback);
-参数callback 一个在每次需要重新绘制动画时调用的包含指定函数的参数。这个回">
+<meta name="twitter:description" content="参考自张鑫旭老师  window.requestAnimationFrame() 方法告诉浏览器您希望执行动画并请求浏览器调用指定的函数在下一次重绘之前更新动画。该方法使用一个回调函数作为参数，这个回调函数会在浏览器重绘之前调用。 语法window.requestAnimationFrame(callback); 参数callback 一个在每次需要重新绘制动画时调用的包含指定函数的参数。这个回">
 <meta name="twitter:image" content="http://ob6nlbpso.bkt.clouddn.com/sp171024_220945.png">
 
 
@@ -336,7 +326,7 @@ window.requestAnimationFrame() 方法告诉浏览器您希望执行动画并请�
 
       
         <blockquote>
-<p><a href="http://www.zhangxinxu.com/wordpress/2013/09/css3-animation-requestanimationframe-tween-%E5%8A%A8%E7%94%BB%E7%AE%97%E6%B3%95/" target="_blank" rel="external">参考自张鑫旭老师</a></p>
+<p><a href="http://www.zhangxinxu.com/wordpress/2013/09/css3-animation-requestanimationframe-tween-%E5%8A%A8%E7%94%BB%E7%AE%97%E6%B3%95/" target="_blank" rel="noopener">参考自张鑫旭老师</a></p>
 </blockquote>
 <p>window.requestAnimationFrame() 方法告诉浏览器您希望执行动画并请求浏览器调用指定的函数在下一次重绘之前更新动画。该方法使用一个回调函数作为参数，这个回调函数会在浏览器重绘之前调用。</p>
 <h2 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h2><p>window.requestAnimationFrame(callback);</p>
@@ -349,7 +339,7 @@ window.requestAnimationFrame() 方法告诉浏览器您希望执行动画并请�
 <li>就算很多个 requestAnimationFrame，浏览器只要通知一次就可以了。而 setTimeout 是多个独立绘制。</li>
 <li>页面最小化了，或者被Tab切换关灯了，页面绘制全部停止，资源高效利用。</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">function updateScreen(time) &#123;</div><div class="line">    // 这是你的动画效果函数</div><div class="line">&#125;</div><div class="line"></div><div class="line">// 将你的动画效果函数放入requestAnimationFrame()作为回调函数</div><div class="line">requestAnimationFrame(updateScreen);</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">function updateScreen(time) &#123;</span><br><span class="line">    // 这是你的动画效果函数</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 将你的动画效果函数放入requestAnimationFrame()作为回调函数</span><br><span class="line">requestAnimationFrame(updateScreen);</span><br></pre></td></tr></table></figure>
 <h2 id="弊端-CSS3动画不能应用所有属性"><a href="#弊端-CSS3动画不能应用所有属性" class="headerlink" title="弊端 CSS3动画不能应用所有属性"></a>弊端 CSS3动画不能应用所有属性</h2><p>类似滚动 scrollTop 是不支持的，这时需要 JS 来。</p>
 
       
@@ -477,7 +467,7 @@ window.requestAnimationFrame() 方法告诉浏览器您希望执行动画并请�
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">40</span>
+                <span class="site-state-item-count">41</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -490,7 +480,7 @@ window.requestAnimationFrame() 方法告诉浏览器您希望执行动画并请�
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">26</span>
+                <span class="site-state-item-count">28</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

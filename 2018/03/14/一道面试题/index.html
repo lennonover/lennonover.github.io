@@ -87,34 +87,17 @@
 
 
 
-<meta name="description" content="浏览器中输入www.baidu.com 直到看到页面之间发生了什么？
-
-今天就说说根据这道题梳理自己的前端知识！
-解析 URL解释 URL 是浏览器的活，所以首先要搞明白浏览器的工作方式。浏览器是多进程的，有一个主控进程，进程可能包括主控进程，插件进程，GPU，tab 页（浏览器内核）等等，主要包括：
-
-Browser 进程：浏览器的主进程（负责协调、主控），只有一个
-第三方插件进程：每种类型的">
+<meta name="description" content="浏览器中输入www.baidu.com 直到看到页面之间发生了什么？  今天就说说根据这道题梳理自己的前端知识！ 解析 URL解释 URL 是浏览器的活，所以首先要搞明白浏览器的工作方式。浏览器是多进程的，有一个主控进程，进程可能包括主控进程，插件进程，GPU，tab 页（浏览器内核）等等，主要包括：  Browser 进程：浏览器的主进程（负责协调、主控），只有一个 第三方插件进程：每种类型的">
 <meta property="og:type" content="article">
 <meta property="og:title" content="一道面试题">
 <meta property="og:url" content="https://github.com/lennonover/2018/03/14/一道面试题/index.html">
 <meta property="og:site_name" content="lennonover">
-<meta property="og:description" content="浏览器中输入www.baidu.com 直到看到页面之间发生了什么？
-
-今天就说说根据这道题梳理自己的前端知识！
-解析 URL解释 URL 是浏览器的活，所以首先要搞明白浏览器的工作方式。浏览器是多进程的，有一个主控进程，进程可能包括主控进程，插件进程，GPU，tab 页（浏览器内核）等等，主要包括：
-
-Browser 进程：浏览器的主进程（负责协调、主控），只有一个
-第三方插件进程：每种类型的">
+<meta property="og:description" content="浏览器中输入www.baidu.com 直到看到页面之间发生了什么？  今天就说说根据这道题梳理自己的前端知识！ 解析 URL解释 URL 是浏览器的活，所以首先要搞明白浏览器的工作方式。浏览器是多进程的，有一个主控进程，进程可能包括主控进程，插件进程，GPU，tab 页（浏览器内核）等等，主要包括：  Browser 进程：浏览器的主进程（负责协调、主控），只有一个 第三方插件进程：每种类型的">
+<meta property="og:locale" content="zh-Hans">
 <meta property="og:updated_time" content="2018-04-02T04:52:30.732Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="一道面试题">
-<meta name="twitter:description" content="浏览器中输入www.baidu.com 直到看到页面之间发生了什么？
-
-今天就说说根据这道题梳理自己的前端知识！
-解析 URL解释 URL 是浏览器的活，所以首先要搞明白浏览器的工作方式。浏览器是多进程的，有一个主控进程，进程可能包括主控进程，插件进程，GPU，tab 页（浏览器内核）等等，主要包括：
-
-Browser 进程：浏览器的主进程（负责协调、主控），只有一个
-第三方插件进程：每种类型的">
+<meta name="twitter:description" content="浏览器中输入www.baidu.com 直到看到页面之间发生了什么？  今天就说说根据这道题梳理自己的前端知识！ 解析 URL解释 URL 是浏览器的活，所以首先要搞明白浏览器的工作方式。浏览器是多进程的，有一个主控进程，进程可能包括主控进程，插件进程，GPU，tab 页（浏览器内核）等等，主要包括：  Browser 进程：浏览器的主进程（负责协调、主控），只有一个 第三方插件进程：每种类型的">
 
 
 
@@ -340,7 +323,7 @@ Browser 进程：浏览器的主进程（负责协调、主控），只有一个
 
       
         <blockquote>
-<p>浏览器中输入www.baidu.com 直到看到页面之间发生了什么？</p>
+<p>浏览器中输入<a href="http://www.baidu.com" target="_blank" rel="noopener">www.baidu.com</a> 直到看到页面之间发生了什么？</p>
 </blockquote>
 <p>今天就说说根据这道题梳理自己的前端知识！</p>
 <h2 id="解析-URL"><a href="#解析-URL" class="headerlink" title="解析 URL"></a>解析 URL</h2><p>解释 URL 是浏览器的活，所以首先要搞明白浏览器的工作方式。<br>浏览器是多进程的，有一个主控进程，进程可能包括主控进程，插件进程，GPU，tab 页（浏览器内核）等等，主要包括：</p>
@@ -390,10 +373,10 @@ Browser 进程：浏览器的主进程（负责协调、主控），只有一个
 </li>
 </ul>
 <p>强缓存判断依据</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">（http1.1）Cache-Control =&gt; Cache-Control: max-age = 35600</div><div class="line">（http1.0）Expires =&gt; 服务器端的时间</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">（http1.1）Cache-Control =&gt; Cache-Control: max-age = 35600</span><br><span class="line">（http1.0）Expires =&gt; 服务器端的时间</span><br></pre></td></tr></table></figure>
 <p>cache-control 中的 max-age 保存一个相对时间。例如 Cache-Control: max-age = 35600，表示浏览器收到文件后，缓存在35600s内均有效。如果同时存在 cache-control 和 Expires ，浏览器总是优先使用cache-control。<br>Max-Age 相比 Expires，Expires 使用的是服务器端的时间，但是有时候会有这样一种情况-客户端时间和服务端不同步。所以一般 http1.1 后不推荐使用 Expires。</p>
 <p>对比缓存判断依据</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">（http1.1）E-tag/If-None-Match</div><div class="line">（http1.0）Last-Modified/If-Modified-Since</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">（http1.1）E-tag/If-None-Match</span><br><span class="line">（http1.0）Last-Modified/If-Modified-Since</span><br></pre></td></tr></table></figure>
 <p>last-modified 是第一次请求资源时，服务器返回的字段，表示最后一次更新的时间。下一次浏览器请求资源时就发送 if-modified-since 字段。服务器用本地 Last-modified 时间与 if-modified-since 时间比较，如果不一致则认为缓存已过期并返回新资源给浏览器；如果时间一致则发送304状态码，让浏览器继续使用缓存。</p>
 <p>E-tag：资源的实体标识（哈希字符串），当资源内容更新时，E-tag 会改变。服务器会判断E-tag是否发生变化，如果变化则返回新资源，否则返回304。<br>　　<br>如果同时带有 E-tag 和 Last-Modified，服务端会优先检查 E-tag</p>
 <p>在浏览器接收到服务器响应后，会检测响应头部（Header），如果有nEtag 字段，那么浏览器就会将本次缓存写入硬盘中。
@@ -408,7 +391,7 @@ Browser 进程：浏览器的主进程（负责协调、主控），只有一个
 <li>如果本地没有，就向 dns 域名服务器查询（当然，中间可能还会经过路由，也有缓存等），查询到对应的 IP</li>
 </ul>
 <p>dns 解析是很耗时的，因此如果解析域名过多，会让首屏加载变得过慢，可以考虑 <code>dns-prefetch</code> 优化</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">a 标签的 DNS 预解析 默认是开启的 但是当 使用 https 的时候是默认关闭的需要手动开启 a 标签的预解析</div><div class="line">&lt;meta http-equiv=&quot;x-dns-prefetch-control&quot; content=&quot;on&quot;&gt;    </div><div class="line"></div><div class="line">开启 dns 预解析</div><div class="line">&lt;link rel=&quot;dns-prefetch&quot; href=&quot;IP地址&quot;&gt;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">a 标签的 DNS 预解析 默认是开启的 但是当 使用 https 的时候是默认关闭的需要手动开启 a 标签的预解析</span><br><span class="line">&lt;meta http-equiv=&quot;x-dns-prefetch-control&quot; content=&quot;on&quot;&gt;    </span><br><span class="line"></span><br><span class="line">开启 dns 预解析</span><br><span class="line">&lt;link rel=&quot;dns-prefetch&quot; href=&quot;IP地址&quot;&gt;</span><br></pre></td></tr></table></figure>
 <ul>
 <li>tcp/ip 请求</li>
 </ul>
@@ -416,13 +399,13 @@ Browser 进程：浏览器的主进程（负责协调、主控），只有一个
 <ul>
 <li>建立链接（三次握手）</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">客户端发个请求“开门呐，我要进来”给服务器</div><div class="line">服务器发个“进来吧，我去给你开门”给客户端</div><div class="line">客户端有很客气的发个“谢谢，我要进来了”给服务器</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">客户端发个请求“开门呐，我要进来”给服务器</span><br><span class="line">服务器发个“进来吧，我去给你开门”给客户端</span><br><span class="line">客户端有很客气的发个“谢谢，我要进来了”给服务器</span><br></pre></td></tr></table></figure>
 <p>建立连接也会断开连接只是不是这时候断开，先提前说下</p>
 <ul>
 <li>断开连接（四次挥手）</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">客户端发个“时间不早了，我要走了”给服务器，等服务器起身送他</div><div class="line">服务器听到了，发个“我知道了，那我送你出门吧”给客户端，等客户端走</div><div class="line">服务器把门关上后，发个“我关门了”给客户端，然后等客户端走（尼玛~矫情啊）</div><div class="line">客户端发个“我知道了，我走了”，之后自己就走了</div></pre></td></tr></table></figure>
-<p>由于 tcp/ip 对链接有并发的控制，所以有甚多针对请求的优化，比如合并请求的雪碧图。<br>关于这里有涉及到五层网络协议，就是从客户端发出 http 请求到服务器接收，中间会经过一系列的流程。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">应用层（dns,http） DNS 解析成IP并发送 http 请求</div><div class="line">传输层（tcp/ip）建立连接</div><div class="line">网络层（ip）IP 寻址</div><div class="line">数据链层（ppp）封装成二进制帧</div><div class="line">物理层 物理传输</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">客户端发个“时间不早了，我要走了”给服务器，等服务器起身送他</span><br><span class="line">服务器听到了，发个“我知道了，那我送你出门吧”给客户端，等客户端走</span><br><span class="line">服务器把门关上后，发个“我关门了”给客户端，然后等客户端走（尼玛~矫情啊）</span><br><span class="line">客户端发个“我知道了，我走了”，之后自己就走了</span><br></pre></td></tr></table></figure>
+<p>由于 tcp/ip 对链接有并发的控制，所以有甚多针对请求的优化，比如合并请求的雪碧图。<br>关于这里有涉及到五层网络协议，就是从客户端发出 http 请求到服务器接收，中间会经过一系列的流程。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">应用层（dns,http） DNS 解析成IP并发送 http 请求</span><br><span class="line">传输层（tcp/ip）建立连接</span><br><span class="line">网络层（ip）IP 寻址</span><br><span class="line">数据链层（ppp）封装成二进制帧</span><br><span class="line">物理层 物理传输</span><br></pre></td></tr></table></figure></p>
 <p>其实也有一个完整的 OSI 七层框架，与之相比，多了会话层、表示层。</p>
 <p>浏览器向服务器发送 HTTP 请求。</p>
 <ul>
@@ -430,15 +413,15 @@ Browser 进程：浏览器的主进程（负责协调、主控），只有一个
 </ul>
 <p>报文一般包括了：通用头部，请求/响应头部，请求/响应体</p>
 <ul>
-<li>通用头部<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">Request Url: 请求的web服务器地址</div><div class="line">Request Method: 请求方式</div><div class="line">（Get、POST、OPTIONS、PUT、HEAD、DELETE、CONNECT、TRACE）</div><div class="line">Status Code: 请求的返回状态码，如200代表成功</div><div class="line">Remote Address: 请求的远程服务器地址（会转为IP）</div></pre></td></tr></table></figure>
+<li>通用头部<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Request Url: 请求的web服务器地址</span><br><span class="line">Request Method: 请求方式</span><br><span class="line">（Get、POST、OPTIONS、PUT、HEAD、DELETE、CONNECT、TRACE）</span><br><span class="line">Status Code: 请求的返回状态码，如200代表成功</span><br><span class="line">Remote Address: 请求的远程服务器地址（会转为IP）</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
-<p>code 状态码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">1xx——指示信息，表示请求已接收，继续处理</div><div class="line">2xx——成功，表示请求已被成功接收、理解、接受</div><div class="line">3xx——重定向，要完成请求必须进行更进一步的操作</div><div class="line">4xx——客户端错误，请求有语法错误或请求无法实现</div><div class="line">5xx——服务器端错误，服务器未能实现合法的请求</div></pre></td></tr></table></figure></p>
+<p>code 状态码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">1xx——指示信息，表示请求已接收，继续处理</span><br><span class="line">2xx——成功，表示请求已被成功接收、理解、接受</span><br><span class="line">3xx——重定向，要完成请求必须进行更进一步的操作</span><br><span class="line">4xx——客户端错误，请求有语法错误或请求无法实现</span><br><span class="line">5xx——服务器端错误，服务器未能实现合法的请求</span><br></pre></td></tr></table></figure></p>
 <p>请求/响应头部</p>
 <p>常用的请求头部（部分）：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">Accept: 接收类型，表示浏览器支持的MIME类型（对标服务端返回的 Content-Type ）</div><div class="line">Accept-Encoding：浏览器支持的压缩类型,如 gzip 等,超出类型不能接收</div><div class="line">Content-Type：客户端发送出去实体内容的类型</div><div class="line">Cache-Control: 指定请求和响应遵循的缓存机制，如 no-cache</div><div class="line">If-Modified-Since：对应服务端的 Last-Modified ，用来匹配看文件是否变动，只能精确到 1s 之内，http1.0中</div><div class="line">Expires：缓存控制，在这个时间内不会请求，直接使用缓存，http1.0，而且是服务端时间</div><div class="line">Max-age：代表资源在本地缓存多少秒，有效时间内不会请求，而是使用缓存，http1.1中</div><div class="line">If-None-Match：对应服务端的 E-tag，用来匹配文件内容是否改变（非常精确），http1.1 中</div><div class="line">Cookie: 有 cookie 并且同域访问时会自动带上</div><div class="line">Connection: 当浏览器与服务器通信时对于长连接如何进行处理,如 keep-alive</div><div class="line">Host：请求的服务器 URL</div><div class="line">Origin：最初的请求是从哪里发起的（只会精确到端口）,Origin 比 Referer 更尊重隐私</div><div class="line">Referer：该页面的来源URL(适用于所有类型的请求，会精确到详细页面地址，csrf拦截常用到这个字段)</div><div class="line">User-Agent：用户客户端的一些必要信息，如 UA 头部等</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">Accept: 接收类型，表示浏览器支持的MIME类型（对标服务端返回的 Content-Type ）</span><br><span class="line">Accept-Encoding：浏览器支持的压缩类型,如 gzip 等,超出类型不能接收</span><br><span class="line">Content-Type：客户端发送出去实体内容的类型</span><br><span class="line">Cache-Control: 指定请求和响应遵循的缓存机制，如 no-cache</span><br><span class="line">If-Modified-Since：对应服务端的 Last-Modified ，用来匹配看文件是否变动，只能精确到 1s 之内，http1.0中</span><br><span class="line">Expires：缓存控制，在这个时间内不会请求，直接使用缓存，http1.0，而且是服务端时间</span><br><span class="line">Max-age：代表资源在本地缓存多少秒，有效时间内不会请求，而是使用缓存，http1.1中</span><br><span class="line">If-None-Match：对应服务端的 E-tag，用来匹配文件内容是否改变（非常精确），http1.1 中</span><br><span class="line">Cookie: 有 cookie 并且同域访问时会自动带上</span><br><span class="line">Connection: 当浏览器与服务器通信时对于长连接如何进行处理,如 keep-alive</span><br><span class="line">Host：请求的服务器 URL</span><br><span class="line">Origin：最初的请求是从哪里发起的（只会精确到端口）,Origin 比 Referer 更尊重隐私</span><br><span class="line">Referer：该页面的来源URL(适用于所有类型的请求，会精确到详细页面地址，csrf拦截常用到这个字段)</span><br><span class="line">User-Agent：用户客户端的一些必要信息，如 UA 头部等</span><br></pre></td></tr></table></figure>
 <p>常用的响应头部（部分）：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">Access-Control-Allow-Headers: 服务器端允许的请求 Headers</div><div class="line">Access-Control-Allow-Methods: 服务器端允许的请求方法</div><div class="line">Access-Control-Allow-Origin: 服务器端允许的请求 Origin 头部（譬如为*）</div><div class="line">Content-Type：服务端返回的实体内容的类型</div><div class="line">Date：数据从服务器发送的时间</div><div class="line">Cache-Control：告诉浏览器或其他客户，什么环境可以安全的缓存文档</div><div class="line">Last-Modified：请求资源的最后修改时间</div><div class="line">Expires：应该在什么时候认为文档已经过期,从而不再缓存它</div><div class="line">Max-age：客户端的本地资源应该缓存多少秒，开启了Cache-Control 后有效</div><div class="line">E-tag：请求变量的实体标签的当前值</div><div class="line">Set-Cookie：设置和页面关联的 cookie，服务器通过这个头部把 cookie 传给客户端</div><div class="line">Keep-Alive：如果客户端有 keep-alive，服务端也会有响应（如 timeout=38 ）</div><div class="line">Server：服务器的一些相关信息</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">Access-Control-Allow-Headers: 服务器端允许的请求 Headers</span><br><span class="line">Access-Control-Allow-Methods: 服务器端允许的请求方法</span><br><span class="line">Access-Control-Allow-Origin: 服务器端允许的请求 Origin 头部（譬如为*）</span><br><span class="line">Content-Type：服务端返回的实体内容的类型</span><br><span class="line">Date：数据从服务器发送的时间</span><br><span class="line">Cache-Control：告诉浏览器或其他客户，什么环境可以安全的缓存文档</span><br><span class="line">Last-Modified：请求资源的最后修改时间</span><br><span class="line">Expires：应该在什么时候认为文档已经过期,从而不再缓存它</span><br><span class="line">Max-age：客户端的本地资源应该缓存多少秒，开启了Cache-Control 后有效</span><br><span class="line">E-tag：请求变量的实体标签的当前值</span><br><span class="line">Set-Cookie：设置和页面关联的 cookie，服务器通过这个头部把 cookie 传给客户端</span><br><span class="line">Keep-Alive：如果客户端有 keep-alive，服务端也会有响应（如 timeout=38 ）</span><br><span class="line">Server：服务器的一些相关信息</span><br></pre></td></tr></table></figure>
 <p>一般来说，请求头部和响应头部是匹配分析的。</p>
 <p>譬如，请求头部的 Accept 要和响应头部的 Content-Type 匹配，否则会报错</p>
 <p>譬如，跨域请求时，请求头部的 Origin 要匹配响应头部的 Access-Control-Allow-Origin，否则会报跨域错误</p>
@@ -459,7 +442,7 @@ Browser 进程：浏览器的主进程（负责协调、主控），只有一个
 <p>说到了多域名拆分，这里再提一个问题，那就是：</p>
 <p>在移动端，如果请求的域名数过多，会降低请求速度（因为域名整套解析流程是很耗费时间的，而且移动端一般带宽都比不上pc）此时就需要用到一种优化方案：dns-prefetch（让浏览器空闲时提前解析dns域名，不过也请合理使用，勿滥用）</p>
 <p>说到 cookie 就要把 localStorage，sessionStorage 区分下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">cookie 数据始终在同源的 http 请求中携带（即使不需要），即 cookie 在浏览器和服务器间来回传递。而 sessionStorage 和 localStorage 不会自动把数据发给服务器，仅在本地保存。</div><div class="line"></div><div class="line">cookie 数据还有路径（path）的概念，可以限制 cookie 只属于某个路径下。</div><div class="line"></div><div class="line">存储大小限制也不同，cookie 数据不能超过 4k，同时因为每次 http 请求都会携带cookie，所以 cookie 只适合保存很小的数据，如会话标识。sessionStorage 和 localStorage 虽然也有存储大小的限制，但比 cookie 大得多，可以达到5M或更大。</div><div class="line"></div><div class="line">数据有效期不同，sessionStorage：仅在当前浏览器窗口关闭前有效，自然也就不可能持久保持；localStorage：始终有效，窗口或浏览器关闭也一直保存，因此用作持久数据；cookie只在设置的 cookie 过期时间之前一直有效，即使窗口或浏览器关闭。</div><div class="line"></div><div class="line">作用域不同，sessionStorage 不在不同的浏览器窗口中共享，即使是同一个页面；localStorage 在所有同源窗口中都是共享的；cookie 也是在所有同源窗口中都是共享的。</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">cookie 数据始终在同源的 http 请求中携带（即使不需要），即 cookie 在浏览器和服务器间来回传递。而 sessionStorage 和 localStorage 不会自动把数据发给服务器，仅在本地保存。</span><br><span class="line"></span><br><span class="line">cookie 数据还有路径（path）的概念，可以限制 cookie 只属于某个路径下。</span><br><span class="line"></span><br><span class="line">存储大小限制也不同，cookie 数据不能超过 4k，同时因为每次 http 请求都会携带cookie，所以 cookie 只适合保存很小的数据，如会话标识。sessionStorage 和 localStorage 虽然也有存储大小的限制，但比 cookie 大得多，可以达到5M或更大。</span><br><span class="line"></span><br><span class="line">数据有效期不同，sessionStorage：仅在当前浏览器窗口关闭前有效，自然也就不可能持久保持；localStorage：始终有效，窗口或浏览器关闭也一直保存，因此用作持久数据；cookie只在设置的 cookie 过期时间之前一直有效，即使窗口或浏览器关闭。</span><br><span class="line"></span><br><span class="line">作用域不同，sessionStorage 不在不同的浏览器窗口中共享，即使是同一个页面；localStorage 在所有同源窗口中都是共享的；cookie 也是在所有同源窗口中都是共享的。</span><br></pre></td></tr></table></figure>
 <ul>
 <li>gzip 压缩</li>
 </ul>
@@ -482,7 +465,7 @@ Browser 进程：浏览器的主进程（负责协调、主控），只有一个
 <li>https</li>
 </ul>
 <p>简单来看，https 与 http 的区别就是： 在请求前，会建立 ssl 链接，确保接下来的通信都是加密的，无法被轻易截取分析。如果要将网站升级成 https，需要后端支持（后端需要申请证书等），然后 https 的开销也比http要大（因为需要额外建立安全链接以及加密等），所以一般来说 http2.0 配合 https 的体验更佳（因为 http2.0 更快了）SSL/TLS 的握手流程握手流程：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">1. 浏览器建立 SSL 连接，像服务端 发送一个随机数和加密方法</div><div class="line">2. 服务端选取加密方法回复一个随机数并将自己的证书发送过去</div><div class="line">3. 浏览器收到证书后</div><div class="line">    - 验证证书合法性</div><div class="line">    - 用户街道证书后生成新的随机数，然后证书中的公钥以及指定的加密方法加密发送</div><div class="line">    - 通过一定的算法生成 HTTP 链接数据传输的对称加密 key</div><div class="line">    - 使用约定好的算法计算握手消息，并使用生成的 key 对消息进行加密，最后将之前生成的所有信息发送给服务端。 </div><div class="line">4. 服务端收到浏览器的回复</div><div class="line">    - 利用已知的加解密方式与自己的私钥进行解密</div><div class="line">    - 和浏览器相同规则生成 key</div><div class="line">    - 使用 key 解密浏览器发来的握手消息，并验证Hash是否与浏览器发来的一致</div><div class="line">    - 使用 key 加密一段握手消息，发送给浏览器</div><div class="line">5. 浏览器解密并计算握手消息的HASH，如果与服务端发来的HASH一致，此时握手过程结束</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">1. 浏览器建立 SSL 连接，像服务端 发送一个随机数和加密方法</span><br><span class="line">2. 服务端选取加密方法回复一个随机数并将自己的证书发送过去</span><br><span class="line">3. 浏览器收到证书后</span><br><span class="line">    - 验证证书合法性</span><br><span class="line">    - 用户街道证书后生成新的随机数，然后证书中的公钥以及指定的加密方法加密发送</span><br><span class="line">    - 通过一定的算法生成 HTTP 链接数据传输的对称加密 key</span><br><span class="line">    - 使用约定好的算法计算握手消息，并使用生成的 key 对消息进行加密，最后将之前生成的所有信息发送给服务端。 </span><br><span class="line">4. 服务端收到浏览器的回复</span><br><span class="line">    - 利用已知的加解密方式与自己的私钥进行解密</span><br><span class="line">    - 和浏览器相同规则生成 key</span><br><span class="line">    - 使用 key 解密浏览器发来的握手消息，并验证Hash是否与浏览器发来的一致</span><br><span class="line">    - 使用 key 加密一段握手消息，发送给浏览器</span><br><span class="line">5. 浏览器解密并计算握手消息的HASH，如果与服务端发来的HASH一致，此时握手过程结束</span><br></pre></td></tr></table></figure>
 <ul>
 <li>http 2.0</li>
 </ul>
@@ -522,9 +505,9 @@ Browser 进程：浏览器的主进程（负责协调、主控），只有一个
 <ul>
 <li>渲染</li>
 </ul>
-<p>布局是由 CPU 处理的，而绘制则是由 GPU 完成的,GPU 会对我们的渲染层作缓存，如果我们把那些一直发生大量重排重绘的元素提取出来，单独触发一个渲染层，那样这个元素不就不会“连累”其他元素一块重绘。<br>Video 元素、WebGL、Canvas、CSS3 3D、CSS滤镜、z-index 大于某个相邻节点的元素都会触发新的 Layer，如果图层中某个元素需要重绘，那么整个图层都需要重绘。比如一个图层包含很多节点，其中有个 gif 图，gif 图的每一帧，都会重回整个图层的其他节点，然后生成最终的图层位图。所以这需要通过特殊的方式来强制 gif 图属于自己一个图层，就是给某个元素加上下面的样式：<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">transform</span>: <span class="selector-tag">translateZ</span>(0);</div><div class="line"><span class="selector-tag">backface-visibility</span>: <span class="selector-tag">hidden</span>;</div></pre></td></tr></table></figure></p>
+<p>布局是由 CPU 处理的，而绘制则是由 GPU 完成的,GPU 会对我们的渲染层作缓存，如果我们把那些一直发生大量重排重绘的元素提取出来，单独触发一个渲染层，那样这个元素不就不会“连累”其他元素一块重绘。<br>Video 元素、WebGL、Canvas、CSS3 3D、CSS滤镜、z-index 大于某个相邻节点的元素都会触发新的 Layer，如果图层中某个元素需要重绘，那么整个图层都需要重绘。比如一个图层包含很多节点，其中有个 gif 图，gif 图的每一帧，都会重回整个图层的其他节点，然后生成最终的图层位图。所以这需要通过特殊的方式来强制 gif 图属于自己一个图层，就是给某个元素加上下面的样式：<br><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">transform</span>: <span class="selector-tag">translateZ</span>(0);</span><br><span class="line"><span class="selector-tag">backface-visibility</span>: <span class="selector-tag">hidden</span>;</span><br></pre></td></tr></table></figure></p>
 <p>也会触发渲染层，把容易触发重排重绘的元素单独触发渲染层，让它与那些“静态”元素隔离，让GPU分担更多的渲染工作，我们通常把这样的措施成为硬件加速，或者是GPU加速。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">Style：该区域为样式计算阶段，浏览器会根据选择器（就是CSS选择器，如.td）计算出哪些节点应用哪些CSS规则，然后计算出每个节点的最终样式并应用到节点上。</div><div class="line"></div><div class="line">Layout：该区域为布局计算阶段，浏览器会在该过程中根据节点的样式规则来计算它要占据的空间大小以及在屏幕中的位置。</div><div class="line"></div><div class="line">Paint：该区域为绘制阶段，浏览器会先创建绘图调用的列表，然后填充像素。绘制阶段会涉及到文本、颜色、图像、边框和阴影，基本上包括了每个可视部分。绘制一般是在多个图层（用过Photoshop等图片编辑软件的童鞋一定很眼熟图层这个词，这里的图层的含义其实是差不多的）上完成的。</div><div class="line"></div><div class="line">Composite：该区域为合成阶段，浏览器将多个图层按照正确顺序绘制到屏幕上。</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Style：该区域为样式计算阶段，浏览器会根据选择器（就是CSS选择器，如.td）计算出哪些节点应用哪些CSS规则，然后计算出每个节点的最终样式并应用到节点上。</span><br><span class="line"></span><br><span class="line">Layout：该区域为布局计算阶段，浏览器会在该过程中根据节点的样式规则来计算它要占据的空间大小以及在屏幕中的位置。</span><br><span class="line"></span><br><span class="line">Paint：该区域为绘制阶段，浏览器会先创建绘图调用的列表，然后填充像素。绘制阶段会涉及到文本、颜色、图像、边框和阴影，基本上包括了每个可视部分。绘制一般是在多个图层（用过Photoshop等图片编辑软件的童鞋一定很眼熟图层这个词，这里的图层的含义其实是差不多的）上完成的。</span><br><span class="line"></span><br><span class="line">Composite：该区域为合成阶段，浏览器将多个图层按照正确顺序绘制到屏幕上。</span><br></pre></td></tr></table></figure>
 <p>如果动态修改了 DOM 或 CSS，就会重新布局（Layout）或渲染（Repaint）这里 Layou t和 Repaint 的概念是有区别的：</p>
 <ul>
 <li><p>Layout，也称为Reflow，即回流。一般意味着元素的内容、结构、位置或尺寸发生了变化，需要重新计算样式和渲染树</p>
@@ -533,7 +516,7 @@ Browser 进程：浏览器的主进程（负责协调、主控），只有一个
 </li>
 </ul>
 <p>什么会引起回流？</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">1.页面渲染初始化</div><div class="line"></div><div class="line">2.DOM结构改变，比如删除了某个节点</div><div class="line"></div><div class="line">3.render树变化，比如减少了padding</div><div class="line"></div><div class="line">4.窗口resize</div><div class="line"></div><div class="line">5.改变字体大小会引发回流</div><div class="line"></div><div class="line">6.最复杂的一种：获取某些属性，引发回流</div><div class="line">很多浏览器会对回流做优化，会等到数量足够时做一次批处理回流，但是除了render树的直接变化，当获取一些属性时，浏览器为了获得正确的值也会触发回流，这样使得浏览器优化无效，包括</div><div class="line">    (1) offset(Top/Left/Width/Height)</div><div class="line">    (2) scroll(Top/Left/Width/Height)</div><div class="line">    (3) cilent(Top/Left/Width/Height)</div><div class="line">    (4) width,height</div><div class="line">    (5) 调用了getComputedStyle()或者IE的currentStyle</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">1.页面渲染初始化</span><br><span class="line"></span><br><span class="line">2.DOM结构改变，比如删除了某个节点</span><br><span class="line"></span><br><span class="line">3.render树变化，比如减少了padding</span><br><span class="line"></span><br><span class="line">4.窗口resize</span><br><span class="line"></span><br><span class="line">5.改变字体大小会引发回流</span><br><span class="line"></span><br><span class="line">6.最复杂的一种：获取某些属性，引发回流</span><br><span class="line">很多浏览器会对回流做优化，会等到数量足够时做一次批处理回流，但是除了render树的直接变化，当获取一些属性时，浏览器为了获得正确的值也会触发回流，这样使得浏览器优化无效，包括</span><br><span class="line">    (1) offset(Top/Left/Width/Height)</span><br><span class="line">    (2) scroll(Top/Left/Width/Height)</span><br><span class="line">    (3) cilent(Top/Left/Width/Height)</span><br><span class="line">    (4) width,height</span><br><span class="line">    (5) 调用了getComputedStyle()或者IE的currentStyle</span><br></pre></td></tr></table></figure>
 <p>回流一定伴随着重绘，重绘却可以单独出现</p>
 <p>所以一般会有一些优化方案，如：</p>
 <ul>
@@ -542,7 +525,7 @@ Browser 进程：浏览器的主进程（负责协调、主控），只有一个
 <li>避免多次读取offset等属性。无法避免则将它们缓存到变量</li>
 <li>将复杂的元素绝对定位或固定定位，使得它脱离文档流，否则回流代价会很高</li>
 </ul>
-<p>最后如果想要知道每个CSS属性将会对哪个阶段产生怎样的影响，请去 <a href="https://csstriggers.com/" target="_blank" rel="external">CSS Triggers</a>，该网站详细地说明了每个CSS属性会影响到哪个阶段。</p>
+<p>最后如果想要知道每个CSS属性将会对哪个阶段产生怎样的影响，请去 <a href="https://csstriggers.com/" target="_blank" rel="noopener">CSS Triggers</a>，该网站详细地说明了每个CSS属性会影响到哪个阶段。</p>
 <ul>
 <li>关闭TCP连接或继续保持连接</li>
 </ul>
@@ -667,7 +650,7 @@ Browser 进程：浏览器的主进程（负责协调、主控），只有一个
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">40</span>
+                <span class="site-state-item-count">41</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -680,7 +663,7 @@ Browser 进程：浏览器的主进程（负责协调、主控），只有一个
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">26</span>
+                <span class="site-state-item-count">28</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

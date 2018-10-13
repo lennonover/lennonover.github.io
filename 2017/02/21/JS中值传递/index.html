@@ -87,49 +87,18 @@
 
 
 
-<meta name="description" content="按值传递 VS 按引用传递
-按值传递(call by value)
-函数的形参是被调用时所传实参的副本。修改形参的值并不会影响实参。
-
-
-
-按引用传递(call by reference)
-函数的形参接收实参的隐式引用，而不再是副本。这意味着函数形参的值如果被修改，实参也会被修改。同时两者指向相同的值。
-
-
-探究JS值的传递方式JS的基本类型，是按值传递的。
-123456var c = 3;fun">
+<meta name="description" content="按值传递 VS 按引用传递 按值传递(call by value) 函数的形参是被调用时所传实参的副本。修改形参的值并不会影响实参。    按引用传递(call by reference) 函数的形参接收实参的隐式引用，而不再是副本。这意味着函数形参的值如果被修改，实参也会被修改。同时两者指向相同的值。   探究JS值的传递方式JS的基本类型，是按值传递的。 123456var c = 3;fun">
+<meta name="keywords" content="javascript,引用传递,值传递">
 <meta property="og:type" content="article">
 <meta property="og:title" content="JS中值传递">
 <meta property="og:url" content="https://github.com/lennonover/2017/02/21/JS中值传递/index.html">
 <meta property="og:site_name" content="lennonover">
-<meta property="og:description" content="按值传递 VS 按引用传递
-按值传递(call by value)
-函数的形参是被调用时所传实参的副本。修改形参的值并不会影响实参。
-
-
-
-按引用传递(call by reference)
-函数的形参接收实参的隐式引用，而不再是副本。这意味着函数形参的值如果被修改，实参也会被修改。同时两者指向相同的值。
-
-
-探究JS值的传递方式JS的基本类型，是按值传递的。
-123456var c = 3;fun">
+<meta property="og:description" content="按值传递 VS 按引用传递 按值传递(call by value) 函数的形参是被调用时所传实参的副本。修改形参的值并不会影响实参。    按引用传递(call by reference) 函数的形参接收实参的隐式引用，而不再是副本。这意味着函数形参的值如果被修改，实参也会被修改。同时两者指向相同的值。   探究JS值的传递方式JS的基本类型，是按值传递的。 123456var c = 3;fun">
+<meta property="og:locale" content="zh-Hans">
 <meta property="og:updated_time" content="2017-03-04T14:24:05.675Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JS中值传递">
-<meta name="twitter:description" content="按值传递 VS 按引用传递
-按值传递(call by value)
-函数的形参是被调用时所传实参的副本。修改形参的值并不会影响实参。
-
-
-
-按引用传递(call by reference)
-函数的形参接收实参的隐式引用，而不再是副本。这意味着函数形参的值如果被修改，实参也会被修改。同时两者指向相同的值。
-
-
-探究JS值的传递方式JS的基本类型，是按值传递的。
-123456var c = 3;fun">
+<meta name="twitter:description" content="按值传递 VS 按引用传递 按值传递(call by value) 函数的形参是被调用时所传实参的副本。修改形参的值并不会影响实参。    按引用传递(call by reference) 函数的形参接收实参的隐式引用，而不再是副本。这意味着函数形参的值如果被修改，实参也会被修改。同时两者指向相同的值。   探究JS值的传递方式JS的基本类型，是按值传递的。 123456var c = 3;fun">
 
 
 
@@ -365,17 +334,17 @@
 </li>
 </ul>
 <h2 id="探究JS值的传递方式"><a href="#探究JS值的传递方式" class="headerlink" title="探究JS值的传递方式"></a>探究JS值的传递方式</h2><p>JS的基本类型，是按值传递的。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> c = <span class="number">3</span>;</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params">x</span>) </span>&#123;</div><div class="line">    x = <span class="number">9</span>;</div><div class="line">&#125;</div><div class="line">foo(c);</div><div class="line"><span class="built_in">console</span>.log(c); <span class="comment">// 仍为3, 未受x = 9赋值所影响</span></div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> c = <span class="number">3</span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params">x</span>) </span>&#123;</span><br><span class="line">    x = <span class="number">9</span>;</span><br><span class="line">&#125;</span><br><span class="line">foo(c);</span><br><span class="line"><span class="built_in">console</span>.log(c); <span class="comment">// 仍为3, 未受x = 9赋值所影响</span></span><br></pre></td></tr></table></figure>
 <p>对象</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> obj = &#123;x : <span class="number">1</span>&#125;;</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params">o</span>) </span>&#123;</div><div class="line">    o.x = <span class="number">3</span>;</div><div class="line">&#125;</div><div class="line">foo(obj);</div><div class="line"><span class="built_in">console</span>.log(obj.x); <span class="comment">// 3, 被修改了!</span></div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> obj = &#123;<span class="attr">x</span> : <span class="number">1</span>&#125;;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params">o</span>) </span>&#123;</span><br><span class="line">    o.x = <span class="number">3</span>;</span><br><span class="line">&#125;</span><br><span class="line">foo(obj);</span><br><span class="line"><span class="built_in">console</span>.log(obj.x); <span class="comment">// 3, 被修改了!</span></span><br></pre></td></tr></table></figure>
 <p>说明o和obj是同一个对象，o不是obj的副本。所以不是按值传递。 但这样是否说明JS的对象是按引用传递的呢？我们再看</p>
 <p>下面的例子：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> obj = &#123;x : <span class="number">1</span>&#125;;</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params">o</span>) </span>&#123;</div><div class="line">    o = <span class="number">100</span>;</div><div class="line">&#125;</div><div class="line">foo(obj);</div><div class="line"><span class="built_in">console</span>.log(obj.x); <span class="comment">// 仍然是1, obj并未被修改为100.</span></div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> obj = &#123;<span class="attr">x</span> : <span class="number">1</span>&#125;;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params">o</span>) </span>&#123;</span><br><span class="line">    o = <span class="number">100</span>;</span><br><span class="line">&#125;</span><br><span class="line">foo(obj);</span><br><span class="line"><span class="built_in">console</span>.log(obj.x); <span class="comment">// 仍然是1, obj并未被修改为100.</span></span><br></pre></td></tr></table></figure>
 <p>如果是按引用传递，修改形参o的值，应该影响到实参才对。但这里修改o的值并未影响obj。 因此JS中的对象并不是按引用传递。那么究竟对象的值在JS中如何传递的呢？</p>
-<h2 id="按对象传递"><a href="#按对象传递" class="headerlink" title="按对象传递"></a>按对象传递</h2><p>JS中的基本类型按值传递，对象类型按按对象传递.<br>数组、对象是把变量地址复制进去的。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> a = []</div><div class="line"><span class="keyword">var</span> b = &#123;&#125;;</div><div class="line"><span class="keyword">var</span> c = &#123;&#125;;</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params">a, b, c</span>)</span></div><div class="line">&#123;</div><div class="line">    a = [<span class="number">1</span>];</div><div class="line">    b = [<span class="number">2</span>];</div><div class="line">    c = &#123;d:<span class="number">3</span>&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">foo(a, b, c);</div><div class="line">alert (a); <span class="comment">// 空白</span></div><div class="line">alert (b); <span class="comment">// [object Object]</span></div><div class="line">alert (c.d); <span class="comment">// undefined</span></div></pre></td></tr></table></figure></p>
+<h2 id="按对象传递"><a href="#按对象传递" class="headerlink" title="按对象传递"></a>按对象传递</h2><p>JS中的基本类型按值传递，对象类型按按对象传递.<br>数组、对象是把变量地址复制进去的。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = []</span><br><span class="line"><span class="keyword">var</span> b = &#123;&#125;;</span><br><span class="line"><span class="keyword">var</span> c = &#123;&#125;;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params">a, b, c</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    a = [<span class="number">1</span>];</span><br><span class="line">    b = [<span class="number">2</span>];</span><br><span class="line">    c = &#123;<span class="attr">d</span>:<span class="number">3</span>&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">foo(a, b, c);</span><br><span class="line">alert (a); <span class="comment">// 空白</span></span><br><span class="line">alert (b); <span class="comment">// [object Object]</span></span><br><span class="line">alert (c.d); <span class="comment">// undefined</span></span><br></pre></td></tr></table></figure></p>
 <p>上面我们让 v1、v2、v3 作为参数进入函数后，就有了地址副本，这些地址副本的指向和外面的 v1、v2、v3 的地址指向是相同的。但我们<code>为 v1、v2、v3 赋了值</code>，也就是说我们把地址副本的指向改变了，指向了新的数组和对象。这样内部的 v1、v2、v3 和外部的 v1、v2、v3 就完全断了。<br>如果我们不赋新值，而是直接操作它，那么，它操作到的，仍然是和外面的 v1、v2、v3 指向的同一块数组或对象。</p>
 <p>所以传值的比较比较的是数值 而传址的比较比较的是引用，引用不同即使数值相同也不等</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="number">1</span> == <span class="number">1</span>;    <span class="comment">//true</span></div><div class="line"><span class="number">1</span> === <span class="number">1</span>;   <span class="comment">//true</span></div><div class="line">[<span class="number">0</span>] == [<span class="number">0</span>]; <span class="comment">//false</span></div><div class="line">[<span class="number">0</span>][<span class="number">0</span>] == [<span class="number">0</span>][<span class="number">0</span>];    <span class="comment">//true</span></div><div class="line">[<span class="number">0</span>][<span class="number">0</span>] === [<span class="number">0</span>][<span class="number">0</span>];   <span class="comment">//true</span></div><div class="line">[<span class="number">0</span>].toString() == [<span class="number">0</span>].toString();   <span class="comment">//true</span></div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span> == <span class="number">1</span>;    <span class="comment">//true</span></span><br><span class="line"><span class="number">1</span> === <span class="number">1</span>;   <span class="comment">//true</span></span><br><span class="line">[<span class="number">0</span>] == [<span class="number">0</span>]; <span class="comment">//false</span></span><br><span class="line">[<span class="number">0</span>][<span class="number">0</span>] == [<span class="number">0</span>][<span class="number">0</span>];    <span class="comment">//true</span></span><br><span class="line">[<span class="number">0</span>][<span class="number">0</span>] === [<span class="number">0</span>][<span class="number">0</span>];   <span class="comment">//true</span></span><br><span class="line">[<span class="number">0</span>].toString() == [<span class="number">0</span>].toString();   <span class="comment">//true</span></span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -506,7 +475,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">40</span>
+                <span class="site-state-item-count">41</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -519,7 +488,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">26</span>
+                <span class="site-state-item-count">28</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

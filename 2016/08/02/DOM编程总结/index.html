@@ -87,58 +87,17 @@
 
 
 
-<meta name="description" content="节点操作获取节点
-父子关系
-parentNode
-firstChild/lastChild/childNodes
-childNodes/children
-
-
-兄弟关系
-previousSibling/nextSibling
-previousElementSibling/nextElementSibling
-
-
-选择器   
-element=document.getElementById(id)
-c">
+<meta name="description" content="节点操作获取节点 父子关系 parentNode firstChild/lastChild/childNodes childNodes/children   兄弟关系 previousSibling/nextSibling previousElementSibling/nextElementSibling   选择器    element=document.getElementById(id) c">
 <meta property="og:type" content="article">
 <meta property="og:title" content="DOM编程总结">
 <meta property="og:url" content="https://github.com/lennonover/2016/08/02/DOM编程总结/index.html">
 <meta property="og:site_name" content="lennonover">
-<meta property="og:description" content="节点操作获取节点
-父子关系
-parentNode
-firstChild/lastChild/childNodes
-childNodes/children
-
-
-兄弟关系
-previousSibling/nextSibling
-previousElementSibling/nextElementSibling
-
-
-选择器   
-element=document.getElementById(id)
-c">
+<meta property="og:description" content="节点操作获取节点 父子关系 parentNode firstChild/lastChild/childNodes childNodes/children   兄弟关系 previousSibling/nextSibling previousElementSibling/nextElementSibling   选择器    element=document.getElementById(id) c">
+<meta property="og:locale" content="zh-Hans">
 <meta property="og:updated_time" content="2016-09-11T13:58:48.301Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="DOM编程总结">
-<meta name="twitter:description" content="节点操作获取节点
-父子关系
-parentNode
-firstChild/lastChild/childNodes
-childNodes/children
-
-
-兄弟关系
-previousSibling/nextSibling
-previousElementSibling/nextElementSibling
-
-
-选择器   
-element=document.getElementById(id)
-c">
+<meta name="twitter:description" content="节点操作获取节点 父子关系 parentNode firstChild/lastChild/childNodes childNodes/children   兄弟关系 previousSibling/nextSibling previousElementSibling/nextElementSibling   选择器    element=document.getElementById(id) c">
 
 
 
@@ -389,7 +348,7 @@ c">
 <li><p>现代浏览器中内置的可以等效替代jQuery的功能</p>
 <ul>
 <li><p>创建全局的 ‘$’ 变量</p>
-  <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">window.$ = function(selector) &#123;   </div><div class="line">  return document.querySelector(selector);</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">window.$ = function(selector) &#123;   </span><br><span class="line">  return document.querySelector(selector);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
 </li>
@@ -421,7 +380,7 @@ c">
 <h2 id="事件"><a href="#事件" class="headerlink" title="事件"></a>事件</h2><h3 id="事件注册"><a href="#事件注册" class="headerlink" title="事件注册"></a>事件注册</h3><ul>
 <li>elem.addEventListener(type,function,false/true)</li>
 </ul>
-<h3 id="浏览器兼容型事件注册"><a href="#浏览器兼容型事件注册" class="headerlink" title="浏览器兼容型事件注册"></a>浏览器兼容型事件注册</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">function addEvent(element,type,handler)&#123;</div><div class="line">  if (element.addEventListener) &#123;</div><div class="line">    element.addEventListener(type,handler,false);</div><div class="line">  &#125;else if (element.attachEvent) &#123;</div><div class="line">    element.attachEvent(&apos;on&apos;+type,handler);</div><div class="line">  &#125;else&#123;</div><div class="line">    element[&apos;on&apos;+type]=handler;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="浏览器兼容型事件注册"><a href="#浏览器兼容型事件注册" class="headerlink" title="浏览器兼容型事件注册"></a>浏览器兼容型事件注册</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">function addEvent(element,type,handler)&#123;</span><br><span class="line">  if (element.addEventListener) &#123;</span><br><span class="line">    element.addEventListener(type,handler,false);</span><br><span class="line">  &#125;else if (element.attachEvent) &#123;</span><br><span class="line">    element.attachEvent(&apos;on&apos;+type,handler);</span><br><span class="line">  &#125;else&#123;</span><br><span class="line">    element[&apos;on&apos;+type]=handler;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h3 id="取消事件注册"><a href="#取消事件注册" class="headerlink" title="取消事件注册"></a>取消事件注册</h3><ul>
 <li>elem.removeEventListener(type,function,false/true)</li>
 </ul>
@@ -433,7 +392,7 @@ c">
 <ul>
 <li>type</li>
 <li><p>target </p>
-  <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">//兼容        </div><div class="line">var event=e || window.event;         </div><div class="line">var target=event.target || event.srcElement;</div></pre></td></tr></table></figure>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">//兼容        </span><br><span class="line">var event=e || window.event;         </span><br><span class="line">var target=event.target || event.srcElement;</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>currentTarget</p>
 </li>
@@ -612,7 +571,7 @@ c">
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">40</span>
+                <span class="site-state-item-count">41</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -625,7 +584,7 @@ c">
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">26</span>
+                <span class="site-state-item-count">28</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

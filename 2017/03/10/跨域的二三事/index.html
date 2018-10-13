@@ -87,37 +87,18 @@
 
 
 
-<meta name="description" content="公司的桌面版运用了 iframe 在取数据方面遇到不少坑，周末空闲把知识点整理下。
-什么是跨域JavaScript对安全访问因素的考虑，是不允许js跨域调用其他页面，具体分为以下几类：
-
-不同域名
-
-相同域名不同端口号，如 https://www.baidu.com:8000 和 https://www.baidu.com:8088
-
-同一个域名不同协议，如 https://www.baidu.c">
+<meta name="description" content="公司的桌面版运用了 iframe 在取数据方面遇到不少坑，周末空闲把知识点整理下。 什么是跨域JavaScript对安全访问因素的考虑，是不允许js跨域调用其他页面，具体分为以下几类：  不同域名  相同域名不同端口号，如 https://www.baidu.com:8000 和 https://www.baidu.com:8088  同一个域名不同协议，如 https://www.baidu.c">
+<meta name="keywords" content="跨域">
 <meta property="og:type" content="article">
 <meta property="og:title" content="跨域的二三事">
 <meta property="og:url" content="https://github.com/lennonover/2017/03/10/跨域的二三事/index.html">
 <meta property="og:site_name" content="lennonover">
-<meta property="og:description" content="公司的桌面版运用了 iframe 在取数据方面遇到不少坑，周末空闲把知识点整理下。
-什么是跨域JavaScript对安全访问因素的考虑，是不允许js跨域调用其他页面，具体分为以下几类：
-
-不同域名
-
-相同域名不同端口号，如 https://www.baidu.com:8000 和 https://www.baidu.com:8088
-
-同一个域名不同协议，如 https://www.baidu.c">
+<meta property="og:description" content="公司的桌面版运用了 iframe 在取数据方面遇到不少坑，周末空闲把知识点整理下。 什么是跨域JavaScript对安全访问因素的考虑，是不允许js跨域调用其他页面，具体分为以下几类：  不同域名  相同域名不同端口号，如 https://www.baidu.com:8000 和 https://www.baidu.com:8088  同一个域名不同协议，如 https://www.baidu.c">
+<meta property="og:locale" content="zh-Hans">
 <meta property="og:updated_time" content="2017-03-13T14:07:42.936Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="跨域的二三事">
-<meta name="twitter:description" content="公司的桌面版运用了 iframe 在取数据方面遇到不少坑，周末空闲把知识点整理下。
-什么是跨域JavaScript对安全访问因素的考虑，是不允许js跨域调用其他页面，具体分为以下几类：
-
-不同域名
-
-相同域名不同端口号，如 https://www.baidu.com:8000 和 https://www.baidu.com:8088
-
-同一个域名不同协议，如 https://www.baidu.c">
+<meta name="twitter:description" content="公司的桌面版运用了 iframe 在取数据方面遇到不少坑，周末空闲把知识点整理下。 什么是跨域JavaScript对安全访问因素的考虑，是不允许js跨域调用其他页面，具体分为以下几类：  不同域名  相同域名不同端口号，如 https://www.baidu.com:8000 和 https://www.baidu.com:8088  同一个域名不同协议，如 https://www.baidu.c">
 
 
 
@@ -347,22 +328,22 @@
 <ul>
 <li><p>不同域名</p>
 </li>
-<li><p>相同域名不同端口号，如 <a href="https://www.baidu.com:8000" target="_blank" rel="external">https://www.baidu.com:8000</a> 和 <a href="https://www.baidu.com:8088" target="_blank" rel="external">https://www.baidu.com:8088</a></p>
+<li><p>相同域名不同端口号，如 <a href="https://www.baidu.com:8000" target="_blank" rel="noopener">https://www.baidu.com:8000</a> 和 <a href="https://www.baidu.com:8088" target="_blank" rel="noopener">https://www.baidu.com:8088</a></p>
 </li>
-<li><p>同一个域名不同协议，如 <a href="https://www.baidu.com" target="_blank" rel="external">https://www.baidu.com</a> 和 <a href="http://www.baidu.com" target="_blank" rel="external">http://www.baidu.com</a></p>
+<li><p>同一个域名不同协议，如 <a href="https://www.baidu.com" target="_blank" rel="noopener">https://www.baidu.com</a> 和 <a href="http://www.baidu.com" target="_blank" rel="noopener">http://www.baidu.com</a></p>
 </li>
-<li><p>域名和域名对应的的IP，如 <a href="http://www.baidu.com:8000" target="_blank" rel="external">http://www.baidu.com:8000</a> 和 <a href="http://119.75.217.109" target="_blank" rel="external">http://119.75.217.109</a></p>
+<li><p>域名和域名对应的的IP，如 <a href="http://www.baidu.com:8000" target="_blank" rel="noopener">http://www.baidu.com:8000</a> 和 <a href="http://119.75.217.109" target="_blank" rel="noopener">http://119.75.217.109</a></p>
 </li>
-<li><p>主域和子域，如 <a href="http://www.baidu.com" target="_blank" rel="external">http://www.baidu.com</a> 和 <a href="https://test.baidu.com" target="_blank" rel="external">https://test.baidu.com</a></p>
+<li><p>主域和子域，如 <a href="http://www.baidu.com" target="_blank" rel="noopener">http://www.baidu.com</a> 和 <a href="https://test.baidu.com" target="_blank" rel="noopener">https://test.baidu.com</a></p>
 </li>
-<li><p>子域和子域，如 <a href="https://test1.baidu.com" target="_blank" rel="external">https://test1.baidu.com</a> 和 <a href="https://test2.baidu.com" target="_blank" rel="external">https://test2.baidu.com</a></p>
+<li><p>子域和子域，如 <a href="https://test1.baidu.com" target="_blank" rel="noopener">https://test1.baidu.com</a> 和 <a href="https://test2.baidu.com" target="_blank" rel="noopener">https://test2.baidu.com</a></p>
 </li>
 </ul>
 <h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><ul>
 <li>JSONP</li>
 </ul>
 <p>JSONP 和 JSONP？<br>JSON(JavaScript Object Notation) 是一种轻量级的数据交换格式。<br>JSONP是JSON with Padding的略称。它是一个非官方的协议，它允许在服务器端集成Script tags返回至客户端，通过javascript callback的形式实现跨域访问（这仅仅是JSONP简单的实现形式）–百度<br>实际是利用了 <code>&lt;script&gt;</code> 标签的 <code>src</code> 属性并不被同源策略所约束，其实所有的 <code>src</code> 属性的标签都是不被同源策略所约束。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// html</span></div><div class="line">&lt;script type=<span class="string">"text/javascript"</span> src=<span class="string">"http://127.0.0.1:20002/test.js"</span>&gt;<span class="xml"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></div><div class="line"></div><div class="line"></div><div class="line"><span class="comment">// test.js 内容</span></div><div class="line">&lt;script type=<span class="string">"text/javascript"</span>&gt;</div><div class="line">  <span class="comment">//回调函数</span></div><div class="line">  <span class="function"><span class="keyword">function</span> <span class="title">callback</span>(<span class="params">data</span>) </span>&#123;</div><div class="line">       alert(data.message);</div><div class="line">  &#125;</div><div class="line">&lt;<span class="regexp">/script&gt;</span></div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// html</span></span><br><span class="line">&lt;script type=<span class="string">"text/javascript"</span> src=<span class="string">"http://127.0.0.1:20002/test.js"</span>&gt;<span class="xml"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// test.js 内容</span></span><br><span class="line">&lt;script type=<span class="string">"text/javascript"</span>&gt;</span><br><span class="line">  <span class="comment">//回调函数</span></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">callback</span>(<span class="params">data</span>) </span>&#123;</span><br><span class="line">       alert(data.message);</span><br><span class="line">  &#125;</span><br><span class="line">&lt;<span class="regexp">/script&gt;</span></span><br></pre></td></tr></table></figure>
 <p>这种方案需要注意的是他支持GET这一种HTTP请求类型，还有就是其他域要有一定可靠性。</p>
 <ul>
 <li>跨域资源共享（CORS-Cross Origin Resource Sharing）</li>
@@ -385,7 +366,7 @@
 <li>HTML5中的postMessage（适用于两个iframe或两个页面之间）</li>
 </ul>
 <p>postMessage()方法允许来自不同源的脚本采用异步方式进行有限的通信，可以实现跨文本档、多窗口、跨域消息传递。<br>eg：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">window</span>.onload=<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="built_in">window</span>.frames[<span class="number">0</span>].postMessage(<span class="string">'ok'</span>,<span class="string">'http://baidu.com'</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">window</span>.onload=<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="built_in">window</span>.frames[<span class="number">0</span>].postMessage(<span class="string">'ok'</span>,<span class="string">'http://baidu.com'</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>postMessage(data,origin)方法接受两个参数:</p>
 <ol>
 <li><p><code>data</code> 要传递的数据，html5 规范中提到该参数可以是 JavaScript 的任意基本类型或可复制的对象,但是为了兼容性在传递参数的时候需要使用 JSON.stringify() 方法对对象参数序列化。</p>
@@ -519,7 +500,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">40</span>
+                <span class="site-state-item-count">41</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -532,7 +513,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">26</span>
+                <span class="site-state-item-count">28</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
