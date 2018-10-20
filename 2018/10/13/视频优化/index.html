@@ -96,7 +96,7 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="evernotecid://C7CEB9BA-7788-40AB-8ED8-6A27FD81C9B1/appyinxiangcom/11484604/ENResource/p375">
 <meta property="og:image" content="evernotecid://C7CEB9BA-7788-40AB-8ED8-6A27FD81C9B1/appyinxiangcom/11484604/ENResource/p378">
-<meta property="og:updated_time" content="2018-10-16T13:57:56.015Z">
+<meta property="og:updated_time" content="2018-10-20T11:33:52.736Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="HTML5 视频秒开优化-moov 前置">
 <meta name="twitter:description" content="前言现在创意 H5 做的堪比电影，传统方式的动画、gif 已经满足不了性能需求，越来越多的内容正在以 HTML5 视频的方式呈现，随之而来的视频优化变得的越来越重要。HTML5 视频秒播优化的有很多方面，从服务器，cdn 部署接入，数据连接 / 获取，客户端缓存，出帧策略，到视频文件 I 帧位置等，今天从视频文件格式的角度介绍。 HTML5 视频HTML5 视频是一种跨浏览器观看视频的方式，不需要">
@@ -327,8 +327,9 @@
       
         <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><pre><code>现在创意 H5 做的堪比电影，传统方式的动画、gif 已经满足不了性能需求，越来越多的内容正在以 HTML5 视频的方式呈现，随之而来的视频优化变得的越来越重要。HTML5 视频秒播优化的有很多方面，从服务器，cdn 部署接入，数据连接 / 获取，客户端缓存，出帧策略，到视频文件 I 帧位置等，今天从视频文件格式的角度介绍。
 </code></pre><h2 id="HTML5-视频"><a href="#HTML5-视频" class="headerlink" title="HTML5 视频"></a>HTML5 视频</h2><pre><code>HTML5 视频是一种跨浏览器观看视频的方式，不需要类似 Flash 的插件，而且存储在 MP4 容器文件中的 H.264 编码视频已成为所有在线 HTML5 视频的标准格式。所以我们说的优化其实就是优化 MP4 格式的视频。
+
 一个 MP4 文件由很多个 box 组成的，用以存储字幕和章节等内容媒体信息。下面一些常见的 box：
-</code></pre><p><img src="evernotecid://C7CEB9BA-7788-40AB-8ED8-6A27FD81C9B1/appyinxiangcom/11484604/ENResource/p375" alt="29a8063d9faae77b430c71a96f926d37.png"></p>
+</code></pre><p><img src="evernotecid://C7CEB9BA-7788-40AB-8ED8-6A27FD81C9B1/appyinxiangcom/11484604/ENResource/p375" alt="box"></p>
 <h2 id="MP4"><a href="#MP4" class="headerlink" title="MP4"></a>MP4</h2><ul>
 <li><p>生成<br>  先写入 mdat 后写入 moov，因此绝大多数工具都会把 moov 数据放到 mdat 后边，比如 mp4writer，ffmpeg 等工具 </p>
 </li>
@@ -356,8 +357,10 @@ box 可能以任意顺序排列，所以程序一开始并不知道 moov 原子�
   从上面可以看出当 moov 后置播放时浏览器会发送三次请求，对于在线播放，发送三个请求会比发送一个请求至少多耗几百毫秒。 
 </code></pre> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">moov 后置</span><br><span class="line">├── ftyp</span><br><span class="line">├── free</span><br><span class="line">├── free</span><br><span class="line">├── mdat</span><br><span class="line">├── moov</span><br><span class="line">│   ├── mvhd</span><br><span class="line">│   ├── trak</span><br><span class="line">│   ├── trak</span><br><span class="line">│   ├── trak</span><br></pre></td></tr></table></figure>
 <h2 id="优化"><a href="#优化" class="headerlink" title="优化"></a>优化</h2><ul>
-<li><p>Handbrake 优化<br><img src="evernotecid://C7CEB9BA-7788-40AB-8ED8-6A27FD81C9B1/appyinxiangcom/11484604/ENResource/p378" alt="a7f6a54c4a326c0409426ba3e6cb4947.png"></p>
-</li>
+<li>Handbrake 优化</li>
+</ul>
+<p><img src="evernotecid://C7CEB9BA-7788-40AB-8ED8-6A27FD81C9B1/appyinxiangcom/11484604/ENResource/p378" alt="优化后图片"></p>
+<ul>
 <li><p>ffmpeg 优化</p>
 <p>  <code>ffmpeg -i 你的视频.mp4 -movflags faststart -acodec copy -vcodec copy 输出的视频.mp4</code></p>
 <p>  <code>movflags faststart</code> 参数告诉 ffmpeg 把 MP4 视频的 box 重新排序以使得 moov 位于开始位置。</p>
