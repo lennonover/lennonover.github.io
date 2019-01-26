@@ -87,20 +87,21 @@
 
 
 
-<meta name="description" content="前言现在创意 H5 做的堪比电影，传统方式的动画、gif 已经满足不了性能需求，越来越多的内容正在以 HTML5 视频的方式呈现，随之而来的视频优化变得的越来越重要。HTML5 视频秒播优化的有很多方面，从服务器，cdn 部署接入，数据连接 / 获取，客户端缓存，出帧策略，到视频文件 I 帧位置等，今天从视频文件格式的角度介绍。 HTML5 视频HTML5 视频是一种跨浏览器观看视频的方式，不需要">
+<meta name="description" content="前言现在创意 H5 做的堪比电影，传统方式的动画、gif 已经满足不了性能需求，越来越多的内容正在以 HTML5 视频的方式呈现，随之而来的视频优化变得的越来越重要。HTML5 视频秒播优化的有很多方面，从服务器，cdn 部署接入，数据连接 / 获取，客户端缓存，出帧策略，到视频文件 I 帧位置等，今天从视频文件格式的角度介绍。 一个活动在座诸位，请打开浏览器，新开一个标签页，打开开发者工具，切换">
 <meta property="og:type" content="article">
 <meta property="og:title" content="HTML5 视频秒开优化-moov 前置">
 <meta property="og:url" content="https://github.com/lennonover/2018/10/13/视频优化/index.html">
 <meta property="og:site_name" content="lennonover">
-<meta property="og:description" content="前言现在创意 H5 做的堪比电影，传统方式的动画、gif 已经满足不了性能需求，越来越多的内容正在以 HTML5 视频的方式呈现，随之而来的视频优化变得的越来越重要。HTML5 视频秒播优化的有很多方面，从服务器，cdn 部署接入，数据连接 / 获取，客户端缓存，出帧策略，到视频文件 I 帧位置等，今天从视频文件格式的角度介绍。 HTML5 视频HTML5 视频是一种跨浏览器观看视频的方式，不需要">
+<meta property="og:description" content="前言现在创意 H5 做的堪比电影，传统方式的动画、gif 已经满足不了性能需求，越来越多的内容正在以 HTML5 视频的方式呈现，随之而来的视频优化变得的越来越重要。HTML5 视频秒播优化的有很多方面，从服务器，cdn 部署接入，数据连接 / 获取，客户端缓存，出帧策略，到视频文件 I 帧位置等，今天从视频文件格式的角度介绍。 一个活动在座诸位，请打开浏览器，新开一个标签页，打开开发者工具，切换">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="evernotecid://C7CEB9BA-7788-40AB-8ED8-6A27FD81C9B1/appyinxiangcom/11484604/ENResource/p375">
-<meta property="og:image" content="evernotecid://C7CEB9BA-7788-40AB-8ED8-6A27FD81C9B1/appyinxiangcom/11484604/ENResource/p378">
-<meta property="og:updated_time" content="2018-10-20T11:33:52.736Z">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/12/10/16796dda9dfbf600?imageView2/0/w/1280/h/960/format/webp/ignore-error/1">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/12/10/16796ddaa2978a85?imageView2/0/w/1280/h/960/format/webp/ignore-error/1">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/12/10/16796ddabf54be7a?imageView2/0/w/1280/h/960/format/webp/ignore-error/1">
+<meta property="og:updated_time" content="2019-01-26T10:29:17.161Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="HTML5 视频秒开优化-moov 前置">
-<meta name="twitter:description" content="前言现在创意 H5 做的堪比电影，传统方式的动画、gif 已经满足不了性能需求，越来越多的内容正在以 HTML5 视频的方式呈现，随之而来的视频优化变得的越来越重要。HTML5 视频秒播优化的有很多方面，从服务器，cdn 部署接入，数据连接 / 获取，客户端缓存，出帧策略，到视频文件 I 帧位置等，今天从视频文件格式的角度介绍。 HTML5 视频HTML5 视频是一种跨浏览器观看视频的方式，不需要">
-<meta name="twitter:image" content="evernotecid://C7CEB9BA-7788-40AB-8ED8-6A27FD81C9B1/appyinxiangcom/11484604/ENResource/p375">
+<meta name="twitter:description" content="前言现在创意 H5 做的堪比电影，传统方式的动画、gif 已经满足不了性能需求，越来越多的内容正在以 HTML5 视频的方式呈现，随之而来的视频优化变得的越来越重要。HTML5 视频秒播优化的有很多方面，从服务器，cdn 部署接入，数据连接 / 获取，客户端缓存，出帧策略，到视频文件 I 帧位置等，今天从视频文件格式的角度介绍。 一个活动在座诸位，请打开浏览器，新开一个标签页，打开开发者工具，切换">
+<meta name="twitter:image" content="https://user-gold-cdn.xitu.io/2018/12/10/16796dda9dfbf600?imageView2/0/w/1280/h/960/format/webp/ignore-error/1">
 
 
 
@@ -325,47 +326,30 @@
       
 
       
-        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><pre><code>现在创意 H5 做的堪比电影，传统方式的动画、gif 已经满足不了性能需求，越来越多的内容正在以 HTML5 视频的方式呈现，随之而来的视频优化变得的越来越重要。HTML5 视频秒播优化的有很多方面，从服务器，cdn 部署接入，数据连接 / 获取，客户端缓存，出帧策略，到视频文件 I 帧位置等，今天从视频文件格式的角度介绍。
-</code></pre><h2 id="HTML5-视频"><a href="#HTML5-视频" class="headerlink" title="HTML5 视频"></a>HTML5 视频</h2><pre><code>HTML5 视频是一种跨浏览器观看视频的方式，不需要类似 Flash 的插件，而且存储在 MP4 容器文件中的 H.264 编码视频已成为所有在线 HTML5 视频的标准格式。所以我们说的优化其实就是优化 MP4 格式的视频。
-
-一个 MP4 文件由很多个 box 组成的，用以存储字幕和章节等内容媒体信息。下面一些常见的 box：
-</code></pre><p><img src="evernotecid://C7CEB9BA-7788-40AB-8ED8-6A27FD81C9B1/appyinxiangcom/11484604/ENResource/p375" alt="box"></p>
-<h2 id="MP4"><a href="#MP4" class="headerlink" title="MP4"></a>MP4</h2><ul>
-<li><p>生成<br>  先写入 mdat 后写入 moov，因此绝大多数工具都会把 moov 数据放到 mdat 后边，比如 mp4writer，ffmpeg 等工具 </p>
-</li>
-<li><p>解析<br>  解析播放的时候，先读取 moov，才能解析 mdat<br>播放影响</p>
-</li>
-<li><p>播放</p>
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>现在创意 H5 做的堪比电影，传统方式的动画、gif 已经满足不了性能需求，越来越多的内容正在以 HTML5 视频的方式呈现，随之而来的视频优化变得的越来越重要。HTML5 视频秒播优化的有很多方面，从服务器，cdn 部署接入，数据连接 / 获取，客户端缓存，出帧策略，到视频文件 I 帧位置等，今天从视频文件格式的角度介绍。</p>
+<h2 id="一个活动"><a href="#一个活动" class="headerlink" title="一个活动"></a>一个活动</h2><p>在座诸位，请打开浏览器，新开一个标签页，打开开发者工具，切换到 network 面板 → Media 选项，然后 — 复制下面地址（天猫某活动备份地址）到地址栏，回车：<a href="http://ali-tmhly.h5.neone.com.cn/" target="_blank" rel="noopener">ali-tmhly.h5.neone.com.cn/</a> 。此时，你会看到一个名为 video2 的 mp4，前前后后发送了 3 次请求：</p>
+<p><img src="https://user-gold-cdn.xitu.io/2018/12/10/16796dda9dfbf600?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="图片alt"></p>
+<p>这是糟糕的！应该只有 1 次请求才是最佳的！</p>
+<h2 id="3-次请求的原因"><a href="#3-次请求的原因" class="headerlink" title="3 次请求的原因"></a>3 次请求的原因</h2><p>一个 MP4 视频文件，不单单是视频内容，还有很多其他信息，尺寸，时长，字幕，版权信息等。</p>
+<p>这些信息被放在一个一个的 box 中，换句话说就是，一个 MP4 文件由很多个 box 组成的，用以存储媒体信息。</p>
+<p><img src="https://user-gold-cdn.xitu.io/2018/12/10/16796ddaa2978a85?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="图片alt"></p>
+<p>其中，有个与请求数有关的 box 名叫 MOOV BOX。</p>
+<h3 id="MOOV-BOX"><a href="#MOOV-BOX" class="headerlink" title="MOOV BOX"></a>MOOV BOX</h3><p>Moov box 存放的是如何播放视频的信息，如尺寸和每秒的帧数，则存储在叫做 moov 的特殊 box 中。你可以认为 moov box 是某种意义上的 MP4 文件目录。<br>当你播放视频时，程序会查找 MP4 文件，定位 moov box 的位置，然后借此去查找视频和音频的起始位置来开始播放。<br>Box 可能以任意顺序排列，所以程序一开始并不知道 moov box 哪里。如果是本地播放，没有任何问题，因为你已经拥有整个视频文件；但如果在线观看，也就是流传输 HTML5 视频时，就会有问题了。</p>
+<h3 id="读取-MOOV-过程"><a href="#读取-MOOV-过程" class="headerlink" title="读取 MOOV 过程"></a>读取 MOOV 过程</h3><p>浏览器直接发起 HTTP MP4 请求，读取响应 body 的开头，如果发现 moov 在开头，就接着往下读<br>mdat。如果发现开头没有，先读到 mdat，立马 RESET 这个连接，节省流量，通过 Range 头读取文件末尾数据，因为前面一个 HTTP 请求已经获取到了 Content-Length ，知道了 MP4 文件的整个大小，通过 Range 头读取部分文件尾部数据也是可以读取到的。<br>也就说，之所以上面天猫某活动 MP4 视频会发起 3 次请求，就是因为视频的 moov box 放在了文件末尾。</p>
+<h3 id="为什么会放在后面"><a href="#为什么会放在后面" class="headerlink" title="为什么会放在后面"></a>为什么会放在后面</h3><p>因为在导出 视频文件是时候一般软件都是先写入 mdat 后写入 moov，因此绝大多数工具都会默认把 moov 数据放到 mdat 后边，比如 mp4writer，ffmpeg 等工具</p>
+<h2 id="三、如何避免视频的3次请求"><a href="#三、如何避免视频的3次请求" class="headerlink" title="三、如何避免视频的3次请求"></a>三、如何避免视频的3次请求</h2><p>很简单，使用工具把 Moov box 提到视频的前面就好了。</p>
 <ul>
-<li>本地播放<br>播放软件可以任意位置，读取 moov</li>
-<li>在线播放<ul>
-<li>http 服务器不支持 seek（range requests 206 请求） 且 moov 后置<br>只能等到视频完全下载完成播放</li>
-<li>http 服务器支持 seek<br>可以边下边播</li>
-</ul>
+<li><p>Handbrake<br>HandBrake 乃 Web MP4 视频优化工具不二之选，其中就有 moov box 前置优化 web 请求的功能。</p>
+</li>
+<li><p>ffmpeg<br>FFmpeg 是一套可以用来记录、转换数字音频、视频，并能将其转化为流的开源计算机程序。采用 LGPL 或 GPL 许可证。它提供了录制、转换以及流化音视频的完整解决方案。</p>
 </li>
 </ul>
-</li>
-</ul>
-<h2 id="moov"><a href="#moov" class="headerlink" title="moov"></a>moov</h2><pre><code>现在创意 H5 做的堪比电影，传统方式的动画、gif 已经满足不了性能需求，越来越多的内容正在以 HTML5 视频的方式呈现，随之而来的视频优化变得的越来越重要。HTML5 视频秒播优化的有很多方面，从服务器，cdn 部署接入，数据连接 / 获取，客户端缓存，出帧策略，到视频文件 I 帧位置等，今天从视频文件格式的角度介绍。
-
-当你播放视频时，程序会查找 MP4 文件，定位 moov box 的位置，然后借此去查找视频和音频的起始位置来开始播放。
-
-box 可能以任意顺序排列，所以程序一开始并不知道 moov 原子在哪里。如果你已经拥有整个视频文件，查找 moov box 是完全没问题的(也就是本地播放)。但如果在线观看，也就是流传输 HTML5 视频时，就会有问题了，下面来看看 MP4 文件的 moov box 排列顺序是如何影响：
-
- 读取 moov 的过程：直接发起 HTTP MP4 请求，读取响应 body 的开头，如果发现 moov 在开头，就接着往下读 mdat 。如果发现开头没有，先读到 mdat，立马 RESET 这个连接，节省流量，通过 Range 头读取文件末尾数据，因为前面一个 HTTP 请求已经获取到了 Content-Length ，知道了 MP4 文件的整个大小，通过 Range 头读取部分文件尾部数据也是可以读取到的。
-
-  从上面可以看出当 moov 后置播放时浏览器会发送三次请求，对于在线播放，发送三个请求会比发送一个请求至少多耗几百毫秒。 
-</code></pre> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">moov 后置</span><br><span class="line">├── ftyp</span><br><span class="line">├── free</span><br><span class="line">├── free</span><br><span class="line">├── mdat</span><br><span class="line">├── moov</span><br><span class="line">│   ├── mvhd</span><br><span class="line">│   ├── trak</span><br><span class="line">│   ├── trak</span><br><span class="line">│   ├── trak</span><br></pre></td></tr></table></figure>
-<h2 id="优化"><a href="#优化" class="headerlink" title="优化"></a>优化</h2><ul>
-<li>Handbrake 优化</li>
-</ul>
-<p><img src="evernotecid://C7CEB9BA-7788-40AB-8ED8-6A27FD81C9B1/appyinxiangcom/11484604/ENResource/p378" alt="优化后图片"></p>
-<ul>
-<li><p>ffmpeg 优化</p>
-<p>  <code>ffmpeg -i 你的视频.mp4 -movflags faststart -acodec copy -vcodec copy 输出的视频.mp4</code></p>
-<p>  <code>movflags faststart</code> 参数告诉 ffmpeg 把 MP4 视频的 box 重新排序以使得 moov 位于开始位置。</p>
-</li>
-</ul>
+<p><code>ffmpeg -i 你的视频.mp4 -movflags faststart -acodec copy -vcodec copy 输出的视频.mp4</code></p>
+<h2 id="优化之后"><a href="#优化之后" class="headerlink" title="优化之后"></a>优化之后</h2><p><img src="https://user-gold-cdn.xitu.io/2018/12/10/16796ddabf54be7a?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="图片alt"></p>
+<p>此时，视频请求就只有一次了，口说无凭，直接看证据，狠戳这个demo，起点某视频活动。</p>
+<p>可以看到，加载的时候，就只会有 1 个请求。</p>
+<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>相关软件 </p>
+<p><a href="https://pan.baidu.com/s/1yU0mi0eOcPcvtmeICeouZg" target="_blank" rel="noopener">链接</a>  密码: rm1f</p>
 
       
     </div>
@@ -534,7 +518,7 @@ box 可能以任意顺序排列，所以程序一开始并不知道 moov 原子�
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HTML5-视频"><span class="nav-number">2.</span> <span class="nav-text">HTML5 视频</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MP4"><span class="nav-number">3.</span> <span class="nav-text">MP4</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#moov"><span class="nav-number">4.</span> <span class="nav-text">moov</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#优化"><span class="nav-number">5.</span> <span class="nav-text">优化</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#一个活动"><span class="nav-number">2.</span> <span class="nav-text">一个活动</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-次请求的原因"><span class="nav-number">3.</span> <span class="nav-text">3 次请求的原因</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#MOOV-BOX"><span class="nav-number">3.1.</span> <span class="nav-text">MOOV BOX</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#读取-MOOV-过程"><span class="nav-number">3.2.</span> <span class="nav-text">读取 MOOV 过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#为什么会放在后面"><span class="nav-number">3.3.</span> <span class="nav-text">为什么会放在后面</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三、如何避免视频的3次请求"><span class="nav-number">4.</span> <span class="nav-text">三、如何避免视频的3次请求</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#优化之后"><span class="nav-number">5.</span> <span class="nav-text">优化之后</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最后"><span class="nav-number">6.</span> <span class="nav-text">最后</span></a></li></ol></div>
             
 
           </div>
