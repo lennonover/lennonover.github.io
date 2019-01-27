@@ -1,0 +1,678 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465666768697071727374757677787980818283const TEST_SIZE = 10000000;// 常用let arr1 =">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Js 几种循环的比较">
+<meta property="og:url" content="https://github.com/lennonover/2019/01/27/Js-几种循环的比较/index.html">
+<meta property="og:site_name" content="lennonover">
+<meta property="og:description" content="1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465666768697071727374757677787980818283const TEST_SIZE = 10000000;// 常用let arr1 =">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-01-27T13:35:11.470Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Js 几种循环的比较">
+<meta name="twitter:description" content="1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465666768697071727374757677787980818283const TEST_SIZE = 10000000;// 常用let arr1 =">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://github.com/lennonover/2019/01/27/Js-几种循环的比较/"/>
+
+
+
+
+
+  <title> Js 几种循环的比较 | lennonover </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">lennonover</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2019/01/27/Js-几种循环的比较/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lennonover">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lennonover">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Js 几种循环的比较
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-27T21:34:29+08:00">
+                2019-01-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> TEST_SIZE = <span class="number">10000000</span>;</span><br><span class="line"><span class="comment">// 常用</span></span><br><span class="line"><span class="keyword">let</span> arr1 = (<span class="keyword">new</span> <span class="built_in">Array</span>(TEST_SIZE)).fill(<span class="number">1</span>);</span><br><span class="line"><span class="keyword">let</span> target1 = [];</span><br><span class="line"><span class="keyword">let</span> iStart1 = (<span class="keyword">new</span> <span class="built_in">Date</span>()).getTime();</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> i=<span class="number">0</span>; i &lt; arr1.length; i++) &#123;</span><br><span class="line">    target1.push(arr1[i]);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> iEnd1 = (<span class="keyword">new</span> <span class="built_in">Date</span>()).getTime();</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">'for:'</span> +(iEnd1 - iStart1)+<span class="string">'ms'</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 取 len</span></span><br><span class="line"><span class="keyword">let</span> arr11 = (<span class="keyword">new</span> <span class="built_in">Array</span>(TEST_SIZE)).fill(<span class="number">1</span>);</span><br><span class="line"><span class="keyword">let</span> target11 = [];</span><br><span class="line"><span class="keyword">let</span> iStart11 = (<span class="keyword">new</span> <span class="built_in">Date</span>()).getTime();</span><br><span class="line"><span class="keyword">let</span> len = arr11.length;</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> i=<span class="number">0</span>; i &lt; len; i++) &#123;</span><br><span class="line">    target11.push(arr11[i]);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> iEnd11 = (<span class="keyword">new</span> <span class="built_in">Date</span>()).getTime();</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">'for-len:'</span> +(iEnd11 - iStart11)+<span class="string">'ms'</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 倒叙</span></span><br><span class="line"><span class="keyword">let</span> arr12 = (<span class="keyword">new</span> <span class="built_in">Array</span>(TEST_SIZE)).fill(<span class="number">1</span>);</span><br><span class="line"><span class="keyword">let</span> target12 = [];</span><br><span class="line"><span class="keyword">let</span> iStart12 = (<span class="keyword">new</span> <span class="built_in">Date</span>()).getTime();</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> i = arr12.length; i--;) &#123;</span><br><span class="line">    target12.push(arr12[i]);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> iEnd12 = (<span class="keyword">new</span> <span class="built_in">Date</span>()).getTime();</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">'for-re:'</span> +(iEnd12 - iStart12)+<span class="string">'ms'</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 将取值与判断合并，通过不停的枚举每一项来循环</span></span><br><span class="line"><span class="keyword">let</span> arr13 = (<span class="keyword">new</span> <span class="built_in">Array</span>(TEST_SIZE)).fill(<span class="number">1</span>);</span><br><span class="line"><span class="keyword">let</span> target13 = [];</span><br><span class="line"><span class="keyword">let</span> iStart13 = (<span class="keyword">new</span> <span class="built_in">Date</span>()).getTime();</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>, a; a = arr13[i]; i++) &#123;</span><br><span class="line">    target13.push(a);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> iEnd13 = (<span class="keyword">new</span> <span class="built_in">Date</span>()).getTime();</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">'for-a:'</span> +(iEnd13 - iStart13)+<span class="string">'ms'</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// forEach</span></span><br><span class="line"><span class="keyword">let</span> arr2 = (<span class="keyword">new</span> <span class="built_in">Array</span>(TEST_SIZE)).fill(<span class="number">1</span>);</span><br><span class="line"><span class="keyword">let</span> target2 = [];</span><br><span class="line"><span class="keyword">let</span> iStart2 = (<span class="keyword">new</span> <span class="built_in">Date</span>()).getTime();</span><br><span class="line">arr2.forEach(<span class="function"><span class="keyword">function</span>(<span class="params">item</span>)</span>&#123;</span><br><span class="line">    target2.push(item);</span><br><span class="line">&#125;);</span><br><span class="line"><span class="keyword">let</span> iEnd2 = (<span class="keyword">new</span> <span class="built_in">Date</span>()).getTime();</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">'forEach:'</span> +(iEnd2 - iStart2)+<span class="string">'ms'</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// map</span></span><br><span class="line"><span class="keyword">let</span> arr3 = (<span class="keyword">new</span> <span class="built_in">Array</span>(TEST_SIZE)).fill(<span class="number">1</span>);</span><br><span class="line"><span class="keyword">let</span> target3 = [];</span><br><span class="line"><span class="keyword">let</span> iStart3 = (<span class="keyword">new</span> <span class="built_in">Date</span>()).getTime();</span><br><span class="line">arr3.map(<span class="function"><span class="keyword">function</span>(<span class="params">item</span>)</span>&#123;</span><br><span class="line">    target3.push(item);</span><br><span class="line">&#125;);</span><br><span class="line"><span class="keyword">let</span> iEnd3 = (<span class="keyword">new</span> <span class="built_in">Date</span>()).getTime();</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">'map:'</span> +(iEnd3 - iStart3)+<span class="string">'ms'</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// while</span></span><br><span class="line"><span class="keyword">let</span> arr4 = (<span class="keyword">new</span> <span class="built_in">Array</span>(TEST_SIZE)).fill(<span class="number">1</span>);</span><br><span class="line"><span class="keyword">let</span> target4 = [];</span><br><span class="line"><span class="keyword">let</span> iStart4 = (<span class="keyword">new</span> <span class="built_in">Date</span>()).getTime();</span><br><span class="line"><span class="keyword">let</span> index = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">while</span>(index &lt; arr4.length) &#123;</span><br><span class="line">    target4.push(arr4[index]);</span><br><span class="line">    index++</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> iEnd4 = (<span class="keyword">new</span> <span class="built_in">Date</span>()).getTime();</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">'while:'</span> +(iEnd4 - iStart4)+<span class="string">'ms'</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// for in</span></span><br><span class="line"><span class="keyword">let</span> arr5 = (<span class="keyword">new</span> <span class="built_in">Array</span>(TEST_SIZE)).fill(<span class="number">1</span>);</span><br><span class="line"><span class="keyword">let</span> target5 = [];</span><br><span class="line"><span class="keyword">let</span> iStart5 = (<span class="keyword">new</span> <span class="built_in">Date</span>()).getTime();</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> obj <span class="keyword">in</span> arr5) &#123;</span><br><span class="line">    target5.push(arr5[obj]);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> iEnd5 = (<span class="keyword">new</span> <span class="built_in">Date</span>()).getTime();</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">'forin:'</span> +(iEnd5 - iStart5)+<span class="string">'ms'</span>);</span><br></pre></td></tr></table></figure>
+<h2 id="结果"><a href="#结果" class="headerlink" title="结果"></a>结果</h2><blockquote>
+<p>测试环境<br>机器 iMac (Retina 5K, 27-inch, Late 2015) 10.13.6 (17G65)3.2 GHz Intel Core i5<br>node v8.11.3<br>chrome  71.0.3578.98（正式版本） （64 位）<br>firefox 64.0 (64 位)<br>safair</p>
+</blockquote>
+<ul>
+<li><p>谷歌浏览器中 ES6+ 的循环语法会普遍比传统的循环语法慢</p>
+</li>
+<li><p>不管是 for 循环还是 forEach v8 里面都差不多</p>
+</li>
+<li><p>对于 “枚举” 循环</p>
+<p>  数组中应当避免查找空值或者是超出范围的值，这样会导致在原型链中的向上查找，很耗性能。这种循环方式会把所有的元素取出，并不停的迭代下一个，直到出现 undefined 或 null ，这样就出现的向上查找的情景。</p>
+</li>
+<li><p>对于 提前取数组长度也就是方法二 </p>
+<p>  实际数组的 length 在每次循环中都会重新读区，并不会提前计算好，而是 v8 引擎最大限度的优化了对象取值的性能。</p>
+</li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/01/19/2018总结/" rel="next" title="2018总结">
+                <i class="fa fa-chevron-left"></i> 2018总结
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="lennonover" />
+          <p class="site-author-name" itemprop="name">lennonover</p>
+           
+              <p class="site-description motion-element" itemprop="description">一丿口石砳磊</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">43</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">28</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#结果"><span class="nav-number">1.</span> <span class="nav-text">结果</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">lennonover</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
