@@ -87,20 +87,20 @@
 
 
 
-<meta name="description" content="前言现在创意 H5 做的堪比电影，传统方式的动画、gif 已经满足不了性能需求，越来越多的内容正在以 HTML5 视频的方式呈现，随之而来的视频优化变得的越来越重要。HTML5 视频秒播优化的有很多方面，从服务器，cdn 部署接入，数据连接 / 获取，客户端缓存，出帧策略，到视频文件 I 帧位置等，今天从视频文件格式的角度介绍。 一个活动在座诸位，请打开浏览器，新开一个标签页，打开开发者工具，切换">
+<meta name="description" content="前言 本文是我部门的一次分享，张鑫旭老师也整理过相应文字版本我在补充下  现在创意 H5 做的堪比电影，传统方式的动画、gif 已经满足不了性能需求，越来越多的内容正在以 HTML5 视频的方式呈现，随之而来的视频优化变得的越来越重要。HTML5 视频秒播优化的有很多方面，从服务器，cdn 部署接入，数据连接 / 获取，客户端缓存，出帧策略，到视频文件 I 帧位置等，今天从视频文件格式的角度介绍。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="HTML5 视频秒开优化-moov 前置">
 <meta property="og:url" content="https://github.com/lennonover/2018/10/13/视频优化/index.html">
 <meta property="og:site_name" content="lennonover">
-<meta property="og:description" content="前言现在创意 H5 做的堪比电影，传统方式的动画、gif 已经满足不了性能需求，越来越多的内容正在以 HTML5 视频的方式呈现，随之而来的视频优化变得的越来越重要。HTML5 视频秒播优化的有很多方面，从服务器，cdn 部署接入，数据连接 / 获取，客户端缓存，出帧策略，到视频文件 I 帧位置等，今天从视频文件格式的角度介绍。 一个活动在座诸位，请打开浏览器，新开一个标签页，打开开发者工具，切换">
+<meta property="og:description" content="前言 本文是我部门的一次分享，张鑫旭老师也整理过相应文字版本我在补充下  现在创意 H5 做的堪比电影，传统方式的动画、gif 已经满足不了性能需求，越来越多的内容正在以 HTML5 视频的方式呈现，随之而来的视频优化变得的越来越重要。HTML5 视频秒播优化的有很多方面，从服务器，cdn 部署接入，数据连接 / 获取，客户端缓存，出帧策略，到视频文件 I 帧位置等，今天从视频文件格式的角度介绍。">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/12/10/16796dda9dfbf600?imageView2/0/w/1280/h/960/format/webp/ignore-error/1">
 <meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/12/10/16796ddaa2978a85?imageView2/0/w/1280/h/960/format/webp/ignore-error/1">
 <meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/12/10/16796ddabf54be7a?imageView2/0/w/1280/h/960/format/webp/ignore-error/1">
-<meta property="og:updated_time" content="2019-01-26T10:29:17.161Z">
+<meta property="og:updated_time" content="2019-01-27T13:41:02.721Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="HTML5 视频秒开优化-moov 前置">
-<meta name="twitter:description" content="前言现在创意 H5 做的堪比电影，传统方式的动画、gif 已经满足不了性能需求，越来越多的内容正在以 HTML5 视频的方式呈现，随之而来的视频优化变得的越来越重要。HTML5 视频秒播优化的有很多方面，从服务器，cdn 部署接入，数据连接 / 获取，客户端缓存，出帧策略，到视频文件 I 帧位置等，今天从视频文件格式的角度介绍。 一个活动在座诸位，请打开浏览器，新开一个标签页，打开开发者工具，切换">
+<meta name="twitter:description" content="前言 本文是我部门的一次分享，张鑫旭老师也整理过相应文字版本我在补充下  现在创意 H5 做的堪比电影，传统方式的动画、gif 已经满足不了性能需求，越来越多的内容正在以 HTML5 视频的方式呈现，随之而来的视频优化变得的越来越重要。HTML5 视频秒播优化的有很多方面，从服务器，cdn 部署接入，数据连接 / 获取，客户端缓存，出帧策略，到视频文件 I 帧位置等，今天从视频文件格式的角度介绍。">
 <meta name="twitter:image" content="https://user-gold-cdn.xitu.io/2018/12/10/16796dda9dfbf600?imageView2/0/w/1280/h/960/format/webp/ignore-error/1">
 
 
@@ -326,7 +326,10 @@
       
 
       
-        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>现在创意 H5 做的堪比电影，传统方式的动画、gif 已经满足不了性能需求，越来越多的内容正在以 HTML5 视频的方式呈现，随之而来的视频优化变得的越来越重要。HTML5 视频秒播优化的有很多方面，从服务器，cdn 部署接入，数据连接 / 获取，客户端缓存，出帧策略，到视频文件 I 帧位置等，今天从视频文件格式的角度介绍。</p>
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><blockquote>
+<p>本文是我部门的一次分享，张鑫旭老师也整理过相应文字版本我在补充下</p>
+</blockquote>
+<p>现在创意 H5 做的堪比电影，传统方式的动画、gif 已经满足不了性能需求，越来越多的内容正在以 HTML5 视频的方式呈现，随之而来的视频优化变得的越来越重要。HTML5 视频秒播优化的有很多方面，从服务器，cdn 部署接入，数据连接 / 获取，客户端缓存，出帧策略，到视频文件 I 帧位置等，今天从视频文件格式的角度介绍。</p>
 <h2 id="一个活动"><a href="#一个活动" class="headerlink" title="一个活动"></a>一个活动</h2><p>在座诸位，请打开浏览器，新开一个标签页，打开开发者工具，切换到 network 面板 → Media 选项，然后 — 复制下面地址（天猫某活动备份地址）到地址栏，回车：<a href="http://ali-tmhly.h5.neone.com.cn/" target="_blank" rel="noopener">ali-tmhly.h5.neone.com.cn/</a> 。此时，你会看到一个名为 video2 的 mp4，前前后后发送了 3 次请求：</p>
 <p><img src="https://user-gold-cdn.xitu.io/2018/12/10/16796dda9dfbf600?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="图片alt"></p>
 <p>这是糟糕的！应该只有 1 次请求才是最佳的！</p>
