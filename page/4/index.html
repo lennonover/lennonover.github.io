@@ -251,6 +251,265 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2016/12/21/移动端的自适应/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lennonover">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lennonover">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/12/21/移动端的自适应/" itemprop="url">
+                  移动端的自适应
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-12-21T22:45:04+08:00">
+                2016-12-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><ul>
+<li><p>完美视口</p>
+<p>  在移动端，低端无定制的需求，都可以用这个完美视口完成。</p>
+</li>
+<li><p>物理像素(physical pixel)</p>
+<p>  一个物理像素是显示器(手机屏幕)上最小的物理显示单元，在操作系统的调度下，每一个设备像素都有自己的颜色值和亮度值。</p>
+</li>
+</ul>
+<ul>
+<li><p>设备独立像素(density-independent pixel)</p>
+<p>  设备独立像素(也叫密度无关像素)，可以认为是计算机坐标系统中得一个点，这个点代表一个可以由程序使用的虚拟像素(比如: css像素)，然后由相关系统转换为物理像素。同一张图片在各屏幕显示大小不一。<br>  我们希望不同屏幕显示图片的大小要一致。<br>  我们要计算图片缩放比例。</p>
+<p>  计算公式：</p>
+<p>  图片逻辑像素大小px1 / 图片缩放后实际像素大小px2 = 物理像素（设备像素dp） / 设备独立像素dips</p>
+<p>  px2 = px1 * (dp / dips)</p>
+<p>  px2 = px1 * dpr</p>
+</li>
+<li><p>设备像素比(device pixel ratio )</p>
+<p>  设备像素比(简称dpr)定义了物理像素和设备独立像素的对应关系，它的值可以按如下的公式的得到</p>
+<p>  设备像素比 = 物理像素 / 设备独立像素 </p>
+<p>  在某一方向上，x方向或者y方向，可以通过window.devicePixelRatio获取到当前设备的dpr</p>
+<blockquote>
+<p>由于苹果retina的产生，使得清晰度提升，主要是因为<code>设备像素</code>提升了一倍，因此可以用更多像素去绘画更清晰的图像</p>
+</blockquote>
+<p>  坊间对于dpr更通俗的说法叫</p>
+<ul>
+<li>一倍屏</li>
+<li>两倍屏</li>
+<li>三倍屏</li>
+</ul>
+</li>
+<li><p>屏幕拉伸比scale</p>
+<p>  也就是视口上的initial-scale , maximum-sacle 等属性</p>
+<blockquote>
+<p>scale 和 dpr的关系是倒数。</p>
+</blockquote>
+</li>
+<li><p>例子</p>
+<p>  以iphone6为例：</p>
+<p>  设备宽高为375×667，可以理解为设备独立像素(或css像素)。<br>  dpr为2，根据上面的计算公式，其物理像素就应该×2，为750×1334。</p>
+<p>  在不同的屏幕上(普通屏幕 vs retina屏幕)，css像素所呈现的大小(物理尺寸)是一致的，不同的是1个css像素所对应的物理像素个数是不一致的。</p>
+<p>  在普通屏幕下，1个css像素 对应 1个物理像素(1:1)。 在retina 屏幕下，1个css像素对应 4个物理像素(1:4)。</p>
+</li>
+<li><p>位图像素</p>
+<p>  一个位图像素是栅格图像(如：png, jpg, gif等)最小的数据单元。每一个位图像素都包含着一些自身的显示信息(如：显示位置，颜色值，透明度等)。</p>
+<p>  理论上，1个位图像素对应于1个物理像素，图片才能得到完美清晰的展示。</p>
+<p>  在普通屏幕下是没有问题的，但是在retina屏幕下就会出现位图像素点不够，从而导致图片模糊的情况。</p>
+</li>
+</ul>
+<pre><code>对于dpr=2的retina屏幕而言，1个位图像素对应于4个物理像素，由于单个位图像素不可以再进一步分割，所以只能就近取色，从而导致图片模糊(注意上述的几个颜色值)。
+
+所以，对于图片高清问题，比较好的方案就是两倍图片(@2x)。
+
+如：200×300(css pixel)img标签，就需要提供400×600的图片。
+
+如此一来，位图像素点个数就是原来的4倍，在retina屏幕下，位图像素点个数就可以跟物理像素点个数形成 1 : 1的比例，图片自然就清晰了(这也解释了之前留下的一个问题，为啥视觉稿的画布大小要×2？)。
+
+在普通屏幕下，200×300(css pixel)img标签，所对应的物理像素个数就是200×300个，而两倍图片的位图像素个数则是200×300*4，所以就出现一个物理像素点对应4个位图像素点，所以它的取色也只能通过一定的算法(显示结果就是一张只有原图像素总数四分之一，我们称这个过程叫做downsampling)，肉眼看上去虽然图片不会模糊，但是会觉得图片缺少一些锐利度，或者是有点色差(但还是可以接受的)。
+</code></pre><h2 id="移动端的问题"><a href="#移动端的问题" class="headerlink" title="移动端的问题"></a>移动端的问题</h2><ul>
+<li><p>retina屏幕，图片高清问题</p>
+<p>  两倍图片(@2x)，然后图片容器缩小50%。</p>
+</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="selector-tag">img</span>标签</span><br><span class="line"><span class="selector-tag">width</span>: 200<span class="selector-tag">px</span>;</span><br><span class="line"><span class="selector-tag">height</span>: 300<span class="selector-tag">px</span>;</span><br><span class="line">背景图片</span><br><span class="line"><span class="selector-tag">width</span>: 200<span class="selector-tag">px</span>;</span><br><span class="line"><span class="selector-tag">height</span>: 300<span class="selector-tag">px</span>;</span><br><span class="line"><span class="selector-tag">background-image</span>: <span class="selector-tag">url</span>(<span class="selector-tag">image</span>@<span class="keyword">2x</span>.<span class="keyword">jpg</span>);</span><br><span class="line"><span class="selector-tag">background-size</span>: 200<span class="selector-tag">px</span> 300<span class="selector-tag">px</span>;</span><br></pre></td></tr></table></figure>
+<p>缺点普通屏幕下：</p>
+<p>同样下载了@2x的图片，造成资源浪费。<br>图片由于downsampling，会失去了一些锐利度(或是色差)。</p>
+<p>解决办法是：不同的dpr下，加载不同的尺寸的图片。</p>
+<p>这样的话，是不是是要准备两套图片了？</p>
+<p>解决；用图片服务器，通过url获取参数，然后可以控制图片质量，也可以将图片裁剪成不同的尺寸。</p>
+<ul>
+<li><p>retina下，border: 1px问题</p>
+<p>  设计师想要的retina下border: 1px;，其实就是1物理像素宽，对于css而言，可以认为是border: 0.5px;，这是retina下(dpr=2)下能显示的最小单位。</p>
+<p>  并不是所有手机浏览器都能识别border: 0.5px;，ios7以下，android等其他系统里，0.5px会被当成为0px处理，那么如何实现这0.5px呢</p>
+<p>  最简单的一个做法就是这样(元素scale)：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.scale</span>&#123;</span><br><span class="line">    <span class="attribute">position</span>: relative;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.scale</span><span class="selector-pseudo">:after</span>&#123;</span><br><span class="line">    <span class="attribute">content</span>:<span class="string">""</span>;</span><br><span class="line">    <span class="attribute">position</span>: absolute;</span><br><span class="line">    <span class="attribute">bottom</span>:<span class="number">0px</span>;</span><br><span class="line">    <span class="attribute">left</span>:<span class="number">0px</span>;</span><br><span class="line">    <span class="attribute">right</span>:<span class="number">0px</span>;</span><br><span class="line">    <span class="attribute">border-bottom</span>:<span class="number">1px</span> solid <span class="number">#ddd</span>;</span><br><span class="line">    <span class="attribute">-webkit-transform</span>:<span class="built_in">scaleY</span>(.5);</span><br><span class="line">    <span class="attribute">-webkit-transform-origin</span>:<span class="number">0</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>但是这样hack实在是不够通用(如：圆角等)，写起来也麻烦。</p>
+<p>比较推荐的还是页面scale的方案，是比较通用的，几乎满足所有场景。</p>
+<p>对于iphone5(dpr=2)，添加如下的meta标签，设置viewport(scale 0.5)</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"viewport"</span> <span class="attr">content</span>=<span class="string">"width=640,initial-scale=0.5,maximum-scale=0.5, minimum-scale=0.5,user-scalable=no"</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>多屏适配布局问题</li>
+</ul>
+<pre><code>基于rem的原理,针对不同手机屏幕尺寸和dpr动态的改变根节点html的font-size大小(基准值)。
+乘以dpr，是因为页面有可能为了实现1px border页面会缩放(scale) 1/dpr 倍(如果没有，dpr=1),。
+</code></pre><p>除以10，是为了取整，方便计算(理论上可以是任何值)</p>
+<pre><code><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rem = document.documentElement.clientWidth * dpr / 10</span><br></pre></td></tr></table></figure>
+
+- CSS方式更改
+
+通过设备宽度来媒体查询来改变html的font-size：
+
+- javascript方式更改
+
+通过上面的公式，计算出基准值rem，然后写入样式
+</code></pre><ul>
+<li><p>字体大小问题</p>
+<p>  设置viewpor页面scale，必然会带来字体大小会被缩放。</p>
+<p>  针对不同的分辨率(dpr不同)，设置不用的大小。</p>
+</li>
+</ul>
+<h2 id="各大厂解决方案"><a href="#各大厂解决方案" class="headerlink" title="各大厂解决方案"></a>各大厂解决方案</h2><ul>
+<li><p>手机淘宝</p>
+<ul>
+<li>获取手机dpr(window.devicePixelRatio)，动态生成viewport。</li>
+<li>换取手机宽度，分成10份，每一份的宽度即是rem的尺寸。</li>
+<li>根据设计稿尺寸(px)通过计算，转换成rem去布局。</li>
+</ul>
+</li>
+<li><p>天猫</p>
+<ul>
+<li>采用scale=1.0 写死viewport。</li>
+<li>flex布局，笃定认为布局尺寸是375 (iPhone6)</li>
+<li>rem 确定非flex的元素</li>
+</ul>
+</li>
+<li><p>手机携程</p>
+<ul>
+<li>采用scale=1.0 写死viewport</li>
+<li>px + 百分比布局</li>
+</ul>
+</li>
+<li><p>拉钩</p>
+<ul>
+<li>关键元素高宽和位置都不变，只有容器元素在做伸缩变换。</li>
+<li>文字流式，控件弹性，图片等比缩放</li>
+</ul>
+</li>
+</ul>
+<h2 id="如何与设计协作"><a href="#如何与设计协作" class="headerlink" title="如何与设计协作"></a>如何与设计协作</h2><ol>
+<li><p>视觉设计阶段，设计师按宽度750px（iPhone 6）做设计稿，除图片外所有设计元素用矢量路径来做。设计定稿后在750px的设计稿上做标注，输出标注图。同时等比放大1.5倍生成宽度1125px的设计稿，在1125px的稿子里切图。</p>
+</li>
+<li><p>输出两个交付物给开发工程师：一个是程序用到的@3x切图资源，另一个是宽度750px的设计标注图。</p>
+</li>
+<li><p>开发工程师拿到750px标注图和@3x切图资源，完成iPhone 6（375pt）的界面开发。此阶段不能用固定宽度的方式开发界面，得用自动布局（auto layout），方便后续适配到其它尺寸。</p>
+</li>
+<li><p>适配调试阶段，基于iPhone 6的界面效果，分别向上向下调试iPhone 6 plus（414pt）和iPhone 5S及以下（320pt）的界面效果。由此完成大中小三屏适配。</p>
+</li>
+</ol>
+<h2 id="鞠躬"><a href="#鞠躬" class="headerlink" title="鞠躬"></a>鞠躬</h2>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2016/12/17/CSS解疑/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2018,249 +2277,6 @@ var father = new Father(&quot;张三&quot;)
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2016/07/27/CSS布局/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="lennonover">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="lennonover">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/07/27/CSS布局/" itemprop="url">
-                  CSS布局
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-07-27T23:42:41+08:00">
-                2016-07-27
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="CSS布局"><a href="#CSS布局" class="headerlink" title="CSS布局"></a>CSS布局</h2><h3 id="布局–display"><a href="#布局–display" class="headerlink" title="布局–display"></a>布局–display</h3><h4 id="block"><a href="#block" class="headerlink" title="block"></a>block</h4><ul>
-<li>默认宽度是父元素宽度</li>
-<li>可设置宽高</li>
-<li>换行显示</li>
-<li>常见块状元素 div p h1-h6 ul from</li>
-</ul>
-<h4 id="inline"><a href="#inline" class="headerlink" title="inline"></a>inline</h4><ul>
-<li>默认宽度是内容宽度</li>
-<li>不可设置宽高</li>
-<li>同行显示</li>
-<li>常见行内元素 span a label cite em</li>
-</ul>
-<h4 id="inline-block"><a href="#inline-block" class="headerlink" title="inline-block"></a>inline-block</h4><ul>
-<li>默认宽度是内容宽度</li>
-<li>可设置宽高</li>
-<li>同行显示</li>
-<li>常见的行内块状元素 input textarea select button</li>
-</ul>
-<h4 id="none"><a href="#none" class="headerlink" title="none"></a>none</h4><ul>
-<li>隐藏不占位置</li>
-<li>visiblity：hidden隐藏占位置</li>
-</ul>
-<h3 id="布局–position"><a href="#布局–position" class="headerlink" title="布局–position"></a>布局–position</h3><h4 id="relative"><a href="#relative" class="headerlink" title="relative"></a>relative</h4><ul>
-<li>在文档流中</li>
-<li>参照物是本身</li>
-</ul>
-<h4 id="absolute"><a href="#absolute" class="headerlink" title="absolute"></a>absolute</h4><ul>
-<li>默认宽度是内容宽度</li>
-<li>脱离文档流</li>
-<li>参照物是第一个定位的祖先元素</li>
-</ul>
-<h4 id="fixed"><a href="#fixed" class="headerlink" title="fixed"></a>fixed</h4><ul>
-<li>默认宽度是内容宽度</li>
-<li>脱离文档流</li>
-<li>参照物是视窗</li>
-</ul>
-<h3 id="布局–float"><a href="#布局–float" class="headerlink" title="布局–float"></a>布局–float</h3><ul>
-<li>默认宽度为内容宽度</li>
-<li>半脱离文档流，对元素脱离文档流，对内容在文档流</li>
-<li>向指定方向移动   </li>
-</ul>
-<h4 id="清除浮动"><a href="#清除浮动" class="headerlink" title="清除浮动"></a>清除浮动</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">.fix:before,.fix:after&#123;</span><br><span class="line">    content: &quot;&quot;;</span><br><span class="line">    display: table;</span><br><span class="line">&#125;</span><br><span class="line">.fix:after&#123;</span><br><span class="line">    clear: both;</span><br><span class="line">    overflow: hidden;</span><br><span class="line">&#125;</span><br><span class="line">.fix&#123;</span><br><span class="line">    zoom:1; /*for IE6 IE7*/</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="居中布局"><a href="#居中布局" class="headerlink" title="居中布局"></a>居中布局</h3><h4 id="水平居中"><a href="#水平居中" class="headerlink" title="水平居中"></a>水平居中</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class=&quot;parent&quot;&gt;</span><br><span class="line">    &lt;div class=&quot;child&quot;&gt;DEMO&lt;/div&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line">body&#123;margin:20px;&#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li><p>inline-block + text-align</p>
-<pre><code>优点：兼容性好；缺点：子元素会继承父元素的居中
-</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">.parent&#123;</span><br><span class="line">    text-align: center;</span><br><span class="line">&#125;</span><br><span class="line">.child&#123;</span><br><span class="line">    display: inline-block;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>table + margin</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">.child&#123;</span><br><span class="line">    display: table;</span><br><span class="line">    margin: 0 auto;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>absolute + transform</p>
-<pre><code>优点：脱离文档流对其它元素没有影响。缺点：兼容性问题
-</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">.parent&#123;</span><br><span class="line">    height:1.5em;</span><br><span class="line">    position: relative;</span><br><span class="line">    &#125;</span><br><span class="line">.child&#123;</span><br><span class="line">    position: absolute;</span><br><span class="line">    left: 50%;</span><br><span class="line">    transform: translateX(-50%);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>flex + justify-content</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">.parent&#123;</span><br><span class="line">    display: flex;</span><br><span class="line">    justify-content: center;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<h4 id="垂直居中"><a href="#垂直居中" class="headerlink" title="垂直居中"></a>垂直居中</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class=&quot;parent&quot;&gt;</span><br><span class="line">    &lt;div class=&quot;child&quot;&gt;DEMO&lt;/div&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line">body&#123;margin:20px;&#125;</span><br><span class="line">    .parent&#123;width:4em;height:500px;&#125;</span><br><span class="line">    .child&#123;width:100%;&#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li><p>table-cell + vertical-align</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">.parent&#123;</span><br><span class="line">    display: table-cell;</span><br><span class="line">    vertical-align: middle;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>absolute + transform</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">.parent&#123;</span><br><span class="line">    position: relative;</span><br><span class="line">&#125;</span><br><span class="line">.child&#123;</span><br><span class="line">    position: absolute;</span><br><span class="line">    top: 50%;</span><br><span class="line">    transform: translateY(-50%);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>flex + align-items</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">.parent&#123;</span><br><span class="line">    display: flex;</span><br><span class="line">    align-items: center;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<iframe width="100%" height="300" src="//jsfiddle.net/lennonover/u9erhetx/embedded/html,css,result/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
-
-<h4 id="垂直水平居中"><a href="#垂直水平居中" class="headerlink" title="垂直水平居中"></a>垂直水平居中</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class=&quot;parent&quot;&gt;</span><br><span class="line">    &lt;div class=&quot;child&quot;&gt;DEMO&lt;/div&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">body&#123;margin:20px;&#125;</span><br><span class="line">.parent&#123;width:200px;height:300px;&#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li><p>inline-block + text-aligin + table-cell + vertical-align</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">.parent&#123;</span><br><span class="line">    text-align: center;</span><br><span class="line">    display: table-cell;</span><br><span class="line">    vertical-align: middle;</span><br><span class="line">&#125;</span><br><span class="line">.child&#123;</span><br><span class="line">    display: inline-block;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>absolute + transform</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">.parent&#123;</span><br><span class="line">    position: relative;</span><br><span class="line">&#125;</span><br><span class="line">.child&#123;</span><br><span class="line">    position: absolute;</span><br><span class="line">    left: 50%;</span><br><span class="line">    top: 50%;</span><br><span class="line">    transform:</span><br><span class="line">    translate(-50%,-50%);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>flex + justify-content + align-items</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">.parent&#123;</span><br><span class="line">    display: flex;</span><br><span class="line">    justify-content: center;</span><br><span class="line">    align-items: center;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<h3 id="多列布局"><a href="#多列布局" class="headerlink" title="多列布局"></a>多列布局</h3><h4 id="定宽自适应"><a href="#定宽自适应" class="headerlink" title="定宽自适应"></a>定宽自适应</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class=&quot;parent&quot;&gt;</span><br><span class="line">    &lt;div class=&quot;left&quot;&gt;</span><br><span class="line">        &lt;p&gt;left&lt;/p&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">    &lt;div class=&quot;right&quot;&gt;</span><br><span class="line">        &lt;p&gt;right&lt;/p&gt;</span><br><span class="line">        &lt;p&gt;right&lt;/p&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
-<h5 id="左侧定宽右侧自适应"><a href="#左侧定宽右侧自适应" class="headerlink" title="左侧定宽右侧自适应"></a>左侧定宽右侧自适应</h5><ul>
-<li><p>float + margin</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">.left&#123;</span><br><span class="line">    float: left;</span><br><span class="line">    width: 100px;</span><br><span class="line">&#125;</span><br><span class="line">.right&#123;</span><br><span class="line">    margin-left: 120px;</span><br><span class="line">&#125;</span><br><span class="line">//在IE6中因为right是没有浮动的所以right里面的文字会往右边缩进3像素</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>float + overflow</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">.left&#123;</span><br><span class="line">    float: left;</span><br><span class="line">    width: 100px;</span><br><span class="line">    margin-right: 20px;</span><br><span class="line">&#125;</span><br><span class="line">.right&#123;</span><br><span class="line">    overflow: hidden;</span><br><span class="line">&#125;</span><br><span class="line">//IE6不支持</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>table</p>
-<pre><code>table默认宽度内容宽度、且对margin无效、响应padding
-</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">.parent&#123;</span><br><span class="line">    display: table;</span><br><span class="line">    width: 100%;</span><br><span class="line">    table-layout: fixed;//布局优先、且加速table渲染</span><br><span class="line">&#125;</span><br><span class="line">.left,.right&#123;</span><br><span class="line">    display: table-cell;</span><br><span class="line">&#125;</span><br><span class="line">.left&#123;</span><br><span class="line">    width: 100px;</span><br><span class="line">    padding-right: 20px;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>flex</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">.parent&#123;</span><br><span class="line">    display: flex;</span><br><span class="line">&#125;</span><br><span class="line">.left&#123;</span><br><span class="line">    width: 100px;</span><br><span class="line">    margin-right: 20px;</span><br><span class="line">&#125;</span><br><span class="line">.right&#123;</span><br><span class="line">    flex: 1;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<h5 id="左侧不定宽右侧自适应"><a href="#左侧不定宽右侧自适应" class="headerlink" title="左侧不定宽右侧自适应"></a>左侧不定宽右侧自适应</h5><ul>
-<li>float + overflow</li>
-<li>table</li>
-<li>flex</li>
-</ul>
-<h4 id="等分布局"><a href="#等分布局" class="headerlink" title="等分布局"></a>等分布局</h4><ul>
-<li><p>float</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class=&quot;parent&quot;&gt;</span><br><span class="line">    &lt;div class=&quot;column&quot;&gt;&lt;p&gt;1&lt;/p&gt;&lt;/div&gt;</span><br><span class="line">    &lt;div class=&quot;column&quot;&gt;&lt;p&gt;2&lt;/p&gt;&lt;/div&gt;</span><br><span class="line">    &lt;div class=&quot;column&quot;&gt;&lt;p&gt;3&lt;/p&gt;&lt;/div&gt;</span><br><span class="line">    &lt;div class=&quot;column&quot;&gt;&lt;p&gt;4&lt;/p&gt;&lt;/div&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line">.parent&#123;</span><br><span class="line">    margin-left: -20px;</span><br><span class="line">&#125;</span><br><span class="line">.column&#123;</span><br><span class="line">    float: left;</span><br><span class="line">    width: 25%;</span><br><span class="line">    padding-left: 20px;</span><br><span class="line">    box-sizing: border-box;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>table</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class=&quot;parent-fix&quot;&gt;</span><br><span class="line">    &lt;div class=&quot;parent&quot;&gt;</span><br><span class="line">        &lt;div class=&quot;column&quot;&gt;&lt;p&gt;1&lt;/p&gt;&lt;/div&gt;</span><br><span class="line">        &lt;div class=&quot;column&quot;&gt;&lt;p&gt;2&lt;/p&gt;&lt;/div&gt;</span><br><span class="line">        &lt;div class=&quot;column&quot;&gt;&lt;p&gt;3&lt;/p&gt;&lt;/div&gt;</span><br><span class="line">        &lt;div class=&quot;column&quot;&gt;&lt;p&gt;4&lt;/p&gt;&lt;/div&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line">.parent-fix&#123;</span><br><span class="line">    margin-left: -20px;</span><br><span class="line">&#125;</span><br><span class="line">.parent&#123;</span><br><span class="line">    display: table;</span><br><span class="line">    width:100%;</span><br><span class="line">    table-layout: fixed;//平分单元格</span><br><span class="line">&#125;</span><br><span class="line">.column&#123;</span><br><span class="line">    display: table-cell;</span><br><span class="line">    padding-left: 20px;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>flex</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class=&quot;parent&quot;&gt;</span><br><span class="line">    &lt;div class=&quot;column&quot;&gt;&lt;p&gt;1&lt;/p&gt;&lt;/div&gt;</span><br><span class="line">    &lt;div class=&quot;column&quot;&gt;&lt;p&gt;2&lt;/p&gt;&lt;/div&gt;</span><br><span class="line">    &lt;div class=&quot;column&quot;&gt;&lt;p&gt;3&lt;/p&gt;&lt;/div&gt;</span><br><span class="line">    &lt;div class=&quot;column&quot;&gt;&lt;p&gt;4&lt;/p&gt;&lt;/div&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line">.parent&#123;</span><br><span class="line">    display: -flex;</span><br><span class="line">&#125;</span><br><span class="line">.column&#123;</span><br><span class="line">   flex:1;</span><br><span class="line">&#125;</span><br><span class="line">.column+.column&#123;</span><br><span class="line">    margin-left:20px;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<h4 id="等高布局"><a href="#等高布局" class="headerlink" title="等高布局"></a>等高布局</h4><ul>
-<li>table</li>
-<li>flex</li>
-<li>float<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">//float的伪等高</span><br><span class="line">&lt;div class=&quot;parent&quot;&gt;</span><br><span class="line">    &lt;div class=&quot;left&quot;&gt;</span><br><span class="line">        &lt;p&gt;left&lt;/p&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">    &lt;div class=&quot;right&quot;&gt;</span><br><span class="line">        &lt;p&gt;right&lt;/p&gt;</span><br><span class="line">        &lt;p&gt;right&lt;/p&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line">body&#123;margin:20px;&#125;</span><br><span class="line">p&#123;background: none!important;&#125;</span><br><span class="line">.left,.right&#123;background: #444;&#125;</span><br><span class="line">.parent&#123;</span><br><span class="line">    overflow: hidden;</span><br><span class="line">&#125;</span><br><span class="line">.left,.right&#123;</span><br><span class="line">    padding-bottom: 9999px;</span><br><span class="line">    margin-bottom: -9999px;</span><br><span class="line">&#125;</span><br><span class="line">.left&#123;</span><br><span class="line">    float: left; width: 100px;</span><br><span class="line">    margin-right: 20px;</span><br><span class="line">&#125;</span><br><span class="line">.right&#123;</span><br><span class="line">    overflow: hidden;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2310,7 +2326,7 @@ var father = new Father(&quot;张三&quot;)
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">43</span>
+                <span class="site-state-item-count">44</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
