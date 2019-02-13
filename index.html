@@ -274,7 +274,7 @@
               
                 
                 <a class="post-title-link" href="/2019/02/12/video-自动播放/" itemprop="url">
-                  video 自动播放
+                  H5 video 自动播放
                 </a>
               
             
@@ -328,7 +328,37 @@
       
         
           
-            
+            <p>「踹歪: ## 移动端</p>
+<h3 id="ios"><a href="#ios" class="headerlink" title="ios"></a>ios</h3><p>从 ios 11 以后的版本，以下：</p>
+<ul>
+<li>无音频源的 video 元素 允许自动播放</li>
+<li>禁音的 video 元素允许自动播放</li>
+<li>如果 video 元素在没有用户手势下有了音频源或者变成非禁音，会暂停播放</li>
+<li>video 元素屏幕可见才开始播放</li>
+<li>ideo元素不可见后停止播放</li>
+</ul>
+<p><a href="https://webkit.org/blog/6784/new-video-policies-for-ios/" target="_blank" rel="noopener">参考链接</a></p>
+<h3 id="Android"><a href="#Android" class="headerlink" title="Android"></a>Android</h3><p>只有移动端 chrome 53 以上需要同时对 video 设置 autoplay 和 muted（是否禁音），才允许自动播放； 安卓的 FireFox 和 UC 浏览器支持任何情况下的自动播放； 安卓的其他浏览器不支持；</p>
+<p><a href="https://developers.google.com/web/updates/2016/07/autoplay" target="_blank" rel="noopener">参考链接</a></p>
+<h2 id="PC-端"><a href="#PC-端" class="headerlink" title="PC 端"></a>PC 端</h2><h3 id="Safari-浏览器"><a href="#Safari-浏览器" class="headerlink" title="Safari 浏览器"></a>Safari 浏览器</h3><p>Safari 10 后带音频的视频和音频默认禁止自动播放</p>
+<h3 id="Chrome-浏览器"><a href="#Chrome-浏览器" class="headerlink" title="Chrome 浏览器"></a>Chrome 浏览器</h3><p>禁音的视频依旧可以播放，带声音的视频会根据：</p>
+<ul>
+<li>用户在媒体上停留时间超过了 7秒以上</li>
+<li>音频必须是展示出来，并且没有静音</li>
+<li>与 video 之间有过交互</li>
+<li>媒体的尺寸不小于 200x140</li>
+</ul>
+<p>来决定能否自动播放</p>
+<h2 id="关于全屏播放"><a href="#关于全屏播放" class="headerlink" title="关于全屏播放"></a>关于全屏播放</h2><p>大家创意 H5 活动的时候背景有的时候是用的视频，但是在点击播放或者通过 API video.play() 触发播放时，会强制以全屏置顶的形式进行播放。这样 video 的层级会很高，所以在 video 元素之上，无法显示其他的元素，也就没有了交互，这是让人崩溃的！</p>
+<ul>
+<li>基于 webkit 内核的移动端浏览器</li>
+</ul>
+<p>只需在 video 标签加个 playsinline 属性</p>
+<ul>
+<li>对于在 QQ 和微信环境内</li>
+</ul>
+<p>这个只能使用 qq.com 域名才可以解决」</p>
+
           
         
       
