@@ -94,7 +94,7 @@
 <meta property="og:site_name" content="lennonover">
 <meta property="og:description" content="移动端ios从 ios 11 以后的版本，以下：  无音频源的 video 元素 允许自动播放 禁音的 video 元素允许自动播放 如果 video 元素在没有用户手势下有了音频源或者变成非禁音，会暂停播放 video 元素屏幕可见才开始播放 ideo元素不可见后停止播放  参考链接 Android只有移动端 chrome 53 以上需要同时对 video 设置 autoplay 和 muted">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-02-13T13:20:57.407Z">
+<meta property="og:updated_time" content="2019-02-14T12:29:50.662Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="H5 video 自动播放">
 <meta name="twitter:description" content="移动端ios从 ios 11 以后的版本，以下：  无音频源的 video 元素 允许自动播放 禁音的 video 元素允许自动播放 如果 video 元素在没有用户手势下有了音频源或者变成非禁音，会暂停播放 video 元素屏幕可见才开始播放 ideo元素不可见后停止播放  参考链接 Android只有移动端 chrome 53 以上需要同时对 video 设置 autoplay 和 muted">
@@ -347,10 +347,21 @@
 <li>基于 webkit 内核的移动端浏览器</li>
 </ul>
 <p>只需在 video 标签加个 playsinline 属性</p>
+<p>补充：<br>对于 ios 如果仍有个别版本的 ios 会唤起播放器，可以引用一个库 iphone-inline-video</p>
+<h2 id="补充："><a href="#补充：" class="headerlink" title="补充："></a>补充：</h2><p>对于 ios 如果仍有个别版本的 ios 会唤起播放器，可以引用一个库 iphone-inline-video</p>
+<p>对于在 QQ 和微信环境内<br>使用 qq.com 域名可以解决（亲测可以）<br>x5-video-player-type=”h5”属性<br>加了这个属性后视频上层可以有其他 dom 元素出现了</p>
 <ul>
 <li>对于在 QQ 和微信环境内</li>
 </ul>
-<p>这个只能使用 qq.com 域名才可以解决」</p>
+<p>使用 qq.com 域名可以解决（亲测可以）<br>x5-video-player-type=”h5”属性<br>加了这个属性后视频上层可以有其他 dom 元素出现了</p>
+<h2 id="关于去除播放控件"><a href="#关于去除播放控件" class="headerlink" title="关于去除播放控件"></a>关于去除播放控件</h2><ul>
+<li>android 对于在 QQ 和微信环境内</li>
+</ul>
+<p>腾讯在浏览器里做了一些配置使用 qq.com 域名就没有问题了，我们平时的活动如果有涉及到视频的都会启用 qq.com 域名。</p>
+<ul>
+<li>也可以放大视频顶到视窗外面</li>
+</ul>
+<p>补充：<br>对于 <code>x5-video-player-type=&quot;h5&quot;</code> 属性播放控件也隐藏了</p>
 
       
     </div>
@@ -515,7 +526,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#移动端"><span class="nav-number">1.</span> <span class="nav-text">移动端</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ios"><span class="nav-number">1.1.</span> <span class="nav-text">ios</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Android"><span class="nav-number">1.2.</span> <span class="nav-text">Android</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PC-端"><span class="nav-number">2.</span> <span class="nav-text">PC 端</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Safari-浏览器"><span class="nav-number">2.1.</span> <span class="nav-text">Safari 浏览器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Chrome-浏览器"><span class="nav-number">2.2.</span> <span class="nav-text">Chrome 浏览器</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关于全屏播放"><span class="nav-number">3.</span> <span class="nav-text">关于全屏播放</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#移动端"><span class="nav-number">1.</span> <span class="nav-text">移动端</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ios"><span class="nav-number">1.1.</span> <span class="nav-text">ios</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Android"><span class="nav-number">1.2.</span> <span class="nav-text">Android</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PC-端"><span class="nav-number">2.</span> <span class="nav-text">PC 端</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Safari-浏览器"><span class="nav-number">2.1.</span> <span class="nav-text">Safari 浏览器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Chrome-浏览器"><span class="nav-number">2.2.</span> <span class="nav-text">Chrome 浏览器</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关于全屏播放"><span class="nav-number">3.</span> <span class="nav-text">关于全屏播放</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#补充："><span class="nav-number">4.</span> <span class="nav-text">补充：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关于去除播放控件"><span class="nav-number">5.</span> <span class="nav-text">关于去除播放控件</span></a></li></ol></div>
             
 
           </div>
