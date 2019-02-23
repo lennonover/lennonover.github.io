@@ -251,6 +251,158 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2016/12/29/CSS之line-height/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lennonover">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lennonover">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/12/29/CSS之line-height/" itemprop="url">
+                  CSS之line-height
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-12-29T21:15:04+08:00">
+                2016-12-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="关于行高"><a href="#关于行高" class="headerlink" title="关于行高"></a>关于行高</h2><blockquote>
+<p>来自张鑫旭老师</p>
+</blockquote>
+<p>语法： line-height : normal |&lt;实数&gt; | &lt;长度&gt; | &lt;百分比&gt; | inherit<br>说明：设置元素中行的高度。<br>值： normal：默认行高，一般为1到1.2；<br><img src="http://ww2.sinaimg.cn/large/c15a9505gw1fb80s9srh4j214c0ijmze.jpg" alt="normal"><br><img src="http://ob6nlbpso.bkt.clouddn.com/sp161230_180949.png" alt="normal"><br>实数：实数值，缩放因子；<br>长度：合法的长度值，可为负数；<br><img src="http://ob6nlbpso.bkt.clouddn.com/sp161230_180903.png" alt="length"><br><img src="http://ob6nlbpso.bkt.clouddn.com/sp161229_222443.png" alt=""><br>百分比：百分比取值基于元素的字体尺寸。<br><img src="http://ob6nlbpso.bkt.clouddn.com/sp161230_180923.png" alt="%"><br>初始值： normal<br>继承性：继承<br>适用于：所有元素        </p>
+<h2 id="行内框盒子模型"><a href="#行内框盒子模型" class="headerlink" title="行内框盒子模型"></a>行内框盒子模型</h2><p>所有内敛元素的表现都和行内框盒子模型</p>
+<ul>
+<li>内容区域（content area）</li>
+</ul>
+<p>是一种围绕文字看不见的的盒子，大小和字体大小有关。</p>
+<p><img src="http://ww2.sinaimg.cn/large/c15a9505gw1fb7zns673ej210e0240t1.jpg" alt="内容区域"></p>
+<ul>
+<li>内联盒子（inline boxes）</li>
+</ul>
+<p>让内容排成一排显示，包含inline属性的都是，如果只是文字属于匿名内联盒子</p>
+<p><img src="http://ww4.sinaimg.cn/large/c15a9505gw1fb7ztmap7ij210h02egm7.jpg" alt="内联盒子"></p>
+<ul>
+<li>行框盒子（line boxes）</li>
+</ul>
+<p>每一行都是行框盒子，每个行框盒子都是由一个个内联盒子组成</p>
+<p><img src="http://ww4.sinaimg.cn/large/c15a9505gw1fb7zwz3lixj210d02cgm1.jpg" alt="行框盒子"></p>
+<ul>
+<li>包含盒子（containing box）</li>
+</ul>
+<p>由一行行行框盒子组成</p>
+<p><img src="http://ww3.sinaimg.cn/large/c15a9505gw1fb7zze6n4fj20zj02ewf1.jpg" alt="包含盒子"></p>
+<p>包含盒子包含行框盒子，行框盒子包含内联盒子</p>
+<h2 id="line-height的机制原理"><a href="#line-height的机制原理" class="headerlink" title="line-height的机制原理"></a>line-height的机制原理</h2><p>有一个空的div，如果没有设置至少大于1像素高度height值时，该div的高度就是个0。如果该div里面打入了一个空格或是文字，则此div就会有一个高度。</p>
+<p>这是个看上去很简单的问题，是理解line-height非常重要的一个问题。可能有人会跟认为是：文字撑开的！文字占据空间，自然将div撑开。我一开始也是这样理解的，但是事实上根本不是文字撑开了div的高度，而是line-height！</p>
+<p>高度的表现不是行高，而是内容区域和行间距之和。</p>
+<p><img src="http://ww4.sinaimg.cn/large/c15a9505gw1fb8069zl1zj20st06e74y.jpg" alt="line"><br><img src="http://ww4.sinaimg.cn/large/c15a9505gw1fb807s4k58j212t0h3jug.jpg" alt="line"><br><img src="http://ww2.sinaimg.cn/large/c15a9505gw1fb80eqerrqj214b0ljwi7.jpg" alt="line"><br><img src="http://ww3.sinaimg.cn/large/c15a9505gw1fb80ezl5p8j214e0li0wc.jpg" alt="line"><br><img src="http://ww2.sinaimg.cn/large/c15a9505gw1fb80fkfktlj214a0awgnk.jpg" alt="line"></p>
+<p>当行框盒子里有多个不同的行高的内联盒子此时行高？</p>
+<h2 id="使用经验"><a href="#使用经验" class="headerlink" title="使用经验"></a>使用经验</h2><p><img src="http://ob6nlbpso.bkt.clouddn.com/sp161229_222811.png" alt="body"></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2016/12/21/移动端的自适应/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2028,255 +2180,6 @@ var father = new Father(&quot;张三&quot;)
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2016/08/02/DOM编程总结/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="lennonover">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="lennonover">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/08/02/DOM编程总结/" itemprop="url">
-                  DOM编程总结
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-08-02T22:48:59+08:00">
-                2016-08-02
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="节点操作"><a href="#节点操作" class="headerlink" title="节点操作"></a>节点操作</h2><h3 id="获取节点"><a href="#获取节点" class="headerlink" title="获取节点"></a>获取节点</h3><ul>
-<li>父子关系<ul>
-<li>parentNode</li>
-<li>firstChild/lastChild/childNodes</li>
-<li>childNodes/children</li>
-</ul>
-</li>
-<li>兄弟关系<ul>
-<li>previousSibling/nextSibling</li>
-<li>previousElementSibling/nextElementSibling</li>
-</ul>
-</li>
-<li>选择器   <ul>
-<li>element=document.getElementById(id)</li>
-<li>collection=element.getElementByTagName(tarName)<ul>
-<li>collection 是个动态的随着节点改变而改变</li>
-<li>tarName=*代表获取所有</li>
-</ul>
-</li>
-<li>collection=element.getElementByClassName(className)</li>
-<li>list=element.querySelect/All(selector)</li>
-</ul>
-</li>
-<li><p>现代浏览器中内置的可以等效替代jQuery的功能</p>
-<ul>
-<li><p>创建全局的 ‘$’ 变量</p>
-  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">window.$ = function(selector) &#123;   </span><br><span class="line">  return document.querySelector(selector);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-</li>
-</ul>
-<h3 id="创建节点"><a href="#创建节点" class="headerlink" title="创建节点"></a>创建节点</h3><ul>
-<li>element=document.createElement(tagName)</li>
-</ul>
-<h3 id="修改节点"><a href="#修改节点" class="headerlink" title="修改节点"></a>修改节点</h3><ul>
-<li>element.textContent 获取节点以及后面的文本内容</li>
-<li>element.textContent = “修改内容”</li>
-<li>element.innerText 不规范不推荐使用</li>
-</ul>
-<h3 id="插入节点"><a href="#插入节点" class="headerlink" title="插入节点"></a>插入节点</h3><ul>
-<li>element.appendChild(a) 在指定元素后追加a</li>
-<li>element.insertBefore(h,a) 在指定元素h之前添加a</li>
-</ul>
-<h3 id="删除节点"><a href="#删除节点" class="headerlink" title="删除节点"></a>删除节点</h3><ul>
-<li>element.removeChild</li>
-</ul>
-<h3 id="innerHtml"><a href="#innerHtml" class="headerlink" title="innerHtml"></a>innerHtml</h3><ul>
-<li>节点的HTML内容</li>
-</ul>
-<h2 id="设置样式"><a href="#设置样式" class="headerlink" title="设置样式"></a>设置样式</h2><ul>
-<li>element.style.cssText=’color:red;’ 一条语句设置样式</li>
-<li>element.className =’clasname’ 编辑类名一次修改多个样式</li>
-<li>element.style.color 获取颜色样式 不一定是它实际样式 当元素上有设置颜色的才获取到实际的<pre><code>* window.getComputedStyle(element).color 获取到的是实际
-</code></pre></li>
-</ul>
-<h2 id="事件"><a href="#事件" class="headerlink" title="事件"></a>事件</h2><h3 id="事件注册"><a href="#事件注册" class="headerlink" title="事件注册"></a>事件注册</h3><ul>
-<li>elem.addEventListener(type,function,false/true)</li>
-</ul>
-<h3 id="浏览器兼容型事件注册"><a href="#浏览器兼容型事件注册" class="headerlink" title="浏览器兼容型事件注册"></a>浏览器兼容型事件注册</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">function addEvent(element,type,handler)&#123;</span><br><span class="line">  if (element.addEventListener) &#123;</span><br><span class="line">    element.addEventListener(type,handler,false);</span><br><span class="line">  &#125;else if (element.attachEvent) &#123;</span><br><span class="line">    element.attachEvent(&apos;on&apos;+type,handler);</span><br><span class="line">  &#125;else&#123;</span><br><span class="line">    element[&apos;on&apos;+type]=handler;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="取消事件注册"><a href="#取消事件注册" class="headerlink" title="取消事件注册"></a>取消事件注册</h3><ul>
-<li>elem.removeEventListener(type,function,false/true)</li>
-</ul>
-<h3 id="事件触发"><a href="#事件触发" class="headerlink" title="事件触发"></a>事件触发</h3><ul>
-<li>elem.dispatchEvent(type)</li>
-</ul>
-<h3 id="事件对象"><a href="#事件对象" class="headerlink" title="事件对象"></a>事件对象</h3><ul>
-<li><p>属性</p>
-<ul>
-<li>type</li>
-<li><p>target </p>
-  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">//兼容        </span><br><span class="line">var event=e || window.event;         </span><br><span class="line">var target=event.target || event.srcElement;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>currentTarget</p>
-</li>
-</ul>
-</li>
-<li>方法<ul>
-<li>stopPropagation（W3C） 阻止事件传播 cancelBubble（IE低版本）</li>
-<li>preventDefault（W3C） 阻止默认行为  returnValue=false（IE低版本）</li>
-<li>stopImmediatePropagation</li>
-</ul>
-</li>
-</ul>
-<h3 id="事件类型"><a href="#事件类型" class="headerlink" title="事件类型"></a>事件类型</h3><ul>
-<li>Event<ul>
-<li>load</li>
-<li>unload</li>
-<li>error</li>
-<li>select</li>
-<li>abort</li>
-</ul>
-</li>
-<li>UIEvent   //继承自Event<ul>
-<li>resize</li>
-<li>scroll</li>
-</ul>
-</li>
-<li>FocusEvent    //继承自UIevent<ul>
-<li>blur</li>
-<li>focus</li>
-<li>focusin</li>
-<li>focusout</li>
-</ul>
-</li>
-<li>InputEvent    //继承自UIevent<ul>
-<li>beforeinput</li>
-<li>input</li>
-</ul>
-</li>
-<li>KeyboarEvent  //继承自UIevent<ul>
-<li>keydown</li>
-<li>keyup</li>
-</ul>
-</li>
-<li>MouseEvent    //继承自UIevent<ul>
-<li>click</li>
-<li>dbclick</li>
-<li>mousedown</li>
-<li>mouseleave</li>
-<li>mousemove</li>
-<li>mouseout</li>
-<li>mouseup</li>
-</ul>
-</li>
-<li>wheelEvent    //继承自MouseEvent<ul>
-<li>wheel</li>
-</ul>
-</li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2326,7 +2229,7 @@ var father = new Father(&quot;张三&quot;)
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">44</span>
+                <span class="site-state-item-count">45</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>

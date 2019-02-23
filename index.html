@@ -251,6 +251,130 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2019/02/23/JS-Number-安全整数范围/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lennonover">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lennonover">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2019/02/23/JS-Number-安全整数范围/" itemprop="url">
+                  JS Number 安全整数范围
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-02-23T20:21:59+08:00">
+                2019-02-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>在公司海外产品书籍详情页会出现部分页面无法打开问题，查找到是因为异步获取 book id 加载报错导致才发现这个最大元凶的 js 的安全整型范围溢出导致。</p>
+<h2 id="JS-Number-安全整数范围"><a href="#JS-Number-安全整数范围" class="headerlink" title="JS Number 安全整数范围"></a>JS Number 安全整数范围</h2><p>JS 中所有的数字类型，存储都是通过 8 字节 double 浮点型 表示，能够精确表示，使用算数运算的没有很大即：</p>
+<p><code>Math.pow(2, 53) - 1 // 9007199254740991</code></p>
+<p>而我们的超大书封 id 早就大于这个安全范围，所以才会导致加载失败。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2019/02/12/video-自动播放/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1788,152 +1912,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2018/01/15/npm-script/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="lennonover">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="lennonover">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2018/01/15/npm-script/" itemprop="url">
-                  npm script
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-15T23:45:36+08:00">
-                2018-01-15
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>读书少了最近才看到这篇文章 <a href="https://www.keithcirkel.co.uk/why-we-should-stop-using-grunt/" target="_blank" rel="noopener">Why we should stop using Grunt &amp; Gulp</a>。文章中笔者建议大家使用 npm 作为替代方案，绝对要打 call。npm 的 scripts 配置可以更简单的实现这些构建工具的所有功能。确实，npm script 相比 grunt、gulp 之类的构建工具简单很多，它消除了这些构建工具所带来的抽象层，并带给我们更大的自由度。而且随着社区的发展，各种基础工具你都可以信手拈来，只要你会使用 <a href="https://www.npmjs.com/" target="_blank" rel="noopener">npmjs.com</a> 去搜索，或者去 <a href="https://libraries.io/" target="_blank" rel="noopener">libraries.io</a> 上搜索（当然我们公司的工作流还是在农耕火种时代。</p>
-<h2 id="npm-script"><a href="#npm-script" class="headerlink" title="npm script"></a>npm script</h2><p>npm 为我们提供了快速创建 package.json 文件的命令 npm init，执行该命令会问几个基本问题，如包名称、版本号、作者信息、入口文件、仓库地址、许可协议等，多数问题已经提供了默认值。</p>
-<p>npm 允许在 package.json 文件里面，使用 scripts 字段定义脚本命令，而执行它的是 npm 核心命令之一的 npm run-script 命令（简称 npm run ），npm run 就会自动新建一个 Shell 并且可以从 package.json 中解析出 scripts 对象，然后将该对象的键作为 npm run 的第一个参数，它会在操作系统的默认终端中执行该键对应的命令。例如下面的 package.json：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="string">'name'</span>: <span class="string">'hello-npm-script'</span>,</span><br><span class="line">  <span class="string">'version'</span>: <span class="string">'0.1.0'</span>,</span><br><span class="line">  <span class="string">'main'</span>: <span class="string">'index.js'</span>,</span><br><span class="line">  <span class="string">'scripts'</span>: &#123;</span><br><span class="line">    <span class="string">'lint:js'</span>: <span class="string">'eslint *.js'</span>,</span><br><span class="line">    <span class="string">'lint:css'</span>: <span class="string">'stylelint *.less'</span>,</span><br><span class="line">    <span class="string">'test'</span>: <span class="string">'npm run lint:js &amp;&amp; npm run lint:css'</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>如果运行 <code>npm run lint:js</code> ，npm 将在终端中执行 <code>eslint *.js</code>。执行 <code>npm run xxx</code> 时会将 <code>node_modules/.bin</code> 加入终端的 PATH 环境变量中，这样你就可以直接运行那些作为依赖安装的二进制模块，也就是说你不需要 <code>./node_modules/.bin/eslint **.js</code> 或 <code>$(npm bin)/eslint **.js</code> 这样来指定命令的路径。</p>
-<p>如果运行 <code>npm run test</code> 则表示子命令的执行顺序是先 <code>lint:js</code> 后  <code>lint:css</code> 来，实现了多个 npm script 串行执行。</p>
-<p>由于 npm 脚本就是 Shell 脚本，因为可以使用 Shell 通配符 也就是 <code>*</code>。</p>
-<h2 id="钩子"><a href="#钩子" class="headerlink" title="钩子"></a>钩子</h2><p>npm 可以在 scripts 中为任何可执行的命令指定 <code>pre-</code> 和 <code>post-</code> 钩子。例如，当运行 <code>npm run lint:js</code> 时，即便是没有在 scripts 中定义对应的 <code>pre-</code> 命令，npm 也会首先执行 <code>npm run prelint:js</code>，接着才是 <code>npm run lint:js</code>，最后是 <code>npm run postlint:js</code>。</p>
-<h2 id="传递参数"><a href="#传递参数" class="headerlink" title="传递参数"></a>传递参数</h2><p><code>--</code> 是 npm 用来传递参数的，例如 <code>npm run lint:js -- a.js</code> 将运行 <code></code>eslint *.js a.js`</p>
-<h2 id="命令行自动补全"><a href="#命令行自动补全" class="headerlink" title="命令行自动补全"></a>命令行自动补全</h2><ul>
-<li><p>不带任何参数运行 npm run 能列出 scripts 对象中定义的所有命令，，再结合管道操作符、less 命令（ less 是 linux 里面的工具）</p>
-</li>
-<li><p>npm 自身也提供了自动完成工具 <a href="https://docs.npmjs.com/cli/completion" target="_blank" rel="noopener">completion</a></p>
-</li>
-</ul>
-<h2 id="跨平台运行"><a href="#跨平台运行" class="headerlink" title="跨平台运行"></a>跨平台运行</h2><ul>
-<li><p>使用 <a href="http://www.yolinux.com/TUTORIALS/unix_for_dos_users.html" target="_blank" rel="noopener">跨平台的命令</a></p>
-</li>
-<li><p>使用 node packages 。可以使用 node packages 来取代 shell 命令。</p>
-</li>
-</ul>
-<h2 id="痛点"><a href="#痛点" class="headerlink" title="痛点"></a>痛点</h2><p>  因为 JSON 规范不支持添加注释，所以不能在 package.json 里添加注释。</p>
-<h2 id="常用脚本"><a href="#常用脚本" class="headerlink" title="常用脚本"></a>常用脚本</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 删除目录</span></span><br><span class="line"><span class="string">"clean"</span>: <span class="string">"rimraf dist/*"</span>,</span><br><span class="line"></span><br><span class="line"><span class="comment">// 本地搭建一个 HTTP 服务</span></span><br><span class="line"><span class="string">"serve"</span>: <span class="string">"http-server -p 9090 dist/"</span>,</span><br><span class="line"></span><br><span class="line"><span class="comment">// 打开浏览器</span></span><br><span class="line"><span class="string">"open:dev"</span>: <span class="string">"opener http://localhost:9090"</span>,</span><br><span class="line"></span><br><span class="line"><span class="comment">// 实时刷新</span></span><br><span class="line"> <span class="string">"livereload"</span>: <span class="string">"live-reload --port 9091 dist/"</span>,</span><br><span class="line"></span><br><span class="line"><span class="comment">// 构建 HTML 文件</span></span><br><span class="line"><span class="string">"build:html"</span>: <span class="string">"jade index.jade &gt; dist/index.html"</span>,</span><br><span class="line"></span><br><span class="line"><span class="comment">// 只要 CSS 文件有变动，就重新执行构建</span></span><br><span class="line"><span class="string">"watch:css"</span>: <span class="string">"watch 'npm run build:css' assets/styles/"</span>,</span><br><span class="line"></span><br><span class="line"><span class="comment">// 只要 HTML 文件有变动，就重新执行构建</span></span><br><span class="line"><span class="string">"watch:html"</span>: <span class="string">"watch 'npm run build:html' assets/html"</span>,</span><br><span class="line"></span><br><span class="line"><span class="comment">// 部署到 Amazon S3</span></span><br><span class="line"><span class="string">"deploy:prod"</span>: <span class="string">"s3-cli sync ./dist/ s3://example-com/prod-site/"</span>,</span><br><span class="line"></span><br><span class="line"><span class="comment">// 构建 favicon</span></span><br><span class="line"><span class="string">"build:favicon"</span>: <span class="string">"node scripts/favicon.js"</span>,</span><br></pre></td></tr></table></figure>
-<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
-<li><a href="http://www.ruanyifeng.com/blog/2016/10/npm_scripts.html" target="_blank" rel="noopener">npm scripts 使用指南</a></li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1983,7 +1961,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">44</span>
+                <span class="site-state-item-count">45</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
