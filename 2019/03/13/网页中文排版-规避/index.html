@@ -71,7 +71,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="原型," />
+  <meta name="keywords" content="Hexo, NexT" />
 
 
 
@@ -87,18 +87,20 @@
 
 
 
-<meta name="description" content="继承一种减少重复性代码的一种设计模式，尽量弱化对象间耦合。在学习JS中继承过程中，遇到坑比较多，抽点时间记录下。由于javascript的语言特性，它的继承也被分为了3中实现方式。 对象创建说道继承先来看看对象的创建 //第一种，手动创建 var a={&amp;apos;name&amp;apos;:&amp;apos;hahaha&amp;apos;};    //第二种，构造函数 function A(){     thi">
-<meta name="keywords" content="原型">
+<meta name="description" content="一个小 bug 从上图可以看书逗号没有规避在行首，在我影响中文排版会有避头尾的规则不应该出现。为了确保准确性我们再来翻一遍 unicode 断行算法 Unicode 规范不仅是给字符安放了码位、制定了编码规则，还制定了大量与文字编码相关的规范并收在附件内，是规范不可缺少的组合部分。。  LB13 Do not break before ‘]’ or ‘!’ or ‘;’ or ‘/’, even">
 <meta property="og:type" content="article">
-<meta property="og:title" content="JS继承">
-<meta property="og:url" content="https://github.com/lennonover/2016/08/29/JS继承/index.html">
+<meta property="og:title" content="网页中文排版-持避头尾">
+<meta property="og:url" content="https://github.com/lennonover/2019/03/13/网页中文排版-规避/index.html">
 <meta property="og:site_name" content="lennonover">
-<meta property="og:description" content="继承一种减少重复性代码的一种设计模式，尽量弱化对象间耦合。在学习JS中继承过程中，遇到坑比较多，抽点时间记录下。由于javascript的语言特性，它的继承也被分为了3中实现方式。 对象创建说道继承先来看看对象的创建 //第一种，手动创建 var a={&amp;apos;name&amp;apos;:&amp;apos;hahaha&amp;apos;};    //第二种，构造函数 function A(){     thi">
+<meta property="og:description" content="一个小 bug 从上图可以看书逗号没有规避在行首，在我影响中文排版会有避头尾的规则不应该出现。为了确保准确性我们再来翻一遍 unicode 断行算法 Unicode 规范不仅是给字符安放了码位、制定了编码规则，还制定了大量与文字编码相关的规范并收在附件内，是规范不可缺少的组合部分。。  LB13 Do not break before ‘]’ or ‘!’ or ‘;’ or ‘/’, even">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2016-11-27T14:41:11.642Z">
+<meta property="og:image" content="https://i.loli.net/2019/03/08/5c820e8990eab.png">
+<meta property="og:image" content="https://i.loli.net/2019/03/08/5c8229b6d929c.png">
+<meta property="og:updated_time" content="2019-03-13T14:01:26.821Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="JS继承">
-<meta name="twitter:description" content="继承一种减少重复性代码的一种设计模式，尽量弱化对象间耦合。在学习JS中继承过程中，遇到坑比较多，抽点时间记录下。由于javascript的语言特性，它的继承也被分为了3中实现方式。 对象创建说道继承先来看看对象的创建 //第一种，手动创建 var a={&amp;apos;name&amp;apos;:&amp;apos;hahaha&amp;apos;};    //第二种，构造函数 function A(){     thi">
+<meta name="twitter:title" content="网页中文排版-持避头尾">
+<meta name="twitter:description" content="一个小 bug 从上图可以看书逗号没有规避在行首，在我影响中文排版会有避头尾的规则不应该出现。为了确保准确性我们再来翻一遍 unicode 断行算法 Unicode 规范不仅是给字符安放了码位、制定了编码规则，还制定了大量与文字编码相关的规范并收在附件内，是规范不可缺少的组合部分。。  LB13 Do not break before ‘]’ or ‘!’ or ‘;’ or ‘/’, even">
+<meta name="twitter:image" content="https://i.loli.net/2019/03/08/5c820e8990eab.png">
 
 
 
@@ -126,13 +128,13 @@
 
 
 
-  <link rel="canonical" href="https://github.com/lennonover/2016/08/29/JS继承/"/>
+  <link rel="canonical" href="https://github.com/lennonover/2019/03/13/网页中文排版-规避/"/>
 
 
 
 
 
-  <title> JS继承 | lennonover </title>
+  <title> 网页中文排版-持避头尾 | lennonover </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -251,7 +253,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2016/08/29/JS继承/">
+    <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2019/03/13/网页中文排版-规避/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="lennonover">
@@ -272,7 +274,7 @@
             
             
               
-                JS继承
+                网页中文排版-持避头尾
               
             
           </h1>
@@ -287,8 +289,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-08-29T22:59:32+08:00">
-                2016-08-29
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-13T22:01:06+08:00">
+                2019-03-13
               </time>
             
 
@@ -323,75 +325,23 @@
       
 
       
-        <h1 id="继承"><a href="#继承" class="headerlink" title="继承"></a>继承</h1><p>一种减少重复性代码的一种设计模式，尽量弱化对象间耦合。在学习JS中继承过程中，遇到坑比较多，抽点时间记录下。由于javascript的语言特性，它的继承也被分为了3中实现方式。</p>
-<h2 id="对象创建"><a href="#对象创建" class="headerlink" title="对象创建"></a>对象创建</h2><p>说道继承先来看看对象的创建</p>
-<pre><code>//第一种，手动创建
-var a={&apos;name&apos;:&apos;hahaha&apos;};   
-//第二种，构造函数
-function A(){
-    this.name=&apos;hahaha&apos;;
-}
-var a=new A();
-//第三种，class (ES6标准写法)
-class A{
-    constructor(){
-        super();
-        this.name=&apos;hahaha&apos;;
-    }
-}
-var a=new A()
-//其实后面两种方法本质上是一种写法
-</code></pre><p>这三种写法创建的对象的原型（父对象）都是Object,需要提到的是，ES6通过引入class ,extends等关键字，以一种语法糖的形式把构造函数包装成类的概念，更便于大家理解。是希望开发者不再花精力去关注原型以及原型链，也充分说明原型的设计意图和类是一样的。</p>
-<h2 id="构造函数继承"><a href="#构造函数继承" class="headerlink" title="构造函数继承"></a>构造函数继承</h2><p>在子类型构造函数的内部调用超类构造函数，通过使用call()和apply()方法可以在新创建的对象上执行构造函数。</p>
-<pre><code>function Father(name){
-    this.name =name;
-    this.age=5;
-}
-function Children(name){
-    Father.call(this,name);
-}
-let jc = new Children(&quot;jicheng&quot;);
-let jc2 = new Children(&quot;jicheng2&quot;);
-jc2.age = 10;
-console.log(jc.name + jc.age);  //jicheng 5
-console.log(jc2.name + jc2.age);  //jicheng2 10
-</code></pre><p>当我们new这个构造函数的时候，就会生成一个Children对象的实例。<br>但是通过上面的例子你会发现用构造函数生成实例对象，它有一个缺点，那就是无法共享属性和方法，没有涉及到原型。<br>因为这两个对象的age属性是独立的，修改其中一个，不会影响到另一个。<br>这样做的坏处就是会造成资源浪费，那么我们要如何来解决这件事呢，那就需要prototype出场了。</p>
-<h2 id="组合继承"><a href="#组合继承" class="headerlink" title="组合继承"></a>组合继承</h2><p>就是融合了原型和构造器的一种继承方法。 这个应该算是一种比较稳妥的继承方式.即能排除引用类型造成的问题，又可以实现共享的效果。</p>
-<pre><code>function Father(name){
-    this.name =name;
-}
-Father.prototype.age=5;
-function Children(name){
-    Father.call(this,name);
-}
-Children.prototype = new Father();
-Children.prototype.constructor = Children;
-let jc = new Children(&quot;jicheng&quot;);
-let jc2 = new Children(&quot;jicheng2&quot;);
-Father.prototype.age = 10;
-console.log(jc.name + jc.age);  //jicheng 10
-console.log(jc2.name + jc2.age);  //jicheng2 10
-</code></pre><p>age属性放在prototype对象里，是两个实例对象共享的。只要修改了prototype对象，就会同时影响到两个实例对象。<br>这样会两次调用到父类型，对内存影响还是比较大的。但是es6 class  的出现，解决了这一问题。</p>
-<h2 id="class"><a href="#class" class="headerlink" title="class"></a>class</h2><p>在使用class的使用，你完全可以不去写，constructor, prototype之类的东西了</p>
-<pre><code>//原生继承方式   
-function Father(name){
-    this.name =name;
-}
-Father.prototype.age=function(){
-    return &quot;4&quot;
-};
-var father = new Father(&quot;张三&quot;)
-//使用class
-class Father(){
-    constructor(name){
-        this.name = name;
-    }
-    age(){
-        return &quot;4&quot;
-    }
-}
-var father = new Father(&quot;张三&quot;)
-</code></pre>
+        <h2 id="一个小-bug"><a href="#一个小-bug" class="headerlink" title="一个小 bug"></a>一个小 bug</h2><p><a href="https://i.loli.net/2019/03/08/5c820e8990eab.png" target="_blank" rel="noopener"><img src="https://i.loli.net/2019/03/08/5c820e8990eab.png" alt="企业微信20190308023948-min.png"></a></p>
+<p>从上图可以看书逗号没有规避在行首，在我影响中文排版会有避头尾的规则不应该出现。为了确保准确性我们再来翻一遍 <a href="http://unicode.org/reports/tr14/" target="_blank" rel="noopener">unicode 断行算法</a> Unicode 规范不仅是给字符安放了码位、制定了编码规则，还制定了大量与文字编码相关的规范并收在附件内，是规范不可缺少的组合部分。。</p>
+<blockquote>
+<p>LB13 Do not break before ‘]’ or ‘!’ or ‘;’ or ‘/’, even after spaces.<br>LB19 Do not break before or after quotation marks, such as ‘ ” ’.<br>LB21 Do not break before hyphen-minus, other hyphens, fixed-width spaces, small kana, and other non-starters, or after acute accents.<br>LB22 Do not break between two ellipses, or between letters, numbers or exclamations and ellipsis.</p>
+</blockquote>
+<p>翻译下也就是</p>
+<ul>
+<li>LB13<br>在 ‘]’、‘!’、‘;’、‘/’ 之前不能断行，即使这些字符跟在空格后面。因此，此规则实质上此条规定了分隔号（/）需要避头；</li>
+<li>LB19<br>引号的前、后均不能断行。也就是说常用的蝌蚪引号（“ ”）默认是既要避头也要避尾。</li>
+<li>LB21<br>在连字符、其他连字符、定宽空格、小写假名等字符前面不能断行，中文的连接号避头。</li>
+<li>LB22<br>两个省略号之间，以及字母数字叹号与省略号之间不能断行。也就是说，省略号不仅不能中间断开，而且要避头。</li>
+</ul>
+<p>那为什么会出现前面那个 bug ， 原来是同事使用了 word-break:break-all；</p>
+<h2 id="word-break-break-all"><a href="#word-break-break-all" class="headerlink" title="word-break:break-all"></a>word-break:break-all</h2><p>这个属性会把单词强制断开，为了实现中日韩排版里偶尔需要牺牲西文连字而定制的，不能保证中文的避头尾的正常使用。</p>
+<h2 id="word-wrap-break-word"><a href="#word-wrap-break-word" class="headerlink" title="word-wrap:break-word"></a>word-wrap:break-word</h2><p>CSS3 也已经明确要将 word-wrap 改为 overflow-wrap 。<br>这个属性会把单词断开，而且会尽可能地保持避头尾，也尽可能避免中途断开，例如解决超长网址。</p>
+<p><a href="https://i.loli.net/2019/03/08/5c8229b6d929c.png" target="_blank" rel="noopener"><img src="https://i.loli.net/2019/03/08/5c8229b6d929c.png" alt="企业微信20190308042958.png"></a></p>
+
       
     </div>
 
@@ -418,12 +368,6 @@ var father = new Father(&quot;张三&quot;)
 
     <footer class="post-footer">
       
-        <div class="post-tags">
-          
-            <a href="/tags/原型/" rel="tag"># 原型</a>
-          
-        </div>
-      
 
       
         
@@ -433,8 +377,8 @@ var father = new Father(&quot;张三&quot;)
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/08/02/DOM编程总结/" rel="next" title="DOM编程总结">
-                <i class="fa fa-chevron-left"></i> DOM编程总结
+              <a href="/2019/03/08/网页中文排版-标点悬挂/" rel="next" title="网页中文排版-标点悬挂">
+                <i class="fa fa-chevron-left"></i> 网页中文排版-标点悬挂
               </a>
             
           </div>
@@ -442,10 +386,6 @@ var father = new Father(&quot;张三&quot;)
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/09/13/编码规范/" rel="prev" title="编码规范">
-                编码规范 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -565,7 +505,7 @@ var father = new Father(&quot;张三&quot;)
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#继承"><span class="nav-number">1.</span> <span class="nav-text">继承</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#对象创建"><span class="nav-number">1.1.</span> <span class="nav-text">对象创建</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#构造函数继承"><span class="nav-number">1.2.</span> <span class="nav-text">构造函数继承</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#组合继承"><span class="nav-number">1.3.</span> <span class="nav-text">组合继承</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#class"><span class="nav-number">1.4.</span> <span class="nav-text">class</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一个小-bug"><span class="nav-number">1.</span> <span class="nav-text">一个小 bug</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#word-break-break-all"><span class="nav-number">2.</span> <span class="nav-text">word-break:break-all</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#word-wrap-break-word"><span class="nav-number">3.</span> <span class="nav-text">word-wrap:break-word</span></a></li></ol></div>
             
 
           </div>
