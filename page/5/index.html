@@ -251,6 +251,135 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2016/09/19/关于前后端开发模思考/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lennonover">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lennonover">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/09/19/关于前后端开发模思考/" itemprop="url">
+                  对于前后端开发模式一点点思考
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-09-19T22:41:51+08:00">
+                2016-09-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="问题的起因"><a href="#问题的起因" class="headerlink" title="问题的起因"></a>问题的起因</h2><p>很多东西真的是用起来才会发现问题，问题是前两天交互需要改一个业务，另个部门A同事发我让我去修改，这页面静态确实是我写的，我也抽时间把它写好重新发给A同事。</p>
+<h2 id="现状"><a href="#现状" class="headerlink" title="现状"></a>现状</h2><p>我们公司目前的开发模式是：交互根据PM出高保真，视觉出视觉稿、切图，然后交给前端出静态，最后交给另一个部门同事把它转换成服务端模板。</p>
+<p>这样问题就来了当出现上述交互要改业务的情况，A同事改不了只能发回前端改，如果A把他已经搞成服务端模板的代码返回给前端，前端没环境也没法下手，只能去改以前的静态，改好后重新发给A，这时候A又麻烦了，他要对比两次修改的部分，把自己前一阵的修改合并进去。这样开发效率会慢很多。</p>
+<h2 id="基于NodeJS的全栈式开发"><a href="#基于NodeJS的全栈式开发" class="headerlink" title="基于NodeJS的全栈式开发"></a>基于NodeJS的全栈式开发</h2><p>这是2014年杭JS，淘宝赫门做的分享（那时候我还在玩泥巴o(╯□╰)o），特意去找了当年的文档，中途岛(Midway Framework)的架构，淘宝的前端团队真的很厉害。</p>
+<p><img src="http://ob6nlbpso.bkt.clouddn.com/T1xW8OFrXkXXXK71TW-590-611.png" alt="Alt text"></p>
+<p>多加了一层中间层。<br>前后端共享模板，前端来决定某个模板是服务端渲染还是客户端渲染，当首屏的时候，就在服务器渲染，次屏和局部刷新的时候，就在浏览器端渲染展示。<br>加入NodeJs还有很多好处，比如NodeJs的高并发特性，请求合并等。同时使用nodeJs做桥梁，前端可以自己决定获取什么格式的数据。</p>
+<p><img src="http://ob6nlbpso.bkt.clouddn.com/sp160926_225215.png" alt="Alt text"></p>
+<p>这样还分清了职责</p>
+<h2 id="我们该怎么做"><a href="#我们该怎么做" class="headerlink" title="我们该怎么做"></a>我们该怎么做</h2><p>在公司产品的角度，觉得我们公司并不需要。其实适合自己就好，没必要占领中间层。相对来说我们公司的前端比较弱，产品线又横向发展并没太深入的产品，分离的还是业务逻辑JS该谁写，把这些都应该交给前端前，端负责展现交互逻辑，去掉A那部分，后端专注于数据接口就好，对于接口接口风格是面向业务 还是面相页面有待统一。这样必然导致前端人员工作量的增加，和水平的相应自我提升。对于数据Mock，可以采用RAP之类接口自动化工具。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2016/09/13/编码规范/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1650,7 +1779,7 @@ var father = new Father(&quot;张三&quot;)
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">47</span>
+                <span class="site-state-item-count">48</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
