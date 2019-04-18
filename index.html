@@ -328,13 +328,29 @@
       
         
           
-            <h2 id="头部及中间输入框处于正常的文档流，底部元素-fixed-bottom；头部处于正常的文档流，输入框脱离文档流，底部元素-fixed-bottom。"><a href="#头部及中间输入框处于正常的文档流，底部元素-fixed-bottom；头部处于正常的文档流，输入框脱离文档流，底部元素-fixed-bottom。" class="headerlink" title="头部及中间输入框处于正常的文档流，底部元素 fixed bottom；头部处于正常的文档流，输入框脱离文档流，底部元素 fixed bottom。"></a>头部及中间输入框处于正常的文档流，底部元素 fixed bottom；头部处于正常的文档流，输入框脱离文档流，底部元素 fixed bottom。</h2><ul>
-<li><p>ios (12.1.4)</p>
+            <h2 id="键盘弹出的表现"><a href="#键盘弹出的表现" class="headerlink" title="键盘弹出的表现"></a>键盘弹出的表现</h2><h3 id="头部及中间输入框处于正常的文档流，底部元素-fixed-bottom；头部处于正常的文档流，输入框脱离文档流，底部元素-fixed-bottom。"><a href="#头部及中间输入框处于正常的文档流，底部元素-fixed-bottom；头部处于正常的文档流，输入框脱离文档流，底部元素-fixed-bottom。" class="headerlink" title="头部及中间输入框处于正常的文档流，底部元素 fixed bottom；头部处于正常的文档流，输入框脱离文档流，底部元素 fixed bottom。"></a>头部及中间输入框处于正常的文档流，底部元素 fixed bottom；头部处于正常的文档流，输入框脱离文档流，底部元素 fixed bottom。</h3><ul>
+<li>IOS(12.1.4)<br><img src="https://i.loli.net/2019/04/18/5cb80cab381f8.jpg" alt="ios1.jpg"></li>
+<li>Android(8.0)<br><img src="https://i.loli.net/2019/04/18/5cb80ce34572c.jpg" alt="android1.jpg"></li>
+</ul>
+<p>IOS 页面高度始终不变，页面可以滚动，底部元素被遮挡，基线不变；<br>Android 页面高度减少，页面可以滚动，fixed 元素的 bottom 属性的基线为键盘；</p>
+<h2 id="键盘事件"><a href="#键盘事件" class="headerlink" title="键盘事件"></a>键盘事件</h2><h3 id="键盘弹出"><a href="#键盘弹出" class="headerlink" title="键盘弹出"></a>键盘弹出</h3><ul>
+<li><p>IOS(12.1.4)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// 监听输入框的 focus 事件</span><br><span class="line">const input = document.getElementById(&apos;input&apos;);</span><br><span class="line">input.addEventListener(&apos;focus&apos;, () =&gt; &#123;</span><br><span class="line">	console.log(&quot;弹出&quot;)</span><br><span class="line">&#125;, false);</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>Android (8.0)</p>
+<li><p>Android(8.0)</p>
 </li>
 </ul>
-<p>IOS 页面高度始终不变，页面可以滚动，底部元素被遮挡（如果在页面底部吊起输入框，输入框会被键盘挡住），基线不变；<br>Android 页面高度减少，页面可以滚动，fixed 元素的 bottom 属性的基线为键盘；</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">// 监听输入框的 focus 事件</span><br><span class="line">const input = document.getElementById(&apos;input&apos;);</span><br><span class="line">input.addEventListener(&apos;focus&apos;, () =&gt; &#123;</span><br><span class="line">	console.log(&quot;弹出&quot;)</span><br><span class="line">&#125;, false);</span><br><span class="line"></span><br><span class="line">// 监听 webview height 的变化</span><br><span class="line">const originHeight = document.documentElement.clientHeight || document.body.clientHeight;</span><br><span class="line">window.addEventListener(&apos;resize&apos;, () =&gt; &#123;</span><br><span class="line">	const resizeHeight = document.documentElement.clientHeight ||   document.body.clientHeight;</span><br><span class="line">	if (resizeHeight &gt;= originHeight) &#123;</span><br><span class="line">       console.log(&quot;弹出&quot;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;, false);</span><br></pre></td></tr></table></figure>
+<h3 id="键盘收起"><a href="#键盘收起" class="headerlink" title="键盘收起"></a>键盘收起</h3><ul>
+<li><p>IOS(12.1.4)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// 监听输入框的 blur 事件</span><br><span class="line">const input = document.getElementById(&apos;input&apos;);</span><br><span class="line">input.addEventListener(&apos;blur&apos;, () =&gt; &#123;</span><br><span class="line">	console.log(&quot;收起&quot;)</span><br><span class="line">&#125;, false);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Android(8.0)</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">// 监听 webview height 的变化</span><br><span class="line">const originHeight = document.documentElement.clientHeight || document.body.clientHeight;</span><br><span class="line">window.addEventListener(&apos;resize&apos;, () =&gt; &#123;</span><br><span class="line">	const resizeHeight = document.documentElement.clientHeight || document.body.clientHeight;</span><br><span class="line">	if (resizeHeight &lt; originHeight) &#123;</span><br><span class="line">		console.log(&quot;收起&quot;)</span><br><span class="line">	&#125; </span><br><span class="line">&#125;, false);</span><br></pre></td></tr></table></figure>
+<p><img src="https://i.loli.net/2019/04/18/5cb80d075d003.jpg" alt="ios2.jpg"><br><img src="https://i.loli.net/2019/04/18/5cb80d0806c7d.jpg" alt="android2.jpg"></p>
+<h2 id="其他已知的一些问题"><a href="#其他已知的一些问题" class="headerlink" title="其他已知的一些问题"></a>其他已知的一些问题</h2><p>在上文键盘事件 IOS 测试中有个很明显的差别是页面头部的 <code>起点读书</code> 不见了，见下图：<br><img src="https://i.loli.net/2019/04/18/5cb80d2682bea.jpg" alt="jianpan.jpg"><br>从上图可以发现，当聚焦 <code>input</code> 输入框时候 ios 版本会被整体上推而且键盘收起试并不会恢复具体事例可以查看 <a href="https://yuewen.lexiangla.com/teams/yued/docs/1d100cf03e7011e9af285254002ec14d?company_from=yuewen" target="_blank" rel="noopener">运领这篇</a>，也给出了相关解决方案用 JS 记住位移收起时恢复。</p>
 
           
         
