@@ -94,7 +94,7 @@
 <meta property="og:site_name" content="lennonover">
 <meta property="og:description" content="bind函数的实现 bind() 函数会创建一个新函数（称为绑定函数），新函数与被调函数（绑定函数的目标函数）具有相同的函数体（在 ECMAScript 5 规范中内置的call属性）。当目标函数被调用时 this 值绑定到 bind() 的第一个参数，该参数不能被重写。绑定函数被调用时，bind() 也接受预设的参数提供给原函数。一个绑定函数也能使用new操作符创建对象：这种行为就像把原函数当成">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-05-04T11:59:38.097Z">
+<meta property="og:updated_time" content="2019-06-08T10:16:44.974Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="ES5 bing 的实现">
 <meta name="twitter:description" content="bind函数的实现 bind() 函数会创建一个新函数（称为绑定函数），新函数与被调函数（绑定函数的目标函数）具有相同的函数体（在 ECMAScript 5 规范中内置的call属性）。当目标函数被调用时 this 值绑定到 bind() 的第一个参数，该参数不能被重写。绑定函数被调用时，bind() 也接受预设的参数提供给原函数。一个绑定函数也能使用new操作符创建对象：这种行为就像把原函数当成">
@@ -332,7 +332,7 @@
 <li>新函数也能使用new操作符创建对象，构造器为原函数</li>
 </ul>
 <h2 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h2><ul>
-<li>返回新函数，很简单，return一个包裹着旧函数调用的新函数</li>
+<li>返回新函数，很简单，return一个包裹着旧函数调用的新函数 .</li>
 </ul>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">bind</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> t = <span class="keyword">this</span></span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> t()</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <ul>
@@ -345,7 +345,7 @@
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">bind</span> (<span class="params">that</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> t = <span class="keyword">this</span></span><br><span class="line">  <span class="keyword">var</span> bindArgs = <span class="built_in">Array</span>.prototype.slice.call(<span class="built_in">arguments</span>, <span class="number">1</span>)</span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> callArgs = <span class="built_in">Array</span>.prototype.slice.call(<span class="built_in">arguments</span>)</span><br><span class="line">    <span class="keyword">return</span> t.apply(that, bindArgs.concat(callArgs))</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>这里的 Array.prototype.slice.apply(arguments) 指的是这个返回函数执行的时候传递的一系列参数，所以是从第一个参数开始 [0] ,之前的 args = slice.apply(arguments,1) 指的是 bind 方法执行时候传递的参数，所以从第二个开始 [1]，两则有本质区别，不能搞混，只有两者合并了之后才是返回函数的完整参数</p>
 <ul>
-<li>最后要达成的目标是在使用new操作符时，旧函数能作为构造器被调用。</li>
+<li>最后要达成的目标是在使用 new 操作符时，旧函数能作为构造器被调用。</li>
 </ul>
 <p>函数被 new 实例化之后，需要继承原函数的原型链方法，且绑定过程中提供的 this 被忽略（继承原函数的 this 对象），但是参数还是会使用。这里就需要一个中转函数把原型链传递下去,我们需要看看 new 这个方法做了哪些操作 比如说 var a = new b()。</p>
 <ul>
@@ -476,7 +476,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">48</span>
+                <span class="site-state-item-count">49</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>

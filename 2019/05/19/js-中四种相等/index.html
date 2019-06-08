@@ -71,7 +71,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="原型," />
+  <meta name="keywords" content="Hexo, NexT" />
 
 
 
@@ -87,18 +87,17 @@
 
 
 
-<meta name="description" content="继承一种减少重复性代码的一种设计模式，尽量弱化对象间耦合。在学习JS中继承过程中，遇到坑比较多，抽点时间记录下。由于javascript的语言特性，它的继承也被分为了3中实现方式。 对象创建说道继承先来看看对象的创建 //第一种，手动创建 var a={&amp;apos;name&amp;apos;:&amp;apos;hahaha&amp;apos;};    //第二种，构造函数 function A(){     thi">
-<meta name="keywords" content="原型">
+<meta name="description" content="在ES2015中有四种相等算法 ecma规范定义算法规则7.2.10 SameValue7.2.11 SameValueZero7.2.12 SameValueNonNumber即术语同值、同值零、同值非零   抽象相等 == 严格相等 ===，用于 Array.prototype.indexOf Array.prototype.lastIndexOf   同值零(SameValueZero)，用">
 <meta property="og:type" content="article">
-<meta property="og:title" content="JS继承">
-<meta property="og:url" content="https://github.com/lennonover/2016/08/29/JS继承/index.html">
+<meta property="og:title" content="js 中四种相等">
+<meta property="og:url" content="https://github.com/lennonover/2019/05/19/js-中四种相等/index.html">
 <meta property="og:site_name" content="lennonover">
-<meta property="og:description" content="继承一种减少重复性代码的一种设计模式，尽量弱化对象间耦合。在学习JS中继承过程中，遇到坑比较多，抽点时间记录下。由于javascript的语言特性，它的继承也被分为了3中实现方式。 对象创建说道继承先来看看对象的创建 //第一种，手动创建 var a={&amp;apos;name&amp;apos;:&amp;apos;hahaha&amp;apos;};    //第二种，构造函数 function A(){     thi">
+<meta property="og:description" content="在ES2015中有四种相等算法 ecma规范定义算法规则7.2.10 SameValue7.2.11 SameValueZero7.2.12 SameValueNonNumber即术语同值、同值零、同值非零   抽象相等 == 严格相等 ===，用于 Array.prototype.indexOf Array.prototype.lastIndexOf   同值零(SameValueZero)，用">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2016-11-27T14:41:11.642Z">
+<meta property="og:updated_time" content="2019-05-19T09:45:57.176Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="JS继承">
-<meta name="twitter:description" content="继承一种减少重复性代码的一种设计模式，尽量弱化对象间耦合。在学习JS中继承过程中，遇到坑比较多，抽点时间记录下。由于javascript的语言特性，它的继承也被分为了3中实现方式。 对象创建说道继承先来看看对象的创建 //第一种，手动创建 var a={&amp;apos;name&amp;apos;:&amp;apos;hahaha&amp;apos;};    //第二种，构造函数 function A(){     thi">
+<meta name="twitter:title" content="js 中四种相等">
+<meta name="twitter:description" content="在ES2015中有四种相等算法 ecma规范定义算法规则7.2.10 SameValue7.2.11 SameValueZero7.2.12 SameValueNonNumber即术语同值、同值零、同值非零   抽象相等 == 严格相等 ===，用于 Array.prototype.indexOf Array.prototype.lastIndexOf   同值零(SameValueZero)，用">
 
 
 
@@ -126,13 +125,13 @@
 
 
 
-  <link rel="canonical" href="https://github.com/lennonover/2016/08/29/JS继承/"/>
+  <link rel="canonical" href="https://github.com/lennonover/2019/05/19/js-中四种相等/"/>
 
 
 
 
 
-  <title> JS继承 | lennonover </title>
+  <title> js 中四种相等 | lennonover </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -251,7 +250,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2016/08/29/JS继承/">
+    <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2019/05/19/js-中四种相等/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="lennonover">
@@ -272,7 +271,7 @@
             
             
               
-                JS继承
+                js 中四种相等
               
             
           </h1>
@@ -287,8 +286,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-08-29T22:59:32+08:00">
-                2016-08-29
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-05-19T17:38:30+08:00">
+                2019-05-19
               </time>
             
 
@@ -323,75 +322,71 @@
       
 
       
-        <h1 id="继承"><a href="#继承" class="headerlink" title="继承"></a>继承</h1><p>一种减少重复性代码的一种设计模式，尽量弱化对象间耦合。在学习JS中继承过程中，遇到坑比较多，抽点时间记录下。由于javascript的语言特性，它的继承也被分为了3中实现方式。</p>
-<h2 id="对象创建"><a href="#对象创建" class="headerlink" title="对象创建"></a>对象创建</h2><p>说道继承先来看看对象的创建</p>
-<pre><code>//第一种，手动创建
-var a={&apos;name&apos;:&apos;hahaha&apos;};   
-//第二种，构造函数
-function A(){
-    this.name=&apos;hahaha&apos;;
-}
-var a=new A();
-//第三种，class (ES6标准写法)
-class A{
-    constructor(){
-        super();
-        this.name=&apos;hahaha&apos;;
-    }
-}
-var a=new A()
-//其实后面两种方法本质上是一种写法
-</code></pre><p>这三种写法创建的对象的原型（父对象）都是Object,需要提到的是，ES6通过引入class ,extends等关键字，以一种语法糖的形式把构造函数包装成类的概念，更便于大家理解。是希望开发者不再花精力去关注原型以及原型链，也充分说明原型的设计意图和类是一样的。</p>
-<h2 id="构造函数继承"><a href="#构造函数继承" class="headerlink" title="构造函数继承"></a>构造函数继承</h2><p>在子类型构造函数的内部调用超类构造函数，通过使用call()和apply()方法可以在新创建的对象上执行构造函数。</p>
-<pre><code>function Father(name){
-    this.name =name;
-    this.age=5;
-}
-function Children(name){
-    Father.call(this,name);
-}
-let jc = new Children(&quot;jicheng&quot;);
-let jc2 = new Children(&quot;jicheng2&quot;);
-jc2.age = 10;
-console.log(jc.name + jc.age);  //jicheng 5
-console.log(jc2.name + jc2.age);  //jicheng2 10
-</code></pre><p>当我们new这个构造函数的时候，就会生成一个Children对象的实例。<br>但是通过上面的例子你会发现用构造函数生成实例对象，它有一个缺点，那就是无法共享属性和方法，没有涉及到原型。<br>因为这两个对象的age属性是独立的，修改其中一个，不会影响到另一个。<br>这样做的坏处就是会造成资源浪费，那么我们要如何来解决这件事呢，那就需要prototype出场了。</p>
-<h2 id="组合继承"><a href="#组合继承" class="headerlink" title="组合继承"></a>组合继承</h2><p>就是融合了原型和构造器的一种继承方法。 这个应该算是一种比较稳妥的继承方式.即能排除引用类型造成的问题，又可以实现共享的效果。</p>
-<pre><code>function Father(name){
-    this.name =name;
-}
-Father.prototype.age=5;
-function Children(name){
-    Father.call(this,name);
-}
-Children.prototype = new Father();
-Children.prototype.constructor = Children;
-let jc = new Children(&quot;jicheng&quot;);
-let jc2 = new Children(&quot;jicheng2&quot;);
-Father.prototype.age = 10;
-console.log(jc.name + jc.age);  //jicheng 10
-console.log(jc2.name + jc2.age);  //jicheng2 10
-</code></pre><p>age属性放在prototype对象里，是两个实例对象共享的。只要修改了prototype对象，就会同时影响到两个实例对象。<br>这样会两次调用到父类型，对内存影响还是比较大的。但是es6 class  的出现，解决了这一问题。</p>
-<h2 id="class"><a href="#class" class="headerlink" title="class"></a>class</h2><p>在使用class的使用，你完全可以不去写，constructor, prototype之类的东西了</p>
-<pre><code>//原生继承方式   
-function Father(name){
-    this.name =name;
-}
-Father.prototype.age=function(){
-    return &quot;4&quot;
-};
-var father = new Father(&quot;张三&quot;)
-//使用class
-class Father(){
-    constructor(name){
-        this.name = name;
-    }
-    age(){
-        return &quot;4&quot;
-    }
-}
-var father = new Father(&quot;张三&quot;)
-</code></pre>
+        <h3 id="在ES2015中有四种相等算法"><a href="#在ES2015中有四种相等算法" class="headerlink" title="在ES2015中有四种相等算法"></a>在ES2015中有四种相等算法</h3><blockquote>
+<p><a href="https://tc39.github.io/ecma262/#sec-testing-and-comparison-operations" target="_blank" rel="noopener">ecma规范定义算法规则</a><br>7.2.10 SameValue<br>7.2.11 SameValueZero<br>7.2.12 SameValueNonNumber<br>即术语<code>同值</code>、<code>同值零</code>、<code>同值非零</code></p>
+</blockquote>
+<ul>
+<li>抽象相等 <code>==</code></li>
+<li>严格相等 <code>===</code>，用于<ul>
+<li>Array.prototype.indexOf</li>
+<li>Array.prototype.lastIndexOf</li>
+</ul>
+</li>
+<li>同值零(SameValueZero)，用于<ul>
+<li>Map</li>
+<li>Set</li>
+<li>String.prototype.includes</li>
+<li>ArrayBuffer构造函数</li>
+<li>TypedArray构造函数</li>
+</ul>
+</li>
+<li>同值(SameValue),用于<ul>
+<li>Object.js()</li>
+</ul>
+</li>
+</ul>
+<h3 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h3><p><code>ECMA</code>中SameValue比较规则</p>
+<ul>
+<li>类型不一样，返回false</li>
+<li>类型为<code>number</code>时<ul>
+<li>都为<code>NaN</code>，返回true</li>
+<li>x为<code>+0</code>，y为<code>-0</code>时，返回false</li>
+</ul>
+</li>
+<li>类型不是<code>number</code>时，<code>return SameValueNonNumber()</code><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="literal">NaN</span> === <span class="literal">NaN</span> <span class="comment">// false</span></span><br><span class="line"><span class="built_in">Object</span>.is(<span class="literal">NaN</span>, <span class="literal">NaN</span>) <span class="comment">// true</span></span><br><span class="line"></span><br><span class="line"><span class="number">-0</span> === +<span class="number">0</span> <span class="comment">// true</span></span><br><span class="line"><span class="built_in">Object</span>.is(<span class="number">-0</span>, +<span class="number">0</span>) <span class="comment">// false</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p><code>ECMA</code>中SameValueZero比较规则</p>
+<ul>
+<li>类型不一样，返回false</li>
+<li>类型为<code>number</code>时<ul>
+<li>都为<code>NaN</code>，返回true</li>
+<li>x为<code>+0</code>，y为<code>-0</code>时，返回true</li>
+</ul>
+</li>
+<li>类型不是<code>number</code>时，<code>return SameValueNonNumber()</code><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> foo = <span class="keyword">new</span> <span class="built_in">Map</span>()</span><br><span class="line">foo.set(<span class="number">0</span>, <span class="string">'0'</span>) <span class="comment">// Map(1) &#123;0 =&gt; "0"&#125;</span></span><br><span class="line">foo.set(<span class="string">'0'</span>, <span class="string">'zero'</span>) <span class="comment">// Map(2) &#123;0 =&gt; "0", "0" =&gt; "zero"&#125;</span></span><br><span class="line">foo.get(<span class="number">0</span>) <span class="comment">// 0</span></span><br><span class="line">foo.get(<span class="string">'0'</span>) <span class="comment">// zero</span></span><br><span class="line"><span class="keyword">var</span> arr = [<span class="number">1</span>, <span class="number">2</span>, <span class="literal">NaN</span>];</span><br><span class="line">arr.indexOf(<span class="literal">NaN</span>); <span class="comment">// -1</span></span><br><span class="line">arr.includes(<span class="literal">NaN</span>); <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<blockquote>
+<p>SameValue与SameValueZero的差别在于数值类型时<code>+0</code>和<code>-0</code>,保证 <code>+0</code>和<code>-0</code> 不再相同</p>
+</blockquote>
+<p><code>ECMA</code>中SameValueNonNumber比较规则</p>
+<ul>
+<li>为<code>Undefined</code>，返回true</li>
+<li>为<code>Null</code>，返回true</li>
+<li>为<code>String</code>，则比较这2个字符串的码点</li>
+<li>为<code>Object</code>，则比较是否指向同一个堆地址</li>
+</ul>
+<p>JavaScript提供三种不同的值比较操作：</p>
+<ul>
+<li>==</li>
+<li>=== </li>
+<li>Object.is </li>
+</ul>
+<p><code>Object.is</code>的行为方式与<code>===</code>相同，但是对于NaN和-0和+0进行特殊处理</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="literal">NaN</span> === <span class="literal">NaN</span> <span class="comment">// false</span></span><br><span class="line"><span class="built_in">Object</span>.is(<span class="literal">NaN</span>, <span class="literal">NaN</span>) <span class="comment">// true</span></span><br><span class="line"></span><br><span class="line">+<span class="number">0</span> === <span class="number">-0</span> <span class="comment">// true</span></span><br><span class="line"><span class="built_in">Object</span>.is(+<span class="number">0</span>, <span class="number">-0</span>) <span class="comment">// false</span></span><br></pre></td></tr></table></figure>
+<p>可以看到<code>Object.is</code>采用的<code>SameValue</code>算法，而全等可以看作是<code>SameValueZero</code>排除<code>NaN</code>的情况，因为全等操作符认为 NaN 与其他任何值都不全等，包括它自己。</p>
+
       
     </div>
 
@@ -418,12 +413,6 @@ var father = new Father(&quot;张三&quot;)
 
     <footer class="post-footer">
       
-        <div class="post-tags">
-          
-            <a href="/tags/原型/" rel="tag"># 原型</a>
-          
-        </div>
-      
 
       
         
@@ -433,8 +422,8 @@ var father = new Father(&quot;张三&quot;)
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/08/02/DOM编程总结/" rel="next" title="DOM编程总结">
-                <i class="fa fa-chevron-left"></i> DOM编程总结
+              <a href="/2019/04/17/移动端键盘表现/" rel="next" title="移动端键盘表现">
+                <i class="fa fa-chevron-left"></i> 移动端键盘表现
               </a>
             
           </div>
@@ -442,10 +431,6 @@ var father = new Father(&quot;张三&quot;)
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/09/13/编码规范/" rel="prev" title="编码规范">
-                编码规范 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -565,7 +550,7 @@ var father = new Father(&quot;张三&quot;)
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#继承"><span class="nav-number">1.</span> <span class="nav-text">继承</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#对象创建"><span class="nav-number">1.1.</span> <span class="nav-text">对象创建</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#构造函数继承"><span class="nav-number">1.2.</span> <span class="nav-text">构造函数继承</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#组合继承"><span class="nav-number">1.3.</span> <span class="nav-text">组合继承</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#class"><span class="nav-number">1.4.</span> <span class="nav-text">class</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#在ES2015中有四种相等算法"><span class="nav-number">1.</span> <span class="nav-text">在ES2015中有四种相等算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#定义"><span class="nav-number">2.</span> <span class="nav-text">定义</span></a></li></ol></div>
             
 
           </div>
