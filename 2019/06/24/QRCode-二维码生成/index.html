@@ -71,7 +71,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="原型," />
+  <meta name="keywords" content="Hexo, NexT" />
 
 
 
@@ -87,18 +87,17 @@
 
 
 
-<meta name="description" content="继承一种减少重复性代码的一种设计模式，尽量弱化对象间耦合。在学习JS中继承过程中，遇到坑比较多，抽点时间记录下。由于javascript的语言特性，它的继承也被分为了3中实现方式。 对象创建说道继承先来看看对象的创建 //第一种，手动创建 var a={&amp;apos;name&amp;apos;:&amp;apos;hahaha&amp;apos;};    //第二种，构造函数 function A(){     thi">
-<meta name="keywords" content="原型">
+<meta name="description" content="使用1&amp;lt;div id=&quot;ele&quot;&amp;gt;&amp;lt;/div&amp;gt; 123456789var ele = document.getElementById(&apos;ele&apos;)new QRCode(ele, &amp;#123;    text: &apos;www.yuewen.com&apos;,    width: 86,    height: 86,    colorDark : &quot;#000000&quot;,    colorLi">
 <meta property="og:type" content="article">
-<meta property="og:title" content="JS继承">
-<meta property="og:url" content="https://github.com/lennonover/2016/08/29/JS继承/index.html">
+<meta property="og:title" content="QRCode 二维码生成">
+<meta property="og:url" content="https://github.com/lennonover/2019/06/24/QRCode-二维码生成/index.html">
 <meta property="og:site_name" content="lennonover">
-<meta property="og:description" content="继承一种减少重复性代码的一种设计模式，尽量弱化对象间耦合。在学习JS中继承过程中，遇到坑比较多，抽点时间记录下。由于javascript的语言特性，它的继承也被分为了3中实现方式。 对象创建说道继承先来看看对象的创建 //第一种，手动创建 var a={&amp;apos;name&amp;apos;:&amp;apos;hahaha&amp;apos;};    //第二种，构造函数 function A(){     thi">
+<meta property="og:description" content="使用1&amp;lt;div id=&quot;ele&quot;&amp;gt;&amp;lt;/div&amp;gt; 123456789var ele = document.getElementById(&apos;ele&apos;)new QRCode(ele, &amp;#123;    text: &apos;www.yuewen.com&apos;,    width: 86,    height: 86,    colorDark : &quot;#000000&quot;,    colorLi">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2016-11-27T14:41:11.642Z">
+<meta property="og:updated_time" content="2019-06-24T13:36:48.855Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="JS继承">
-<meta name="twitter:description" content="继承一种减少重复性代码的一种设计模式，尽量弱化对象间耦合。在学习JS中继承过程中，遇到坑比较多，抽点时间记录下。由于javascript的语言特性，它的继承也被分为了3中实现方式。 对象创建说道继承先来看看对象的创建 //第一种，手动创建 var a={&amp;apos;name&amp;apos;:&amp;apos;hahaha&amp;apos;};    //第二种，构造函数 function A(){     thi">
+<meta name="twitter:title" content="QRCode 二维码生成">
+<meta name="twitter:description" content="使用1&amp;lt;div id=&quot;ele&quot;&amp;gt;&amp;lt;/div&amp;gt; 123456789var ele = document.getElementById(&apos;ele&apos;)new QRCode(ele, &amp;#123;    text: &apos;www.yuewen.com&apos;,    width: 86,    height: 86,    colorDark : &quot;#000000&quot;,    colorLi">
 
 
 
@@ -126,13 +125,13 @@
 
 
 
-  <link rel="canonical" href="https://github.com/lennonover/2016/08/29/JS继承/"/>
+  <link rel="canonical" href="https://github.com/lennonover/2019/06/24/QRCode-二维码生成/"/>
 
 
 
 
 
-  <title> JS继承 | lennonover </title>
+  <title> QRCode 二维码生成 | lennonover </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -251,7 +250,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2016/08/29/JS继承/">
+    <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2019/06/24/QRCode-二维码生成/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="lennonover">
@@ -272,7 +271,7 @@
             
             
               
-                JS继承
+                QRCode 二维码生成
               
             
           </h1>
@@ -287,8 +286,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-08-29T22:59:32+08:00">
-                2016-08-29
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-24T21:36:25+08:00">
+                2019-06-24
               </time>
             
 
@@ -323,75 +322,90 @@
       
 
       
-        <h1 id="继承"><a href="#继承" class="headerlink" title="继承"></a>继承</h1><p>一种减少重复性代码的一种设计模式，尽量弱化对象间耦合。在学习JS中继承过程中，遇到坑比较多，抽点时间记录下。由于javascript的语言特性，它的继承也被分为了3中实现方式。</p>
-<h2 id="对象创建"><a href="#对象创建" class="headerlink" title="对象创建"></a>对象创建</h2><p>说道继承先来看看对象的创建</p>
-<pre><code>//第一种，手动创建
-var a={&apos;name&apos;:&apos;hahaha&apos;};   
-//第二种，构造函数
-function A(){
-    this.name=&apos;hahaha&apos;;
-}
-var a=new A();
-//第三种，class (ES6标准写法)
-class A{
-    constructor(){
-        super();
-        this.name=&apos;hahaha&apos;;
-    }
-}
-var a=new A()
-//其实后面两种方法本质上是一种写法
-</code></pre><p>这三种写法创建的对象的原型（父对象）都是Object,需要提到的是，ES6通过引入class ,extends等关键字，以一种语法糖的形式把构造函数包装成类的概念，更便于大家理解。是希望开发者不再花精力去关注原型以及原型链，也充分说明原型的设计意图和类是一样的。</p>
-<h2 id="构造函数继承"><a href="#构造函数继承" class="headerlink" title="构造函数继承"></a>构造函数继承</h2><p>在子类型构造函数的内部调用超类构造函数，通过使用call()和apply()方法可以在新创建的对象上执行构造函数。</p>
-<pre><code>function Father(name){
-    this.name =name;
-    this.age=5;
-}
-function Children(name){
-    Father.call(this,name);
-}
-let jc = new Children(&quot;jicheng&quot;);
-let jc2 = new Children(&quot;jicheng2&quot;);
-jc2.age = 10;
-console.log(jc.name + jc.age);  //jicheng 5
-console.log(jc2.name + jc2.age);  //jicheng2 10
-</code></pre><p>当我们new这个构造函数的时候，就会生成一个Children对象的实例。<br>但是通过上面的例子你会发现用构造函数生成实例对象，它有一个缺点，那就是无法共享属性和方法，没有涉及到原型。<br>因为这两个对象的age属性是独立的，修改其中一个，不会影响到另一个。<br>这样做的坏处就是会造成资源浪费，那么我们要如何来解决这件事呢，那就需要prototype出场了。</p>
-<h2 id="组合继承"><a href="#组合继承" class="headerlink" title="组合继承"></a>组合继承</h2><p>就是融合了原型和构造器的一种继承方法。 这个应该算是一种比较稳妥的继承方式.即能排除引用类型造成的问题，又可以实现共享的效果。</p>
-<pre><code>function Father(name){
-    this.name =name;
-}
-Father.prototype.age=5;
-function Children(name){
-    Father.call(this,name);
-}
-Children.prototype = new Father();
-Children.prototype.constructor = Children;
-let jc = new Children(&quot;jicheng&quot;);
-let jc2 = new Children(&quot;jicheng2&quot;);
-Father.prototype.age = 10;
-console.log(jc.name + jc.age);  //jicheng 10
-console.log(jc2.name + jc2.age);  //jicheng2 10
-</code></pre><p>age属性放在prototype对象里，是两个实例对象共享的。只要修改了prototype对象，就会同时影响到两个实例对象。<br>这样会两次调用到父类型，对内存影响还是比较大的。但是es6 class  的出现，解决了这一问题。</p>
-<h2 id="class"><a href="#class" class="headerlink" title="class"></a>class</h2><p>在使用class的使用，你完全可以不去写，constructor, prototype之类的东西了</p>
-<pre><code>//原生继承方式   
-function Father(name){
-    this.name =name;
-}
-Father.prototype.age=function(){
-    return &quot;4&quot;
-};
-var father = new Father(&quot;张三&quot;)
-//使用class
-class Father(){
-    constructor(name){
-        this.name = name;
-    }
-    age(){
-        return &quot;4&quot;
-    }
-}
-var father = new Father(&quot;张三&quot;)
-</code></pre>
+        <h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"ele"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> ele = <span class="built_in">document</span>.getElementById(<span class="string">'ele'</span>)</span><br><span class="line"><span class="keyword">new</span> QRCode(ele, &#123;</span><br><span class="line">    text: <span class="string">'www.yuewen.com'</span>,</span><br><span class="line">    width: <span class="number">86</span>,</span><br><span class="line">    height: <span class="number">86</span>,</span><br><span class="line">    colorDark : <span class="string">"#000000"</span>,</span><br><span class="line">    colorLight : <span class="string">"#ffffff"</span>,</span><br><span class="line">    correctLevel: QRCode.CorrectLevel.H</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h2 id="模糊识别-correctLevel"><a href="#模糊识别-correctLevel" class="headerlink" title="模糊识别 correctLevel"></a>模糊识别 correctLevel</h2><p>更高的级别可以识别更模糊的二维码，但会降低二维码的容量。如果生成的二维码不会被破坏，建议使用低识别等级。</p>
+<table>
+<thead>
+<tr>
+<th>等级</th>
+<th>最大模糊面积</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>L（低级）</td>
+<td>≤7%</td>
+</tr>
+<tr>
+<td>M（中级）</td>
+<td>≤15%</td>
+</tr>
+<tr>
+<td>Q（四分之一）</td>
+<td>≤25%</td>
+</tr>
+<tr>
+<td>H（高级）</td>
+<td>≤30%</td>
+</tr>
+</tbody>
+</table>
+<p>默认是 <code>QRCode.CorrectLevel.M</code></p>
+<p>模糊识别等级也会影响二维码容量（当然版本也会影响）</p>
+<table>
+<thead>
+<tr>
+<th>编码模式</th>
+<th>L（低级）</th>
+<th>M（中级）</th>
+<th>Q（四分之一）</th>
+<th>H（高级）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>数字</td>
+<td>7089</td>
+<td>5596</td>
+<td>3993</td>
+<td>3057</td>
+</tr>
+<tr>
+<td>数字+字母</td>
+<td>4296</td>
+<td>3391</td>
+<td>2420</td>
+<td>1852</td>
+</tr>
+<tr>
+<td>字节</td>
+<td>2953</td>
+<td>2331</td>
+<td>1663</td>
+<td>1273</td>
+</tr>
+<tr>
+<td>汉字</td>
+<td>1817</td>
+<td>1435</td>
+<td>1024</td>
+<td>784</td>
+</tr>
+</tbody>
+</table>
+<h2 id="关于生成二维码识别率不高"><a href="#关于生成二维码识别率不高" class="headerlink" title="关于生成二维码识别率不高"></a>关于生成二维码识别率不高</h2><ul>
+<li><p>二维码图片过小会影响识别率</p>
+</li>
+<li><p>本身 canvas 在绘图时，会有像素模糊，可以通过放大倍数，在二维码生成阶段可以生成 2 倍大小、然后通过 css 设置还原设计稿大小</p>
+</li>
+<li><p>字符串比较长，就会加大二维码的像素复杂度,通过转换短连接缩短二维码长度</p>
+</li>
+<li><p>可以通过给二维码设置边框来提高识别率</p>
+</li>
+</ul>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><p>更多 api <a href="https://github.com/soldair/node-qrcode">qrcode</a></p>
+
       
     </div>
 
@@ -418,12 +432,6 @@ var father = new Father(&quot;张三&quot;)
 
     <footer class="post-footer">
       
-        <div class="post-tags">
-          
-            <a href="/tags/原型/" rel="tag"># 原型</a>
-          
-        </div>
-      
 
       
         
@@ -433,8 +441,8 @@ var father = new Father(&quot;张三&quot;)
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/08/02/DOM编程总结/" rel="next" title="DOM编程总结">
-                <i class="fa fa-chevron-left"></i> DOM编程总结
+              <a href="/2019/05/19/js-中四种相等/" rel="next" title="js 中四种相等">
+                <i class="fa fa-chevron-left"></i> js 中四种相等
               </a>
             
           </div>
@@ -442,10 +450,6 @@ var father = new Father(&quot;张三&quot;)
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/09/13/编码规范/" rel="prev" title="编码规范">
-                编码规范 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -565,7 +569,7 @@ var father = new Father(&quot;张三&quot;)
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#继承"><span class="nav-number">1.</span> <span class="nav-text">继承</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#对象创建"><span class="nav-number">1.1.</span> <span class="nav-text">对象创建</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#构造函数继承"><span class="nav-number">1.2.</span> <span class="nav-text">构造函数继承</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#组合继承"><span class="nav-number">1.3.</span> <span class="nav-text">组合继承</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#class"><span class="nav-number">1.4.</span> <span class="nav-text">class</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#使用"><span class="nav-number">1.</span> <span class="nav-text">使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#模糊识别-correctLevel"><span class="nav-number">2.</span> <span class="nav-text">模糊识别 correctLevel</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关于生成二维码识别率不高"><span class="nav-number">3.</span> <span class="nav-text">关于生成二维码识别率不高</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其他"><span class="nav-number">4.</span> <span class="nav-text">其他</span></a></li></ol></div>
             
 
           </div>

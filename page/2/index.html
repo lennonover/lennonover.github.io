@@ -251,6 +251,164 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2018/04/17/硬件渲染了解一下/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lennonover">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lennonover">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2018/04/17/硬件渲染了解一下/" itemprop="url">
+                  硬件渲染了解一下
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-17T21:26:41+08:00">
+                2018-04-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>浏览器的渲染方式，主要分为两种，第一种是软件渲染，第二种是硬件渲染。如果绘制工作只是由 CPU 完成，那么称之为软件渲染，如果绘制工作由 GPU 完成，则称之为硬件渲染。软件渲染与硬件渲染有不同的缓存机制，只要我们合理利用，就能发挥出最好的效果。</p>
+<h2 id="开启"><a href="#开启" class="headerlink" title="开启"></a>开启</h2><p>浏览器还有一种名为硬件渲染的渲染方式，它是使用 GPU 的硬件能力来帮助渲染页面,那么是怎么设置的？</p>
+<ul>
+<li>启用硬件加速<br>  在<code>chrome</code>的地址栏中输入<code>chrome://settings/</code>回车滚动页面到地步，点击<code>显示高级设置</code>再次滚动到页面地步，找到<code>使用硬件加速模式</code></li>
+<li>开启gup硬件加速<br>  在<code>chrome</code>的地址栏中输入<code>chrome://flags/#disable-accelerated-video-decode</code>找到<code>硬件加速的视频解码</code>，点击<code>启用</code></li>
+</ul>
+<p>完成上面两步后重启浏览器</p>
+<h2 id="能做什么"><a href="#能做什么" class="headerlink" title="能做什么"></a>能做什么</h2><p>大家都知道在页面性能优化的时候都会用到 <code>GPU 加速</code>、<code>硬件加速</code>类似方式，浏览器一帧（1000/16ms）会依次执行以下，减少或者避免 layout，paint 可以让页更加流畅：</p>
+<blockquote>
+<ol>
+<li>JavaScript：JavaScript 实现动画效果，DOM 元素操作等。</li>
+<li>Style（计算样式）：确定每个 DOM 元素应该应用什么 CSS 规则。</li>
+<li>Layout（布局）：计算每个 DOM 元素在最终屏幕上显示的大小和位置。由于 web 页面的元素布局是相对的，所以其中任意一个元素的位置发生变化，都会联动的引起其他元素发生变化，这个过程叫 reflow。</li>
+<li>Paint（绘制）：在多个层上绘制 DOM 元素的的文字、颜色、图像、边框和阴影等。</li>
+<li>Composite（渲染层合并）：按照合理的顺序合并图层然后显示到屏幕上。</li>
+</ol>
+</blockquote>
+<p>一个页面是由多个图层最后形成一个完整的合成层才被渲染出来效果就像这样：<br><img src="https://user-gold-cdn.xitu.io/2018/4/17/162d382466397a7a?w=973&amp;h=602&amp;f=png&amp;s=358760" alt="渲染图"></p>
+<p>硬件渲染 WebKit 会依据指定条件决定将那些 RenderLayer 对象组合在一起形成一个新层并缓存在 GPU，这些新层我们统称为合成层（Compositing Layer）。这些合成层提升成独立的层，被独立出来之后，便不会再影响其他 dom 的布局。如果发生 偏移、透明度等等变换 GPU 要做的只是把更新的合成层进行相应的变换并送入 Compositor 重新合成即可，利用这个优点我们可以把页面中一些布局经常变换的 dom 提升到独立的层。</p>
+<p><img src="https://user-gold-cdn.xitu.io/2018/4/17/162d39bcf891cd34?w=1742&amp;h=667&amp;f=png&amp;s=269284" alt=""></p>
+<p>在上图中黄色边框表示放到了一个新的复合层（composited layer）中渲染，左侧的列表里列出页面里存在哪些渲染层，右侧的 Details 显示的是这些渲染层的详细信息，包括渲染层的大小、形成原因等。</p>
+<h2 id="如何触发合成层"><a href="#如何触发合成层" class="headerlink" title="如何触发合成层"></a>如何触发合成层</h2><ol>
+<li>根节点 document</li>
+<li>HTML5 Video或者Canvas元素。</li>
+<li>元素有一个 z-index 较低且包含一个复合层的兄弟元素</li>
+<li>3D 或透视变换(perspective，transform) CSS 属性 比如常用的 （设置translateZ()、backface-visibility为hidden）</li>
+</ol>
+<h2 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h2><p>也就是上面第三条，英文原版是这么说</p>
+<blockquote>
+<p>Element has a sibling with a lower z-index which has a compositing layer (in other words the it’s rendered on top of a composited layer)</p>
+</blockquote>
+<p>意思是，如果有一个元素，它的兄弟元素在复合层中渲染，而这个兄弟元素的z-index比较小，那么这个元素（不管是不是应用了硬件加速样式）也会被放到复合层中。</p>
+<p>所以用轮播、动画loading等页面的时候要注意下要遵循最小化影响原则，如果调试看到有很多 <code>黄色边框</code> 就要注意了。</p>
+<blockquote>
+<p>使用 3D 硬件加速提升动画性能时，最好给元素增加一个 z-index 属性，人为干扰复合层的排序，可以有效减少 chrome 创建不必要的复合层，提升渲染性能，移动端优化效果尤为明显。</p>
+</blockquote>
+<h2 id="关于-CSS3-will-change"><a href="#关于-CSS3-will-change" class="headerlink" title="关于 CSS3 will-change"></a>关于 CSS3 will-change</h2><p>前面说的那些有点 hack，CSS3 will-change 才是正规军是属于 web 标准属性，兼容性这块 Chrome/FireFox/Opera 是支持的，它是提前通知浏览器元素将要做什么动画，让浏览器提前准备合适的优化设置，具体值：<br><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 关键字值 */</span></span><br><span class="line"><span class="selector-tag">will-change</span>: <span class="selector-tag">auto</span>;</span><br><span class="line"><span class="selector-tag">will-change</span>: <span class="selector-tag">scroll-position</span>;</span><br><span class="line"><span class="selector-tag">will-change</span>: <span class="selector-tag">contents</span>;</span><br><span class="line"><span class="selector-tag">will-change</span>: <span class="selector-tag">transform</span>;        <span class="comment">/* &lt;custom-ident&gt;示例 */</span></span><br><span class="line"><span class="selector-tag">will-change</span>: <span class="selector-tag">opacity</span>;          <span class="comment">/* &lt;custom-ident&gt;示例 */</span></span><br><span class="line"><span class="selector-tag">will-change</span>: <span class="selector-tag">left</span>, <span class="selector-tag">top</span>;        <span class="comment">/* 两个&lt;animateable-feature&gt;示例 */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* 全局值 */</span></span><br><span class="line"><span class="selector-tag">will-change</span>: <span class="selector-tag">inherit</span>;</span><br><span class="line"><span class="selector-tag">will-change</span>: <span class="selector-tag">initial</span>;</span><br><span class="line"><span class="selector-tag">will-change</span>: <span class="selector-tag">unset</span>;</span><br></pre></td></tr></table></figure></p>
+<p>will-change 虽然可以加速,但是不可滥用。。。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2018/03/30/函数式编程/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1983,187 +2141,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2017/12/17/D2-quic/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="lennonover">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="lennonover">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/12/17/D2-quic/" itemprop="url">
-                  D2-QUIC
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-17T22:04:10+08:00">
-                2017-12-17
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>  昨天在参加阿里 D2 的时候听腾讯的黄佳琳老师分享 <code>QQ空间HTTP2加速实践</code> 时她提到在今 QQ 空间 2017年开始使用 QUIC 协议。看到 QUIC 时就想腾讯这么冒进了敢用它！！！至于为什么会这么想，请继续。</p>
-<h2 id="QUIC"><a href="#QUIC" class="headerlink" title="QUIC"></a>QUIC</h2><p>  <a href="https://en.wikipedia.org/wiki/QUIC" target="_blank" rel="noopener">QUIC 维基百科</a><br>  <a href="https://www.youtube.com/watch?v=hQZ-0mXFmk8" target="_blank" rel="noopener">Google Develop Live</a></p>
-<p>  QUIC 是谷歌在 2013 年实现，2014 推出的一种实验性的传输层网络传输协议。 QUIC 全称是 Quick UDP Internet Connections 就是快速 UDP 网络连接。一个它以UDP为基础，实验性传输层协议。</p>
-<h2 id="TCP-和-UDP"><a href="#TCP-和-UDP" class="headerlink" title="TCP 和 UDP"></a>TCP 和 UDP</h2><p>  web 平台的数据传输都基于 TCP 协议。TCP协议在创建连接之前需要进行三次握手，如果需要提高数据交互的安全性，既增加传输层安全协议（TLS），还会增加更多的握手次数。<br>  正因为TCP协议连接建立的成本相对较高，可以通过TCP快速打开（TCP Fast Open）来减少建立连接时的握手次数。但是该技术目前应用较少。</p>
-<p>  UDP协议是无连接协议。客户端发出UDP数据包后，只能“假设”这个数据包已经被服务端接收。这样的好处是在网络传输层无需对数据包进行确认，但存在的问题就是为了确保数据传输的可靠性，应用层协议需要自己完成包传输情况的确认。</p>
-<blockquote>
-<p>来源维基百科 ： 对于 Google 来说优化 TCP 协议是一个长期目标，QUIC 旨在创建几乎等同于 TCP 的独立连接，但有着低延迟，并对类似 SPDY 的多路复用流协议有更好的支持。 如果 QUIC 协议的特性被证明是有效的，这些特性以后可能会被迁移入后续版本的 TCP 和 TLS 协议（它们都有很长的开发周期）。</p>
-</blockquote>
-<p>  TCP 协议的实现是高度管制的。TCP 协议栈通常由操作系统实现，如 Linux、Windows 内核或者其他移动设备操作系统。修改 TCP 协议是一项浩大的工程，因为每种设备、系统的实现都需要更新。</p>
-<p>  UDP 协议在操作系统层面实现相对简单，基于 UDP 协议实现新的协议以验证 Google 对于 TCP 协议改进的理论，不需要操作系统内核层面的更改，验证成本相对较低。</p>
-<p>  可以说 QUIC 是夹在 HTTP2 和 UDP 的中间部分就像汉堡。</p>
-<p>  <img src="http://ob6nlbpso.bkt.clouddn.com/053.png" alt="地位"></p>
-<h2 id="QUIC-特点"><a href="#QUIC-特点" class="headerlink" title="QUIC 特点"></a>QUIC 特点</h2><p>  QUIC 协议的主要目的，是为了整合 TCP 协议的可靠性和 UDP 协议的速度和效率。</p>
-<ul>
-<li><p>避免队头阻塞</p>
-<p>HTTP 1.1 协议的并发请求并非是直接解决了 HOC 的问题，而是尽可能减少 HOC 造成的影响。 </p>
-<p>SPDY 它采用了多路复用(Multiplexing) 技术也是解决不了这个问题。TCP 协议如果发生了丢包或者错包，数据就会被重传，后面的包就得停下来等这个包重新传输，也就是发生了队头阻塞，TCP 协议的设计者们又发明了滑动窗口，滑动窗口的概念大幅度提高了 TCP 传输数据时抗干扰的能力，一般丢失一两个 ACK 根本没关系。但如果是发送的包丢失，或者出错，窗口就无法向前滑动，出现了队头阻塞的现象。       </p>
-<p>队头阻塞不仅仅在 HTTP 层存在，在 TCP 层也存在，这也正是 QUIC 协议要解决的问题。QUIC 协议也采用了多路复用思想。</p>
-<p>QUIC协议直接通过底层使用 UDP 协议天然的避免了 SPDY 和 HTTP/2 协议由于 TCP 协议在处理包时是有严格顺序而遇到前序包阻塞的问题。由于UDP协议没有严格的顺序，当一个数据包遇到问题需要重传时，只会影响该数据包对应的资源，其他独立的资源不会受到影响。</p>
-</li>
-<li><p>重传与恢复</p>
-<p>丢包恢复一共有两种方法：前向纠错（FEC）和重传。前向纠错可以减少重传，但需要在保重添加冗余信息，用 XOR 实现。如果前向纠错不能回复包，才启用重传，重传的不是旧包，而是重新构造的包。</p>
-<p>前向纠错（FEC）：FEC 采用简单异或的方式（也就是相同数字异或成 0，不同数字异或成 1）。每次发送一组数据，包括若干个数据包后，并对这些数据包依次作异或运算，最后的结果作为一个 FEC 包再发送出去。接收方收到一组数据后，根据数据包和 FEC 包即可以进行校验和纠错。</p>
-<p>对于某些重要的数据包，如初始密钥协商时的数据包，在建立连接时非常重要，如果这类包丢失会阻塞整体数据流。QUIC 对于这一类数据包在确认发生丢失前就会尝试重传，通常是等待较短的时间(如20ms)没收到确认后就马上再次发送。这样在网络中会有若干个相同的包同时传输，只要有一个能成功抵达就完成了连接，这样降低了丢包率。接收方对于关键数据包的多次发送和普通数据包的超时重传，都采用相同的重复包处理机制</p>
-<p>QUIC在拥塞避免算法的基础上还加入了心跳包，用于减少丢包率</p>
-</li>
-</ul>
-<ul>
-<li><p>减少数据包</p>
-<p>  QUIC协议在创建连接握手时，只需要1到2个数据包对比传统TCP+TLS协议的传输方式，在创建连接时的4个数据包。</p>
-</li>
-<li><p>TCP 快速打开 0 个 RTT</p>
-<p>  核心思想：将当前会话的上下文缓存在客户端。如果以后需要恢复对话，只需要将缓存发给服务器校验，而不必花费一个 RTT 去等待。<br>  QUIC 握手的过程是需要一次数据交互，0-RTT 时延即可完成握手过程中的密钥协商，比 TLS 相比效率提高了5倍，且具有更高的安全性。 QUIC 在握手过程中使用 Diffie-Hellman 算法协商初始密钥，初始密钥依赖于服务器存储的一组配置参数，该参数会周期性的更新。初始密钥协商成功后，服务器会提供一个临时随机数，双方根据这个数再生成会话密钥。</p>
-</li>
-<li><p>安全性</p>
-<p>  QUIC 协议内置了 TLS 栈，实现了自己的传输加密层，QUIC 对每个散装的 UDP 包都进行了加密和认证的保护，并且避免使用前向依赖的处理方法(，这样每个 UDP 包可以独立地根据 IV 进行加密或认证处理。 QUIC 采用了两级密钥机制：初始密钥和会话密钥。初次连接时不加密，并协商初始密钥。初始密钥协商完毕后会马上再协商会话密钥，这样可以保证密钥的前向安全性，之后可以在通信的过程中就实现对密钥的更新。接收方意识到有新的密钥要更新时，会尝试用新旧两种密钥对数据进行解密，直到成功才会正式更新密钥，否则会一直保留旧密钥有效。</p>
-<p>  <a href="https://cs.chromium.org/chromium/src/net/quic/?q=quic&amp;sq=package:chromium" target="_blank" rel="noopener">​QUIC客户端源码</a></p>
-<p>  <a href="https://cs.chromium.org/chromium/src/net/tools/quic/?q=quic&amp;sq=package:chromium" target="_blank" rel="noopener">QUIC服务端源码</a></p>
-</li>
-</ul>
-<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><ul>
-<li><p>启用</p>
-<p>  Chrome 浏览器（版本50.0或更高）中打开地址： <code>chrome://flags/</code> 在Experimental QUIC protocol 项目勾选 Enabled;然后重启。</p>
-<p>  <img src="http://ob6nlbpso.bkt.clouddn.com/sp171219_185424.png" alt="tab"></p>
-</li>
-<li><p>查看站点是否通过 QUIC 通信</p>
-<p>  使用Chrome 选项卡 <code>chrome://net-internals/#quic</code></p>
-<p>  <img src="http://ob6nlbpso.bkt.clouddn.com/sp171219_193117.png" alt="sea"></p>
-</li>
-<li><p>Chrome 插件</p>
-<p>  插件 <code>HTTP/2 and SPDY indicator</code> HTTP/2显示蓝色标志，HTTP/2 + QUIC 显示绿色,可以看到 QQ 空间没用 HTTP/2 + QUIC。</p>
-<p>  <img src="http://ob6nlbpso.bkt.clouddn.com/sp171218_224234.png" alt="QQ 空间"></p>
-</li>
-</ul>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
-<li>QUIC 目前处于实验阶段国内”不存在”的协议</li>
-<li>QUIC 是基于 UDP 的同为传输层</li>
-<li>UDP 通信，所以服务器上的防火墙要打开。网站或项目的服务器需要有传入 443/UDP 的策略，对于客户端来说，允许 443/UDP 接入互联网</li>
-<li>想想就目前国内宽带运营商的各种 UDP 限制 。。</li>
-</ul>
-<p>PS： 今天重新看了下黄佳琳老师分享并没有说支持 QUIC 只是说了 2017 在实验 。。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2213,7 +2190,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">49</span>
+                <span class="site-state-item-count">50</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
