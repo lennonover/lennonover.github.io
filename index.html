@@ -251,7 +251,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2020/03/21/视频无损压缩工具/">
+    <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2019/11/21/useEffect-引起的无限循环/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="lennonover">
@@ -273,7 +273,140 @@
             
               
                 
-                <a class="post-title-link" href="/2020/03/21/视频无损压缩工具/" itemprop="url">
+                <a class="post-title-link" href="/2019/11/21/useEffect-引起的无限循环/" itemprop="url">
+                  useEffect 引起的无限循环
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-11-21T13:19:39+08:00">
+                2019-11-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="自定义-hook"><a href="#自定义-hook" class="headerlink" title="自定义 hook"></a>自定义 hook</h2><p>我们在使用 React Hock 时 为了逻辑复用经常来封装⼀个请求分⻚列表的⾃定义 hooks,写⼀个 hook 的核⼼就是处理：输⼊（使⽤ hook 时的变量）、输出（使⽤ hook 获取的值），以及哪些值可以被维护在 hook 内部，使⽤者可以⽆感知，⽽从输⼊到输出的过程，即可复⽤的逻辑。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">useFetchList</span>(<span class="params">url, params</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> [loading, setLoading] = useState(<span class="literal">false</span>);</span><br><span class="line">  <span class="keyword">const</span> [pageNo, setPageNo] = useState(<span class="number">1</span>);</span><br><span class="line">  <span class="keyword">const</span> [data, setData] = useState(&#123;</span><br><span class="line">    totalCount: <span class="number">0</span>,</span><br><span class="line">    end: <span class="literal">false</span>,</span><br><span class="line">    records: []</span><br><span class="line">  &#125;);</span><br><span class="line">  useEffect(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    setLoading(<span class="literal">true</span>);</span><br><span class="line">    ajax</span><br><span class="line">      .get(url, &#123;</span><br><span class="line">        ...params,</span><br><span class="line">        pageNo</span><br><span class="line">      &#125;)</span><br><span class="line">      .then(<span class="function">(<span class="params">&#123; result &#125;</span>) =&gt;</span> &#123;</span><br><span class="line">        setData(result);</span><br><span class="line">      &#125;)</span><br><span class="line">      .catch(handleError)</span><br><span class="line">      .then(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">        setLoading(<span class="literal">false</span>);</span><br><span class="line">      &#125;);</span><br><span class="line">  &#125;, [pageNo, params, url]);</span><br><span class="line">  <span class="keyword">return</span> [&#123; loading, data &#125;, setPageNo];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>但是！！上述代码会引发⼀个问题——⽆限循环</p>
+<p>引发原因：<code>useEffect</code> 的依赖对⽐，⽤的是 <code>Object.is()</code><br>也就是说，上⾯的代码中，使⽤ { bookId } 作为参数时，每次渲染都是⼀个新的参数，会导致<br>useFetchList 不断去取数据，⽽取到数据后，⼜会引发函数组件重新渲染，导致 { bookId } 更新。</p>
+<ul>
+<li>解决⽅法 1：调⽤ hook 前，使⽤ useState 缓存 { bookId }</li>
+<li>解决⽅法 2：调⽤ hook 前，使⽤ useMemo 缓存 { bookId }</li>
+<li>解决⽅法 3：hook 内部判断 params 是否真的更新了</li>
+<li>解决⽅法 4：使⽤ useDeepCompareEffect（第三⽅库）替换 useEffect，但是谨慎使⽤，滥⽤可能会导致性能问题。</li>
+</ul>
+<p>这⾥针对⽅法 3 做了实现，因为这是使⽤⽅可以最轻松的使⽤⽅法。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 通过 useRef（⻅官⽅ Hook API 说明) 缓存值的引⽤，每次传⼊新值时，通过深对⽐进⾏⽐较，如果没</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">useMemoizedValue</span>(<span class="params">value</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> cache = useRef(<span class="literal">null</span>);</span><br><span class="line">  <span class="keyword">const</span> previousValue = cache.current;</span><br><span class="line">  <span class="keyword">if</span> (_.isEqual(previousValue, value)) &#123;</span><br><span class="line">    <span class="keyword">return</span> previousValue;</span><br><span class="line">  &#125;</span><br><span class="line">  cache.current = value;</span><br><span class="line">  <span class="keyword">return</span> value;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这个 hook 终于可以被正常调⽤了</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2019/10/21/视频无损压缩工具/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lennonover">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lennonover">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2019/10/21/视频无损压缩工具/" itemprop="url">
                   视频无损压缩工具
                 </a>
               
@@ -290,8 +423,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-03-21T21:58:25+08:00">
-                2020-03-21
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-21T21:58:25+08:00">
+                2019-10-21
               </time>
             
 
@@ -390,7 +523,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2019/12/21/HTML-章节与大纲/">
+    <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2019/08/21/HTML-章节与大纲/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="lennonover">
@@ -412,7 +545,7 @@
             
               
                 
-                <a class="post-title-link" href="/2019/12/21/HTML-章节与大纲/" itemprop="url">
+                <a class="post-title-link" href="/2019/08/21/HTML-章节与大纲/" itemprop="url">
                   HTML 章节与大纲
                 </a>
               
@@ -429,8 +562,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-21T21:44:14+08:00">
-                2019-12-21
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-21T21:44:14+08:00">
+                2019-08-21
               </time>
             
 
@@ -500,139 +633,6 @@
 <li><p>HTML5 引入了三个特殊的节段 元素： 包含链接集合的 nav 元素 <code>&lt;nav&gt;</code> , 例如目录, 包含网站相关信息的 footer 元素 <code>&lt;footer&gt;</code> 和 header 元素 <code>&lt;header&gt;</code> 。</p>
 </li>
 </ul>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2019/11/21/useEffect-引起的无限循环/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="lennonover">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="lennonover">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2019/11/21/useEffect-引起的无限循环/" itemprop="url">
-                  useEffect 引起的无限循环
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-11-21T13:19:39+08:00">
-                2019-11-21
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="自定义-hook"><a href="#自定义-hook" class="headerlink" title="自定义 hook"></a>自定义 hook</h2><p>我们在使用 React Hock 时 为了逻辑复用经常来封装⼀个请求分⻚列表的⾃定义 hooks,写⼀个 hook 的核⼼就是处理：输⼊（使⽤ hook 时的变量）、输出（使⽤ hook 获取的值），以及哪些值可以被维护在 hook 内部，使⽤者可以⽆感知，⽽从输⼊到输出的过程，即可复⽤的逻辑。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">useFetchList</span>(<span class="params">url, params</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> [loading, setLoading] = useState(<span class="literal">false</span>);</span><br><span class="line">  <span class="keyword">const</span> [pageNo, setPageNo] = useState(<span class="number">1</span>);</span><br><span class="line">  <span class="keyword">const</span> [data, setData] = useState(&#123;</span><br><span class="line">    totalCount: <span class="number">0</span>,</span><br><span class="line">    end: <span class="literal">false</span>,</span><br><span class="line">    records: []</span><br><span class="line">  &#125;);</span><br><span class="line">  useEffect(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    setLoading(<span class="literal">true</span>);</span><br><span class="line">    ajax</span><br><span class="line">      .get(url, &#123;</span><br><span class="line">        ...params,</span><br><span class="line">        pageNo</span><br><span class="line">      &#125;)</span><br><span class="line">      .then(<span class="function">(<span class="params">&#123; result &#125;</span>) =&gt;</span> &#123;</span><br><span class="line">        setData(result);</span><br><span class="line">      &#125;)</span><br><span class="line">      .catch(handleError)</span><br><span class="line">      .then(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">        setLoading(<span class="literal">false</span>);</span><br><span class="line">      &#125;);</span><br><span class="line">  &#125;, [pageNo, params, url]);</span><br><span class="line">  <span class="keyword">return</span> [&#123; loading, data &#125;, setPageNo];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>但是！！上述代码会引发⼀个问题——⽆限循环</p>
-<p>引发原因：<code>useEffect</code> 的依赖对⽐，⽤的是 <code>Object.is()</code><br>也就是说，上⾯的代码中，使⽤ { bookId } 作为参数时，每次渲染都是⼀个新的参数，会导致<br>useFetchList 不断去取数据，⽽取到数据后，⼜会引发函数组件重新渲染，导致 { bookId } 更新。</p>
-<ul>
-<li>解决⽅法 1：调⽤ hook 前，使⽤ useState 缓存 { bookId }</li>
-<li>解决⽅法 2：调⽤ hook 前，使⽤ useMemo 缓存 { bookId }</li>
-<li>解决⽅法 3：hook 内部判断 params 是否真的更新了</li>
-<li>解决⽅法 4：使⽤ useDeepCompareEffect（第三⽅库）替换 useEffect，但是谨慎使⽤，滥⽤可能会导致性能问题。</li>
-</ul>
-<p>这⾥针对⽅法 3 做了实现，因为这是使⽤⽅可以最轻松的使⽤⽅法。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 通过 useRef（⻅官⽅ Hook API 说明) 缓存值的引⽤，每次传⼊新值时，通过深对⽐进⾏⽐较，如果没</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">useMemoizedValue</span>(<span class="params">value</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> cache = useRef(<span class="literal">null</span>);</span><br><span class="line">  <span class="keyword">const</span> previousValue = cache.current;</span><br><span class="line">  <span class="keyword">if</span> (_.isEqual(previousValue, value)) &#123;</span><br><span class="line">    <span class="keyword">return</span> previousValue;</span><br><span class="line">  &#125;</span><br><span class="line">  cache.current = value;</span><br><span class="line">  <span class="keyword">return</span> value;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>这个 hook 终于可以被正常调⽤了</p>
 
           
         
