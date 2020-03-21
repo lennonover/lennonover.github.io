@@ -87,17 +87,22 @@
 
 
 
-<meta name="description" content="自定义 hook我们在使用 React Hock 时 为了逻辑复用经常来封装⼀个请求分⻚列表的⾃定义 hooks,写⼀个 hook 的核⼼就是处理：输⼊（使⽤ hook 时的变量）、输出（使⽤ hook 获取的值），以及哪些值可以被维护在 hook 内部，使⽤者可以⽆感知，⽽从输⼊到输出的过程，即可复⽤的逻辑。 12345678910111213141516171819202122232425ex">
+<meta name="description" content="HandbrakeHandbrake 是开源的视频转换工具，从几乎任何格式转换视频和支持多平台（Windows，Mac 和 Linux,而且内置丰富的设备预设通过选择针对您设备优化的配置文件。下载地址安装完成后，如上图就可以简单使用了。由于内置丰富的设备预设，在 web 开发中一般选择内置 web 预设。强烈推荐使用！！ 更多功能：  标题/章节和范围选择 批量扫描和编码排队 章标记 字幕（Vob">
 <meta property="og:type" content="article">
-<meta property="og:title" content="useEffect 引起的无限循环">
-<meta property="og:url" content="https://github.com/lennonover/2019/11/21/useEffect-引起的无限循环/index.html">
+<meta property="og:title" content="视频无损压缩工具">
+<meta property="og:url" content="https://github.com/lennonover/2019/10/13/视频无损压缩工具/index.html">
 <meta property="og:site_name" content="lennonover">
-<meta property="og:description" content="自定义 hook我们在使用 React Hock 时 为了逻辑复用经常来封装⼀个请求分⻚列表的⾃定义 hooks,写⼀个 hook 的核⼼就是处理：输⼊（使⽤ hook 时的变量）、输出（使⽤ hook 获取的值），以及哪些值可以被维护在 hook 内部，使⽤者可以⽆感知，⽽从输⼊到输出的过程，即可复⽤的逻辑。 12345678910111213141516171819202122232425ex">
+<meta property="og:description" content="HandbrakeHandbrake 是开源的视频转换工具，从几乎任何格式转换视频和支持多平台（Windows，Mac 和 Linux,而且内置丰富的设备预设通过选择针对您设备优化的配置文件。下载地址安装完成后，如上图就可以简单使用了。由于内置丰富的设备预设，在 web 开发中一般选择内置 web 预设。强烈推荐使用！！ 更多功能：  标题/章节和范围选择 批量扫描和编码排队 章标记 字幕（Vob">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-03-21T13:55:15.817Z">
+<meta property="og:image" content="https://imgservices-1252317822.image.myqcloud.com/image/20191016/xx56h68a3x.png">
+<meta property="og:image" content="https://imgservices-1252317822.image.myqcloud.com/image/20191016/l7w18isea0.png">
+<meta property="og:image" content="https://imgservices-1252317822.image.myqcloud.com/image/20191016/jg0b17q6n3.png">
+<meta property="og:image" content="https://imgservices-1252317822.image.myqcloud.com/image/20191016/tsqg8hmtu7.png">
+<meta property="og:updated_time" content="2020-03-21T14:12:19.480Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="useEffect 引起的无限循环">
-<meta name="twitter:description" content="自定义 hook我们在使用 React Hock 时 为了逻辑复用经常来封装⼀个请求分⻚列表的⾃定义 hooks,写⼀个 hook 的核⼼就是处理：输⼊（使⽤ hook 时的变量）、输出（使⽤ hook 获取的值），以及哪些值可以被维护在 hook 内部，使⽤者可以⽆感知，⽽从输⼊到输出的过程，即可复⽤的逻辑。 12345678910111213141516171819202122232425ex">
+<meta name="twitter:title" content="视频无损压缩工具">
+<meta name="twitter:description" content="HandbrakeHandbrake 是开源的视频转换工具，从几乎任何格式转换视频和支持多平台（Windows，Mac 和 Linux,而且内置丰富的设备预设通过选择针对您设备优化的配置文件。下载地址安装完成后，如上图就可以简单使用了。由于内置丰富的设备预设，在 web 开发中一般选择内置 web 预设。强烈推荐使用！！ 更多功能：  标题/章节和范围选择 批量扫描和编码排队 章标记 字幕（Vob">
+<meta name="twitter:image" content="https://imgservices-1252317822.image.myqcloud.com/image/20191016/xx56h68a3x.png">
 
 
 
@@ -125,13 +130,13 @@
 
 
 
-  <link rel="canonical" href="https://github.com/lennonover/2019/11/21/useEffect-引起的无限循环/"/>
+  <link rel="canonical" href="https://github.com/lennonover/2019/10/13/视频无损压缩工具/"/>
 
 
 
 
 
-  <title> useEffect 引起的无限循环 | lennonover </title>
+  <title> 视频无损压缩工具 | lennonover </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -250,7 +255,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2019/11/21/useEffect-引起的无限循环/">
+    <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2019/10/13/视频无损压缩工具/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="lennonover">
@@ -271,7 +276,7 @@
             
             
               
-                useEffect 引起的无限循环
+                视频无损压缩工具
               
             
           </h1>
@@ -286,8 +291,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-11-21T13:19:39+08:00">
-                2019-11-21
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-13T20:58:25+08:00">
+                2019-10-13
               </time>
             
 
@@ -322,19 +327,25 @@
       
 
       
-        <h2 id="自定义-hook"><a href="#自定义-hook" class="headerlink" title="自定义 hook"></a>自定义 hook</h2><p>我们在使用 React Hock 时 为了逻辑复用经常来封装⼀个请求分⻚列表的⾃定义 hooks,写⼀个 hook 的核⼼就是处理：输⼊（使⽤ hook 时的变量）、输出（使⽤ hook 获取的值），以及哪些值可以被维护在 hook 内部，使⽤者可以⽆感知，⽽从输⼊到输出的过程，即可复⽤的逻辑。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">useFetchList</span>(<span class="params">url, params</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> [loading, setLoading] = useState(<span class="literal">false</span>);</span><br><span class="line">  <span class="keyword">const</span> [pageNo, setPageNo] = useState(<span class="number">1</span>);</span><br><span class="line">  <span class="keyword">const</span> [data, setData] = useState(&#123;</span><br><span class="line">    totalCount: <span class="number">0</span>,</span><br><span class="line">    end: <span class="literal">false</span>,</span><br><span class="line">    records: []</span><br><span class="line">  &#125;);</span><br><span class="line">  useEffect(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    setLoading(<span class="literal">true</span>);</span><br><span class="line">    ajax</span><br><span class="line">      .get(url, &#123;</span><br><span class="line">        ...params,</span><br><span class="line">        pageNo</span><br><span class="line">      &#125;)</span><br><span class="line">      .then(<span class="function">(<span class="params">&#123; result &#125;</span>) =&gt;</span> &#123;</span><br><span class="line">        setData(result);</span><br><span class="line">      &#125;)</span><br><span class="line">      .catch(handleError)</span><br><span class="line">      .then(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">        setLoading(<span class="literal">false</span>);</span><br><span class="line">      &#125;);</span><br><span class="line">  &#125;, [pageNo, params, url]);</span><br><span class="line">  <span class="keyword">return</span> [&#123; loading, data &#125;, setPageNo];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>但是！！上述代码会引发⼀个问题——⽆限循环</p>
-<p>引发原因：<code>useEffect</code> 的依赖对⽐，⽤的是 <code>Object.is()</code><br>也就是说，上⾯的代码中，使⽤ { bookId } 作为参数时，每次渲染都是⼀个新的参数，会导致<br>useFetchList 不断去取数据，⽽取到数据后，⼜会引发函数组件重新渲染，导致 { bookId } 更新。</p>
+        <h2 id="Handbrake"><a href="#Handbrake" class="headerlink" title="Handbrake"></a>Handbrake</h2><p>Handbrake 是开源的视频转换工具，从几乎任何格式转换视频和支持多平台（Windows，Mac 和 Linux,而且内置丰富的设备预设通过选择针对您设备优化的配置文件。<a href="https://handbrake.fr/downloads.php" target="_blank" rel="noopener">下载地址</a><br><img src="https://imgservices-1252317822.image.myqcloud.com/image/20191016/xx56h68a3x.png" alt=""><br>安装完成后，如上图就可以简单使用了。<br>由于内置丰富的设备预设，在 web 开发中一般选择内置 web 预设。<br><img src="https://imgservices-1252317822.image.myqcloud.com/image/20191016/l7w18isea0.png" alt=""><br>强烈推荐使用！！</p>
+<p>更多功能：</p>
 <ul>
-<li>解决⽅法 1：调⽤ hook 前，使⽤ useState 缓存 { bookId }</li>
-<li>解决⽅法 2：调⽤ hook 前，使⽤ useMemo 缓存 { bookId }</li>
-<li>解决⽅法 3：hook 内部判断 params 是否真的更新了</li>
-<li>解决⽅法 4：使⽤ useDeepCompareEffect（第三⽅库）替换 useEffect，但是谨慎使⽤，滥⽤可能会导致性能问题。</li>
+<li>标题/章节和范围选择</li>
+<li>批量扫描和编码排队</li>
+<li>章标记</li>
+<li>字幕（VobSub，隐藏式字幕 CEA-608，SSA，SRT）</li>
+<li>恒定质量或平均比特率视频编码</li>
+<li>支持 VFR 和 CFR</li>
+<li>视频滤镜：逐行扫描，去梳，去噪，检测，去块，灰度，裁剪和缩放</li>
+<li>实时静态和视频预览</li>
 </ul>
-<p>这⾥针对⽅法 3 做了实现，因为这是使⽤⽅可以最轻松的使⽤⽅法。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 通过 useRef（⻅官⽅ Hook API 说明) 缓存值的引⽤，每次传⼊新值时，通过深对⽐进⾏⽐较，如果没</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">useMemoizedValue</span>(<span class="params">value</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> cache = useRef(<span class="literal">null</span>);</span><br><span class="line">  <span class="keyword">const</span> previousValue = cache.current;</span><br><span class="line">  <span class="keyword">if</span> (_.isEqual(previousValue, value)) &#123;</span><br><span class="line">    <span class="keyword">return</span> previousValue;</span><br><span class="line">  &#125;</span><br><span class="line">  cache.current = value;</span><br><span class="line">  <span class="keyword">return</span> value;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>这个 hook 终于可以被正常调⽤了</p>
+<h2 id="其他在线压缩网站"><a href="#其他在线压缩网站" class="headerlink" title="其他在线压缩网站"></a>其他在线压缩网站</h2><ul>
+<li><p>Online UniConverter<br><a href="https://www.media.io/video-compressor.html" target="_blank" rel="noopener">https://www.media.io/video-compressor.html</a><br><img src="https://imgservices-1252317822.image.myqcloud.com/image/20191016/jg0b17q6n3.png" alt=""></p>
+</li>
+<li><p>youcompress<br><a href="https://www.youcompress.com/videos/" target="_blank" rel="noopener">https://www.youcompress.com/videos/</a><br><img src="https://imgservices-1252317822.image.myqcloud.com/image/20191016/tsqg8hmtu7.png" alt=""></p>
+</li>
+</ul>
+<p>上面这两个是挑选出来的免费的在线压缩工具网站</p>
 
       
     </div>
@@ -371,8 +382,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/10/21/视频无损压缩工具/" rel="next" title="视频无损压缩工具">
-                <i class="fa fa-chevron-left"></i> 视频无损压缩工具
+              <a href="/2019/08/21/HTML-章节与大纲/" rel="next" title="HTML 章节与大纲">
+                <i class="fa fa-chevron-left"></i> HTML 章节与大纲
               </a>
             
           </div>
@@ -380,6 +391,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/11/28/useEffect-引起的无限循环/" rel="prev" title="useEffect 引起的无限循环">
+                useEffect 引起的无限循环 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -499,7 +514,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#自定义-hook"><span class="nav-number">1.</span> <span class="nav-text">自定义 hook</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Handbrake"><span class="nav-number">1.</span> <span class="nav-text">Handbrake</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其他在线压缩网站"><span class="nav-number">2.</span> <span class="nav-text">其他在线压缩网站</span></a></li></ol></div>
             
 
           </div>
