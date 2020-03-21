@@ -251,6 +251,159 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2020/12/21/HTML-章节与大纲/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lennonover">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lennonover">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2020/12/21/HTML-章节与大纲/" itemprop="url">
+                  HTML 章节与大纲
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-12-21T21:44:14+08:00">
+                2020-12-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="HTML4"><a href="#HTML4" class="headerlink" title="HTML4"></a>HTML4</h2><p>HTML 4 用文档中章节和子章节的概念去描述文档结构,一个章节由一个包含着标题元素（h1-h6）的 div 元素表示。</p>
+<p>HTML div 元素（<code>&lt;div&gt; elements</code>）并不强制性地定义一个章节。一个 HTML 标题元素（ HTML Heading Element）的出现就足以意味着新的章节。</p>
+<p>所以就造成如下问题：</p>
+<ul>
+<li>定义语义性章节的 <code>&lt;div&gt;</code> 元素的用法,如果没有为 class 属性赋以特殊的值，使生成自动生成大纲的算法变得不可能</li>
+<li>并多个文档是困难的</li>
+<li>HTML4 中，所有的章节都是文档大纲中的一部分。但是文档并不总是这样。文档可以包含那些不是大纲的特殊章节, 但是与文档有关的，就像广告块和解释区域。</li>
+<li>因为在 HTML4 中任何的部分都是文档大纲的一部分, 没有办法产生与网站相关而不是与文档相关的节段，比如 logos,menus,目录或版权信息和法律声明。</li>
+</ul>
+<h2 id="HTML5"><a href="#HTML5" class="headerlink" title="HTML5"></a>HTML5</h2><ul>
+<li><p>HTML5 在自动生成大纲算法的过程中去掉了 div 元素（<code>&lt;div&gt;</code>），并新增了一个元素，section 元素（<code>&lt;section&gt;</code>）</p>
+</li>
+<li><p>新引入的元素（<code>&lt;article&gt;</code>、<code>&lt;section&gt;</code>、<code>&lt;nav&gt;</code> 和 <code>&lt;aside&gt;</code>）合并多个文档</p>
+<ul>
+<li>article(页面结构) 页面中独立的结构它可能是论坛帖子、杂志或新闻文章、博客、用户提交的评论、交互式组件，或者其他独立的内容项目例如一个页面有文章和评论区可以用两个 article 。<br>-​​ 通常包括标题（ <code>&lt;h1&gt; - &lt;h6&gt;</code> 元素）。<ul>
+<li>素嵌套使用时，则该元素代表与外层元素有关的文章。例如，代表博客评论的 <code>&lt;article&gt;</code> 元素可嵌套在代表博客文章的 <code>&lt;article&gt;</code> 元素中。</li>
+<li>可能包含一个或多个 <code>&lt;section&gt;</code>。</li>
+</ul>
+</li>
+<li>section（文档） 表示一个包含在 HTML 文档中的独立部分，它没有更具体的语义元素来表示，一般来说会有包含一个标题,例如 <code>h1-6</code> 相关的级别只在一个 section 节段中起作用,每个 section 独立。<ul>
+<li>如果元素内容可以分为几个部分的话，应该使用 <code>&lt;article&gt;</code> 而不是 <code>&lt;section&gt;</code>。</li>
+<li>不要把 <code>&lt;section&gt;</code> 元素作为一个普通的容器来使用，这是本应该是<code>&lt;div&gt;</code>的用法（特别是当片段（the sectioning ）仅仅是为了美化样式的时候）。 一般来说，一个<code>&lt;section&gt;</code>应该出现在文档大纲中。</li>
+</ul>
+</li>
+<li>nav 表示页面的一部分，其目的是在当前文档或其他文档中提供导航链接。导航部分的常见示例是菜单，目录和索引。</li>
+<li>aside 表示一个和其余页面内容几乎无关的部分，被认为是独立于该内容的一部分并且可以被单独的拆分出来而不会使整体受影响。</li>
+</ul>
+</li>
+<li><p>HTML5 引入 aside 元素 <code>&lt;aside&gt;</code> 使得这样的节点不会插入到主纲要中例如广告。</p>
+</li>
+<li><p>HTML5 引入了三个特殊的节段 元素： 包含链接集合的 nav 元素 <code>&lt;nav&gt;</code> , 例如目录, 包含网站相关信息的 footer 元素 <code>&lt;footer&gt;</code> 和 header 元素 <code>&lt;header&gt;</code> 。</p>
+</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2020/03/21/useEffect-引起的无限循环/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1572,143 +1725,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2019/01/27/Js-几种循环的比较/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="lennonover">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="lennonover">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2019/01/27/Js-几种循环的比较/" itemprop="url">
-                  Js 几种循环的比较
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-27T21:34:29+08:00">
-                2019-01-27
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> TEST_SIZE = <span class="number">10000000</span>;</span><br><span class="line"><span class="comment">// 常用</span></span><br><span class="line"><span class="keyword">let</span> arr1 = (<span class="keyword">new</span> <span class="built_in">Array</span>(TEST_SIZE)).fill(<span class="number">1</span>);</span><br><span class="line"><span class="keyword">let</span> target1 = [];</span><br><span class="line"><span class="keyword">let</span> iStart1 = (<span class="keyword">new</span> <span class="built_in">Date</span>()).getTime();</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> i=<span class="number">0</span>; i &lt; arr1.length; i++) &#123;</span><br><span class="line">    target1.push(arr1[i]);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> iEnd1 = (<span class="keyword">new</span> <span class="built_in">Date</span>()).getTime();</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">'for:'</span> +(iEnd1 - iStart1)+<span class="string">'ms'</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 取 len</span></span><br><span class="line"><span class="keyword">let</span> arr11 = (<span class="keyword">new</span> <span class="built_in">Array</span>(TEST_SIZE)).fill(<span class="number">1</span>);</span><br><span class="line"><span class="keyword">let</span> target11 = [];</span><br><span class="line"><span class="keyword">let</span> iStart11 = (<span class="keyword">new</span> <span class="built_in">Date</span>()).getTime();</span><br><span class="line"><span class="keyword">let</span> len = arr11.length;</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> i=<span class="number">0</span>; i &lt; len; i++) &#123;</span><br><span class="line">    target11.push(arr11[i]);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> iEnd11 = (<span class="keyword">new</span> <span class="built_in">Date</span>()).getTime();</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">'for-len:'</span> +(iEnd11 - iStart11)+<span class="string">'ms'</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 倒叙</span></span><br><span class="line"><span class="keyword">let</span> arr12 = (<span class="keyword">new</span> <span class="built_in">Array</span>(TEST_SIZE)).fill(<span class="number">1</span>);</span><br><span class="line"><span class="keyword">let</span> target12 = [];</span><br><span class="line"><span class="keyword">let</span> iStart12 = (<span class="keyword">new</span> <span class="built_in">Date</span>()).getTime();</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> i = arr12.length; i--;) &#123;</span><br><span class="line">    target12.push(arr12[i]);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> iEnd12 = (<span class="keyword">new</span> <span class="built_in">Date</span>()).getTime();</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">'for-re:'</span> +(iEnd12 - iStart12)+<span class="string">'ms'</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 将取值与判断合并，通过不停的枚举每一项来循环</span></span><br><span class="line"><span class="keyword">let</span> arr13 = (<span class="keyword">new</span> <span class="built_in">Array</span>(TEST_SIZE)).fill(<span class="number">1</span>);</span><br><span class="line"><span class="keyword">let</span> target13 = [];</span><br><span class="line"><span class="keyword">let</span> iStart13 = (<span class="keyword">new</span> <span class="built_in">Date</span>()).getTime();</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>, a; a = arr13[i]; i++) &#123;</span><br><span class="line">    target13.push(a);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> iEnd13 = (<span class="keyword">new</span> <span class="built_in">Date</span>()).getTime();</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">'for-a:'</span> +(iEnd13 - iStart13)+<span class="string">'ms'</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// forEach</span></span><br><span class="line"><span class="keyword">let</span> arr2 = (<span class="keyword">new</span> <span class="built_in">Array</span>(TEST_SIZE)).fill(<span class="number">1</span>);</span><br><span class="line"><span class="keyword">let</span> target2 = [];</span><br><span class="line"><span class="keyword">let</span> iStart2 = (<span class="keyword">new</span> <span class="built_in">Date</span>()).getTime();</span><br><span class="line">arr2.forEach(<span class="function"><span class="keyword">function</span>(<span class="params">item</span>)</span>&#123;</span><br><span class="line">    target2.push(item);</span><br><span class="line">&#125;);</span><br><span class="line"><span class="keyword">let</span> iEnd2 = (<span class="keyword">new</span> <span class="built_in">Date</span>()).getTime();</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">'forEach:'</span> +(iEnd2 - iStart2)+<span class="string">'ms'</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// map</span></span><br><span class="line"><span class="keyword">let</span> arr3 = (<span class="keyword">new</span> <span class="built_in">Array</span>(TEST_SIZE)).fill(<span class="number">1</span>);</span><br><span class="line"><span class="keyword">let</span> target3 = [];</span><br><span class="line"><span class="keyword">let</span> iStart3 = (<span class="keyword">new</span> <span class="built_in">Date</span>()).getTime();</span><br><span class="line">arr3.map(<span class="function"><span class="keyword">function</span>(<span class="params">item</span>)</span>&#123;</span><br><span class="line">    target3.push(item);</span><br><span class="line">&#125;);</span><br><span class="line"><span class="keyword">let</span> iEnd3 = (<span class="keyword">new</span> <span class="built_in">Date</span>()).getTime();</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">'map:'</span> +(iEnd3 - iStart3)+<span class="string">'ms'</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// while</span></span><br><span class="line"><span class="keyword">let</span> arr4 = (<span class="keyword">new</span> <span class="built_in">Array</span>(TEST_SIZE)).fill(<span class="number">1</span>);</span><br><span class="line"><span class="keyword">let</span> target4 = [];</span><br><span class="line"><span class="keyword">let</span> iStart4 = (<span class="keyword">new</span> <span class="built_in">Date</span>()).getTime();</span><br><span class="line"><span class="keyword">let</span> index = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">while</span>(index &lt; arr4.length) &#123;</span><br><span class="line">    target4.push(arr4[index]);</span><br><span class="line">    index++</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> iEnd4 = (<span class="keyword">new</span> <span class="built_in">Date</span>()).getTime();</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">'while:'</span> +(iEnd4 - iStart4)+<span class="string">'ms'</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// for in</span></span><br><span class="line"><span class="keyword">let</span> arr5 = (<span class="keyword">new</span> <span class="built_in">Array</span>(TEST_SIZE)).fill(<span class="number">1</span>);</span><br><span class="line"><span class="keyword">let</span> target5 = [];</span><br><span class="line"><span class="keyword">let</span> iStart5 = (<span class="keyword">new</span> <span class="built_in">Date</span>()).getTime();</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> obj <span class="keyword">in</span> arr5) &#123;</span><br><span class="line">    target5.push(arr5[obj]);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> iEnd5 = (<span class="keyword">new</span> <span class="built_in">Date</span>()).getTime();</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">'forin:'</span> +(iEnd5 - iStart5)+<span class="string">'ms'</span>);</span><br></pre></td></tr></table></figure>
-<h2 id="结果"><a href="#结果" class="headerlink" title="结果"></a>结果</h2><blockquote>
-<p>测试环境<br>机器 iMac (Retina 5K, 27-inch, Late 2015) 10.13.6 (17G65)3.2 GHz Intel Core i5<br>node v8.11.3<br>chrome  71.0.3578.98（正式版本） （64 位）<br>firefox 64.0 (64 位)<br>safair</p>
-</blockquote>
-<p><img src="https://i.loli.net/2019/01/30/5c51901ba3fee.png" alt="结果"></p>
-<ul>
-<li><p>谷歌浏览器中 ES6+ 的循环语法会普遍比传统的循环语法慢</p>
-</li>
-<li><p>不管是 for 循环还是 forEach v8 里面都差不多</p>
-</li>
-<li><p>对于 “枚举” 循环</p>
-<p>  数组中应当避免查找空值或者是超出范围的值，这样会导致在原型链中的向上查找，很耗性能。这种循环方式会把所有的元素取出，并不停的迭代下一个，直到出现 undefined 或 null ，这样就出现的向上查找的情景。</p>
-</li>
-<li><p>对于 提前取数组长度也就是方法二 </p>
-<p>  实际数组的 length 在每次循环中都会重新读区，并不会提前计算好，而是 v8 引擎最大限度的优化了对象取值的性能。</p>
-</li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1758,7 +1774,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">52</span>
+                <span class="site-state-item-count">53</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>

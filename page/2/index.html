@@ -251,6 +251,143 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2019/01/27/Js-几种循环的比较/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lennonover">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lennonover">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2019/01/27/Js-几种循环的比较/" itemprop="url">
+                  Js 几种循环的比较
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-27T21:34:29+08:00">
+                2019-01-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> TEST_SIZE = <span class="number">10000000</span>;</span><br><span class="line"><span class="comment">// 常用</span></span><br><span class="line"><span class="keyword">let</span> arr1 = (<span class="keyword">new</span> <span class="built_in">Array</span>(TEST_SIZE)).fill(<span class="number">1</span>);</span><br><span class="line"><span class="keyword">let</span> target1 = [];</span><br><span class="line"><span class="keyword">let</span> iStart1 = (<span class="keyword">new</span> <span class="built_in">Date</span>()).getTime();</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> i=<span class="number">0</span>; i &lt; arr1.length; i++) &#123;</span><br><span class="line">    target1.push(arr1[i]);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> iEnd1 = (<span class="keyword">new</span> <span class="built_in">Date</span>()).getTime();</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">'for:'</span> +(iEnd1 - iStart1)+<span class="string">'ms'</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 取 len</span></span><br><span class="line"><span class="keyword">let</span> arr11 = (<span class="keyword">new</span> <span class="built_in">Array</span>(TEST_SIZE)).fill(<span class="number">1</span>);</span><br><span class="line"><span class="keyword">let</span> target11 = [];</span><br><span class="line"><span class="keyword">let</span> iStart11 = (<span class="keyword">new</span> <span class="built_in">Date</span>()).getTime();</span><br><span class="line"><span class="keyword">let</span> len = arr11.length;</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> i=<span class="number">0</span>; i &lt; len; i++) &#123;</span><br><span class="line">    target11.push(arr11[i]);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> iEnd11 = (<span class="keyword">new</span> <span class="built_in">Date</span>()).getTime();</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">'for-len:'</span> +(iEnd11 - iStart11)+<span class="string">'ms'</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 倒叙</span></span><br><span class="line"><span class="keyword">let</span> arr12 = (<span class="keyword">new</span> <span class="built_in">Array</span>(TEST_SIZE)).fill(<span class="number">1</span>);</span><br><span class="line"><span class="keyword">let</span> target12 = [];</span><br><span class="line"><span class="keyword">let</span> iStart12 = (<span class="keyword">new</span> <span class="built_in">Date</span>()).getTime();</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> i = arr12.length; i--;) &#123;</span><br><span class="line">    target12.push(arr12[i]);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> iEnd12 = (<span class="keyword">new</span> <span class="built_in">Date</span>()).getTime();</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">'for-re:'</span> +(iEnd12 - iStart12)+<span class="string">'ms'</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 将取值与判断合并，通过不停的枚举每一项来循环</span></span><br><span class="line"><span class="keyword">let</span> arr13 = (<span class="keyword">new</span> <span class="built_in">Array</span>(TEST_SIZE)).fill(<span class="number">1</span>);</span><br><span class="line"><span class="keyword">let</span> target13 = [];</span><br><span class="line"><span class="keyword">let</span> iStart13 = (<span class="keyword">new</span> <span class="built_in">Date</span>()).getTime();</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>, a; a = arr13[i]; i++) &#123;</span><br><span class="line">    target13.push(a);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> iEnd13 = (<span class="keyword">new</span> <span class="built_in">Date</span>()).getTime();</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">'for-a:'</span> +(iEnd13 - iStart13)+<span class="string">'ms'</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// forEach</span></span><br><span class="line"><span class="keyword">let</span> arr2 = (<span class="keyword">new</span> <span class="built_in">Array</span>(TEST_SIZE)).fill(<span class="number">1</span>);</span><br><span class="line"><span class="keyword">let</span> target2 = [];</span><br><span class="line"><span class="keyword">let</span> iStart2 = (<span class="keyword">new</span> <span class="built_in">Date</span>()).getTime();</span><br><span class="line">arr2.forEach(<span class="function"><span class="keyword">function</span>(<span class="params">item</span>)</span>&#123;</span><br><span class="line">    target2.push(item);</span><br><span class="line">&#125;);</span><br><span class="line"><span class="keyword">let</span> iEnd2 = (<span class="keyword">new</span> <span class="built_in">Date</span>()).getTime();</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">'forEach:'</span> +(iEnd2 - iStart2)+<span class="string">'ms'</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// map</span></span><br><span class="line"><span class="keyword">let</span> arr3 = (<span class="keyword">new</span> <span class="built_in">Array</span>(TEST_SIZE)).fill(<span class="number">1</span>);</span><br><span class="line"><span class="keyword">let</span> target3 = [];</span><br><span class="line"><span class="keyword">let</span> iStart3 = (<span class="keyword">new</span> <span class="built_in">Date</span>()).getTime();</span><br><span class="line">arr3.map(<span class="function"><span class="keyword">function</span>(<span class="params">item</span>)</span>&#123;</span><br><span class="line">    target3.push(item);</span><br><span class="line">&#125;);</span><br><span class="line"><span class="keyword">let</span> iEnd3 = (<span class="keyword">new</span> <span class="built_in">Date</span>()).getTime();</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">'map:'</span> +(iEnd3 - iStart3)+<span class="string">'ms'</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// while</span></span><br><span class="line"><span class="keyword">let</span> arr4 = (<span class="keyword">new</span> <span class="built_in">Array</span>(TEST_SIZE)).fill(<span class="number">1</span>);</span><br><span class="line"><span class="keyword">let</span> target4 = [];</span><br><span class="line"><span class="keyword">let</span> iStart4 = (<span class="keyword">new</span> <span class="built_in">Date</span>()).getTime();</span><br><span class="line"><span class="keyword">let</span> index = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">while</span>(index &lt; arr4.length) &#123;</span><br><span class="line">    target4.push(arr4[index]);</span><br><span class="line">    index++</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> iEnd4 = (<span class="keyword">new</span> <span class="built_in">Date</span>()).getTime();</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">'while:'</span> +(iEnd4 - iStart4)+<span class="string">'ms'</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// for in</span></span><br><span class="line"><span class="keyword">let</span> arr5 = (<span class="keyword">new</span> <span class="built_in">Array</span>(TEST_SIZE)).fill(<span class="number">1</span>);</span><br><span class="line"><span class="keyword">let</span> target5 = [];</span><br><span class="line"><span class="keyword">let</span> iStart5 = (<span class="keyword">new</span> <span class="built_in">Date</span>()).getTime();</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> obj <span class="keyword">in</span> arr5) &#123;</span><br><span class="line">    target5.push(arr5[obj]);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> iEnd5 = (<span class="keyword">new</span> <span class="built_in">Date</span>()).getTime();</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">'forin:'</span> +(iEnd5 - iStart5)+<span class="string">'ms'</span>);</span><br></pre></td></tr></table></figure>
+<h2 id="结果"><a href="#结果" class="headerlink" title="结果"></a>结果</h2><blockquote>
+<p>测试环境<br>机器 iMac (Retina 5K, 27-inch, Late 2015) 10.13.6 (17G65)3.2 GHz Intel Core i5<br>node v8.11.3<br>chrome  71.0.3578.98（正式版本） （64 位）<br>firefox 64.0 (64 位)<br>safair</p>
+</blockquote>
+<p><img src="https://i.loli.net/2019/01/30/5c51901ba3fee.png" alt="结果"></p>
+<ul>
+<li><p>谷歌浏览器中 ES6+ 的循环语法会普遍比传统的循环语法慢</p>
+</li>
+<li><p>不管是 for 循环还是 forEach v8 里面都差不多</p>
+</li>
+<li><p>对于 “枚举” 循环</p>
+<p>  数组中应当避免查找空值或者是超出范围的值，这样会导致在原型链中的向上查找，很耗性能。这种循环方式会把所有的元素取出，并不停的迭代下一个，直到出现 undefined 或 null ，这样就出现的向上查找的情景。</p>
+</li>
+<li><p>对于 提前取数组长度也就是方法二 </p>
+<p>  实际数组的 length 在每次循环中都会重新读区，并不会提前计算好，而是 v8 引擎最大限度的优化了对象取值的性能。</p>
+</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2019/01/19/2018总结/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1781,352 +1918,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2018/01/03/ARIA/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="lennonover">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="lennonover">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2018/01/03/ARIA/" itemprop="url">
-                  ARIA
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-03T22:57:29+08:00">
-                2018-01-03
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>ARIA 是 <code>Accessible Rich Internet Applications</code> 的缩写。它是 W3C 的 Web 无障碍推进组织 <a href="https://www.w3.org/WAI/" target="_blank" rel="noopener">Web Accessibility Initiative / WAI</a> 在2014年3月20日发布的可访问富互联网应用实现指南。2017年11月2日，发布了 <a href="https://www.w3.org/TR/wai-aria-1.1/" target="_blank" rel="noopener">WAI-ARIA 1.1</a> 的提案推荐标准,在1.0版本的基础上，添加了一些新机制，使 HTML + ARIA 无障碍模型更加完整，并支持图形及数字出版的无障碍需求。</p>
-<ul>
-<li>几种场景<ul>
-<li>一个由 js 生成的页面</li>
-<li>一个不支持鼠标的页面</li>
-<li>一个不支持键盘的页面</li>
-<li>一部没有字幕的电影</li>
-</ul>
-</li>
-<li>两组数据<ul>
-<li>全球目前有超过10亿残疾人 占全球人口约15%</li>
-<li>全球网民数量突破30亿约占总人口42%</li>
-</ul>
-</li>
-</ul>
-<p>以上这种场景的对于一个视觉或者听觉有障碍的人来说还能正常访问吗？这就是要 <code>WAI-ARIA</code> 的目的。<code>WAI-ARIA</code> 适用于跨越某些领域的障碍，这些领域存在的无障碍问题无法通过原生 HTML 进行管理。它通过允许您指定某些属性来发挥作用，这些属性可以修改元素转换成无障碍树的方式。</p>
-<h2 id="ARIA-是怎么做的"><a href="#ARIA-是怎么做的" class="headerlink" title="ARIA 是怎么做的"></a>ARIA 是怎么做的</h2><p>ARIA属性可以被 <a href="https://www.nvaccess.org/" target="_blank" rel="noopener">NVDA</a> 等读屏软件调用系统API识别， 转化成语音。</p>
-<p>例如我们使用列表项作为一种自定义复选框</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">li</span> <span class="attr">class</span>=<span class="string">"checkbox"</span> <span class="attr">checked</span>&gt;</span></span><br><span class="line">  javcscript</span><br><span class="line"><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>正常的人是能正确识别的，但是屏幕阅读器却不会给予任何指示来说明该元素旨在作为复选框使用，因此弱视用户可能会完全错过该元素。<br>如果使用 ARIA 属性，我们就可以为元素提供缺少的信息，以便屏幕阅读器能正确解读它。 我们在以上代码中添加了 role 和 aria-checked 属性，将该元素显式标识为一个复选框，并指定它在默认情况下处于选中状态。该列表项现在将添加到无障碍树中，屏幕阅读器将把它正确地报告为一个复选框。</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">li</span> <span class="attr">class</span>=<span class="string">"checkbox"</span> <span class="attr">role</span>=<span class="string">"checkbox"</span> <span class="attr">checked</span> <span class="attr">aria-checked</span>=<span class="string">"true"</span>&gt;</span></span><br><span class="line">  javcscript</span><br><span class="line"><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>ARIA 通过更改和补充标准 DOM 无障碍树来发挥作用。并且尽可能正确地使用 html 标签，原生标签对 ARIA 支持得更好。在实再自定义控件的时候，添加 ARIA 相关属性可以例控件能正确被读屏软件识别。 html5 语义化标签与 ARIA 有重叠的地方，用新的语义化标签但还是推荐添加 ARIA 属性。<br>例如上面的自定义复选框,标准 HTML <input type="checkbox"> 元素都不需要额外的 role=”checkbox” ARIA 属性就能正确声明。</p>
-<h2 id="ARIA-on-HTML"><a href="#ARIA-on-HTML" class="headerlink" title="ARIA on HTML"></a>ARIA on HTML</h2><p>ARIA on HTML 中使用有其自己的规范，在 <a href="http://validator.w3.org/nu/" target="_blank" rel="noopener">这个</a> 网站可以检测 ARIA 使用的是否标准。</p>
-<p>ARIA 属性包括三个方面：角色属性值(roles), 状态属性值(states), 和属性表(properties)  参考网站： <a href="https://www.w3.org/TR/html-aria/#index-aria-main" target="_blank" rel="noopener">W3C</a></p>
-<p>浏览器支持情况参见 <a href="https://caniuse.com/#search=aria" target="_blank" rel="noopener">caniuse</a> </p>
-<ul>
-<li><p>HTML5 元素有的不应该重新定义一个添加ARIA</p>
-<p>  如果你使用的元素(HTML5)具有语义化，应该使用这些元素，而不应该重新定义一个添加ARIA的角色、状态或属性的元素。</p>
-<p>  下面以 role=heading 一个上button元素。这是不允许的，因为该 button 元素具有默认特征与标题角色冲突。</p>
-  <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">role</span>=<span class="string">"heading"</span>&gt;</span>search<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>  哪些情况下可以使用？</p>
-<ul>
-<li>在HTML(HTML5)元素特性不管支持或不支持，只要不具语义化，就可以使用ARIA</li>
-<li>排除视觉设计约束使用一个特定的元素，但不能是样式上所需的元素</li>
-<li>目前尚不支持的HTML特性</li>
-</ul>
-</li>
-</ul>
-<ul>
-<li><p>规所有的ARIA制作控件都必须具有键盘 (keyboard) 事件。</p>
-</li>
-<li><p>ARIA role的必需属性不可省略</p>
-<p>  正确</p>
-  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;span role=&quot;checkbox&quot; aria-checked=&quot;false&quot; aria-labelledby=&quot;foo&quot; tabindex=&quot;0&quot;&gt;&lt;/span&gt;</span><br></pre></td></tr></table></figure>
-<p>  错误</p>
-  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;span role=&quot;checkbox&quot; aria-labelledby=&quot;foo&quot; tabindex=&quot;0&quot;&gt;&lt;/span&gt;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>具有ARIA role的元素必须在正确的范围内</p>
-<p>  正确</p>
-  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;div role=&quot;list&quot;&gt; </span><br><span class="line">	&lt;span role=&quot;listitem&quot;&gt;Rainbow Trout&lt;/span&gt; </span><br><span class="line">	&lt;span role=&quot;listitem&quot;&gt;Brook Trout&lt;/span&gt;</span><br><span class="line">	&lt;span role=&quot;listitem&quot;&gt;Lake Trout&lt;/span&gt;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
-<p>  错误</p>
-  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;div&gt; </span><br><span class="line">	&lt;span role=&quot;listitem&quot;&gt;Rainbow Trout&lt;/span&gt; </span><br><span class="line">	&lt;span role=&quot;listitem&quot;&gt;Brook Trout&lt;/span&gt;</span><br><span class="line">	&lt;span role=&quot;listitem&quot;&gt;Lake Trout&lt;/span&gt;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<h2 id="ARIA-在-HTML-中由组成"><a href="#ARIA-在-HTML-中由组成" class="headerlink" title="ARIA 在 HTML 中由组成"></a>ARIA 在 HTML 中由组成</h2><p>ARIA 在 HTML 中由两部分组成，一个 role ，表示元素的作用；一个是 aria- 表示元素的属性或状态。</p>
-<ul>
-<li>role</li>
-</ul>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">role值</th>
-<th style="text-align:left">含义</th>
-<th style="text-align:left">role值</th>
-<th style="text-align:left">含义</th>
-<th style="text-align:left">role值</th>
-<th style="text-align:left">含义</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">alert</td>
-<td style="text-align:left">警告</td>
-<td style="text-align:left">alertdialog</td>
-<td style="text-align:left">警告框</td>
-<td style="text-align:left">application</td>
-<td style="text-align:left">应用</td>
-</tr>
-<tr>
-<td style="text-align:left">button</td>
-<td style="text-align:left">按钮</td>
-<td style="text-align:left">checkbox</td>
-<td style="text-align:left">复选框</td>
-<td style="text-align:left">grid</td>
-<td style="text-align:left">网格</td>
-</tr>
-<tr>
-<td style="text-align:left">gridcell</td>
-<td style="text-align:left">网格单元</td>
-<td style="text-align:left">group</td>
-<td style="text-align:left">组合</td>
-<td style="text-align:left">heading</td>
-<td style="text-align:left">应用程序标题</td>
-</tr>
-<tr>
-<td style="text-align:left">listbox</td>
-<td style="text-align:left">列表框log    日志</td>
-<td style="text-align:left">menu</td>
-<td style="text-align:left">菜单</td>
-<td style="text-align:left">treeitem</td>
-<td style="text-align:left">树结构选项</td>
-</tr>
-<tr>
-<td style="text-align:left">menubar</td>
-<td style="text-align:left">菜单栏</td>
-<td style="text-align:left">menuitem</td>
-<td style="text-align:left">菜单项</td>
-<td style="text-align:left">menuitemcheckbox</td>
-<td style="text-align:left">可复选的菜单项</td>
-</tr>
-<tr>
-<td style="text-align:left">menuitemradio</td>
-<td style="text-align:left">只能单选的菜单项</td>
-<td style="text-align:left">option</td>
-<td style="text-align:left">选项</td>
-<td style="text-align:left">presentation</td>
-<td style="text-align:left">陈述</td>
-</tr>
-<tr>
-<td style="text-align:left">progressbar</td>
-<td style="text-align:left">进度条</td>
-<td style="text-align:left">radio</td>
-<td style="text-align:left">单选</td>
-<td style="text-align:left">radiogroup</td>
-<td style="text-align:left">单选按钮组</td>
-</tr>
-<tr>
-<td style="text-align:left">region</td>
-<td style="text-align:left">区域row    行</td>
-<td style="text-align:left">separator</td>
-<td style="text-align:left">分割</td>
-<td style="text-align:left">tree</td>
-<td style="text-align:left">树形</td>
-</tr>
-<tr>
-<td style="text-align:left">slider</td>
-<td style="text-align:left">滑动条</td>
-<td style="text-align:left">spinbutton</td>
-<td style="text-align:left">微调</td>
-<td style="text-align:left">tab</td>
-<td style="text-align:left">tab标签</td>
-</tr>
-<tr>
-<td style="text-align:left">tablist</td>
-<td style="text-align:left">标签列表</td>
-<td style="text-align:left">tabpanel</td>
-<td style="text-align:left">标签面板</td>
-<td style="text-align:left">timer</td>
-<td style="text-align:left">计数</td>
-</tr>
-<tr>
-<td style="text-align:left">toolbar</td>
-<td style="text-align:left">工具栏</td>
-<td style="text-align:left">tooltip</td>
-<td style="text-align:left">提示文本</td>
-</tr>
-</tbody>
-</table>
-<ul>
-<li><p>aria 属性或状态</p>
-<ul>
-<li><p>aria-label</p>
-<ul>
-<li>视觉上能理解，读屏软件不能理解的可以用 aria-label，和 img alt 属性效果相同。</li>
-<li>placeholder 不能被读屏软件识别，如果不带 label 的 form 表单，需要用 aria-label标注。个人测试 iOS10 上 VoiceOver 是可以读 placeholder ，如果两个属性同时存在会先读 aria-label 后读 placeholder ，chrome 插件的 Accessibility Developer Tools 不识别 placeholder。</li>
-</ul>
-</li>
-<li><p>aria-hidden</p>
-<p>  隐藏元素的一些对比</p>
-</li>
-</ul>
-</li>
-</ul>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">方法</th>
-<th style="text-align:left">行为</th>
-<th style="text-align:left">读屏软件行为</th>
-<th style="text-align:left">兼容性</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">CSS：visibility:hidden;</td>
-<td style="text-align:left">从视觉中隐藏元素，但其原始空间仍然被占用（很像opacity:0）</td>
-<td style="text-align:left">不可读</td>
-<td style="text-align:left">兼容性好</td>
-</tr>
-<tr>
-<td style="text-align:left">CSS: display:none;</td>
-<td style="text-align:left">从视觉中隐藏元素，它的原始空间丢失，下一个元素将取代它的位置</td>
-<td style="text-align:left">不可读</td>
-<td style="text-align:left">兼容性好</td>
-</tr>
-<tr>
-<td style="text-align:left">HTML5: hidden属性</td>
-<td style="text-align:left">类似display：none</td>
-<td style="text-align:left">不可读</td>
-<td style="text-align:left">IE11+</td>
-</tr>
-<tr>
-<td style="text-align:left">aria-hidden = “true”</td>
-<td style="text-align:left">内容显示在浏览器，但读屏软件不可读</td>
-<td style="text-align:left">不可读</td>
-<td style="text-align:left">IE11+</td>
-</tr>
-<tr>
-<td style="text-align:left">CSS: .visuallyHidden类</td>
-<td style="text-align:left">视觉不显示，工作流不存在</td>
-<td style="text-align:left">可读</td>
-<td style="text-align:left">兼容性好</td>
-</tr>
-</tbody>
-</table>
-<pre><code>- aria-pressed
-
-    表示按下的状态，可选值有：true, false, mixed, undfined.默认为undfined, 表示按下状态未知；true表示元素往下（按钮按下）；false表示元素抬起；mixed表示元素同时有按下和没有按下的状态
-
-    <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">role</span>=<span class="string">"button"</span> <span class="attr">tabindex</span>=<span class="string">"0"</span> <span class="attr">aria-pressed</span>=<span class="string">"false"</span> <span class="attr">aria-disabled</span>=<span class="string">"false"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-- aria-selected
-
-    表示选择状态,可选值有：true, false, undefined。 默认为undefined，表示元素选择状态未知;true表示元素已选择;false表示未被选中。
-
-    <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">ul</span> <span class="attr">class</span>=<span class="string">"tablist"</span> <span class="attr">role</span>=<span class="string">"tablist"</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">li</span> <span class="attr">role</span>=<span class="string">"tab"</span> <span class="attr">aria-selected</span>=<span class="string">"true"</span> <span class="attr">tabindex</span>=<span class="string">"0"</span>&gt;</span>中国<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">li</span> <span class="attr">role</span>=<span class="string">"tab"</span> <span class="attr">aria-selected</span>=<span class="string">"false"</span> <span class="attr">tabindex</span>=<span class="string">"-1"</span>&gt;</span>美国<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br></pre></td></tr></table></figure>
-</code></pre>
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2176,7 +1967,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">52</span>
+                <span class="site-state-item-count">53</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
