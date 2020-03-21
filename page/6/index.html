@@ -251,6 +251,129 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2016/07/08/JS作用域/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lennonover">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lennonover">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/07/08/JS作用域/" itemprop="url">
+                  JS作用域
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-07-08T23:53:28+08:00">
+                2016-07-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="JavaScript的作用域链"><a href="#JavaScript的作用域链" class="headerlink" title="JavaScript的作用域链"></a>JavaScript的作用域链</h2><p>JavaScript需要查询一个变量x时，首先会查找作用域链的第一个对象，如果以第一个对象没有定义x变量，JavaScript会继续查找有没有定义x变量，如果第二个对象没有定义则会继续查找，以此类推。下面的代码涉及到了三个作用域链对象，依次是：inner、rainman、window。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">var rain = 1;</span><br><span class="line">function rainman()&#123;</span><br><span class="line">    var man = 2;</span><br><span class="line">    function inner()&#123;</span><br><span class="line">        var innerVar = 4;</span><br><span class="line">        //var rain = 5;//函数体内部，局部变量的优先级比同名的全局变量高。</span><br><span class="line">        alert(rain);</span><br><span class="line">    &#125;</span><br><span class="line">    inner();    //调用inner函数 1</span><br><span class="line">&#125;</span><br><span class="line">rainman();    //调用rainman函数</span><br></pre></td></tr></table></figure></p>
+<h2 id="JavaScript没有块级作用域"><a href="#JavaScript没有块级作用域" class="headerlink" title="JavaScript没有块级作用域"></a>JavaScript没有块级作用域</h2><p>比如if条件语句，就不算一个独立的作用域.<br>为了解决块级作用域，<br>ES6引入了新的关键字let，用let替代var可以申明一个块级作用域的变量.<br>ES6标准引入了新的关键字const来定义常量，const与let都具有块级作用域：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">function func() &#123;</span><br><span class="line">  if (true) &#123;</span><br><span class="line">    var tmp = 123;</span><br><span class="line">  &#125;</span><br><span class="line">  console.log(tmp); // 123 var关键字声明的变量有一个变量提升的过程</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function func() &#123;</span><br><span class="line">  if (true) &#123;</span><br><span class="line">    let tmp = 123;</span><br><span class="line">  &#125;</span><br><span class="line">  console.log(tmp); // ReferenceError: tmp is not defined</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">const PI = 3.14;</span><br><span class="line">PI = 3; // 某些浏览器不报错，但是无效果！</span><br><span class="line">PI; // 3.14</span><br></pre></td></tr></table></figure></p>
+<h2 id="函数中声明的变量在整个函数中都有定义"><a href="#函数中声明的变量在整个函数中都有定义" class="headerlink" title="函数中声明的变量在整个函数中都有定义"></a>函数中声明的变量在整个函数中都有定义</h2><p>由于在函数rain内局部变量x在整个函数体内都有定义（ var x= ‘rain-man’，进行了声明），所以在整个rain函数体内隐藏了同名的全局变量x。这里之所以会弹出’undefined’是因为，第一个执行alert(x)时，局部变量x仍未被初始化。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">var x = 1;</span><br><span class="line">   function rain()&#123;</span><br><span class="line">       alert( x );        //弹出 &apos;undefined&apos;，而不是1</span><br><span class="line">       var x = &apos;rain-man&apos;;</span><br><span class="line">       alert( x );        //弹出 &apos;rain-man&apos;</span><br><span class="line">   &#125;</span><br><span class="line">   rain();</span><br><span class="line">   //等效于下面</span><br><span class="line">   var x = 1;</span><br><span class="line">   function rain()&#123;</span><br><span class="line">    var x;</span><br><span class="line">    alert( x );</span><br><span class="line">    x = &apos;rain-man&apos;;</span><br><span class="line">    alert( x );</span><br><span class="line">&#125;</span><br><span class="line">   rain();</span><br></pre></td></tr></table></figure></p>
+<h2 id="未使用var关键字定义的变量都是全局变量、全局变量都是window对象的属性"><a href="#未使用var关键字定义的变量都是全局变量、全局变量都是window对象的属性" class="headerlink" title="未使用var关键字定义的变量都是全局变量、全局变量都是window对象的属性"></a>未使用var关键字定义的变量都是全局变量、全局变量都是window对象的属性</h2>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2016/07/08/用Hexo快速搭建站/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -469,7 +592,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">51</span>
+                <span class="site-state-item-count">52</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -524,7 +647,7 @@
         <div class="copyright" >
   
   &copy; 
-  <span itemprop="copyrightYear">2019</span>
+  <span itemprop="copyrightYear">2020</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
