@@ -251,6 +251,162 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2017/09/18/Js-异常处理/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lennonover">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lennonover">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/09/18/Js-异常处理/" itemprop="url">
+                  Js 异常处理
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-18T23:24:29+08:00">
+                2017-09-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="Js-异常"><a href="#Js-异常" class="headerlink" title="Js 异常"></a>Js 异常</h1><p>JavaScript 一般有三种错误，语法错误、运行期错误、逻辑错误。</p>
+<ul>
+<li>语法错误</li>
+</ul>
+<p>语法错误同样也被称为解析错误，对于传统的编程语言，该错误出现先编译的时候，对于 JavaScript 该错误出现在解释时期，最常见比如打了中文分号，语法错误不会通过解析器。</p>
+<ul>
+<li>运行时错误</li>
+</ul>
+<p>运行期错误也被称为异常，通常在编译或者解释之后运行时会出现。异常出现时会影响进程创建时的正常执行，但是允许对于其他的 JavaScript 进程则可以继续正常执行。</p>
+<h4 id="JavaScript-提供了特殊的语句来捕捉异常。"><a href="#JavaScript-提供了特殊的语句来捕捉异常。" class="headerlink" title="JavaScript 提供了特殊的语句来捕捉异常。"></a>JavaScript 提供了特殊的语句来捕捉异常。</h4><ul>
+<li>try…catch…finally 语句</li>
+</ul>
+<p>JavaScript 的最新版本中添加了异常处理的功能。它实现了 try…catch…finally 结构和 throw 操作用来处理异常。 你可以捕获程序员和运行期产生的异常，但是对于用户不能捕获 JavaScript 的语法错误。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">A</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">"A报错"</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">B</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        A(); </span><br><span class="line">    &#125; <span class="keyword">catch</span>(error) &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(error);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">B()</span><br></pre></td></tr></table></figure>
+<ul>
+<li>throw 语句</li>
+</ul>
+<p>用 throw 语句产生一个内置的异常或者你自己定制的异常。之后这些异常可以被捕获，而且捕获后你可以采取合适的操作</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">A</span>(<span class="params">a</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">if</span> ( a === <span class="number">0</span> )&#123;</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="keyword">var</span> err =  <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">"a 不等于0"</span>);</span><br><span class="line">        err.statusCode = <span class="number">000</span>;  </span><br><span class="line">        <span class="keyword">throw</span> err;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">A(<span class="number">1</span>);</span><br></pre></td></tr></table></figure>
+<ul>
+<li>onerror() 方法</li>
+</ul>
+<p>onerror 事件句柄是 JavaScript 中添加的第一个为了方便错误处理的特性。无论任何时候在网页中产生了异常，窗口对象就会触发 error 事件   </p>
+<ul>
+<li>错误消息。 浏览器显示给定错误的相关信息。</li>
+<li>URL。 错误出现的文件。</li>
+<li>行数。 在指定的 URL 中造成错误的行数。<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">window</span>.onerror = <span class="function"><span class="keyword">function</span> (<span class="params">msg, url, line</span>) </span>&#123;</span><br><span class="line">    alert(<span class="string">"Message : "</span> + msg );</span><br><span class="line">    alert(<span class="string">"url : "</span> + url );</span><br><span class="line">    alert(<span class="string">"Line number : "</span> + line );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="对于异常处理"><a href="#对于异常处理" class="headerlink" title="对于异常处理"></a>对于异常处理</h4><ul>
+<li>预期异常：参数不合法，前提条件不符合，通常直接 throw</li>
+<li>非预期异常: js 运行时异常，来着依赖库异常</li>
+<li>可以直接在异常上面提供一下附加属性来提供上下文</li>
+</ul>
+<h4 id="异步回调异常处理"><a href="#异步回调异常处理" class="headerlink" title="异步回调异常处理"></a>异步回调异常处理</h4><p>try catch 无法捕获异步队列中抛出的异常，因为执行栈执行完，异步队列才开始执行，所以执行栈无法捕获异步<br>函数抛出的异常<br>对于异步函数，我们对异常的处理原则为, 异步函数里面使用自己的try catch<br>自处理异常</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">asyncCallbackError</span>(<span class="params">callback</span>) </span>&#123;</span><br><span class="line">    setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> (发送了异常) &#123;</span><br><span class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">"异步出现了异常"</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span>  没有异常 &#123;</span><br><span class="line">                callback(<span class="literal">null</span>, value);  无异常的话 第一个参数设置为<span class="literal">null</span> 第二个自己的值</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">catch</span>(error) &#123;</span><br><span class="line">            callback(error);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;, <span class="number">0</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">callAsync</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="comment">//callback 判断获取异步异常值</span></span><br><span class="line">    asyncCallbackError(<span class="function"><span class="keyword">function</span>(<span class="params">error, value</span>)</span>&#123;</span><br><span class="line">        error ? <span class="built_in">console</span>.log(error) : <span class="string">"执行方法"</span>;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br><span class="line">callAsync();</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2017/07/12/ES5-bing-的实现/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1740,158 +1896,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2016/12/29/CSS之line-height/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="lennonover">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="lennonover">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/12/29/CSS之line-height/" itemprop="url">
-                  CSS之line-height
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-12-29T21:15:04+08:00">
-                2016-12-29
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="关于行高"><a href="#关于行高" class="headerlink" title="关于行高"></a>关于行高</h2><blockquote>
-<p>来自张鑫旭老师</p>
-</blockquote>
-<p>语法： line-height : normal |&lt;实数&gt; | &lt;长度&gt; | &lt;百分比&gt; | inherit<br>说明：设置元素中行的高度。<br>值： normal：默认行高，一般为1到1.2；<br><img src="http://ww2.sinaimg.cn/large/c15a9505gw1fb80s9srh4j214c0ijmze.jpg" alt="normal"><br><img src="http://ob6nlbpso.bkt.clouddn.com/sp161230_180949.png" alt="normal"><br>实数：实数值，缩放因子；<br>长度：合法的长度值，可为负数；<br><img src="http://ob6nlbpso.bkt.clouddn.com/sp161230_180903.png" alt="length"><br><img src="http://ob6nlbpso.bkt.clouddn.com/sp161229_222443.png" alt=""><br>百分比：百分比取值基于元素的字体尺寸。<br><img src="http://ob6nlbpso.bkt.clouddn.com/sp161230_180923.png" alt="%"><br>初始值： normal<br>继承性：继承<br>适用于：所有元素        </p>
-<h2 id="行内框盒子模型"><a href="#行内框盒子模型" class="headerlink" title="行内框盒子模型"></a>行内框盒子模型</h2><p>所有内敛元素的表现都和行内框盒子模型</p>
-<ul>
-<li>内容区域（content area）</li>
-</ul>
-<p>是一种围绕文字看不见的的盒子，大小和字体大小有关。</p>
-<p><img src="http://ww2.sinaimg.cn/large/c15a9505gw1fb7zns673ej210e0240t1.jpg" alt="内容区域"></p>
-<ul>
-<li>内联盒子（inline boxes）</li>
-</ul>
-<p>让内容排成一排显示，包含inline属性的都是，如果只是文字属于匿名内联盒子</p>
-<p><img src="http://ww4.sinaimg.cn/large/c15a9505gw1fb7ztmap7ij210h02egm7.jpg" alt="内联盒子"></p>
-<ul>
-<li>行框盒子（line boxes）</li>
-</ul>
-<p>每一行都是行框盒子，每个行框盒子都是由一个个内联盒子组成</p>
-<p><img src="http://ww4.sinaimg.cn/large/c15a9505gw1fb7zwz3lixj210d02cgm1.jpg" alt="行框盒子"></p>
-<ul>
-<li>包含盒子（containing box）</li>
-</ul>
-<p>由一行行行框盒子组成</p>
-<p><img src="http://ww3.sinaimg.cn/large/c15a9505gw1fb7zze6n4fj20zj02ewf1.jpg" alt="包含盒子"></p>
-<p>包含盒子包含行框盒子，行框盒子包含内联盒子</p>
-<h2 id="line-height的机制原理"><a href="#line-height的机制原理" class="headerlink" title="line-height的机制原理"></a>line-height的机制原理</h2><p>有一个空的div，如果没有设置至少大于1像素高度height值时，该div的高度就是个0。如果该div里面打入了一个空格或是文字，则此div就会有一个高度。</p>
-<p>这是个看上去很简单的问题，是理解line-height非常重要的一个问题。可能有人会跟认为是：文字撑开的！文字占据空间，自然将div撑开。我一开始也是这样理解的，但是事实上根本不是文字撑开了div的高度，而是line-height！</p>
-<p>高度的表现不是行高，而是内容区域和行间距之和。</p>
-<p><img src="http://ww4.sinaimg.cn/large/c15a9505gw1fb8069zl1zj20st06e74y.jpg" alt="line"><br><img src="http://ww4.sinaimg.cn/large/c15a9505gw1fb807s4k58j212t0h3jug.jpg" alt="line"><br><img src="http://ww2.sinaimg.cn/large/c15a9505gw1fb80eqerrqj214b0ljwi7.jpg" alt="line"><br><img src="http://ww3.sinaimg.cn/large/c15a9505gw1fb80ezl5p8j214e0li0wc.jpg" alt="line"><br><img src="http://ww2.sinaimg.cn/large/c15a9505gw1fb80fkfktlj214a0awgnk.jpg" alt="line"></p>
-<p>当行框盒子里有多个不同的行高的内联盒子此时行高？</p>
-<h2 id="使用经验"><a href="#使用经验" class="headerlink" title="使用经验"></a>使用经验</h2><p><img src="http://ob6nlbpso.bkt.clouddn.com/sp161229_222811.png" alt="body"></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1941,7 +1945,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">54</span>
+                <span class="site-state-item-count">55</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
