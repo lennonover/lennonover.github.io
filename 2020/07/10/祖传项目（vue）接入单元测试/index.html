@@ -1,0 +1,720 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="最近在做财务项目，用着祖传的项目脚手架，秉承着能升级就升级，该用的就用了原则增加了单元测试。 Vue-Test-Utils 和 JestVue-Test-Utils 是 Vue.js 官方的单元测试实用工具库，它提供了一系列的 API 来使得我们可以很便捷的去写 Vue 应用中的单元测试。 Jest 是一个由 Facebook 开发的测试框架，他是是功能最全的测试运行器。它所需的配置是最少的，默认">
+<meta property="og:type" content="article">
+<meta property="og:title" content="祖传项目（vue）接入单元测试">
+<meta property="og:url" content="https://github.com/lennonover/2020/07/10/祖传项目（vue）接入单元测试/index.html">
+<meta property="og:site_name" content="lennonover">
+<meta property="og:description" content="最近在做财务项目，用着祖传的项目脚手架，秉承着能升级就升级，该用的就用了原则增加了单元测试。 Vue-Test-Utils 和 JestVue-Test-Utils 是 Vue.js 官方的单元测试实用工具库，它提供了一系列的 API 来使得我们可以很便捷的去写 Vue 应用中的单元测试。 Jest 是一个由 Facebook 开发的测试框架，他是是功能最全的测试运行器。它所需的配置是最少的，默认">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2021-03-02T14:13:10.630Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="祖传项目（vue）接入单元测试">
+<meta name="twitter:description" content="最近在做财务项目，用着祖传的项目脚手架，秉承着能升级就升级，该用的就用了原则增加了单元测试。 Vue-Test-Utils 和 JestVue-Test-Utils 是 Vue.js 官方的单元测试实用工具库，它提供了一系列的 API 来使得我们可以很便捷的去写 Vue 应用中的单元测试。 Jest 是一个由 Facebook 开发的测试框架，他是是功能最全的测试运行器。它所需的配置是最少的，默认">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://github.com/lennonover/2020/07/10/祖传项目（vue）接入单元测试/"/>
+
+
+
+
+
+  <title> 祖传项目（vue）接入单元测试 | lennonover </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">lennonover</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2020/07/10/祖传项目（vue）接入单元测试/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lennonover">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lennonover">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                祖传项目（vue）接入单元测试
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-07-10T20:09:08+08:00">
+                2020-07-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>最近在做财务项目，用着祖传的项目脚手架，秉承着能升级就升级，该用的就用了原则增加了单元测试。</p>
+<h2 id="Vue-Test-Utils-和-Jest"><a href="#Vue-Test-Utils-和-Jest" class="headerlink" title="Vue-Test-Utils 和 Jest"></a>Vue-Test-Utils 和 Jest</h2><p>Vue-Test-Utils 是 Vue.js 官方的单元测试实用工具库，它提供了一系列的 API 来使得我们可以很便捷的去写 Vue 应用中的单元测试。</p>
+<p>Jest 是一个由 Facebook 开发的测试框架，他是是功能最全的测试运行器。它所需的配置是最少的，默认安装了 JSDOM，内置断言且命令行的用户体验非常好。</p>
+<p>本文主要利用 Vue-Test-Utils + Jest 结合</p>
+<h3 id="安装依赖"><a href="#安装依赖" class="headerlink" title="安装依赖"></a>安装依赖</h3><h4 id="插件模式"><a href="#插件模式" class="headerlink" title="插件模式"></a>插件模式</h4><p>直接在项目中添加一个 unit-jest 插件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vue add @vue/unit-jest</span><br></pre></td></tr></table></figure>
+<p>安装完成后配置自动完成</p>
+<h4 id="新建项目"><a href="#新建项目" class="headerlink" title="新建项目"></a>新建项目</h4><p>对于新建项目通过脚手架 vue-cli 来新建项目，选择了 Unit Testing 单元测试，选择的是 Jest 作为测试运行器，项目创建好后，会自动配置好单元测试需要的环境。</p>
+<h4 id="老项目接入"><a href="#老项目接入" class="headerlink" title="老项目接入"></a>老项目接入</h4><h5 id="安装依赖包"><a href="#安装依赖包" class="headerlink" title="安装依赖包"></a>安装依赖包</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yarn add --dev @vue/test-utils jest vue-jest @vue/babel-preset-app babel-core@^7.0.0-bridge.0</span><br></pre></td></tr></table></figure>
+<ul>
+<li>@vue/test-utils</li>
+<li>jest</li>
+<li>vue-jest</li>
+<li>@vue/babel-preset-app</li>
+</ul>
+<h5 id="配置-Jest"><a href="#配置-Jest" class="headerlink" title="配置 Jest"></a>配置 Jest</h5><p>在根目录新建一个文件 jest.config.js</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  moduleFileExtensions: [<span class="string">"js"</span>, <span class="string">"vue"</span>],</span><br><span class="line">  transform: &#123;</span><br><span class="line">    <span class="string">"^.+\\.vue$"</span>: <span class="string">"&lt;rootDir&gt;/node_modules/vue-jest"</span>,</span><br><span class="line">    <span class="string">"^.+\\.js$"</span>: <span class="string">"&lt;rootDir&gt;/node_modules/babel-jest"</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">  moduleNameMapper: &#123;</span><br><span class="line">    <span class="string">"^@/(.*)$"</span>: <span class="string">"&lt;rootDir&gt;/src/$1"</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">  snapshotSerializers: [<span class="string">"jest-serializer-vue"</span>],</span><br><span class="line">  testMatch: [<span class="string">"**/__tests__/**/*.spec.js"</span>],</span><br><span class="line">  transformIgnorePatterns: [<span class="string">"&lt;rootDir&gt;/node_modules/"</span>],</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>置项说明：</p>
+<ul>
+<li>moduleFileExtensions 告诉 Jest 需要匹配的文件后缀</li>
+<li>transform 匹配到 .vue 文件的时候用 vue-jest 处理， 匹配到 .js 文件的时候用 babel-jest 处理</li>
+<li>moduleNameMapper 处理 webpack 的别名，比如：将 @ 表示 /src 目录</li>
+<li>snapshotSerializers 将保存的快照测试结果进行序列化，使得其更美观</li>
+<li>testMatch 匹配哪些文件进行测试</li>
+<li>transformIgnorePatterns 不进行匹配的目录</li>
+</ul>
+<p>本地文件 babel.config.js 新增</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  env: &#123;</span><br><span class="line">    test: &#123;</span><br><span class="line">      presets: [[<span class="string">"@babel/env"</span>, &#123; <span class="attr">targets</span>: &#123; <span class="attr">node</span>: <span class="string">"current"</span> &#125; &#125;]],</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>顺利的话已经完成了</p>
+<h3 id="过程遇到的一些问题"><a href="#过程遇到的一些问题" class="headerlink" title="过程遇到的一些问题"></a>过程遇到的一些问题</h3><ul>
+<li>babel-preset-app</li>
+</ul>
+<p>vue-cli 这边用的 babel 预设集合是自己封装的 @vue/app,他是封装了 @babel/preset-env 且配置 useBuiltIns: ‘usage’</p>
+<p>而且最新版本是依赖 core-js@3 的所以当安装最新本版本会引起下面问题</p>
+<ul>
+<li>core-js@3 的更新引起的连锁反应</li>
+</ul>
+<p>@babel/polyfill 无法提供 core-js@2 向 core-js@3 过渡 Babel &gt; 7.4.0 不在使用<br>@babel/preset-env 也因 core-js@3 的原因，需要配置 corejs 参数去指定使用的 corejs 版本</p>
+<p>如果使用 corejs@3 根据 useBuiltIns 配置参数不同，需要做转译 ES 的新语法 + 新 API 升级</p>
+<h3 id="关于-Babel"><a href="#关于-Babel" class="headerlink" title="关于 Babel"></a>关于 Babel</h3><p>因为处理上面 babel 的问题所以这两天研究了一些，简单说下</p>
+<ul>
+<li>@babel/preset-env</li>
+</ul>
+<p>preset-env 是 ES 语法插件的合集，官方已经不再推荐使用 preset-201x 之类的包，该包可以通过配置自动兼容代码，包括自动引入 polyfill 垫片处理新的 API</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">     <span class="string">"presets"</span>: [</span><br><span class="line">         [ <span class="string">"@babel/preset-env"</span>, &#123;</span><br><span class="line">             <span class="string">"targets"</span>: &#123;&#125;,</span><br><span class="line">             <span class="string">"useBuiltIns"</span>: <span class="literal">false</span>,</span><br><span class="line">             <span class="string">"corejs"</span>: <span class="literal">false</span></span><br><span class="line">         &#125;]</span><br><span class="line">     ]</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// useBuiltIns的不同可以分为三种，即 entry(引入了所有的es扩展包), usage(按需) 和 false(只做了语法转换)。</span></span><br><span class="line"><span class="comment">// corejs: false 其实等同于使用 @babel/polyfill 时的 useBuiltIns: false，只对ES语法进行了转换。</span></span><br><span class="line"><span class="comment">// corejs：2 等同于 Babel 6时的 polyfill: true</span></span><br><span class="line"><span class="comment">// corejs: 3 是在 corejs: 2的基础上进而解决了之前无法实例方法的窘况，同时也保持了不污染全局空间</span></span><br></pre></td></tr></table></figure>
+<p>preset-env 在不引入 polyfill 时无法处理，实例的扩展 Array.prototype.includes 等，以及很多内置函数如：Promise、Symbol。而为了解决这样的问题，我们通常有两种方法：使用 Polyfill 或 Babel-runtime 进行功能填充。</p>
+<ul>
+<li>@babel/polyfill</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">import @babel/polyfill</span><br></pre></td></tr></table></figure>
+<p>等同于</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">import &apos;core-js/stable&apos;;</span><br><span class="line">import &apos;regenerator-runtime/runtime&apos;;</span><br></pre></td></tr></table></figure>
+<p>Babel &gt; 7.4.0 之前，通常我们会安装 @babel-polyfill，而 7.4.0 之后我们需要安装 core-js 替代 babel-polyfill</p>
+<ul>
+<li>@babel/runtime</li>
+</ul>
+<p>能实现按需加载，沙箱环境，公用函数的统一抽象</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>不可否认 vue-cli 作为非常优秀的脚手架，它可以实现在终端内输入一行指令就能生成模板，非常便利。我们在日常工作中享受工具带给我们的便利同时是不是也应该多花点时间了解脚手架前端工程化方面的内容，这样在日后项目优化，升级会有很大的便利。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/06/02/也可以这么写/" rel="next" title="CSS 也可以这么写">
+                <i class="fa fa-chevron-left"></i> CSS 也可以这么写
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="lennonover" />
+          <p class="site-author-name" itemprop="name">lennonover</p>
+           
+              <p class="site-description motion-element" itemprop="description">一丿口石砳磊</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">56</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">27</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Vue-Test-Utils-和-Jest"><span class="nav-number">1.</span> <span class="nav-text">Vue-Test-Utils 和 Jest</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装依赖"><span class="nav-number">1.1.</span> <span class="nav-text">安装依赖</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#插件模式"><span class="nav-number">1.1.1.</span> <span class="nav-text">插件模式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#新建项目"><span class="nav-number">1.1.2.</span> <span class="nav-text">新建项目</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#老项目接入"><span class="nav-number">1.1.3.</span> <span class="nav-text">老项目接入</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#安装依赖包"><span class="nav-number">1.1.3.1.</span> <span class="nav-text">安装依赖包</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#配置-Jest"><span class="nav-number">1.1.3.2.</span> <span class="nav-text">配置 Jest</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#过程遇到的一些问题"><span class="nav-number">1.2.</span> <span class="nav-text">过程遇到的一些问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关于-Babel"><span class="nav-number">1.3.</span> <span class="nav-text">关于 Babel</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">2.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">lennonover</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

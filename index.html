@@ -251,6 +251,332 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2020/07/10/祖传项目（vue）接入单元测试/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lennonover">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lennonover">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2020/07/10/祖传项目（vue）接入单元测试/" itemprop="url">
+                  祖传项目（vue）接入单元测试
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-07-10T20:09:08+08:00">
+                2020-07-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>最近在做财务项目，用着祖传的项目脚手架，秉承着能升级就升级，该用的就用了原则增加了单元测试。</p>
+<h2 id="Vue-Test-Utils-和-Jest"><a href="#Vue-Test-Utils-和-Jest" class="headerlink" title="Vue-Test-Utils 和 Jest"></a>Vue-Test-Utils 和 Jest</h2><p>Vue-Test-Utils 是 Vue.js 官方的单元测试实用工具库，它提供了一系列的 API 来使得我们可以很便捷的去写 Vue 应用中的单元测试。</p>
+<p>Jest 是一个由 Facebook 开发的测试框架，他是是功能最全的测试运行器。它所需的配置是最少的，默认安装了 JSDOM，内置断言且命令行的用户体验非常好。</p>
+<p>本文主要利用 Vue-Test-Utils + Jest 结合</p>
+<h3 id="安装依赖"><a href="#安装依赖" class="headerlink" title="安装依赖"></a>安装依赖</h3><h4 id="插件模式"><a href="#插件模式" class="headerlink" title="插件模式"></a>插件模式</h4><p>直接在项目中添加一个 unit-jest 插件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vue add @vue/unit-jest</span><br></pre></td></tr></table></figure>
+<p>安装完成后配置自动完成</p>
+<h4 id="新建项目"><a href="#新建项目" class="headerlink" title="新建项目"></a>新建项目</h4><p>对于新建项目通过脚手架 vue-cli 来新建项目，选择了 Unit Testing 单元测试，选择的是 Jest 作为测试运行器，项目创建好后，会自动配置好单元测试需要的环境。</p>
+<h4 id="老项目接入"><a href="#老项目接入" class="headerlink" title="老项目接入"></a>老项目接入</h4><h5 id="安装依赖包"><a href="#安装依赖包" class="headerlink" title="安装依赖包"></a>安装依赖包</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yarn add --dev @vue/test-utils jest vue-jest @vue/babel-preset-app babel-core@^7.0.0-bridge.0</span><br></pre></td></tr></table></figure>
+<ul>
+<li>@vue/test-utils</li>
+<li>jest</li>
+<li>vue-jest</li>
+<li>@vue/babel-preset-app</li>
+</ul>
+<h5 id="配置-Jest"><a href="#配置-Jest" class="headerlink" title="配置 Jest"></a>配置 Jest</h5><p>在根目录新建一个文件 jest.config.js</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  moduleFileExtensions: [<span class="string">"js"</span>, <span class="string">"vue"</span>],</span><br><span class="line">  transform: &#123;</span><br><span class="line">    <span class="string">"^.+\\.vue$"</span>: <span class="string">"&lt;rootDir&gt;/node_modules/vue-jest"</span>,</span><br><span class="line">    <span class="string">"^.+\\.js$"</span>: <span class="string">"&lt;rootDir&gt;/node_modules/babel-jest"</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">  moduleNameMapper: &#123;</span><br><span class="line">    <span class="string">"^@/(.*)$"</span>: <span class="string">"&lt;rootDir&gt;/src/$1"</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">  snapshotSerializers: [<span class="string">"jest-serializer-vue"</span>],</span><br><span class="line">  testMatch: [<span class="string">"**/__tests__/**/*.spec.js"</span>],</span><br><span class="line">  transformIgnorePatterns: [<span class="string">"&lt;rootDir&gt;/node_modules/"</span>],</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>置项说明：</p>
+<ul>
+<li>moduleFileExtensions 告诉 Jest 需要匹配的文件后缀</li>
+<li>transform 匹配到 .vue 文件的时候用 vue-jest 处理， 匹配到 .js 文件的时候用 babel-jest 处理</li>
+<li>moduleNameMapper 处理 webpack 的别名，比如：将 @ 表示 /src 目录</li>
+<li>snapshotSerializers 将保存的快照测试结果进行序列化，使得其更美观</li>
+<li>testMatch 匹配哪些文件进行测试</li>
+<li>transformIgnorePatterns 不进行匹配的目录</li>
+</ul>
+<p>本地文件 babel.config.js 新增</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  env: &#123;</span><br><span class="line">    test: &#123;</span><br><span class="line">      presets: [[<span class="string">"@babel/env"</span>, &#123; <span class="attr">targets</span>: &#123; <span class="attr">node</span>: <span class="string">"current"</span> &#125; &#125;]],</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>顺利的话已经完成了</p>
+<h3 id="过程遇到的一些问题"><a href="#过程遇到的一些问题" class="headerlink" title="过程遇到的一些问题"></a>过程遇到的一些问题</h3><ul>
+<li>babel-preset-app</li>
+</ul>
+<p>vue-cli 这边用的 babel 预设集合是自己封装的 @vue/app,他是封装了 @babel/preset-env 且配置 useBuiltIns: ‘usage’</p>
+<p>而且最新版本是依赖 core-js@3 的所以当安装最新本版本会引起下面问题</p>
+<ul>
+<li>core-js@3 的更新引起的连锁反应</li>
+</ul>
+<p>@babel/polyfill 无法提供 core-js@2 向 core-js@3 过渡 Babel &gt; 7.4.0 不在使用<br>@babel/preset-env 也因 core-js@3 的原因，需要配置 corejs 参数去指定使用的 corejs 版本</p>
+<p>如果使用 corejs@3 根据 useBuiltIns 配置参数不同，需要做转译 ES 的新语法 + 新 API 升级</p>
+<h3 id="关于-Babel"><a href="#关于-Babel" class="headerlink" title="关于 Babel"></a>关于 Babel</h3><p>因为处理上面 babel 的问题所以这两天研究了一些，简单说下</p>
+<ul>
+<li>@babel/preset-env</li>
+</ul>
+<p>preset-env 是 ES 语法插件的合集，官方已经不再推荐使用 preset-201x 之类的包，该包可以通过配置自动兼容代码，包括自动引入 polyfill 垫片处理新的 API</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">     <span class="string">"presets"</span>: [</span><br><span class="line">         [ <span class="string">"@babel/preset-env"</span>, &#123;</span><br><span class="line">             <span class="string">"targets"</span>: &#123;&#125;,</span><br><span class="line">             <span class="string">"useBuiltIns"</span>: <span class="literal">false</span>,</span><br><span class="line">             <span class="string">"corejs"</span>: <span class="literal">false</span></span><br><span class="line">         &#125;]</span><br><span class="line">     ]</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// useBuiltIns的不同可以分为三种，即 entry(引入了所有的es扩展包), usage(按需) 和 false(只做了语法转换)。</span></span><br><span class="line"><span class="comment">// corejs: false 其实等同于使用 @babel/polyfill 时的 useBuiltIns: false，只对ES语法进行了转换。</span></span><br><span class="line"><span class="comment">// corejs：2 等同于 Babel 6时的 polyfill: true</span></span><br><span class="line"><span class="comment">// corejs: 3 是在 corejs: 2的基础上进而解决了之前无法实例方法的窘况，同时也保持了不污染全局空间</span></span><br></pre></td></tr></table></figure>
+<p>preset-env 在不引入 polyfill 时无法处理，实例的扩展 Array.prototype.includes 等，以及很多内置函数如：Promise、Symbol。而为了解决这样的问题，我们通常有两种方法：使用 Polyfill 或 Babel-runtime 进行功能填充。</p>
+<ul>
+<li>@babel/polyfill</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">import @babel/polyfill</span><br></pre></td></tr></table></figure>
+<p>等同于</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">import &apos;core-js/stable&apos;;</span><br><span class="line">import &apos;regenerator-runtime/runtime&apos;;</span><br></pre></td></tr></table></figure>
+<p>Babel &gt; 7.4.0 之前，通常我们会安装 @babel-polyfill，而 7.4.0 之后我们需要安装 core-js 替代 babel-polyfill</p>
+<ul>
+<li>@babel/runtime</li>
+</ul>
+<p>能实现按需加载，沙箱环境，公用函数的统一抽象</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>不可否认 vue-cli 作为非常优秀的脚手架，它可以实现在终端内输入一行指令就能生成模板，非常便利。我们在日常工作中享受工具带给我们的便利同时是不是也应该多花点时间了解脚手架前端工程化方面的内容，这样在日后项目优化，升级会有很大的便利。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2020/06/02/也可以这么写/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lennonover">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lennonover">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2020/06/02/也可以这么写/" itemprop="url">
+                  CSS 也可以这么写
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-06-02T22:01:17+08:00">
+                2020-06-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>这篇文章想介绍一下在项目中积累实践并结合 Atomic CSS 的思想的另一个 css 解决思路但并不适用所有。大家可能听说过各种 CSS 解决方案，例如 BEM，OOCSS 等等，最近几年体验下来可以说到目前来说还没让人完全满意的 CSS 框架的样式设计，目前市面上的主流 css 框架是提供完整的设计输出，是组件级别，你只要把类名复制进去，或者通过框架提供的变量进行自定义，在总的来说意义不大。</p>
+<h2 id="AtomicCSS"><a href="#AtomicCSS" class="headerlink" title="AtomicCSS"></a>AtomicCSS</h2><p>Atomic CSS 的思想，采用类似乐高搭积木的方法提供丰富原子，接入到项目的话它就是设计规范，你只需要从里面把这些元素挑出来进行组合，写好设计规范，接下来就是搭积木。<br>我很不喜欢起应用在 CSS 做用上的命名, 为了给一个按钮美化样式，需要给 HTML 元素命名，然后到样式文件写一堆无聊又重复的 CSS。<br>在以前我们在编写 css 方式总结了有以下几种：</p>
+<h3 id="语义化-结构化类名"><a href="#语义化-结构化类名" class="headerlink" title="语义化(结构化类名)"></a>语义化(结构化类名)</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="css">  <span class="selector-class">.nav</span>&#123;</span></span><br><span class="line"><span class="undefined">    height: 34px;</span></span><br><span class="line"><span class="undefined">    display: flex;</span></span><br><span class="line"><span class="undefined">    justify-content: space-between;</span></span><br><span class="line"><span class="undefined">  &#125;</span></span><br><span class="line"><span class="css">  <span class="selector-class">.nav-left</span>&#123;</span></span><br><span class="line"><span class="undefined">    font-size：14px;</span></span><br><span class="line"><span class="undefined">  &#125;</span></span><br><span class="line"><span class="css">  <span class="selector-class">.nav-center</span>&#123;</span></span><br><span class="line"><span class="undefined">    font-size：16px;</span></span><br><span class="line"><span class="undefined">  &#125;</span></span><br><span class="line"><span class="css">  <span class="selector-class">.nav-right-login</span>&#123;</span></span><br><span class="line"><span class="undefined">    font-size：18px;</span></span><br><span class="line"><span class="undefined">  &#125;</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">nav</span> <span class="attr">class</span>=<span class="string">"nav"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">a</span> <span class="attr">class</span>=<span class="string">"nav-left"</span> <span class="attr">href</span>=<span class="string">"#"</span>&gt;</span>Home<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">a</span> <span class="attr">class</span>=<span class="string">"nav-center"</span> <span class="attr">href</span>=<span class="string">"#"</span>&gt;</span>About<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">span</span> <span class="attr">class</span>=<span class="string">"nav-right"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">a</span> <span class="attr">class</span>=<span class="string">"nav-right-login"</span> <span class="attr">href</span>=<span class="string">"#"</span>&gt;</span>Login<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">nav</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>这种模式主要受 BEM 系统方法命名的影响，在 jQuery 独霸天下的年代很适用因为我们要操作 DOM 。</p>
+<h3 id="复用组合"><a href="#复用组合" class="headerlink" title="复用组合"></a>复用组合</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">nav</span> <span class="attr">class</span>=<span class="string">"uilist"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">a</span> <span class="attr">class</span>=<span class="string">"uilist-item"</span> <span class="attr">href</span>=<span class="string">"#"</span>&gt;</span>Home<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">a</span> <span class="attr">class</span>=<span class="string">"uilist-item"</span> <span class="attr">href</span>=<span class="string">"#"</span>&gt;</span>About<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">span</span> <span class="attr">class</span>=<span class="string">"uilist-item"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">a</span> <span class="attr">class</span>=<span class="string">"btn"</span> <span class="attr">href</span>=<span class="string">"#"</span>&gt;</span>Login<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">nav</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>当我们开始专注于创建可重用的类时，就会发现组件执行的次数越多，或者组件越具体，则重用就越困难。</p>
+<h3 id="组件修饰符"><a href="#组件修饰符" class="headerlink" title="组件修饰符"></a>组件修饰符</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">class</span>=<span class="string">"btn"</span>&gt;</span>Default<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">class</span>=<span class="string">"btn btn-primary"</span>&gt;</span>Login<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="原子化"><a href="#原子化" class="headerlink" title="原子化"></a>原子化</h3><p>最后就是原子化也就是 AtomiCSS</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="css">  <span class="selector-class">.df</span>&#123;<span class="attribute">display</span>:flex;&#125;</span></span><br><span class="line"><span class="undefined">  .h34&#123;height：34px;&#125;</span></span><br><span class="line"><span class="css">  <span class="selector-class">.jcsb</span>&#123;<span class="attribute">justify-content</span>: space-between;&#125;</span></span><br><span class="line"><span class="css">  <span class="selector-class">.fs14</span>&#123; <span class="attribute">font-size</span>:<span class="number">14px</span>; &#125;</span></span><br><span class="line"><span class="css">  <span class="selector-class">.fs14</span>&#123; <span class="attribute">font-size</span>:<span class="number">16px</span>; &#125;</span></span><br><span class="line"><span class="css">  <span class="selector-class">.fs14</span>&#123; <span class="attribute">font-size</span>:<span class="number">18px</span>; &#125;</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">nav</span> <span class="attr">class</span>=<span class="string">"df h34 jcsb"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">a</span> <span class="attr">class</span>=<span class="string">"fs14"</span> <span class="attr">href</span>=<span class="string">"#"</span>&gt;</span>Home<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">a</span> <span class="attr">class</span>=<span class="string">"fs16"</span> <span class="attr">href</span>=<span class="string">"#"</span>&gt;</span>About<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">span</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">a</span> <span class="attr">class</span>=<span class="string">"fs18"</span> <span class="attr">href</span>=<span class="string">"#"</span>&gt;</span>Login<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">nav</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>看这种方法很容易认为这就像在 HTML 元素上添加样式标签并添加所需的任何属性 inline css 一中简写方式，但是根据我的经验，这是非常不同的。使用内联样式时，您选择的值没有限制，更不用说复用了，随着 react vue 的流程在组件化开发浪潮中才真正变得可行。</p>
+<ul>
+<li>Text sizes, colors, and weights</li>
+<li>Border colors, widths, and positions</li>
+<li>Background colors</li>
+<li>Flexbox</li>
+<li>Padding and margin</li>
+</ul>
+<h2 id="Tailwind-CSS"><a href="#Tailwind-CSS" class="headerlink" title="Tailwind CSS"></a>Tailwind CSS</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">button</span></span></span><br><span class="line"><span class="tag">  <span class="attr">class</span>=<span class="string">"bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"</span></span></span><br><span class="line"><span class="tag">&gt;</span></span><br><span class="line">  Button</span><br><span class="line"><span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>Tailwind CSS 可以看作是 utility-first CSS 的一种极致抽象: 所有的 CSS 类都有且只有一个单一的，独特的 CSS 规则。Tailwind CSS 的目的不是直接把设计过的东西给你，而是帮助你更快地实现你的设计。原子化的通用的 class 我们可以称为 utility， Tailwind CSS 提供的就是一些 utility。那么和 Tailwind 相比，是否需要手写 Atomic CSS ？<br>Tailwind CSS 和 手写 Atomic CSS 相比 ：<br>优点：</p>
+<ul>
+<li>可以方便地做到响应式设计</li>
+<li>丰富的预设，如字体大小，预设颜色<br>缺点：</li>
+<li>Tailwind CSS 有一定的学习曲线</li>
+<li>丰富的预设，也就带来繁重的内容，实际项目中配合规范之后并不需要这么多预设</li>
+<li>可能很多 (React, Vue) 组件需要自己动手实现毕竟只是个 UI</li>
+</ul>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>我认为原子化的 CSS 在基于组件化思维的 react 或者 vue 项目中使用是未来的大趋势，虽然感觉是在写行内样式。经过实践下来对与 Tailwind CSS 来说，它有一定的学习曲线且上手成本相对较高，且对与一个有追求的项目来说 Tailwind CSS 提供的内容过于丰富对与 UI 层影响大。从开发体验来说自定义的 Atomic CSS 更适合。</p>
+<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>前端时间看到一篇文章，Facebook 的改版也是用了原子化的思想，唯一的区别的他们是在工程化层面的实现，而且带来的收益正如 Atomic CSS 所期望的那样，Twitter 和 Facebook 的 CSS 都已经大幅减少了，他们都遵循图中的曲线。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2020/05/04/微码/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1459,282 +1785,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2019/03/13/网页中文排版-规避/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="lennonover">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="lennonover">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2019/03/13/网页中文排版-规避/" itemprop="url">
-                  网页中文排版-持避头尾
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-13T22:01:06+08:00">
-                2019-03-13
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="一个小-bug"><a href="#一个小-bug" class="headerlink" title="一个小 bug"></a>一个小 bug</h2><p><a href="https://i.loli.net/2019/03/08/5c820e8990eab.png" target="_blank" rel="noopener"><img src="https://i.loli.net/2019/03/08/5c820e8990eab.png" alt="企业微信20190308023948-min.png"></a></p>
-<p>从上图可以看书逗号没有规避在行首，在我影响中文排版会有避头尾的规则不应该出现。为了确保准确性我们再来翻一遍 <a href="http://unicode.org/reports/tr14/" target="_blank" rel="noopener">unicode 断行算法</a> Unicode 规范不仅是给字符安放了码位、制定了编码规则，还制定了大量与文字编码相关的规范并收在附件内，是规范不可缺少的组合部分。。</p>
-<blockquote>
-<p>LB13 Do not break before ‘]’ or ‘!’ or ‘;’ or ‘/’, even after spaces.<br>LB19 Do not break before or after quotation marks, such as ‘ ” ’.<br>LB21 Do not break before hyphen-minus, other hyphens, fixed-width spaces, small kana, and other non-starters, or after acute accents.<br>LB22 Do not break between two ellipses, or between letters, numbers or exclamations and ellipsis.</p>
-</blockquote>
-<p>翻译下也就是</p>
-<ul>
-<li>LB13<br>在 ‘]’、‘!’、‘;’、‘/’ 之前不能断行，即使这些字符跟在空格后面。因此，此规则实质上此条规定了分隔号（/）需要避头；</li>
-<li>LB19<br>引号的前、后均不能断行。也就是说常用的蝌蚪引号（“ ”）默认是既要避头也要避尾。</li>
-<li>LB21<br>在连字符、其他连字符、定宽空格、小写假名等字符前面不能断行，中文的连接号避头。</li>
-<li>LB22<br>两个省略号之间，以及字母数字叹号与省略号之间不能断行。也就是说，省略号不仅不能中间断开，而且要避头。</li>
-</ul>
-<p>那为什么会出现前面那个 bug ， 原来是同事使用了 word-break:break-all；</p>
-<h2 id="word-break-break-all"><a href="#word-break-break-all" class="headerlink" title="word-break:break-all"></a>word-break:break-all</h2><p>这个属性会把单词强制断开，为了实现中日韩排版里偶尔需要牺牲西文连字而定制的，不能保证中文的避头尾的正常使用。</p>
-<h2 id="word-wrap-break-word"><a href="#word-wrap-break-word" class="headerlink" title="word-wrap:break-word"></a>word-wrap:break-word</h2><p>CSS3 也已经明确要将 word-wrap 改为 overflow-wrap 。<br>这个属性会把单词断开，而且会尽可能地保持避头尾，也尽可能避免中途断开，例如解决超长网址。</p>
-<p><a href="https://i.loli.net/2019/03/08/5c8229b6d929c.png" target="_blank" rel="noopener"><img src="https://i.loli.net/2019/03/08/5c8229b6d929c.png" alt="企业微信20190308042958.png"></a></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2019/03/08/网页中文排版-标点悬挂/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="lennonover">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="lennonover">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2019/03/08/网页中文排版-标点悬挂/" itemprop="url">
-                  网页中文排版-标点悬挂
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-08T21:15:49+08:00">
-                2019-03-08
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>标点悬挂是优秀中文排版里的一个“充分非必要”条件，一些的电子书排版引擎，实现了这功能，就被誉为“排版设计最好的电子书”。网页环境下对字体排印的高级特性的支持非常有限，但是查特性发现 Safari 一枝独秀：<br>    <a href="https://i.loli.net/2019/03/08/5c82044f6f58e.png" target="_blank" rel="noopener"><img src="https://i.loli.net/2019/03/08/5c82044f6f58e.png" alt="33.png"></a></p>
-<h2 id="hanging-punctuation"><a href="#hanging-punctuation" class="headerlink" title="hanging-punctuation"></a>hanging-punctuation</h2><blockquote>
-<p>none | [ first || [ force-end | allow-end ] || last ]</p>
-</blockquote>
-<p>CSS属性指定了标点符号应该放在文本句子的开头还是结尾。悬挂标点符号可能被放在线框外。</p>
-<ul>
-<li>none<br>No character hangs.</li>
-<li>first<br>显示元素的第一个格式化行开头的括号或引号。</li>
-<li>last<br>显示元素的最后一个格式化行结尾的括号或引号。</li>
-<li>force-end<br>显示行结尾处的句号或逗号。</li>
-<li><p>allow-end<br>如果预先没有其它适合的来适应的，则在行尾显示句号或逗号。</p>
-</li>
-<li><p>示例：</p>
-</li>
-</ul>
-<p><a href="https://i.loli.net/2019/03/08/5c82060a25826.png" target="_blank" rel="noopener"><img src="https://i.loli.net/2019/03/08/5c82060a25826.png" alt="企业微信20190308020440.png"></a></p>
-<p>可以完美的实现标点悬挂，接下我们来看看呢兼容性情况：</p>
-<p><a href="https://i.loli.net/2019/03/08/5c82066953b27.png" target="_blank" rel="noopener"><img src="https://i.loli.net/2019/03/08/5c82066953b27.png" alt="企业微信20190308020617.png"></a></p>
-<p>看兼容就知道要开心的使用是不可能的。但是怎么会没轮子 <a href="https://github.com/ethantw/Han">Han</a></p>
-<p>这个汉字标准格式库完美实现了中文排版的各种需求。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1784,7 +1834,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">55</span>
+                <span class="site-state-item-count">56</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -1797,7 +1847,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">28</span>
+                <span class="site-state-item-count">27</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -1839,7 +1889,7 @@
         <div class="copyright" >
   
   &copy; 
-  <span itemprop="copyrightYear">2020</span>
+  <span itemprop="copyrightYear">2021</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>

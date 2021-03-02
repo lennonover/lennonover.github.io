@@ -251,6 +251,282 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2019/03/13/网页中文排版-规避/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lennonover">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lennonover">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2019/03/13/网页中文排版-规避/" itemprop="url">
+                  网页中文排版-持避头尾
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-13T22:01:06+08:00">
+                2019-03-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="一个小-bug"><a href="#一个小-bug" class="headerlink" title="一个小 bug"></a>一个小 bug</h2><p><a href="https://i.loli.net/2019/03/08/5c820e8990eab.png" target="_blank" rel="noopener"><img src="https://i.loli.net/2019/03/08/5c820e8990eab.png" alt="企业微信20190308023948-min.png"></a></p>
+<p>从上图可以看书逗号没有规避在行首，在我影响中文排版会有避头尾的规则不应该出现。为了确保准确性我们再来翻一遍 <a href="http://unicode.org/reports/tr14/" target="_blank" rel="noopener">unicode 断行算法</a> Unicode 规范不仅是给字符安放了码位、制定了编码规则，还制定了大量与文字编码相关的规范并收在附件内，是规范不可缺少的组合部分。。</p>
+<blockquote>
+<p>LB13 Do not break before ‘]’ or ‘!’ or ‘;’ or ‘/’, even after spaces.<br>LB19 Do not break before or after quotation marks, such as ‘ ” ’.<br>LB21 Do not break before hyphen-minus, other hyphens, fixed-width spaces, small kana, and other non-starters, or after acute accents.<br>LB22 Do not break between two ellipses, or between letters, numbers or exclamations and ellipsis.</p>
+</blockquote>
+<p>翻译下也就是</p>
+<ul>
+<li>LB13<br>在 ‘]’、‘!’、‘;’、‘/’ 之前不能断行，即使这些字符跟在空格后面。因此，此规则实质上此条规定了分隔号（/）需要避头；</li>
+<li>LB19<br>引号的前、后均不能断行。也就是说常用的蝌蚪引号（“ ”）默认是既要避头也要避尾。</li>
+<li>LB21<br>在连字符、其他连字符、定宽空格、小写假名等字符前面不能断行，中文的连接号避头。</li>
+<li>LB22<br>两个省略号之间，以及字母数字叹号与省略号之间不能断行。也就是说，省略号不仅不能中间断开，而且要避头。</li>
+</ul>
+<p>那为什么会出现前面那个 bug ， 原来是同事使用了 word-break:break-all；</p>
+<h2 id="word-break-break-all"><a href="#word-break-break-all" class="headerlink" title="word-break:break-all"></a>word-break:break-all</h2><p>这个属性会把单词强制断开，为了实现中日韩排版里偶尔需要牺牲西文连字而定制的，不能保证中文的避头尾的正常使用。</p>
+<h2 id="word-wrap-break-word"><a href="#word-wrap-break-word" class="headerlink" title="word-wrap:break-word"></a>word-wrap:break-word</h2><p>CSS3 也已经明确要将 word-wrap 改为 overflow-wrap 。<br>这个属性会把单词断开，而且会尽可能地保持避头尾，也尽可能避免中途断开，例如解决超长网址。</p>
+<p><a href="https://i.loli.net/2019/03/08/5c8229b6d929c.png" target="_blank" rel="noopener"><img src="https://i.loli.net/2019/03/08/5c8229b6d929c.png" alt="企业微信20190308042958.png"></a></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2019/03/08/网页中文排版-标点悬挂/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lennonover">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lennonover">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2019/03/08/网页中文排版-标点悬挂/" itemprop="url">
+                  网页中文排版-标点悬挂
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-08T21:15:49+08:00">
+                2019-03-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>标点悬挂是优秀中文排版里的一个“充分非必要”条件，一些的电子书排版引擎，实现了这功能，就被誉为“排版设计最好的电子书”。网页环境下对字体排印的高级特性的支持非常有限，但是查特性发现 Safari 一枝独秀：<br>    <a href="https://i.loli.net/2019/03/08/5c82044f6f58e.png" target="_blank" rel="noopener"><img src="https://i.loli.net/2019/03/08/5c82044f6f58e.png" alt="33.png"></a></p>
+<h2 id="hanging-punctuation"><a href="#hanging-punctuation" class="headerlink" title="hanging-punctuation"></a>hanging-punctuation</h2><blockquote>
+<p>none | [ first || [ force-end | allow-end ] || last ]</p>
+</blockquote>
+<p>CSS属性指定了标点符号应该放在文本句子的开头还是结尾。悬挂标点符号可能被放在线框外。</p>
+<ul>
+<li>none<br>No character hangs.</li>
+<li>first<br>显示元素的第一个格式化行开头的括号或引号。</li>
+<li>last<br>显示元素的最后一个格式化行结尾的括号或引号。</li>
+<li>force-end<br>显示行结尾处的句号或逗号。</li>
+<li><p>allow-end<br>如果预先没有其它适合的来适应的，则在行尾显示句号或逗号。</p>
+</li>
+<li><p>示例：</p>
+</li>
+</ul>
+<p><a href="https://i.loli.net/2019/03/08/5c82060a25826.png" target="_blank" rel="noopener"><img src="https://i.loli.net/2019/03/08/5c82060a25826.png" alt="企业微信20190308020440.png"></a></p>
+<p>可以完美的实现标点悬挂，接下我们来看看呢兼容性情况：</p>
+<p><a href="https://i.loli.net/2019/03/08/5c82066953b27.png" target="_blank" rel="noopener"><img src="https://i.loli.net/2019/03/08/5c82066953b27.png" alt="企业微信20190308020617.png"></a></p>
+<p>看兼容就知道要开心的使用是不可能的。但是怎么会没轮子 <a href="https://github.com/ethantw/Han">Han</a></p>
+<p>这个汉字标准格式库完美实现了中文排版的各种需求。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2019/02/23/JS-Number-安全整数范围/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1578,345 +1854,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2018/03/02/文字避让/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="lennonover">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="lennonover">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2018/03/02/文字避让/" itemprop="url">
-                  文字避让
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-02T20:58:22+08:00">
-                2018-03-02
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>webGis 经常会遇到地图上标记文字问题，但是文字空间不够时，就会造成文字重叠显示混乱的现象，导致效果很不好，下面就说说解决方案。</p>
-<h2 id="文字避让"><a href="#文字避让" class="headerlink" title="文字避让"></a>文字避让</h2><p>文字标注算法是 GIS 中最复杂（NP）的问题之一，本篇将介绍四分位模型算法。<br>关于文字在地图上的坐标是经纬度坐标根据墨卡托转换而来。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[</span><br><span class="line">  &#123;</span><br><span class="line">    &quot;name&quot;: &quot;南京市&quot;,//要显示的文字</span><br><span class="line">    &quot;lon&quot;: 118.15,</span><br><span class="line">    &quot;lat&quot;: 32.89,</span><br><span class="line">    &quot;pixel&quot;: &#123; //像素坐标</span><br><span class="line">      &quot;x&quot;: 968,</span><br><span class="line">      &quot;y&quot;: 736</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
-<ul>
-<li>求出每段文字矩形的实际大小</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">let ctx = this.container.getContext(&apos;2d&apos;); // canvas 上下文</span><br><span class="line">let width= ctx.measureText(name).width;</span><br></pre></td></tr></table></figure>
-<p>通过 measureText 得到每个文字的宽度，canvas 并没有直接获取文字的方法，那文字的高度如何的得到呢？</p>
-<p>我们通过反复测试发现 canvas 的 font 等于 “13px Arial” 字体的时候，文字的高度大概是 fontSize 的 1.1 倍。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">let fontSize = parseInt(ctx.font);</span><br><span class="line">let height = fontSize * 1.1;</span><br></pre></td></tr></table></figure>
-<p>文字的宽度和高度得到后，我们就可以创建文字矩形的坐标系了。</p>
-<p>所谓四分位模型，每一个标记点都有上下左右四个放文字的位子，如果左边放不下，那就放右边试试，还不行就放到下面试试，以此类推</p>
-<p>创建右侧虚拟矩形坐标描述：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">_getLeftAnchor() &#123;</span><br><span class="line">    let x = this.center.x - this.radius - this.textReact.width,</span><br><span class="line">        y = this.center.y - this.textReact.height / 2,</span><br><span class="line">        diam = this.radius * 2,</span><br><span class="line">        maxH = diam &gt; this.textReact.height ? diam : this.textReact.height; //矩形的高度</span><br><span class="line">    return &#123;</span><br><span class="line">        x,</span><br><span class="line">        y,</span><br><span class="line">        minX: x,</span><br><span class="line">        maxX: this.center.x + this.radius,</span><br><span class="line">        minY: this.center.y - maxH / 2,</span><br><span class="line">        maxY: this.center.y + maxH / 2</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>以此类推，描述下面、左面、上面的虚拟矩形坐标。</p>
-<ul>
-<li>判断碰撞</li>
-</ul>
-<p>判断两个矩形是否覆盖相交，根据矩形的 minX,maxX,minY,maxY 判断相交，原理比较简单，代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 判断分位是否相交</span><br><span class="line"> * @param &#123;*&#125; target </span><br><span class="line"> */</span><br><span class="line"> </span><br><span class="line">isAnchorMeet(target) &#123;</span><br><span class="line">    let react = this.getCurrentRect(),</span><br><span class="line">        targetReact = target.getCurrentRect();</span><br><span class="line">    if ((react.minX &lt; targetReact.maxX) &amp;&amp; (targetReact.minX &lt; react.maxX) &amp;&amp;</span><br><span class="line">        (react.minY &lt; targetReact.maxY) &amp;&amp; (targetReact.minY &lt; react.maxY)) &#123;</span><br><span class="line">        return true;</span><br><span class="line">    &#125;</span><br><span class="line">    return false;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<ul>
-<li>创建虚拟文字集合对象</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">let labels = pixels.map((val) =&gt; &#123;</span><br><span class="line">    let radius = val.pixel.radius + this.style.normal.borderWidth; //圆点半径</span><br><span class="line">    return new Label(val.pixel.x, val.pixel.y, radius, fontSize, byteWidth, val.name);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-<p>递归遍历虚拟文字集合、判断是否与其他相交，如果有相交就移动当前文字位子，直到不相交为止。当找不到合适位置时，就选择隐藏当前文字。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">do &#123;</span><br><span class="line">    var meet = false; //本轮是否有相交</span><br><span class="line">    for (let i = 0; i &lt; labels.length; i++) &#123;</span><br><span class="line">        let temp = labels[i];</span><br><span class="line">        for (let j = 0; j &lt; labels.length; j++) &#123;</span><br><span class="line">            if (i != j &amp;&amp; temp.show &amp;&amp; temp.isAnchorMeet(labels[j])) &#123;</span><br><span class="line">                temp.next();</span><br><span class="line">                meet = true;</span><br><span class="line">                break;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125; while (meet);</span><br></pre></td></tr></table></figure>
-<ul>
-<li>绘画文字</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">labels.forEach(function (item) &#123;</span><br><span class="line">    if (item.show) &#123; //是否显示</span><br><span class="line">        let pixel = item.getCurrentRect();</span><br><span class="line">        ctx.beginPath();</span><br><span class="line">        ctx.fillText(item.text, pixel.x, pixel.y);</span><br><span class="line">        ctx.fill();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2018/01/26/git-工作流/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="lennonover">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="lennonover">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2018/01/26/git-工作流/" itemprop="url">
-                  git 工作流
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-26T21:38:02+08:00">
-                2018-01-26
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>git 是目前最流行的源代码管理工具，Git 的确可以在各个方面做很多事情，然而任然存在采用何种分支管理的问题，Git 分支管理并没有普遍适用的最佳做法，只有对每个团队和项目而言最适合的工作流。<br>git 的操作还是有一定复杂度的，错误的操作影响也比较大，异步小心就会导致部分代码丢失，还很难查到具体出问题的时间点和功能点。</p>
-<p>我们采用的是 git-flow 流程,包含 4 类分支，分别是 master、develop、新功能分支（feature）和 hotfix。</p>
-<h2 id="新建仓库"><a href="#新建仓库" class="headerlink" title="新建仓库"></a>新建仓库</h2><p>在 github 中创建一个新的仓库，只有一个 master 分支</p>
-<h2 id="新建分支"><a href="#新建分支" class="headerlink" title="新建分支"></a>新建分支</h2><p>每次开发新功能，都应该从当前主开发分支新建一个功能分支。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout -b feature-wz-qx</span><br></pre></td></tr></table></figure>
-<h2 id="提交分支"><a href="#提交分支" class="headerlink" title="提交分支"></a>提交分支</h2><p>模块开发差不多，提交代码</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git status</span><br><span class="line">git add -F</span><br><span class="line">git commit -m &apos;add xxxxx&apos;</span><br></pre></td></tr></table></figure>
-<p>关于 commit 完整的 log 由 类别(必须)  简短描述(必须) 详细描述(可选) 三部分组成：</p>
-<ul>
-<li>类别<ul>
-<li>add 增加</li>
-<li>fix 修复 bug</li>
-<li>change 修改</li>
-<li>del 移除</li>
-<li>refactor 代码重构</li>
-<li>docs 文档</li>
-</ul>
-</li>
-</ul>
-<p>eg:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git commit -m &apos;add xxxxx&apos;</span><br></pre></td></tr></table></figure>
-<p>如果增加详细描述，具体内容前空一行，兼容 Markdown。<br>还可以可以配合 <a href="https://gitmoji.carloscuesta.me/" target="_blank" rel="noopener">gitmoji</a> 强化信息可读性。</p>
-<h2 id="合并提交记录"><a href="#合并提交记录" class="headerlink" title="合并提交记录"></a>合并提交记录</h2><p>为了避免太多的 commit 而造成版本控制的混乱，通常我们推荐将这些 commit 合并成一个。假如我们提交了四次记录。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">commit 14c69cf825c17bd3e48154994e6f722db251fcfb</span><br><span class="line">Author: lennonover &lt;lennonover@163.com&gt;</span><br><span class="line">Date:   Tue Jan 23 16:38:57 2018 +0800</span><br><span class="line"></span><br><span class="line">    add forth </span><br><span class="line"></span><br><span class="line">commit 969161b68ab3b479fc52a26c4f053395ce4f3c63</span><br><span class="line">Author: lennonover &lt;lennonover@163.com&gt;</span><br><span class="line">Date:   Tue Jan 23 16:01:12 2018 +0800</span><br><span class="line"></span><br><span class="line">    add third </span><br><span class="line"></span><br><span class="line">commit 44adff48febeb65e5f89e2dc18ecc3ba7c9c31ba</span><br><span class="line">Author: lennonover &lt;lennonover@gmail.com&gt;</span><br><span class="line">Date:   Tue Jan 23 15:56:27 2018 +0800</span><br><span class="line"></span><br><span class="line">    add second </span><br><span class="line"></span><br><span class="line">commit a897c7ac82eb2de3e8268454d19f2ec91a5be9bd</span><br><span class="line">Author: lennonover &lt;lennonover@gmail.com&gt;</span><br><span class="line">Date:   Tue Jan 23 15:56:04 2018 +0800</span><br><span class="line"></span><br><span class="line">    add first</span><br></pre></td></tr></table></figure>
-<p>如何把四次合并到一起，并且只保留 最后一次 的 Git message 呢？推荐 git rebase 进行合并操作。</p>
-<p>合并最后四个</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git rebase -i HEAD~4</span><br></pre></td></tr></table></figure>
-<p>git 会打开一个互动界面，方便用户对历史提交进行修改</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">pick 969161b add first</span><br><span class="line">pick 14c69cf add second </span><br><span class="line">pick b246936 add third</span><br><span class="line">pick 5b192dc add forth </span><br><span class="line"></span><br><span class="line"># Rebase 44adff4..5b192dc onto 44adff4 (4 command(s))</span><br><span class="line">#</span><br><span class="line"># Commands:</span><br><span class="line"># p, pick = 使用该提交</span><br><span class="line"># r, reword = 使用该提交，但需要编辑提交信息</span><br><span class="line"># e, edit = 使用该提交，但此处暂停并提供修改机会</span><br><span class="line"># s, squash = 使用该提交，但合并到上一个提交记录中</span><br><span class="line"># f, fixup = 类似 squash，但丢弃当前提交记录的提交信息</span><br><span class="line"># x, exec = 执行 shell 命令</span><br><span class="line"># d, drop = 移除当前提交</span><br></pre></td></tr></table></figure>
-<p>我们需要把前面的 pick 改为 squash 这样：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">pick 969161b add first</span><br><span class="line">squash 14c69cf add second </span><br><span class="line">squash b246936 add third</span><br><span class="line">squash 5b192dc add forth</span><br></pre></td></tr></table></figure>
-<p>完成后，使用 <code>:wq</code> 保存并退出。这个时候则需要在下一步中对这 4 条 commit 信息进行修改和保存(如果 fixup 的话，则直接丢弃其它记录，省去下一步操作)：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># This is a combinatin of 4 commits.</span><br><span class="line"># This is the 1st commit message:</span><br><span class="line">add first </span><br><span class="line"># This is the commit message #2:</span><br><span class="line">add second </span><br><span class="line"># This is the commit message #3:</span><br><span class="line">add third</span><br><span class="line"># This is the commit message #4:</span><br><span class="line">add forth</span><br></pre></td></tr></table></figure>
-<p>使用 <code>:wq</code> 后，通过 git log 可以看到仅剩一条 commit 记录：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">commit c2391a59bf51240a60ab4c8455b251cff1ec3cdd</span><br><span class="line">Author: lennonover &lt;lennonover@163.com&gt;</span><br><span class="line">Date:   Wed Jan 24 15:01:12 2018 +0800</span><br><span class="line"></span><br><span class="line">    add stylelint-0.0.3</span><br></pre></td></tr></table></figure>
-<p>rebase 的风险：</p>
-<p>当待合并 commit 记录中杂糅着他人的 commit 记录，此时就不可以再对这部分 commit 记录做合并操作。</p>
-<p>但只要新开分支且保持分支独立开发，杂糅的情况就不存在。</p>
-<h2 id="推送到仓库"><a href="#推送到仓库" class="headerlink" title="推送到仓库"></a>推送到仓库</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git push origin feature-wz-qx</span><br></pre></td></tr></table></figure>
-<h2 id="提交-Merge-Request-申请"><a href="#提交-Merge-Request-申请" class="headerlink" title="提交 Merge Request 申请"></a>提交 Merge Request 申请</h2><p>请求相关同学从你的 feature-wz-qx 合并分支</p>
-<ul>
-<li>提交 Merge Request：</li>
-</ul>
-<p>通过「＋Create Merge Request」按钮创建一个 Merge Request；</p>
-<ul>
-<li>指定「Assignee」：</li>
-</ul>
-<p>指定需要 review 你代码的同学，禁止指定自己；</p>
-<ul>
-<li>更改「Target branch」：</li>
-</ul>
-<p>改变为需要合并进去的目标分支；</p>
-<ul>
-<li>设置合并后删除被合并分支的选项：</li>
-</ul>
-<p>勾选「Remove source branch when merge request is accepted.」选项，在合并完成后删除源分支，控制分支总数量；</p>
-<ul>
-<li>提交合并请求</li>
-</ul>
-<p>完成上述设置后，相关同学将会收到邮件通知，此时可进入 GitLab 进行 code review。如果发现问题则对问题代码进行点评并拒绝关闭申请，反之则通过合并申请。</p>
-<h2 id="修复-Bug"><a href="#修复-Bug" class="headerlink" title="修复 Bug"></a>修复 Bug</h2><p>发现 bug 了,从 develop 分支上新建分支</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout -b hotfix/xxx develop</span><br></pre></td></tr></table></figure>
-<p>改完推送到仓库后提交 Merge Request 申请</p>
-<h2 id="减少冲突"><a href="#减少冲突" class="headerlink" title="减少冲突"></a>减少冲突</h2><p>从我们的工作流程上来说，代码合并导致的问题，一般都发生在特性、修复分支合并到 master 或者 develop 的时候，因为这个时候开始，才是真正与其他分支汇合，不同的改动会发生冲突。而且合并没法完全避免，我们只能去思考如何减少合并冲突。</p>
-<ul>
-<li>合理的分工，人员职责划分尽量清晰，减少互相之间的交叉，减少多个人同时改动同一份代码的几率</li>
-<li>合适的合并工具</li>
-<li>合并后的代码检查</li>
-<li>公共代码改动，要通知各使用方变化点</li>
-<li>code review</li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1966,7 +1903,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">55</span>
+                <span class="site-state-item-count">56</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -1979,7 +1916,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">28</span>
+                <span class="site-state-item-count">27</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -2021,7 +1958,7 @@
         <div class="copyright" >
   
   &copy; 
-  <span itemprop="copyrightYear">2020</span>
+  <span itemprop="copyrightYear">2021</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>

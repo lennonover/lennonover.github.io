@@ -251,6 +251,345 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2018/03/02/文字避让/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lennonover">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lennonover">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2018/03/02/文字避让/" itemprop="url">
+                  文字避让
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-02T20:58:22+08:00">
+                2018-03-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>webGis 经常会遇到地图上标记文字问题，但是文字空间不够时，就会造成文字重叠显示混乱的现象，导致效果很不好，下面就说说解决方案。</p>
+<h2 id="文字避让"><a href="#文字避让" class="headerlink" title="文字避让"></a>文字避让</h2><p>文字标注算法是 GIS 中最复杂（NP）的问题之一，本篇将介绍四分位模型算法。<br>关于文字在地图上的坐标是经纬度坐标根据墨卡托转换而来。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[</span><br><span class="line">  &#123;</span><br><span class="line">    &quot;name&quot;: &quot;南京市&quot;,//要显示的文字</span><br><span class="line">    &quot;lon&quot;: 118.15,</span><br><span class="line">    &quot;lat&quot;: 32.89,</span><br><span class="line">    &quot;pixel&quot;: &#123; //像素坐标</span><br><span class="line">      &quot;x&quot;: 968,</span><br><span class="line">      &quot;y&quot;: 736</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<ul>
+<li>求出每段文字矩形的实际大小</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">let ctx = this.container.getContext(&apos;2d&apos;); // canvas 上下文</span><br><span class="line">let width= ctx.measureText(name).width;</span><br></pre></td></tr></table></figure>
+<p>通过 measureText 得到每个文字的宽度，canvas 并没有直接获取文字的方法，那文字的高度如何的得到呢？</p>
+<p>我们通过反复测试发现 canvas 的 font 等于 “13px Arial” 字体的时候，文字的高度大概是 fontSize 的 1.1 倍。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">let fontSize = parseInt(ctx.font);</span><br><span class="line">let height = fontSize * 1.1;</span><br></pre></td></tr></table></figure>
+<p>文字的宽度和高度得到后，我们就可以创建文字矩形的坐标系了。</p>
+<p>所谓四分位模型，每一个标记点都有上下左右四个放文字的位子，如果左边放不下，那就放右边试试，还不行就放到下面试试，以此类推</p>
+<p>创建右侧虚拟矩形坐标描述：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">_getLeftAnchor() &#123;</span><br><span class="line">    let x = this.center.x - this.radius - this.textReact.width,</span><br><span class="line">        y = this.center.y - this.textReact.height / 2,</span><br><span class="line">        diam = this.radius * 2,</span><br><span class="line">        maxH = diam &gt; this.textReact.height ? diam : this.textReact.height; //矩形的高度</span><br><span class="line">    return &#123;</span><br><span class="line">        x,</span><br><span class="line">        y,</span><br><span class="line">        minX: x,</span><br><span class="line">        maxX: this.center.x + this.radius,</span><br><span class="line">        minY: this.center.y - maxH / 2,</span><br><span class="line">        maxY: this.center.y + maxH / 2</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>以此类推，描述下面、左面、上面的虚拟矩形坐标。</p>
+<ul>
+<li>判断碰撞</li>
+</ul>
+<p>判断两个矩形是否覆盖相交，根据矩形的 minX,maxX,minY,maxY 判断相交，原理比较简单，代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 判断分位是否相交</span><br><span class="line"> * @param &#123;*&#125; target </span><br><span class="line"> */</span><br><span class="line"> </span><br><span class="line">isAnchorMeet(target) &#123;</span><br><span class="line">    let react = this.getCurrentRect(),</span><br><span class="line">        targetReact = target.getCurrentRect();</span><br><span class="line">    if ((react.minX &lt; targetReact.maxX) &amp;&amp; (targetReact.minX &lt; react.maxX) &amp;&amp;</span><br><span class="line">        (react.minY &lt; targetReact.maxY) &amp;&amp; (targetReact.minY &lt; react.maxY)) &#123;</span><br><span class="line">        return true;</span><br><span class="line">    &#125;</span><br><span class="line">    return false;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>创建虚拟文字集合对象</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">let labels = pixels.map((val) =&gt; &#123;</span><br><span class="line">    let radius = val.pixel.radius + this.style.normal.borderWidth; //圆点半径</span><br><span class="line">    return new Label(val.pixel.x, val.pixel.y, radius, fontSize, byteWidth, val.name);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>递归遍历虚拟文字集合、判断是否与其他相交，如果有相交就移动当前文字位子，直到不相交为止。当找不到合适位置时，就选择隐藏当前文字。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">do &#123;</span><br><span class="line">    var meet = false; //本轮是否有相交</span><br><span class="line">    for (let i = 0; i &lt; labels.length; i++) &#123;</span><br><span class="line">        let temp = labels[i];</span><br><span class="line">        for (let j = 0; j &lt; labels.length; j++) &#123;</span><br><span class="line">            if (i != j &amp;&amp; temp.show &amp;&amp; temp.isAnchorMeet(labels[j])) &#123;</span><br><span class="line">                temp.next();</span><br><span class="line">                meet = true;</span><br><span class="line">                break;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125; while (meet);</span><br></pre></td></tr></table></figure>
+<ul>
+<li>绘画文字</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">labels.forEach(function (item) &#123;</span><br><span class="line">    if (item.show) &#123; //是否显示</span><br><span class="line">        let pixel = item.getCurrentRect();</span><br><span class="line">        ctx.beginPath();</span><br><span class="line">        ctx.fillText(item.text, pixel.x, pixel.y);</span><br><span class="line">        ctx.fill();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2018/01/26/git-工作流/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lennonover">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lennonover">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2018/01/26/git-工作流/" itemprop="url">
+                  git 工作流
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-26T21:38:02+08:00">
+                2018-01-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>git 是目前最流行的源代码管理工具，Git 的确可以在各个方面做很多事情，然而任然存在采用何种分支管理的问题，Git 分支管理并没有普遍适用的最佳做法，只有对每个团队和项目而言最适合的工作流。<br>git 的操作还是有一定复杂度的，错误的操作影响也比较大，异步小心就会导致部分代码丢失，还很难查到具体出问题的时间点和功能点。</p>
+<p>我们采用的是 git-flow 流程,包含 4 类分支，分别是 master、develop、新功能分支（feature）和 hotfix。</p>
+<h2 id="新建仓库"><a href="#新建仓库" class="headerlink" title="新建仓库"></a>新建仓库</h2><p>在 github 中创建一个新的仓库，只有一个 master 分支</p>
+<h2 id="新建分支"><a href="#新建分支" class="headerlink" title="新建分支"></a>新建分支</h2><p>每次开发新功能，都应该从当前主开发分支新建一个功能分支。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout -b feature-wz-qx</span><br></pre></td></tr></table></figure>
+<h2 id="提交分支"><a href="#提交分支" class="headerlink" title="提交分支"></a>提交分支</h2><p>模块开发差不多，提交代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git status</span><br><span class="line">git add -F</span><br><span class="line">git commit -m &apos;add xxxxx&apos;</span><br></pre></td></tr></table></figure>
+<p>关于 commit 完整的 log 由 类别(必须)  简短描述(必须) 详细描述(可选) 三部分组成：</p>
+<ul>
+<li>类别<ul>
+<li>add 增加</li>
+<li>fix 修复 bug</li>
+<li>change 修改</li>
+<li>del 移除</li>
+<li>refactor 代码重构</li>
+<li>docs 文档</li>
+</ul>
+</li>
+</ul>
+<p>eg:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git commit -m &apos;add xxxxx&apos;</span><br></pre></td></tr></table></figure>
+<p>如果增加详细描述，具体内容前空一行，兼容 Markdown。<br>还可以可以配合 <a href="https://gitmoji.carloscuesta.me/" target="_blank" rel="noopener">gitmoji</a> 强化信息可读性。</p>
+<h2 id="合并提交记录"><a href="#合并提交记录" class="headerlink" title="合并提交记录"></a>合并提交记录</h2><p>为了避免太多的 commit 而造成版本控制的混乱，通常我们推荐将这些 commit 合并成一个。假如我们提交了四次记录。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">commit 14c69cf825c17bd3e48154994e6f722db251fcfb</span><br><span class="line">Author: lennonover &lt;lennonover@163.com&gt;</span><br><span class="line">Date:   Tue Jan 23 16:38:57 2018 +0800</span><br><span class="line"></span><br><span class="line">    add forth </span><br><span class="line"></span><br><span class="line">commit 969161b68ab3b479fc52a26c4f053395ce4f3c63</span><br><span class="line">Author: lennonover &lt;lennonover@163.com&gt;</span><br><span class="line">Date:   Tue Jan 23 16:01:12 2018 +0800</span><br><span class="line"></span><br><span class="line">    add third </span><br><span class="line"></span><br><span class="line">commit 44adff48febeb65e5f89e2dc18ecc3ba7c9c31ba</span><br><span class="line">Author: lennonover &lt;lennonover@gmail.com&gt;</span><br><span class="line">Date:   Tue Jan 23 15:56:27 2018 +0800</span><br><span class="line"></span><br><span class="line">    add second </span><br><span class="line"></span><br><span class="line">commit a897c7ac82eb2de3e8268454d19f2ec91a5be9bd</span><br><span class="line">Author: lennonover &lt;lennonover@gmail.com&gt;</span><br><span class="line">Date:   Tue Jan 23 15:56:04 2018 +0800</span><br><span class="line"></span><br><span class="line">    add first</span><br></pre></td></tr></table></figure>
+<p>如何把四次合并到一起，并且只保留 最后一次 的 Git message 呢？推荐 git rebase 进行合并操作。</p>
+<p>合并最后四个</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git rebase -i HEAD~4</span><br></pre></td></tr></table></figure>
+<p>git 会打开一个互动界面，方便用户对历史提交进行修改</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">pick 969161b add first</span><br><span class="line">pick 14c69cf add second </span><br><span class="line">pick b246936 add third</span><br><span class="line">pick 5b192dc add forth </span><br><span class="line"></span><br><span class="line"># Rebase 44adff4..5b192dc onto 44adff4 (4 command(s))</span><br><span class="line">#</span><br><span class="line"># Commands:</span><br><span class="line"># p, pick = 使用该提交</span><br><span class="line"># r, reword = 使用该提交，但需要编辑提交信息</span><br><span class="line"># e, edit = 使用该提交，但此处暂停并提供修改机会</span><br><span class="line"># s, squash = 使用该提交，但合并到上一个提交记录中</span><br><span class="line"># f, fixup = 类似 squash，但丢弃当前提交记录的提交信息</span><br><span class="line"># x, exec = 执行 shell 命令</span><br><span class="line"># d, drop = 移除当前提交</span><br></pre></td></tr></table></figure>
+<p>我们需要把前面的 pick 改为 squash 这样：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">pick 969161b add first</span><br><span class="line">squash 14c69cf add second </span><br><span class="line">squash b246936 add third</span><br><span class="line">squash 5b192dc add forth</span><br></pre></td></tr></table></figure>
+<p>完成后，使用 <code>:wq</code> 保存并退出。这个时候则需要在下一步中对这 4 条 commit 信息进行修改和保存(如果 fixup 的话，则直接丢弃其它记录，省去下一步操作)：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># This is a combinatin of 4 commits.</span><br><span class="line"># This is the 1st commit message:</span><br><span class="line">add first </span><br><span class="line"># This is the commit message #2:</span><br><span class="line">add second </span><br><span class="line"># This is the commit message #3:</span><br><span class="line">add third</span><br><span class="line"># This is the commit message #4:</span><br><span class="line">add forth</span><br></pre></td></tr></table></figure>
+<p>使用 <code>:wq</code> 后，通过 git log 可以看到仅剩一条 commit 记录：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">commit c2391a59bf51240a60ab4c8455b251cff1ec3cdd</span><br><span class="line">Author: lennonover &lt;lennonover@163.com&gt;</span><br><span class="line">Date:   Wed Jan 24 15:01:12 2018 +0800</span><br><span class="line"></span><br><span class="line">    add stylelint-0.0.3</span><br></pre></td></tr></table></figure>
+<p>rebase 的风险：</p>
+<p>当待合并 commit 记录中杂糅着他人的 commit 记录，此时就不可以再对这部分 commit 记录做合并操作。</p>
+<p>但只要新开分支且保持分支独立开发，杂糅的情况就不存在。</p>
+<h2 id="推送到仓库"><a href="#推送到仓库" class="headerlink" title="推送到仓库"></a>推送到仓库</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git push origin feature-wz-qx</span><br></pre></td></tr></table></figure>
+<h2 id="提交-Merge-Request-申请"><a href="#提交-Merge-Request-申请" class="headerlink" title="提交 Merge Request 申请"></a>提交 Merge Request 申请</h2><p>请求相关同学从你的 feature-wz-qx 合并分支</p>
+<ul>
+<li>提交 Merge Request：</li>
+</ul>
+<p>通过「＋Create Merge Request」按钮创建一个 Merge Request；</p>
+<ul>
+<li>指定「Assignee」：</li>
+</ul>
+<p>指定需要 review 你代码的同学，禁止指定自己；</p>
+<ul>
+<li>更改「Target branch」：</li>
+</ul>
+<p>改变为需要合并进去的目标分支；</p>
+<ul>
+<li>设置合并后删除被合并分支的选项：</li>
+</ul>
+<p>勾选「Remove source branch when merge request is accepted.」选项，在合并完成后删除源分支，控制分支总数量；</p>
+<ul>
+<li>提交合并请求</li>
+</ul>
+<p>完成上述设置后，相关同学将会收到邮件通知，此时可进入 GitLab 进行 code review。如果发现问题则对问题代码进行点评并拒绝关闭申请，反之则通过合并申请。</p>
+<h2 id="修复-Bug"><a href="#修复-Bug" class="headerlink" title="修复 Bug"></a>修复 Bug</h2><p>发现 bug 了,从 develop 分支上新建分支</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout -b hotfix/xxx develop</span><br></pre></td></tr></table></figure>
+<p>改完推送到仓库后提交 Merge Request 申请</p>
+<h2 id="减少冲突"><a href="#减少冲突" class="headerlink" title="减少冲突"></a>减少冲突</h2><p>从我们的工作流程上来说，代码合并导致的问题，一般都发生在特性、修复分支合并到 master 或者 develop 的时候，因为这个时候开始，才是真正与其他分支汇合，不同的改动会发生冲突。而且合并没法完全避免，我们只能去思考如何减少合并冲突。</p>
+<ul>
+<li>合理的分工，人员职责划分尽量清晰，减少互相之间的交叉，减少多个人同时改动同一份代码的几率</li>
+<li>合适的合并工具</li>
+<li>合并后的代码检查</li>
+<li>公共代码改动，要通知各使用方变化点</li>
+<li>code review</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2018/01/15/npm-script/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1371,142 +1710,6 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2017/10/24/window.requestAnimationFrame()  解读/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="lennonover">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="lennonover">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/10/24/window.requestAnimationFrame()  解读/" itemprop="url">
-                  window.requestanimationfram 解读
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-24T21:24:45+08:00">
-                2017-10-24
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <blockquote>
-<p><a href="http://www.zhangxinxu.com/wordpress/2013/09/css3-animation-requestanimationframe-tween-%E5%8A%A8%E7%94%BB%E7%AE%97%E6%B3%95/" target="_blank" rel="noopener">参考自张鑫旭老师</a></p>
-</blockquote>
-<p>window.requestAnimationFrame() 方法告诉浏览器您希望执行动画并请求浏览器调用指定的函数在下一次重绘之前更新动画。该方法使用一个回调函数作为参数，这个回调函数会在浏览器重绘之前调用。</p>
-<h2 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h2><p>window.requestAnimationFrame(callback);</p>
-<h2 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h2><p><code>callback</code> 一个在每次需要重新绘制动画时调用的包含指定函数的参数。这个回调函数有一个传参，DOMHighResTimeStamp，指示从触发 requestAnimationFrame 回调到现在的时间（从 performance.now() 取得）。</p>
-<h2 id="返回值"><a href="#返回值" class="headerlink" title="返回值"></a>返回值</h2><p>一个 long 整数，请求 ID ，也是回调列表中唯一的标识。这是一个非零值，但你恐怕也不能从其值中作出什么臆想。你可以传此值到 window.cancelAnimationFrame() 以取消回调函数。</p>
-<h2 id="使用RequestAnimationFrame函数实现动画"><a href="#使用RequestAnimationFrame函数实现动画" class="headerlink" title="使用RequestAnimationFrame函数实现动画"></a>使用RequestAnimationFrame函数实现动画</h2><p>我们经常使用 JavaScript 来实现动画效果，然而时机不当或长时间运行的 JavaScript 可能就是导致你性能下降的原因。显示器 16.7ms 刷新间隔之前发生了其他绘制请求(setTimeout)，导致所有第三帧丢失，继而导致动画断续显示这种做法的主要问题是回调将会在帧中的某个时间点运行，这可能会刚好在末尾，这就是过度绘制带来的问题。这也是为何 setTimeout 的定时器值推荐最小使用 16.7ms 的原因（16.7 = 1000 / 60, 即每秒 60 帧）。</p>
-<p><img src="http://ob6nlbpso.bkt.clouddn.com/sp171024_220945.png" alt="setTimeout"></p>
-<p>有些第三方库仍在使用 setTimeout()&amp;setInterval() 函数来实现动画效果，这会产生很多不必要的性能下降，例如老版本的 JQuery，如果你使用的是 JQuery3，那么不必为此担心，JQuery3 已经全面改写了动画模块，采用了requestAnimationFrame() 函数来实现动画效果。但如果你使用的是之前版本的 JQuery，那么就需要 jquery-requestAnimationFrame 来将 setTimeout() 替换为 requestAnimationFrame() 函数。本质上它与setTimeout()没有什么区别，都是在递归调用同一个回调函数来不断更新画面以达到动画的效果,优点：</p>
-<ul>
-<li>就算很多个 requestAnimationFrame，浏览器只要通知一次就可以了。而 setTimeout 是多个独立绘制。</li>
-<li>页面最小化了，或者被Tab切换关灯了，页面绘制全部停止，资源高效利用。</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">function updateScreen(time) &#123;</span><br><span class="line">    // 这是你的动画效果函数</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 将你的动画效果函数放入requestAnimationFrame()作为回调函数</span><br><span class="line">requestAnimationFrame(updateScreen);</span><br></pre></td></tr></table></figure>
-<h2 id="弊端-CSS3动画不能应用所有属性"><a href="#弊端-CSS3动画不能应用所有属性" class="headerlink" title="弊端 CSS3动画不能应用所有属性"></a>弊端 CSS3动画不能应用所有属性</h2><p>类似滚动 scrollTop 是不支持的，这时需要 JS 来。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2017/10/15/CSS 动画/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1798,162 +2001,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2017/09/20/JS-原生事件/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="lennonover">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="lennonover">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/09/20/JS-原生事件/" itemprop="url">
-                  JS 原生事件
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-20T22:12:00+08:00">
-                2017-09-20
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="JS原生事件"><a href="#JS原生事件" class="headerlink" title="JS原生事件"></a>JS原生事件</h1><p>事件流，所谓的事件流就是页面接受事件的顺序。IE 的事件流叫冒泡事件，Netscape 提出了另一个事件流叫事件捕获。事件的三阶段，分别为捕获，目标，冒泡。</p>
-<ul>
-<li>捕获阶段：从最上层元素，一直到最下层，你点击的那个 target 元素，路过的所有节点都可以捕捉到这事件</li>
-<li>目标阶段：如果给事件成功的到达了 target 元素，它会进行事件处理</li>
-<li>冒泡阶段：事件从最下层向上传递，依次出发父元素的该事件处理函数</li>
-</ul>
-<p>阻止事件冒泡，可以使用 <code>e.stopPropagation()</code>（Firefox，chrome）或者 <code>e.cancelBubble=true</code>（IE）来阻止事件的冒泡传播。</p>
-<h4 id="事件绑定"><a href="#事件绑定" class="headerlink" title="事件绑定"></a>事件绑定</h4><p>直接在 DOM 元素上绑定 onclick、onmouseover、onmouseout、onmousedown、onmouseup、ondblclick、onkeydown、onkeypress、onkeyup 等事件,缺点是只能实现一个绑定，也就是说我们再为 element 绑定第二个 click 事件时候，会覆盖掉之前的 click 事件</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 在 html 中直接写</span></span><br><span class="line">&lt;button onclick=<span class="string">"alert('你点击了这个按钮');"</span>&gt; 点击这个按钮 &lt;<span class="regexp">/button&gt;  </span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">/</span><span class="regexp">/ DOM 绑定</span></span><br><span class="line"><span class="regexp">var node = document.getElementById('div')</span></span><br><span class="line"><span class="regexp">node.onclick = function() &#123;</span></span><br><span class="line"><span class="regexp">    console.log('click 事件绑定成功')</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br></pre></td></tr></table></figure>
-<h4 id="事件监听"><a href="#事件监听" class="headerlink" title="事件监听"></a>事件监听</h4><p>事件监听实现的功能和直接绑定差不多新增了一个特点。无论监听多少次，都不会覆盖掉前面的监听事件。本质原因是监听事件每次都会生产一个全新的匿名函数，和前面的函数完全不同。<br>原生的事件绑定是这样的 <code>btn.addEventListener(“click”,function(event){}, false)</code><br>IE 浏览器提供的是 <code>btn.attachEvent(“click”,function(event){}, false)</code><br><code>true</code> 表示捕获阶段调用事件处理程序<br><code>false</code> 表示冒泡阶段调用事件处理程序<br>相应的移除事件绑定这是 <code>removeEventListener</code> 和 <code>detachEvent</code> </p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> div = <span class="built_in">document</span>.getElementById(<span class="string">'div'</span>)</span><br><span class="line">div.addEventListener(<span class="string">'click'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'事件绑定成功1'</span>)</span><br><span class="line">&#125;)</span><br><span class="line">div.addEventListener(<span class="string">'click'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'事件绑定成功2'</span>)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
-<h4 id="事件委托"><a href="#事件委托" class="headerlink" title="事件委托"></a>事件委托</h4><p>事件委托是基于上面利用了事件冒泡，只指定一个事件处理程序，优点减少监听器,监听动态内容。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// html</span></span><br><span class="line">&lt;ul <span class="class"><span class="keyword">class</span></span>=<span class="string">"list"</span>&gt;</span><br><span class="line">    &lt;li&gt;<span class="xml"><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span></span><br><span class="line">&lt;<span class="regexp">/ul&gt;</span></span><br><span class="line"><span class="regexp">/</span><span class="regexp">/ js</span></span><br><span class="line"><span class="regexp">var ul = document.querySelector('.list')</span></span><br><span class="line"><span class="regexp">list.addEventListener('click',function (e)&#123;</span></span><br><span class="line"><span class="regexp">    var l = e.target</span></span><br><span class="line"><span class="regexp">    while(l.tagName !== 'LI')&#123;</span></span><br><span class="line"><span class="regexp">        l = l.parentNode</span></span><br><span class="line"><span class="regexp">        if(l === ul)&#123;</span></span><br><span class="line"><span class="regexp">            l = null</span></span><br><span class="line"><span class="regexp">            break;</span></span><br><span class="line"><span class="regexp">        &#125;</span></span><br><span class="line"><span class="regexp">    &#125;</span></span><br><span class="line"><span class="regexp">    if (l) &#123;</span></span><br><span class="line"><span class="regexp">        console.log('执行回调')</span></span><br><span class="line"><span class="regexp">    &#125;</span></span><br><span class="line"><span class="regexp">&#125;)</span></span><br></pre></td></tr></table></figure>
-<h4 id="DOM3-级事件"><a href="#DOM3-级事件" class="headerlink" title="DOM3 级事件"></a>DOM3 级事件</h4><p>DOM0 就是直接通过 onclick 写在 html 里面的事件<br>DOM2 是通过 addEventListener 绑定的事件,  IE 下的 DOM2 事件通过 attachEvent 绑定<br>DOM3 是一些新的事件     </p>
-<p>判定浏览器是否支持该事件类型<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> isSupported=<span class="built_in">document</span>.implementation.hasFeature(<span class="string">'HTMLEvents'</span>,<span class="string">'2.0'</span>);</span><br><span class="line">alert(isSupported);<span class="comment">//true or false</span></span><br><span class="line"><span class="keyword">var</span> isSupported=<span class="built_in">document</span>.implementation.hasFeature(<span class="string">"UIEvent"</span>,<span class="string">'3.0'</span>);</span><br><span class="line">alert(isSupported);<span class="comment">//true or false</span></span><br></pre></td></tr></table></figure></p>
-<p>第 DOM3 级事件</p>
-<ul>
-<li>UI 事件：当用户与页面上的元素交互时除法<br>  load, unload,abord,error,select,resize,scroll</li>
-<li>焦点事件：元素获得或失去焦点<br>  blur、DOMfocusOut、focusout 是事件目标是失去焦点的元素<br>  focus、DOMfocusIn、focusin 是事件获取到焦点的元素</li>
-<li>鼠标事件：通过鼠标在页面上执行操作<br>  click，dbclick,mousedown，mouseenter、mouseleave、mousemove、mouseout、mouseover、mouseup</li>
-<li>滚轮事件：使用鼠标滚轮或类似设备<br>  mousewheel，即当用户通过鼠标滚轮与页面交互的时候会触发，最终会冒泡到 document 或者 window 上，它包含的 event 对象包含鼠标事件的所有标准信息外，还包含一个特殊的 wheelData 属性，wheelDelta 是 120 的倍数，向前滚动是 120x，向后滚动是 - 120x</li>
-<li>文本事件：当用户在文档中输入文本；</li>
-<li><p>键盘事件：通过键盘在页面上执行操作<br>  1、keydown：用户按下键盘上的任意键时候出发，而且如果按住不放的话就会一直触发，会重复触发这个事件，<br>  2、keypress：当用户按下键盘上的字符键时触发，<br>  3、keyup：用户释放键盘上的键时触发<br>  4、textInput: 是 keypress 的补充，在文本显示给用户之前更容易拦截文本，在文本插入文本框之前会触发该事件，该 event 对象包含一个 data 属性，这个属性是值就是用户输入的字符，event 对象的 inputMethod 属性会判断用户输入到文本框的方式，一共有 0~7 个值，其中常用的就是 0 和 1；</p>
-<p>  注：0：表示浏览器不知道怎么输入的，<br>1：表示用户使用键盘输入的，2 表示用户是粘贴进来的<br>keyCode 的值可以用来表示键盘值，DOM3 之后就不再包含 charCode 了，新增 key 和 char，兼容：keyIdentifier</p>
-</li>
-<li>合成事件：当为 IME（Input Method Editor，输入法编辑器）输入字符时除法；</li>
-<li>变动事件：底层 DOM 结构发生变化<br>  DOM2 级的变动事件能再 DOM 中的某一部分发生变化时触发。<br>包括：DOMSubtreeModified、DomNodeInserted、DomNodeRemove、DomNodeInsertIntoDocument 等。<br>1、删除节点：removeChild，replaceChild，目标事件：event.target（被删除的节点）；event.relateNode(相关节点) 会触发 DOMNodeRemoved 事件，会冒泡<br>2、插入节点：appendChild、repalceChild、insertBefore</li>
-</ul>
-<p>HTML5 事件        </p>
-<ul>
-<li>contextmenu 事件<br>  冒泡，这个事件的目标是发生用户操作的元素。通常使用 contextmenu 事件来显示自定义的上下文菜单，而使用 onclick 事件处理程序来隐藏该菜单，</li>
-<li>beforeunloaded 事件<br>  为了让开发人员有可能在页面卸载前阻止这一操作          </li>
-<li>DOMContent 事件<br>  在 window 的 load 事件会在页面中的一切都加载完毕时候触发，但是这个事件在形成 DOM 树的时候就会触发，这个事件会冒泡到 window 但它的目标实际上是 document，它不会提供任何额外的信息（其 target 属性是 document）           </li>
-<li>pageShow、pagehide(Firefox,Opera)<br>  pageShow 会在 load 事件触发后触发，当页面离开并且点击返回时候，返回到上一个页面的时候会触发，event 事件的 persisted 为 true 的时候页面会保存在 bfchache 中，<br>pagehide 事件，该事件会在浏览器卸载的时候触发，会在 unload 事件之前触发，和 pageShow 一样在 document 上触发        </li>
-<li>haschange 事件<br>  当 URL 的参数列表发生变化的时候触发，（# 后面的所有字符）</li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2003,7 +2050,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">55</span>
+                <span class="site-state-item-count">56</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -2016,7 +2063,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">28</span>
+                <span class="site-state-item-count">27</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -2058,7 +2105,7 @@
         <div class="copyright" >
   
   &copy; 
-  <span itemprop="copyrightYear">2020</span>
+  <span itemprop="copyrightYear">2021</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
