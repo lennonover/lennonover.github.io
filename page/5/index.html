@@ -251,6 +251,833 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2017/02/21/JS中值传递/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lennonover">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lennonover">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/02/21/JS中值传递/" itemprop="url">
+                  JS中值传递
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-21T21:29:00+08:00">
+                2017-02-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="按值传递-VS-按引用传递"><a href="#按值传递-VS-按引用传递" class="headerlink" title="按值传递 VS 按引用传递"></a>按值传递 VS 按引用传递</h2><ul>
+<li><p>按值传递(call by value)</p>
+<p>函数的形参是被调用时所传实参的副本。修改形参的值并不会影响实参。</p>
+</li>
+</ul>
+<ul>
+<li><p>按引用传递(call by reference)</p>
+<p>函数的形参接收实参的隐式引用，而不再是副本。这意味着函数形参的值如果被修改，实参也会被修改。同时两者指向相同的值。</p>
+</li>
+</ul>
+<h2 id="探究JS值的传递方式"><a href="#探究JS值的传递方式" class="headerlink" title="探究JS值的传递方式"></a>探究JS值的传递方式</h2><p>JS的基本类型，是按值传递的。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> c = <span class="number">3</span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params">x</span>) </span>&#123;</span><br><span class="line">    x = <span class="number">9</span>;</span><br><span class="line">&#125;</span><br><span class="line">foo(c);</span><br><span class="line"><span class="built_in">console</span>.log(c); <span class="comment">// 仍为3, 未受x = 9赋值所影响</span></span><br></pre></td></tr></table></figure>
+<p>对象</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> obj = &#123;<span class="attr">x</span> : <span class="number">1</span>&#125;;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params">o</span>) </span>&#123;</span><br><span class="line">    o.x = <span class="number">3</span>;</span><br><span class="line">&#125;</span><br><span class="line">foo(obj);</span><br><span class="line"><span class="built_in">console</span>.log(obj.x); <span class="comment">// 3, 被修改了!</span></span><br></pre></td></tr></table></figure>
+<p>说明o和obj是同一个对象，o不是obj的副本。所以不是按值传递。 但这样是否说明JS的对象是按引用传递的呢？我们再看</p>
+<p>下面的例子：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> obj = &#123;<span class="attr">x</span> : <span class="number">1</span>&#125;;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params">o</span>) </span>&#123;</span><br><span class="line">    o = <span class="number">100</span>;</span><br><span class="line">&#125;</span><br><span class="line">foo(obj);</span><br><span class="line"><span class="built_in">console</span>.log(obj.x); <span class="comment">// 仍然是1, obj并未被修改为100.</span></span><br></pre></td></tr></table></figure>
+<p>如果是按引用传递，修改形参o的值，应该影响到实参才对。但这里修改o的值并未影响obj。 因此JS中的对象并不是按引用传递。那么究竟对象的值在JS中如何传递的呢？</p>
+<h2 id="按对象传递"><a href="#按对象传递" class="headerlink" title="按对象传递"></a>按对象传递</h2><p>JS中的基本类型按值传递，对象类型按按对象传递.<br>数组、对象是把变量地址复制进去的。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = []</span><br><span class="line"><span class="keyword">var</span> b = &#123;&#125;;</span><br><span class="line"><span class="keyword">var</span> c = &#123;&#125;;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params">a, b, c</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    a = [<span class="number">1</span>];</span><br><span class="line">    b = [<span class="number">2</span>];</span><br><span class="line">    c = &#123;<span class="attr">d</span>:<span class="number">3</span>&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">foo(a, b, c);</span><br><span class="line">alert (a); <span class="comment">// 空白</span></span><br><span class="line">alert (b); <span class="comment">// [object Object]</span></span><br><span class="line">alert (c.d); <span class="comment">// undefined</span></span><br></pre></td></tr></table></figure></p>
+<p>上面我们让 v1、v2、v3 作为参数进入函数后，就有了地址副本，这些地址副本的指向和外面的 v1、v2、v3 的地址指向是相同的。但我们<code>为 v1、v2、v3 赋了值</code>，也就是说我们把地址副本的指向改变了，指向了新的数组和对象。这样内部的 v1、v2、v3 和外部的 v1、v2、v3 就完全断了。<br>如果我们不赋新值，而是直接操作它，那么，它操作到的，仍然是和外面的 v1、v2、v3 指向的同一块数组或对象。</p>
+<p>所以传值的比较比较的是数值 而传址的比较比较的是引用，引用不同即使数值相同也不等</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span> == <span class="number">1</span>;    <span class="comment">//true</span></span><br><span class="line"><span class="number">1</span> === <span class="number">1</span>;   <span class="comment">//true</span></span><br><span class="line">[<span class="number">0</span>] == [<span class="number">0</span>]; <span class="comment">//false</span></span><br><span class="line">[<span class="number">0</span>][<span class="number">0</span>] == [<span class="number">0</span>][<span class="number">0</span>];    <span class="comment">//true</span></span><br><span class="line">[<span class="number">0</span>][<span class="number">0</span>] === [<span class="number">0</span>][<span class="number">0</span>];   <span class="comment">//true</span></span><br><span class="line">[<span class="number">0</span>].toString() == [<span class="number">0</span>].toString();   <span class="comment">//true</span></span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2017/02/20/JS/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lennonover">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lennonover">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/02/20/JS/" itemprop="url">
+                  JS类型检测
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-20T22:01:55+08:00">
+                2017-02-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h1><p>JavaScript中常见的几种数据类型：</p>
+<p>基本类型：string,number,boolean,undefined,null</p>
+<p>引用类型：Object,Function,Function,Array,Date等</p>
+<h2 id="typeof"><a href="#typeof" class="headerlink" title="typeof"></a>typeof</h2><p>typeof 返回一个表示数据类型的字符串，返回结果包括：number、boolean、string、object、undefined、function等6种数据类型。<br>typeof 可以对JS基础数据类型做出准确的判断。</p>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Class</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>“foo”</td>
+<td>String</td>
+<td>string</td>
+</tr>
+<tr>
+<td>new String(“foo”)</td>
+<td>String</td>
+<td>object</td>
+</tr>
+<tr>
+<td>1.2</td>
+<td>Number</td>
+<td>number</td>
+</tr>
+<tr>
+<td>new Number(1.2)</td>
+<td>Number</td>
+<td>object</td>
+</tr>
+<tr>
+<td>true</td>
+<td>Boolean</td>
+<td>boolean</td>
+</tr>
+<tr>
+<td>new Boolean(true)</td>
+<td>Boolean</td>
+<td>object</td>
+</tr>
+<tr>
+<td>new Date()</td>
+<td>Date</td>
+<td>object</td>
+</tr>
+<tr>
+<td>new Error()</td>
+<td>Error</td>
+<td>object</td>
+</tr>
+<tr>
+<td>[1,2,3]</td>
+<td>Array</td>
+<td>object</td>
+</tr>
+<tr>
+<td>new Array(1, 2, 3)</td>
+<td>Array</td>
+<td>object</td>
+</tr>
+<tr>
+<td>new Function(“”)</td>
+<td>Function</td>
+<td>function</td>
+</tr>
+<tr>
+<td>/abc/g</td>
+<td>RegExp</td>
+<td>object</td>
+<td>(function in Nitro/V8)</td>
+</tr>
+<tr>
+<td>new RegExp(“meow”)</td>
+<td>RegExp</td>
+<td>object</td>
+<td>(function in Nitro/V8)</td>
+</tr>
+<tr>
+<td>{}</td>
+<td>Object</td>
+<td>object</td>
+</tr>
+<tr>
+<td>new Object()</td>
+<td>Object</td>
+<td>object</td>
+</tr>
+</tbody>
+</table>
+<p>Type 一列表示 typeof 操作符的运算结果。可以看到，这个值在大多数情况下都返回 “object”。</p>
+<p>Class 一列表示对象的内部属性 [[Class]] 的值。</p>
+<blockquote>
+<p>typeof foo !== ‘undefined’</p>
+</blockquote>
+<p>上面代码会检测 foo 是否已经定义；如果没有定义而直接使用会导致 ReferenceError 的异常。 这是 typeof 唯一有用的地方。除非为了检测一个变量是否已经定义，我们应尽量避免使用 typeof 操作符。</p>
+<h2 id="Object-prototype-toString"><a href="#Object-prototype-toString" class="headerlink" title="Object.prototype.toString"></a>Object.prototype.toString</h2><p>公认靠谱的方法。<br>JavaScript 标准文档只给出了一种获取 上表  [[Class]] 值的方法，那就是使用 Object.prototype.toString，<br>该方法默认返回其调用者的具体类型。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">function is(type, obj) &#123;</span><br><span class="line">    var clas = Object.prototype.toString.call(obj).slice(8, -1);</span><br><span class="line">    return obj !== undefined &amp;&amp; obj !== null &amp;&amp; clas === type;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">is(&apos;String&apos;, &apos;test&apos;); // true</span><br><span class="line">is(&apos;String&apos;, new String(&apos;test&apos;)); // true</span><br></pre></td></tr></table></figure>
+<p>更严格的讲，是 toString运行时this指向的对象类型, 返回的类型格式为[object,xxx],xxx是具体的数据类型。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Object.prototype.toString.call(&apos;&apos;) ;   // [object String]</span><br><span class="line">Object.prototype.toString.call(1) ;    // [object Number]</span><br><span class="line">Object.prototype.toString.call(true) ; // [object Boolean]</span><br><span class="line">Object.prototype.toString.call(undefined) ; // [object Undefined]</span><br><span class="line">Object.prototype.toString.call(null) ; // [object Null]</span><br><span class="line">Object.prototype.toString.call(new Function()) ; // [object Function]</span><br><span class="line">Object.prototype.toString.call(new Date()) ; // [object Date]</span><br><span class="line">Object.prototype.toString.call([]) ; // [object Array]</span><br><span class="line">Object.prototype.toString.call(new RegExp()) ; // [object RegExp]</span><br><span class="line">Object.prototype.toString.call(new Error()) ; // [object Error]</span><br><span class="line">Object.prototype.toString.call(document) ; // [object HTMLDocument]</span><br><span class="line">Object.prototype.toString.call(window) ; //[object global] window是全局对象global的引用</span><br></pre></td></tr></table></figure></p>
+<p>必须通过Object.prototype.toString.call来获取，而不能直接 new Date().toString(),因为大部分的对象都实现了自身的toString方法，这样就可能会导致Object的toString被终止查找，因此要用call来强制执行Object的toString方法。</p>
+<h2 id="instanceof"><a href="#instanceof" class="headerlink" title="instanceof"></a>instanceof</h2><p>instanceof 操作符用来比较两个操作数的构造函数例如来判断 A 是否为 B 的实例。只有在比较自定义的对象时才有意义。</p>
+<blockquote>
+<p>[] instanceof Array     // true<br> [] instanceof Object;   // true</p>
+</blockquote>
+<p>instanceof检测的是原型。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2017/01/21/JS原型链/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lennonover">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lennonover">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/01/21/JS原型链/" itemprop="url">
+                  JS 原型链
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-01-21T20:23:20+08:00">
+                2017-01-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="名词解释"><a href="#名词解释" class="headerlink" title="名词解释"></a>名词解释</h1><h2 id="函数对象"><a href="#函数对象" class="headerlink" title="函数对象"></a>函数对象</h2><p>由Function创造出来的函数 eg：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">a</span>(<span class="params"></span>)</span>&#123;&#125;;</span><br><span class="line"><span class="keyword">var</span> b=<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;&#125;;</span><br></pre></td></tr></table></figure>
+<p>系统内置的函数对象</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Function</span>,<span class="built_in">Object</span>,<span class="built_in">Array</span>,<span class="built_in">String</span>,<span class="built_in">Number</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>只有函数对象才有 prototype 属性</p>
+</blockquote>
+<blockquote>
+<p>引用类型值：指的是那些保存在堆内存中的对象，意思是，变量中保存的实际上只是一个指针，这个指针执行内存中的另一个位置，由该位置保存对象,那么数组,普通对象,函数对象都算是引用数据类型,引用数据类型范围包含函数对象的范围</p>
+</blockquote>
+<h2 id="普通对象"><a href="#普通对象" class="headerlink" title="普通对象"></a>普通对象</h2><p>函数对象之外的对象都是普通对象</p>
+<blockquote>
+<p>基本类型值：指的是保存在栈内存中的简单数据段；除开函数对象之外的对象都是普通对象,那么普通对象范围是包含基本数据类型的</p>
+</blockquote>
+<h2 id="原型对象"><a href="#原型对象" class="headerlink" title="原型对象"></a>原型对象</h2><p>prototype属性</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">a</span>(<span class="params"></span>)</span>&#123;&#125;;</span><br></pre></td></tr></table></figure>
+<p>对象 <code>a</code> 是由<code>Function</code>创造出来,是函数对象,<code>a</code> 就有了<code>prototype</code>属性.那么这个原型对象是怎么创造出来的呢?<br>来看下面这个例子:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> temp = <span class="keyword">new</span> a();</span><br><span class="line">a.prototype = temp;</span><br></pre></td></tr></table></figure>
+<p>a的prototype属性就是这样创造出来的</p>
+<h2 id="指针proto"><a href="#指针proto" class="headerlink" title="指针proto"></a>指针<strong>proto</strong></h2><p>所有的对象obj都具有proto属性(null和undefined除外),而且指向创造obj对象的函数对象的prototype属性 eg:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">a</span>(<span class="params"></span>)</span>&#123;&#125;;</span><br><span class="line"><span class="built_in">console</span>.log(a.prototype.__proto__===<span class="built_in">Object</span>.prototype); <span class="comment">//true</span></span><br><span class="line"><span class="built_in">console</span>.log(a.__proto__===<span class="built_in">Function</span>.prototype); <span class="comment">//true 指向创造obj对象的函数对象的prototype属性</span></span><br></pre></td></tr></table></figure>
+<p>eg :</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 在JavaScript的世界中，所有的函数都能作为构造函数，构造出一个对象</span></span><br><span class="line"><span class="comment">// 下面我给自己构造一个女神做对象</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">NvShen</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line"> <span class="keyword">this</span>.name = <span class="string">"Alice"</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 现在我设置NvShen这个函数的prototype属性</span></span><br><span class="line"><span class="comment">// 一般来说直接用匿名的对象就行，我这里是为了方便理解，</span></span><br><span class="line"><span class="comment">// 先定义一个hand对象再把hand赋值给NvShen的prototype</span></span><br><span class="line"><span class="keyword">var</span> hand = &#123;</span><br><span class="line"> whichOne: <span class="string">"right hand"</span>,</span><br><span class="line"> someFunction: <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">   <span class="built_in">console</span>.log(<span class="string">"not safe for work."</span>);</span><br><span class="line"> &#125;</span><br><span class="line">&#125;;</span><br><span class="line">NvShen.prototype = hand;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 这个时候，我们可以用NvShen作为构造函数，构造出myObject对象</span></span><br><span class="line"><span class="keyword">var</span> myObject = <span class="keyword">new</span> NvShen();</span><br><span class="line"><span class="built_in">console</span>.log(myObject.__proto__ === NvShen.prototype) <span class="comment">//true</span></span><br></pre></td></tr></table></figure>
+<p>我们构建了一个对象myObject，而myObject的原型是hand对象，而刚好myObject的构造函数NvShen()的prototype属性也指向hand对象。现在我们知道，prototype与<strong>proto</strong>的关系就是：你的<strong>proto</strong>来自你构造函数的prototype<br>hand.<strong>proto</strong> 指向的是Object.prototype</p>
+<blockquote>
+<p>思考：var obj={}; obj.prototype.<strong>proto</strong>指向谁__?</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">这里分步思考:</span><br><span class="line"><span class="number">1</span>, obj是是一个普通对象</span><br><span class="line"><span class="number">2</span>, 什么类型的对象是由prototype属性的?当然是函数对象</span><br><span class="line"><span class="number">3</span>, 所以obj是没有prototype属性的</span><br><span class="line"><span class="number">4</span>, 所以obj.prototype===<span class="literal">undefined</span></span><br><span class="line"><span class="number">5</span>, 所以此题的最终问题是:<span class="literal">undefined</span>.proto指向什么</span><br><span class="line"><span class="number">6</span>, 所有的对象obj都具有proto属性(<span class="literal">null</span>和<span class="literal">undefined</span>除外)!所以答案是 js报错</span><br><span class="line"><span class="string">``</span><span class="string">`   </span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">## 构造器constructor</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">constructor 属性返回对创建此对象的函数对象的引用。</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">`</span><span class="string">``</span>javascript</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">a</span>(<span class="params"></span>)</span>&#123;&#125;;</span><br><span class="line"><span class="built_in">console</span>.log(a.constructor===<span class="built_in">Function</span>); <span class="comment">//true</span></span><br><span class="line"><span class="built_in">console</span>.log(a.prototype.constructor===a); <span class="comment">//true</span></span><br></pre></td></tr></table></figure>
+<p>函数a是由Function创造出来,那么它的constructor指向的Function,<br>a.prototype是由new a()方式创造出来,那么a.prototype.constructor理应指向a</p>
+<blockquote>
+<p>思考:a.prototype.<strong>proto</strong>.constructor指向谁__?</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">这里继续分解题目:</span><br><span class="line"><span class="number">1</span>, a.prototype指向a的一个实例,我们已经多次强调了,而且属于普通对象</span><br><span class="line"><span class="number">2</span>, __proto__定义为:指向创造obj对象的函数对象的prototype属性,所以看下谁创造了a.prototype,因为a.prototype是普通对象,类型为object,那么是<span class="built_in">Object</span>创造了它,</span><br><span class="line"><span class="number">3</span>, 那么显而易见a.prototype.__proto__指向了<span class="built_in">Object</span>.prototype</span><br><span class="line"><span class="number">4</span>, 那么题目简化为<span class="built_in">Object</span>.prototype.constructor指向谁</span><br><span class="line"><span class="number">5</span>, 继续分解题目,<span class="built_in">Object</span>.prototype为基本对象,那么就是<span class="built_in">Object</span>创造了它,那么它的<span class="keyword">constructor</span>就指向了Object</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Object</span>.prototype.constructor===<span class="built_in">Object</span> <span class="comment">//true</span></span><br><span class="line"><span class="built_in">Object</span>.prototype.__proto__===<span class="literal">null</span> <span class="comment">//true</span></span><br></pre></td></tr></table></figure>
+<h2 id="原型链"><a href="#原型链" class="headerlink" title="原型链"></a>原型链</h2><p>JS在创建对象（不论是普通对象还是函数对象）的时候，都有一个<strong>proto</strong>的内置属性，用于指向创建它的函数对象的原型对象prototype。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(a.__proto__ === person.prototype) <span class="comment">//true</span></span><br></pre></td></tr></table></figure>
+<p>同样，person.prototype对象也有<strong>proto</strong>属性，它指向创建它的函数对象（Object）的prototype</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(person.prototype.__proto__ === <span class="built_in">Object</span>.prototype) <span class="comment">//true</span></span><br></pre></td></tr></table></figure>
+<p>继续，Object.prototype对象也有<strong>proto</strong>属性，但它比较特殊，为null</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(<span class="built_in">Object</span>.prototype.__proto__) <span class="comment">//null</span></span><br></pre></td></tr></table></figure>
+<p>我们把这个有<strong>proto</strong>串起来的直到Object.prototype.<strong>proto</strong>为null的链叫做原型链。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2017/01/07/CSS之absolute/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lennonover">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lennonover">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/01/07/CSS之absolute/" itemprop="url">
+                  CSS之absolute
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-01-07T19:15:00+08:00">
+                2017-01-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="关于absolute"><a href="#关于absolute" class="headerlink" title="关于absolute"></a>关于absolute</h2><blockquote>
+<p>来自张鑫旭老师</p>
+</blockquote>
+<ul>
+<li>脱离文档流</li>
+<li>去浮动</li>
+<li>超越overflow</li>
+</ul>
+<p>绝对定位和浮动有相似性，同样具有浮动的包裹性和破坏性。一旦给元素加上absolute或float就相当于给元素加上了display:block。</p>
+<p>设置为绝对定位的元素框从文档流完全删除并去浮动也不瘦overflow控制，并相对于其包含块定位，包含块可能是文档中的另一个元素或者是初始包含块。<br>绝对定位使元素的位置与文档流无关，因此不占据空间。</p>
+<h2 id="如何确定定位点"><a href="#如何确定定位点" class="headerlink" title="如何确定定位点"></a>如何确定定位点</h2><ul>
+<li>第一种情况</li>
+</ul>
+<p>用户只给元素指定了absolute，未指定left/top/right/bottom。此时absolute元素的左上角定位点位置就是该元素<code>正常文档流</code>里的位置（也就是位置跟随）。</p>
+<ul>
+<li>第二种情况</li>
+</ul>
+<p>用户给absolute元素指定了left/right，top/bottom。位置是absolute元素没有position:static以外的父元素。<br>设置值得是相对没有position:static以外的父元素定位，没有设置值得还是在正常文档流中。</p>
+<h2 id="无依赖的绝对定位实战"><a href="#无依赖的绝对定位实战" class="headerlink" title="无依赖的绝对定位实战"></a>无依赖的绝对定位实战</h2><p>优点对父级无依赖，自适应好</p>
+<ul>
+<li>图片图表定位</li>
+</ul>
+<p>利用跟随性实现</p>
+<iframe width="100%" height="300" src="//jsfiddle.net/lennonover/mzx6qc2r/embedded/html,css,result/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+
+<ul>
+<li>边缘定位</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"course-fixed-x"</span>&gt;</span></span><br><span class="line">    &amp;nbsp;<span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"course-fixed"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"http://www.imooc.com/activity/diaocha"</span> <span class="attr">class</span>=<span class="string">"goto_top_diaocha"</span>&gt;</span><span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"http://www.imooc.com/mobile/app"</span> <span class="attr">class</span>=<span class="string">"goto_top_app"</span>&gt;</span><span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"http://www.imooc.com/user/feedback"</span> <span class="attr">class</span>=<span class="string">"goto_top_feed"</span>&gt;</span><span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.course-fixed-x</span> &#123; <span class="attribute">height</span>: <span class="number">0</span>;  <span class="attribute">text-align</span>:right; <span class="attribute">overflow</span>: hidden; &#125;</span><br><span class="line"><span class="selector-class">.course-fixed</span> &#123; <span class="attribute">display</span>: inline; <span class="attribute">position</span>: fixed; <span class="attribute">margin-left</span>: <span class="number">20px</span>; <span class="attribute">bottom</span>: <span class="number">100px</span>; &#125;</span><br></pre></td></tr></table></figure>
+<iframe width="100%" height="300" src="//jsfiddle.net/lennonover/L6j0svgr/embedded/html,css,result/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2017/01/01/CSS之float/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lennonover">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lennonover">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/01/01/CSS之float/" itemprop="url">
+                  CSS之float
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-01-01T18:25:17+08:00">
+                2017-01-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="浮动的原始作用"><a href="#浮动的原始作用" class="headerlink" title="浮动的原始作用"></a>浮动的原始作用</h2><blockquote>
+<p>来自张鑫旭老师</p>
+</blockquote>
+<p>实现文字环绕图片</p>
+<p>特性  </p>
+<p><img src="http://ob6nlbpso.bkt.clouddn.com/17-1-1/18915576-file_1483272315295_15747.png" alt=""></p>
+<p>本质定义为包裹与破坏。</p>
+<ul>
+<li>包裹性</li>
+</ul>
+<p>例如按钮宽度自适应，按钮要自动包裹在文字的外面。我们用什么方法实现呢？一就是display:inline-block；二就是float。</p>
+<ul>
+<li>破坏性</li>
+</ul>
+<p>文字之所以会环绕含有float属性的图片时因为浮动破坏了正常的line boxes。<br>脱离文档流，父元素感受不到子元素，也就没了高度。</p>
+<h2 id="清除浮动"><a href="#清除浮动" class="headerlink" title="清除浮动"></a>清除浮动</h2><ul>
+<li>clear</li>
+</ul>
+<p><img src="http://ob6nlbpso.bkt.clouddn.com/17-1-1/84516968-file_1483271906445_14f39.png" alt=""><br><img src="http://ob6nlbpso.bkt.clouddn.com/17-1-1/28721104-file_1483272033640_f4b2.png" alt=""></p>
+<ul>
+<li>BFC</li>
+</ul>
+<p><img src="http://ob6nlbpso.bkt.clouddn.com/17-1-1/11863236-file_1483271975963_16541.png" alt=""><br><img src="http://ob6nlbpso.bkt.clouddn.com/17-1-1/63092528-file_1483272033530_381d.png" alt=""></p>
+<p>兼容性</p>
+<p><img src="http://ob6nlbpso.bkt.clouddn.com/17-1-1/82732728-file_1483272086314_3785.png" alt=""></p>
+<h2 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h2><p><img src="http://ob6nlbpso.bkt.clouddn.com/17-1-1/34179867-file_1483272176105_b73a.png" alt=""></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2016/12/30/CSS之vertical-align/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1173,991 +2000,11 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2016/11/05/CSS单位EM/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="lennonover">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="lennonover">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/11/05/CSS单位EM/" itemprop="url">
-                  CSS单位EM和REM
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-11-05T20:58:56+08:00">
-                2016-11-05
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="em-和-rem"><a href="#em-和-rem" class="headerlink" title="em 和 rem"></a>em 和 rem</h2><p>em和rem是一个相对的大小，我们可以这样来设置1em，0.5em，1.5em等，而且“em”还可以指定到小数点后三位，比如“1.234em”。“相对”的意思是：</p>
-<ul>
-<li><p>相对的计算必然会一个参考物，那么这里相对所指的是相对于相对于使用em单位的元素的font-size。比如：如果在一个div中设置字体大小为“16px”，此时这个div的后代元素将继承他的字体大小，除非重新在其后代元素中进行过显示的设置。此时，如果你将其子元素的字体大小设置为<code>0.75em</code>，那么其字体大小计算出来后就相当于<code>0.75 X 16px = 12px</code>；</p>
-</li>
-<li><p>如果用户通过浏览器的UI控件改变了文字的大小，那么我们整个页面也会进行放大（或缩小），不至于用户改变了浏览器的字体后会致使整个页面崩溃。</p>
-</li>
-</ul>
-<p>也就是说em 和 rem都是灵活、 可扩展的单位，由浏览器转换为像素值，具体取决于您的设计中的字体大小设置。 如果你使用值 1em 或 1rem，它可以被浏览器翻译成 从16px到 160px 或其他任意值。</p>
-<h2 id="遇到的问题"><a href="#遇到的问题" class="headerlink" title="遇到的问题"></a>遇到的问题</h2><p>em 和 rem 单位提供的这种灵活性和工作方式都很相似，所以最大的问题是，我们何时应使用 em 值，何时应使用 rem 值呢</p>
-<h2 id="区别"><a href="#区别" class="headerlink" title="区别"></a>区别</h2><p>em 和 rem 单位之间的区别是浏览器根据谁来转化成px值。</p>
-<h3 id="rem-单位如何转换为像素值"><a href="#rem-单位如何转换为像素值" class="headerlink" title="rem 单位如何转换为像素值"></a>rem 单位如何转换为像素值</h3><p>当使用 rem 单位，他们转化为像素大小取决于页根元素的字体大小，即 html 元素的字体大小。 根元素字体大小乘以你 rem 值。<br>例如，根元素的字体大小 16px，10rem 将等同于 160px，即 10 x 16 = 160。</p>
-<h3 id="em-单位如何转换为像素值"><a href="#em-单位如何转换为像素值" class="headerlink" title="em 单位如何转换为像素值"></a>em 单位如何转换为像素值</h3><p>当使用em单位时，像素值将是em值乘以使用em单位的元素的字体大小。<br>例如，如果一个 div 有 18px 字体大小，10em 将等同于 180px，即 10 × 18 = 180。</p>
-<blockquote>
-<p>有一个比较普遍的误解，认为 em 单位是相对于父元素的字体大小。 事实上，根据W3标准 ，它们是相对于使用em单位的元素的字体大小。父元素的字体大小可以影响 em 值，但这种情况的发生，纯粹是因为继承。 让我们看看为什么以及如何起作用。</p>
-</blockquote>
-<h4 id="em-单位的遗传效果"><a href="#em-单位的遗传效果" class="headerlink" title="em 单位的遗传效果"></a>em 单位的遗传效果</h4><p>使用 em 单位存在继承的时候，情况会变得比较棘手，因为每个元素将自动继承其父元素的字体大小。 继承效果只能被明确的字体单位覆盖，比如px,vw。</p>
-<p>使用 em 单位的元素字体大小根据它们来定。 但该元素可能继承其父元素的字体大小，而父元素又继承其父元素的字体大小，等等。 因此，以 em 为单位的元素字体大小可能会受到其任何父元素的字体大小影响。</p>
-<h5 id="em-继承的例子"><a href="#em-继承的例子" class="headerlink" title="em 继承的例子"></a>em 继承的例子</h5><p>如果我们的根元素字体大小为 16px (通常是默认值) 一个子元素 div 里面padding值为 1.5em，该 div 将从根元素继承字体大小 16px。 因此padding会翻译成 24px，即 1.5 x 16 = 24。</p>
-<p>如果我们加多一个div来包裹原先的div，然后设置其字体大小为 1.25em呢?</p>
-<p>我们包裹的 div 继承根元素字体大小 16px ，并乘以它自己的 1.25em 的字体大小。 这将设置包裹 div 字体大小为 20px，即 1.25 x 16 = 20。</p>
-<p>现在我们原始的 div 不再直接从根元素继承,而是从其新的父元素继承字体大小为 20px 1.5em 其padding值现在等于 30px，即 1.5 x 20 = 30。</p>
-<p>这个继承效应可以更复杂，如果我们向我们原始的 div 添加 em 字体单位，比方说 1.2em。</p>
-<p>Div 从其父级继承 20px 字体大小，然后，乘以它自己的 1.2em 设置，给它 24px，即 1.2 × 20 = 24 新字体大小。</p>
-<p>div上的1.5em padding 现在将再次改变大小，用新的字体大小，36px，即 1.5 × 24 = 36 。</p>
-<p>最后，为了进一步说明那个 em 单位是相对于他们最终获得(不是父元素)的字体大小，让我们来看看设置padding 1.5em 如果我们显式设置 div 使用 14px值，不继承字体大小会发生什么。</p>
-<p>现在，我们的padding为 21px，即 1.5 x 14 = 21 已经变小。 它不受父元素的字体大小。</p>
-<blockquote>
-<p>根 html 元素将继承浏览器中设置的字体大小，除非显式设置固定值去覆盖。所以 html 元素的字体大小虽然是直接确定 rem值，但字体大小可能首先来自浏览器设置。因此浏览器的字体大小设置可以影响每个使用 rem 单元以及每个通过 em 单位继承的值。</p>
-</blockquote>
-<h3 id="总结与-rem-差异-em"><a href="#总结与-rem-差异-em" class="headerlink" title="总结与 rem 差异 em"></a>总结与 rem 差异 em</h3><ul>
-<li><p>rem 单位翻译为像素值是由 html 元素的字体大小决定的。 此字体大小会被浏览器中字体大小的设置影响，除非显式重写一个具体单位。</p>
-</li>
-<li><p>em 单位转为像素值，取决于他们使用的字体大小。 此字体大小受从父元素继承过来的字体大小，除非显式重写与一个具体单位。</p>
-</li>
-</ul>
-<h3 id="使用rem的目的"><a href="#使用rem的目的" class="headerlink" title="使用rem的目的"></a>使用rem的目的</h3><p>确保无论用户如何设置自己的浏览器，我们的布局都能调整到合适大小。</p>
-<h3 id="使用em的目的"><a href="#使用em的目的" class="headerlink" title="使用em的目的"></a>使用em的目的</h3><p>em 单位取决于一个font-size值而非 html 元素的字体大小。<br>em 单位的主要目的应该是允许保持在一个特定的设计元素范围内的可扩展性。根据某个元素的字体大小做缩放而不是根元素的字体大小。</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
-<li>rem 和 em 单位是由浏览器基于你的设计中的字体大小计算得到的像素值。</li>
-<li>em 单位基于使用他们的元素的字体大小。</li>
-<li>rem 单位基于 html 元素的字体大小。</li>
-<li>em 单位可能受任何继承的父元素字体大小影响</li>
-<li>rem 单位可以从浏览器字体设置中继承字体大小。</li>
-<li>使用 em 单位应根据组件的字体大小而不是根元素的字体大小。</li>
-<li>在不需要使用em单位，并且需要根据浏览器的字体大小设置缩放的情况下使用rem。</li>
-<li>使用rem单位，除非你确定你需要 em 单位，包括对字体大小。</li>
-<li>媒体查询中使用 rem 单位</li>
-<li>不要在多列布局中使用 em 或 rem -改用 %。</li>
-<li>不要使用 em 或 rem，如果缩放会不可避免地导致要打破布局元素。</li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2016/10/22/Node-js高性能的异步I-O/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="lennonover">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="lennonover">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/10/22/Node-js高性能的异步I-O/" itemprop="url">
-                  Node.js高性能的异步I/O
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-10-22T21:58:23+08:00">
-                2016-10-22
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="Node的单线程异步非阻塞I-O模型"><a href="#Node的单线程异步非阻塞I-O模型" class="headerlink" title="Node的单线程异步非阻塞I/O模型"></a>Node的单线程异步非阻塞I/O模型</h1><p><br></p>
-<blockquote>
-<p>  Node.js® is a JavaScript runtime built on Chrome’s V8 JavaScript engine. Node.js uses an event-driven, non-blocking I/O model that makes it lightweight and efficient.</p>
-</blockquote>
-<p>说异步之前先了解几个名词</p>
-<ul>
-<li><p>I/O的阻塞与非阻塞：阻塞模式的I/O会造成应用程序等待，直到I/O完成。同时操作系统也支持将I/O操作设置为非阻塞模式，这时应用程序的调用将可能在没有拿到真正数据时就立即返回了，为此应用程序需要多次调用才能确认I/O操作完全完成，这就是一个轮训的过程。</p>
-</li>
-<li><p>I/O的同步与异步：I/O的同步与异步出现在应用程序中。如果做阻塞I/O调用，应用程序等待调用的完成的过程就是一种同步状况。相反，I/O为非阻塞模式时，应用程序则是异步的。</p>
-</li>
-<li><p>事件驱动：当事件被检测到发生时才回调调用会到函数，通过事件循环加事件触发的方式来运行程序。</p>
-</li>
-<li><p>事件循环：当有大量异步操作时需要调用相应的回调函数，需要用一种机制来管理同一个队列。</p>
-</li>
-</ul>
-<p>Node的单线程异步非阻塞I/O模型利用单线程，远离多线程的死锁、状态同步等问题避免不必要的内存开销和上下文切换开销。 利用异步I/O，让单线程远离阻塞，更好的利CPU。</p>
-<p>一个异步 I/O 的大致流程如下：</p>
-<ul>
-<li><p>发起 I/O 调用</p>
-<ul>
-<li>用户通过 Javascript 代码调用 Node 核心模块，将参数和回调函数传入到核心模块；</li>
-<li>Node 核心模块会将传入的参数和回调函数封装成一个请求对象；</li>
-<li>将这个请求对象推入到 I/O 线程池等待执行；</li>
-<li>Javascript 发起的异步调用结束，Javascript 线程继续执行后续操作。</li>
-</ul>
-</li>
-<li><p>执行回调</p>
-<ul>
-<li>I/O 操作完成后，会将结果储存到请求对象的 result 属性上，并发出操作完成的通知；</li>
-<li>每次事件循环时会检查是否有完成的 I/O 操作，如果有就将请求对象加入到 I/O 观察者队列中，之后当做事件处理；</li>
-<li>处理 I/O 观察者事件时，会取出之前封装在请求对象中的回调函数，执行这个回调函数，并将 result 当参数，以完成 Javascript 回调的目的。</li>
-</ul>
-</li>
-</ul>
-<p>这里面涉及到了一个设计理念:事件循环（Event Loop），它是一个类似于 while true 的无限循环,它会维护一系列的监视器,这些监视器都有对应着一种异步操作，它们注册事件监听以及相应的回调。事件循环除了维护那些观察者队列，还维护了一个 time 字段，在初始化时会被赋值为0，每次循环都会更新这个值。所有与时间相关的操作，都会和这个值进行比较，来决定是否执行。与 timer 相关的过程如下：</p>
-<ul>
-<li>更新当前循环的 time 字段，即当前循环下的“现在”；</li>
-<li>检查循环中是否还有需要处理的任务（handlers/requests），如果没有就不必循环了，即是否 alive。</li>
-<li>检查注册过的 timer，如果某一个 timer 中指定的时间落后于当前时间了，说明该 timer 已到期，于是执行其对应的回调函数；</li>
-<li>执行一次 I/O polling（即阻塞住线程，等待 I/O 事件发生），如果在下一个 timer 到期时还没有任何 I/O 完成，则停止等待，执行下一个 timer 的回调。如果发生了 I/O 事件，则执行对应的回调；由于执行回调的时间里可能又有 timer 到期了，这里要再次检查 timer 并执行回调。</li>
-</ul>
-<p>Node.js它的单线程指的是自身 Javascript 运行环境的单线程，Node.js 并没有给 Javascript 执行时创建新线程的能力，最终的实际操作是通过事件循环来执行的。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2016/10/12/ES6之Promise对象/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="lennonover">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="lennonover">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/10/12/ES6之Promise对象/" itemprop="url">
-                  ES6之Promise对象
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-10-12T20:58:40+08:00">
-                2016-10-12
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="Promise"><a href="#Promise" class="headerlink" title="Promise"></a>Promise</h1><h3 id="什么是Promise"><a href="#什么是Promise" class="headerlink" title="什么是Promise"></a>什么是Promise</h3><p>ECMAScript 6中的Promise规范来源于Promises/A+社区。Promise是一个用于异步处理对象，其中包含了对异步进行各种操作的组件。Promise把JavaScript中的异步处理对象和处理规则进行了规范化，并按照统一的接口来编写，使用规定方法之外的写法会出现错误。</p>
-<h3 id="一个promise有下面三个不同状态："><a href="#一个promise有下面三个不同状态：" class="headerlink" title="一个promise有下面三个不同状态："></a>一个promise有下面三个不同状态：</h3><ul>
-<li>pending待承诺         - 初始状态</li>
-<li>fulfilled实现承诺  - 一个承诺成功实现状态</li>
-<li>rejected拒绝承诺   - 一个承诺失败的状态</li>
-</ul>
-<h3 id="promise必须实现-then-方法"><a href="#promise必须实现-then-方法" class="headerlink" title="promise必须实现 then 方法"></a>promise必须实现 then 方法</h3><ul>
-<li>then必须返回一个promise</li>
-<li>可以调用多次</li>
-<li>then方法接受两个参数</li>
-</ul>
-<h3 id="Promise基本语法"><a href="#Promise基本语法" class="headerlink" title="Promise基本语法"></a>Promise基本语法</h3><h4 id="1、创建一个Promise对象"><a href="#1、创建一个Promise对象" class="headerlink" title="1、创建一个Promise对象"></a>1、创建一个Promise对象</h4><p>使用 new 来调用Promise的构造器来进行实例化</p>
-<p>new Promise(fn) 返回一个promise对象<br>在fn 中指定异步等处理<br>处理结果正常的话，调用resolve(处理结果值)<br>处理结果错误的话，调用reject(Error对象)</p>
-<pre><code>var promise = new Promise(function(resolve, reject) {
-// 异步处理
-// 处理结束后、调用resolve 或 reject
-});
-</code></pre><h4 id="2、了解Promise的状态"><a href="#2、了解Promise的状态" class="headerlink" title="2、了解Promise的状态"></a>2、了解Promise的状态</h4><p>用 new Promise 实例化的promise对象有以下三个状态。</p>
-<pre><code>&quot;has-resolution&quot; - Fulfilled
-</code></pre><p>resolve(成功)时。此时会调用 onFulfilled</p>
-<pre><code>&quot;has-rejection&quot; - Rejected
-</code></pre><p>reject(失败)时。此时会调用 onRejected</p>
-<pre><code>&quot;unresolved&quot; - Pending
-</code></pre><p>既不是resolve也不是reject的状态。<br>也就是promise对象刚被创建后的初始化状态等</p>
-<p>关于上面这三种状态的读法，其中 左侧为在 ES6 Promises 规范中定义的术语， 而右侧则是在 Promises/A+ 中描述状态的术语。</p>
-<h4 id="3、Promise-then"><a href="#3、Promise-then" class="headerlink" title="3、Promise.then()"></a>3、Promise.then()</h4><p>对通过 new 生成的promise对象为了设置其值在 resolve(成功) / reject(失败) 时调用的 回调函数 可以使用 promise.then() 实例方法。</p>
-<pre><code>promise.then(onFulfilled, onRejected)
-resolve(成功)时
-onFulfilled 会被调用
-
-reject(失败)时
-onRejected 会被调用
-</code></pre><p>onFulfilled、onRejected 两个都为可选参数。<br>promise.then 成功和失败时都可以使用。 如果只想对异常进行处理时可以采用 promise.then(undefined, onRejected) 这种方式，只指定reject时的回调函数即可。 不过这种情况下 promise.catch(onRejected) 应该是个更好的选择。</p>
-<pre><code>var promise = new Promise(function(resolve, reject){
-    resolve(&quot;传递给then的值&quot;);
-});
-// 写法一
-promise.then(function (value) {
-    console.log(value);
-}, function (error) {
-    console.error(error);
-});
-// 写法二（使用catch)
-promise.then(function (value) {
-    console.log(value);
-}).catch(function (error) {
-    console.error(error);
-});
-</code></pre><h4 id="4、使用快捷方式"><a href="#4、使用快捷方式" class="headerlink" title="4、使用快捷方式"></a>4、使用快捷方式</h4><p>静态方法 Promise.resolve(value) 和 Promise.reject(error) 可以认为是 new Promise() 方法的快捷方式。</p>
-<h5 id="4-1-Promise-resolve"><a href="#4-1-Promise-resolve" class="headerlink" title="4.1 Promise.resolve()"></a>4.1 Promise.resolve()</h5><p>比如 Promise.resolve(1) 可以认为是以下代码的语法糖。</p>
-<pre><code>new Promise(function(resolve){
-    resolve(1);
-});
-</code></pre><p>在这段代码中的 resolve(1)会让这个promise对象立即进入确定（即resolved）状态，并将 1 传递给后面then里所指定的 onFulfilled 函数。</p>
-<p>方法 Promise.resolve(value) 的返回值也是一个promise对象，所以我们可以像下面那样接着对其返回值进行 .then 调用。</p>
-<pre><code>Promise.resolve(1).then(function(value){
-    console.log(value); // 1
-});
-</code></pre><p>运用场景：Promise.resolve()在promise对象的初始化或者编写测试代码的时候都非常方便。</p>
-<h5 id="4-2-Promise-reject"><a href="#4-2-Promise-reject" class="headerlink" title="4.2 Promise.reject()"></a>4.2 Promise.reject()</h5><p>比如 Promise.reject(new Error(“出错了”)) 就是下面代码的语法糖形式。</p>
-<pre><code>new Promise(function(resolve,reject){
-    reject(new Error(&quot;出错了&quot;));
-});
-</code></pre><p>方法 Promise.reject(error) 的返回值也是一个promise对象，所以可以将错误（Error）对象传递到catch里的函数中。</p>
-<pre><code>Promise.reject(new Error(&quot;BOOM!&quot;)).catch(function(error){
-    console.error(error);
-});
-</code></pre><h4 id="5、Promise-all"><a href="#5、Promise-all" class="headerlink" title="5、Promise.all()"></a>5、Promise.all()</h4><p>Promise.all 接收一个 promise对象的数组作为参数，当这个数组里的所有promise对象全部变为resolve或reject状态的时候，它才会去调用 .then 方法。</p>
-<p>运用场景: 批量请求</p>
-<pre><code>var p1 = Promise.resolve(1),
-    p2 = Promise.resolve(2),
-    p3 = Promise.resolve(3);
-Promise.all([p1, p2, p3]).then(function (results) {
-    console.log(results);  // [1, 2, 3]
-});
-传递给 Promise.all 的promise并不是一个个的顺序执行的，而是同时开始、并行执行的。
-
-可以从以下例子的运行结果看出：
-
-// `delay`毫秒后执行resolve
-function timerPromisefy(delay) {
-    return new Promise(function (resolve) {
-        setTimeout(function () {
-            resolve(delay);
-        }, delay);
-    });
-}
-var startDate = Date.now();
-// 所有promise变为resolve后程序退出
-Promise.all([
-    timerPromisefy(1),
-    timerPromisefy(32),
-    timerPromisefy(64),
-    timerPromisefy(128)
-]).then(function (values) {
-    console.log(Date.now() - startDate + &apos;ms&apos;);
-    // 約128ms
-    console.log(values);    // [1,32,64,128]
-});
-</code></pre><h4 id="6、Promise-race"><a href="#6、Promise-race" class="headerlink" title="6、Promise.race()"></a>6、Promise.race()</h4><p>Promise.race 只要有一个promise对象进入 FulFilled 或者 Rejected 状态的话，就会继续进行后面的处理。</p>
-<pre><code>var p1 = Promise.resolve(1),
-    p2 = Promise.resolve(2),
-    p3 = Promise.resolve(3);
-Promise.race([p1, p2, p3]).then(function (value) {
-    console.log(value);  // 1
-});
-进一步分析, 当第一个promise对象变为确定（FulFilled）状态后，它之后的promise对象是否还在继续运行。
-
-// `delay`毫秒后执行resolve
-function timerPromisefy(delay) {
-    return new Promise(function (resolve) {
-        setTimeout(function () {
-            console.log(delay)
-            resolve(delay);
-        }, delay);
-    });
-}
-// 任何一个promise变为resolve或reject 的话程序就停止运行
-Promise.race([
-    timerPromisefy(1),
-    timerPromisefy(10),
-    timerPromisefy(20),
-]).then(function (value) {
-    console.log(value);    // =&gt; 1
-});
-//整体运行结果
-1
-1
-10
-20
-</code></pre><p>执行上面代码，我们会看到setTimeout 方法都会执行完毕， console.log 也会分别输出它们的信息。也就是说， Promise.race 在第一个promise对象变为Fulfilled之后，并不会取消其他promise对象的执行。</p>
-<h4 id="Promise实例练习"><a href="#Promise实例练习" class="headerlink" title="Promise实例练习"></a>Promise实例练习</h4><p>考虑本文一开始的场景，进行小进阶练习，实现每隔一秒依次输出1-10。</p>
-<pre><code>//利用for循环 避免一长串的.then写法
-function log(i) {
-    return new Promise(function(resolve) {
-        setTimeout(function() {
-            console.log(i)
-            resolve();
-        }, 1000)
-    })
-}
-function printN(n) {
-    var p = log(1);
-    for (var i = 2; i &lt;= n; i++) {
-        var a = function(x) { // 注意回调函数闭包的问题
-            return function() {
-                return log(x);
-            }
-        }
-        p = p.then(a(i));
-    }
-}
-printN(10);
-</code></pre>
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2016/09/19/关于前后端开发模思考/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="lennonover">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="lennonover">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/09/19/关于前后端开发模思考/" itemprop="url">
-                  对于前后端开发模式一点点思考
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-09-19T22:41:51+08:00">
-                2016-09-19
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="问题的起因"><a href="#问题的起因" class="headerlink" title="问题的起因"></a>问题的起因</h2><p>很多东西真的是用起来才会发现问题，问题是前两天交互需要改一个业务，另个部门A同事发我让我去修改，这页面静态确实是我写的，我也抽时间把它写好重新发给A同事。</p>
-<h2 id="现状"><a href="#现状" class="headerlink" title="现状"></a>现状</h2><p>我们公司目前的开发模式是：交互根据PM出高保真，视觉出视觉稿、切图，然后交给前端出静态，最后交给另一个部门同事把它转换成服务端模板。</p>
-<p>这样问题就来了当出现上述交互要改业务的情况，A同事改不了只能发回前端改，如果A把他已经搞成服务端模板的代码返回给前端，前端没环境也没法下手，只能去改以前的静态，改好后重新发给A，这时候A又麻烦了，他要对比两次修改的部分，把自己前一阵的修改合并进去。这样开发效率会慢很多。</p>
-<h2 id="基于NodeJS的全栈式开发"><a href="#基于NodeJS的全栈式开发" class="headerlink" title="基于NodeJS的全栈式开发"></a>基于NodeJS的全栈式开发</h2><p>这是2014年杭JS，淘宝赫门做的分享（那时候我还在玩泥巴o(╯□╰)o），特意去找了当年的文档，中途岛(Midway Framework)的架构，淘宝的前端团队真的很厉害。</p>
-<p><img src="http://ob6nlbpso.bkt.clouddn.com/T1xW8OFrXkXXXK71TW-590-611.png" alt="Alt text"></p>
-<p>多加了一层中间层。<br>前后端共享模板，前端来决定某个模板是服务端渲染还是客户端渲染，当首屏的时候，就在服务器渲染，次屏和局部刷新的时候，就在浏览器端渲染展示。<br>加入NodeJs还有很多好处，比如NodeJs的高并发特性，请求合并等。同时使用nodeJs做桥梁，前端可以自己决定获取什么格式的数据。</p>
-<p><img src="http://ob6nlbpso.bkt.clouddn.com/sp160926_225215.png" alt="Alt text"></p>
-<p>这样还分清了职责</p>
-<h2 id="我们该怎么做"><a href="#我们该怎么做" class="headerlink" title="我们该怎么做"></a>我们该怎么做</h2><p>在公司产品的角度，觉得我们公司并不需要。其实适合自己就好，没必要占领中间层。相对来说我们公司的前端比较弱，产品线又横向发展并没太深入的产品，分离的还是业务逻辑JS该谁写，把这些都应该交给前端前，端负责展现交互逻辑，去掉A那部分，后端专注于数据接口就好，对于接口接口风格是面向业务 还是面相页面有待统一。这样必然导致前端人员工作量的增加，和水平的相应自我提升。对于数据Mock，可以采用RAP之类接口自动化工具。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2016/09/13/编码规范/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="lennonover">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="lennonover">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/09/13/编码规范/" itemprop="url">
-                  编码规范
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-09-13T22:48:41+08:00">
-                2016-09-13
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="前端编码规范"><a href="#前端编码规范" class="headerlink" title="前端编码规范"></a>前端编码规范</h1><pre><code>最近写的项目越来越大，代码堆积的太多，自己看着都头疼下决心整理了下，  
-着实一个浩大的工程hh，花了我三个晚上，效果还是有那么点的，
-顺便把遇到的整理下，写博客在于记忆，以后回来看看好知道我曾经这么菜。
-</code></pre><h2 id="JS篇"><a href="#JS篇" class="headerlink" title="JS篇"></a>JS篇</h2><ul>
-<li>三元条件判断<br>用三元操作符分配或返回语句替换简单的if语句      </li>
-</ul>
-<p><strong>不推荐</strong></p>
-<pre><code>if(x === 0) {    
-    return &apos;00&apos;;   
-    } else {    
-     return x; 
-}       
-</code></pre><p><strong>推荐</strong>      </p>
-<pre><code>return x === 4 ? &apos;00&apos; : x;      
-</code></pre><ul>
-<li>for循环<br>数组的长度，使用一个变量来接收     </li>
-</ul>
-<p><strong>不推荐</strong></p>
-<pre><code>for(var i=0;i&lt;arr.length,i++){
-}       
-</code></pre><p><strong>推荐</strong> </p>
-<pre><code>for(var i=0,len=arr.length;i&lt;len,i++){
-}    
-</code></pre><ul>
-<li>DOM操作<br>对于重复的dom操作，使用一个变量来进行接收      </li>
-</ul>
-<p><strong>不推荐</strong></p>
-<pre><code>$(&apos;.onSelect&apos;).text(&apos;1&apos;);
-$(&apos;.onSelect&apos;).text(&apos;2&apos;);
-$(&apos;.onSelect&apos;).text(&apos;3&apos;);
-$(&apos;.onSelect&apos;).text(&apos;4&apos;);
-</code></pre><p><strong>推荐</strong> </p>
-<pre><code>var sel=$(&apos;.onSelect&apos;);
-sel.text(&apos;1&apos;);
-sel.text(&apos;2&apos;);
-sel.text(&apos;3&apos;);
-sel.text(&apos;4&apos;);
-</code></pre><ul>
-<li>立即执行函数<br>推荐在立即执行函数开始跟结尾都添加上分号，避免在合并时因为别人的代码不规范而影响到我们自己的代码,如果有用到全局变量应该通过变量传递的方式，让立即执行函数的函数体在调用时，能以局部变量的形式调用，在一定程度上提升程序性能。         </li>
-</ul>
-<p><strong>不推荐</strong></p>
-<pre><code>(function(){
-&apos;use strict&apos;;
-var x = 10,
-    y = 100,
-    c,
-    elem=$(&apos;body&apos;);
-console.log(window.x + &apos; &apos; + window.y);
-$(document).on(&apos;click&apos;,function(){
-});
-if(typeof c===&apos;undefined&apos;){
-    //你的代码
-}
-}());
-</code></pre><p><strong>推荐</strong></p>
-<pre><code>;(function($,window,document,undefined){
-&apos;use strict&apos;;
-var x = 10,
-    y = 100,
-    c,
-    elem=$(&apos;body&apos;);
-console.log(window.x + &apos; &apos; + window.y);
-$(document).on(&apos;click&apos;,function(){});
-if(typeof c===&apos;undefined&apos;){
-    //你的代码
-}
-}(jQuery,window,document));
-</code></pre><ul>
-<li>类型转换</li>
-</ul>
-<p>number to string的转换，建议使用 1 + ‘’或String(1)，不使用new String(1)或1.toString()的方式。<br>string to number的转换，建议使用parseInt，必须显式指定第二个参数的进制。下面的例子展示了不指定进制的风险：       </p>
-<pre><code>parseInt(&apos;08&apos;); // 0 
-parseInt(&apos;08&apos;, 10); //8
-</code></pre><p>float to integer的转换，建议使用Math.floor/Math.round/Math.ceil方法，不使用parseInt。</p>
-<ul>
-<li>使用命名空间</li>
-</ul>
-<p>使用多个命名空间，其中的内容互不干扰</p>
-<pre><code>//全局对象
-var Wrox = {};
-//一个命名空间
-Wrox.ProAjax = {};
-Wrox.ProAjax.EventUtil = {};
-Wrox.ProAjax.CookieUtil = {};
-//另一个命名空间
-Wrox.ProJS = {};
-Wrox.ProJS.EventUtil = {};
-Wrox.ProJS.CookieUtil = {};
-</code></pre><ul>
-<li>字符串拼接<br>字符串拼接，应使用数组保存字符串片段，使用时调用join方法。避免使用+或+=的方式拼接较长的字符串，每个字符串都会使用一个小的内存片段，过多的内存片段会影响性能。如:        </li>
-</ul>
-<p><strong>不推荐</strong></p>
-<pre><code>var str = &apos;&apos;; 
-for (var i = 0, len = list.length; i &lt; len; i++) { 
-  str+= &apos;&lt;div&gt;&apos; + list[i] + &apos;&lt;/div&gt;&apos;; 
-} 
-dom.innerHTML = str;
-</code></pre><p><strong>推荐</strong></p>
-<pre><code>var str = []; 
-for (var i = 0, len = list.length; i &lt; len; i++) { 
-  str.push(&apos;&lt;div&gt;&apos;+ list[i] + &apos;&lt;/div&gt;&apos;); 
-} 
-dom.innerHTML = str.join(&apos;&apos;);
-</code></pre><ul>
-<li>尽量避免全局变量和函数</li>
-</ul>
-<p><strong>不推荐</strong></p>
-<pre><code>var name = &quot;&quot;;
-function setName(value) {
-    name = value;
-}
-function sayName() {
-    console.log(name);
-}
-</code></pre><p><strong>推荐</strong></p>
-<pre><code>var setPersonName = {
-    name: &quot;&quot;,
-    setName: function (value) {
-        this.name = value;
-    },
-    sayName: function () {
-        console.log(this.name);
-    }
-};
-setPersonName.setName(&quot;Oli&quot;);
-setPersonName.sayName();
-</code></pre>
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/4/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/6/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/4/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/6/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -2202,7 +2049,7 @@ setPersonName.sayName();
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">56</span>
+                <span class="site-state-item-count">61</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>

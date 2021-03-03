@@ -1,0 +1,710 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="背景:重复率是 oasis（衡量前端工程质量平台）的检测指标之一，对项目定期进行代码重复率检测是一个很有意义的事，可以帮助开发人员发现冗余代码，进行代码抽象和重构。  概念 代码重复（英文：duplicate code，也叫代码克隆）在程序设计中表示一段源代码在一个程序，或者一个团体所维护的不同程序中重复出现，是不希望出现的现象。为避免巧合，只有一定数量的代码完全相同才能判定为代码重复。 – 维">
+<meta property="og:type" content="article">
+<meta property="og:title" content="代码质量-代码重复">
+<meta property="og:url" content="https://github.com/lennonover/2021/02/07/代码质量-代码重复/index.html">
+<meta property="og:site_name" content="lennonover">
+<meta property="og:description" content="背景:重复率是 oasis（衡量前端工程质量平台）的检测指标之一，对项目定期进行代码重复率检测是一个很有意义的事，可以帮助开发人员发现冗余代码，进行代码抽象和重构。  概念 代码重复（英文：duplicate code，也叫代码克隆）在程序设计中表示一段源代码在一个程序，或者一个团体所维护的不同程序中重复出现，是不希望出现的现象。为避免巧合，只有一定数量的代码完全相同才能判定为代码重复。 – 维">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2021-03-03T13:38:52.480Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="代码质量-代码重复">
+<meta name="twitter:description" content="背景:重复率是 oasis（衡量前端工程质量平台）的检测指标之一，对项目定期进行代码重复率检测是一个很有意义的事，可以帮助开发人员发现冗余代码，进行代码抽象和重构。  概念 代码重复（英文：duplicate code，也叫代码克隆）在程序设计中表示一段源代码在一个程序，或者一个团体所维护的不同程序中重复出现，是不希望出现的现象。为避免巧合，只有一定数量的代码完全相同才能判定为代码重复。 – 维">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://github.com/lennonover/2021/02/07/代码质量-代码重复/"/>
+
+
+
+
+
+  <title> 代码质量-代码重复 | lennonover </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">lennonover</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2021/02/07/代码质量-代码重复/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lennonover">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lennonover">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                代码质量-代码重复
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-02-07T19:37:34+08:00">
+                2021-02-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>背景:重复率是 oasis（衡量前端工程质量平台）的检测指标之一，对项目定期进行代码重复率检测是一个很有意义的事，可以帮助开发人员发现冗余代码，进行代码抽象和重构。</p>
+</blockquote>
+<h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><blockquote>
+<p>代码重复（英文：duplicate code，也叫代码克隆）在程序设计中表示一段源代码在一个程序，或者一个团体所维护的不同程序中重复出现，是不希望出现的现象。为避免巧合，只有一定数量的代码完全相同才能判定为代码重复。 – 维基百科</p>
+</blockquote>
+<p>代码重复一般分为两大类：</p>
+<ul>
+<li>句法重复<br>两个函数的代码片段基本一致，只是参数名、函数名、字符等做了修改，或是多/少了某一行多代码，这种改动只是文本层面的改动，也被称为。</li>
+<li>语义重复<br>两个函数的代码实现不同，从文本层面看区别较大，但实现的都是同一个功能。</li>
+</ul>
+<p>基于句法重复、语义重复两大类，然后被划分为四小类：</p>
+<ul>
+<li>完全一致的代码或者只修改了空格和评论（句法克隆）。</li>
+<li>结构上和句法上一致的代码，例如只是修改了变量名 （句法克隆）。</li>
+<li>插入和删除了部分代码（句法克隆）。</li>
+<li>功能和逻辑上一致的代码，语义上的拷贝（语义克隆）。<br>其中前三种为句法克隆，第四种为语义克隆。检测难度也是一次递增，目前对前三种代码重复的检测已颇为成熟； 而对第四种的检测准确率仍不高，无法达到应用标准。<br>重复代码未必就是 copy-paste 产生的，可能就是不同人重复写的，就算是 copy-paste 产生的，在 paste 之后可能代码也会发生变化。</li>
+</ul>
+<h2 id="前端重复检测"><a href="#前端重复检测" class="headerlink" title="前端重复检测"></a>前端重复检测</h2><h3 id="检测代码重复的手段"><a href="#检测代码重复的手段" class="headerlink" title="检测代码重复的手段"></a>检测代码重复的手段</h3><ul>
+<li>Textual：代码片段以文本/字符串/词法的形式相互比较，并且只有在两个代码片段在文本内容方面确实相同时才被发现被克隆。</li>
+<li>Token：在编译器的词法分析阶段，所有源代码行都被划分为一系列 Token。 然后将所有 Token 转换回 Token 序列。</li>
+<li>Syntactic（句法分析）：<ul>
+<li>基于树: 提取的 AST 用于子树比较以识别相似区域。</li>
+<li>基于度量：通过源代码收集度量，然后使用这些度量为每个代码片段生成向量。然后使用向量对代码的相似度进行对比。</li>
+</ul>
+</li>
+<li>Semantic（语义克隆）：主要检测代码片段不同，但功能相同的函数。</li>
+<li>Learning : 通过机器学习和统计分析的方式来进行克隆检测。</li>
+</ul>
+<h3 id="检测代码重复的流程"><a href="#检测代码重复的流程" class="headerlink" title="检测代码重复的流程"></a>检测代码重复的流程</h3><ol>
+<li>将源码拆分为对比单元（comparison units, 如 class，function，block，statement）。</li>
+<li>将对比单元转化为中间表达（IR, Intermediate Representation，如 token，AST, PDG）。</li>
+<li>再对这些对比单元的 IR 进行 match detection（对比），通常是将对比单元组成 clone pair 的形式：一次对比两个（c1, c2）或是多个（c1, c2, c3）。</li>
+</ol>
+<h3 id="检测工具"><a href="#检测工具" class="headerlink" title="检测工具"></a>检测工具</h3><ul>
+<li>jsinspect<br>利用 babylon 对于 JavaScript 或者 JSX 代码构建 AST 语法树，根据不同的 AST 节点类型，标记相似结构的代码块，检测效果比较好。</li>
+<li>jscpd：其重复率判定依据为一定长度标识符的 MD5 值是否相同，虽然结果没有 jsinspect 好，但是支持文件格式广泛，如 java、oc、js、jsx、vue、ts、less 等。</li>
+<li>PMD：支持 js 文件检测，也可以自己开发扩展包来解析指定的语言（需要安装 java 环境，npm 不支持，无法匹配前端脚手架）。</li>
+</ul>
+<p>由于前端文件类型众多所以 oasis 最终选择了 jscpd 作为代码重复率检测工具。</p>
+<h3 id="重复率标准"><a href="#重复率标准" class="headerlink" title="重复率标准"></a>重复率标准</h3><p>重复率标准的制定需要参考的因素有很多，例如 tokens、项目、架构、时间等等,目前 oasis 平台是 10%，具体数值还会在运行一段时间后观察调整。<br>代码重复率 = 重复的行数 / 扫描的文件总行数。</p>
+<h3 id="降低重复率"><a href="#降低重复率" class="headerlink" title="降低重复率"></a>降低重复率</h3><p>应用中，可以参考《重构》（Refactoring）中说的三次原则（Rule of three），即同样的代码将要出现第三次前，考虑抽象它，复用它。具备小而美的工程思想，随着前端生态的完善，前端的组件化开发效率已经有了很大的提升。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>代码重复会让项目失控，重复代码不仅让代码量大增，造成编译速度慢，占用大量存储空间，造成了代码可维护性差，代码质量下降。通过重构从而降低代码的耦合性，这样不仅提高代码的灵活性、健壮性以及可读性，也方便后期的维护。我们也不是单纯地追求公共代码地完全剥离化，过度的抽象反而会降低代码的可读性与可理解性。</p>
+<h2 id="附"><a href="#附" class="headerlink" title="附"></a>附</h2><p>oasisV0.1 beta 版本目前已经完成大文件、重复代码块，圈复杂度、最佳实践、基础库落地、 npm 依赖库的安全分析功能，接入 0 成本目前已经上线欢迎大家体验、建议、吐槽。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2021/01/03/代码质量-圈复杂度/" rel="next" title="代码质量-圈复杂度">
+                <i class="fa fa-chevron-left"></i> 代码质量-圈复杂度
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2021/09/02/配置打包分析与实践/" rel="prev" title="vue-cli 配置打包分析与实践">
+                vue-cli 配置打包分析与实践 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="lennonover" />
+          <p class="site-author-name" itemprop="name">lennonover</p>
+           
+              <p class="site-description motion-element" itemprop="description">一丿口石砳磊</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">61</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">27</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#概念"><span class="nav-number">1.</span> <span class="nav-text">概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#前端重复检测"><span class="nav-number">2.</span> <span class="nav-text">前端重复检测</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#检测代码重复的手段"><span class="nav-number">2.1.</span> <span class="nav-text">检测代码重复的手段</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#检测代码重复的流程"><span class="nav-number">2.2.</span> <span class="nav-text">检测代码重复的流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#检测工具"><span class="nav-number">2.3.</span> <span class="nav-text">检测工具</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#重复率标准"><span class="nav-number">2.4.</span> <span class="nav-text">重复率标准</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#降低重复率"><span class="nav-number">2.5.</span> <span class="nav-text">降低重复率</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">3.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#附"><span class="nav-number">4.</span> <span class="nav-text">附</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">lennonover</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

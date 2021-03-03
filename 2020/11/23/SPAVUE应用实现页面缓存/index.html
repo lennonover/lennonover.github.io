@@ -1,0 +1,718 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="使用场景在 SPA 应用中产品希望在用户在多个页面来回切换的时候，不要丢失查询的结果。 keep-alive  包裹动态组件时，会缓存不活动的组件实例，而不是销毁它们。和  相似， 是一个抽象组件：它自身不会渲染一个 DOM 元素，也不会出现在父组件链中。  实现方案 整个页面缓存  采用在 router 的 meta 属性里增加一个 keepAlive 字段，然后在父组件或者根组件中，根据 ke">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SPA VUE应用实现页面缓存">
+<meta property="og:url" content="https://github.com/lennonover/2020/11/23/SPAVUE应用实现页面缓存/index.html">
+<meta property="og:site_name" content="lennonover">
+<meta property="og:description" content="使用场景在 SPA 应用中产品希望在用户在多个页面来回切换的时候，不要丢失查询的结果。 keep-alive  包裹动态组件时，会缓存不活动的组件实例，而不是销毁它们。和  相似， 是一个抽象组件：它自身不会渲染一个 DOM 元素，也不会出现在父组件链中。  实现方案 整个页面缓存  采用在 router 的 meta 属性里增加一个 keepAlive 字段，然后在父组件或者根组件中，根据 ke">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://cdn.poizon.com/node-common/d1edd0fb704d5c4605d07f525626713f.png">
+<meta property="og:image" content="https://cdn.poizon.com/node-common/5246ccef44ed399213902d488a0e24ea.png">
+<meta property="og:updated_time" content="2021-03-03T13:39:41.225Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="SPA VUE应用实现页面缓存">
+<meta name="twitter:description" content="使用场景在 SPA 应用中产品希望在用户在多个页面来回切换的时候，不要丢失查询的结果。 keep-alive  包裹动态组件时，会缓存不活动的组件实例，而不是销毁它们。和  相似， 是一个抽象组件：它自身不会渲染一个 DOM 元素，也不会出现在父组件链中。  实现方案 整个页面缓存  采用在 router 的 meta 属性里增加一个 keepAlive 字段，然后在父组件或者根组件中，根据 ke">
+<meta name="twitter:image" content="https://cdn.poizon.com/node-common/d1edd0fb704d5c4605d07f525626713f.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://github.com/lennonover/2020/11/23/SPAVUE应用实现页面缓存/"/>
+
+
+
+
+
+  <title> SPA VUE应用实现页面缓存 | lennonover </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">lennonover</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2020/11/23/SPAVUE应用实现页面缓存/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lennonover">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lennonover">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                SPA VUE应用实现页面缓存
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-11-23T21:36:15+08:00">
+                2020-11-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h2><p>在 SPA 应用中产品希望在用户在多个页面来回切换的时候，不要丢失查询的结果。</p>
+<h2 id="keep-alive"><a href="#keep-alive" class="headerlink" title="keep-alive"></a>keep-alive</h2><blockquote>
+<p><keep-alive> 包裹动态组件时，会缓存不活动的组件实例，而不是销毁它们。和 <transition> 相似，<keep-alive> 是一个抽象组件：它自身不会渲染一个 DOM 元素，也不会出现在父组件链中。</keep-alive></transition></keep-alive></p>
+</blockquote>
+<h2 id="实现方案"><a href="#实现方案" class="headerlink" title="实现方案"></a>实现方案</h2><ul>
+<li>整个页面缓存</li>
+</ul>
+<p>采用在 router 的 meta 属性里增加一个 keepAlive 字段，然后在父组件或者根组件中，根据 keepAlive 字段的状态使用 <keep-alive> 标签，实现对 <router-view> 的缓存</router-view></keep-alive></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;keep-alive&gt;</span><br><span class="line">    &lt;router-view v-<span class="keyword">if</span>=<span class="string">"$route.meta.keepAlive"</span> /&gt;</span><br><span class="line">&lt;<span class="regexp">/keep-alive&gt;</span></span><br><span class="line"><span class="regexp">&lt;router-view v-if="!$route.meta.keepAlive" /</span>&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>动态缓存</li>
+</ul>
+<p>使用 vuex 配合 exclude 和 include，通过 include 和 exclude 决定那些组件进行缓存。注意这里说的是组件，并且 cachedView 数组存放的是组件的名字，如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;keep-alive :include=<span class="string">"$store.state.keepAlive.cachedView"</span>&gt;</span><br><span class="line">    &lt;router-view /&gt;</span><br><span class="line">&lt;<span class="regexp">/keep-alive&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="本项目的实现"><a href="#本项目的实现" class="headerlink" title="本项目的实现"></a>本项目的实现</h3><ul>
+<li>版本一：基于路由缓存</li>
+</ul>
+<p>当前框架是嵌套的动态路由是无法动态缓存组件，并且如果使用方案一 meta 属性里增加一个 keepAlive 字段也是不支持的，只能通过维护一个缓存的 url 来实现：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// ISCACHE_ARRAY = ['url']</span></span><br><span class="line">&lt;keep-alive&gt;</span><br><span class="line">          &lt;router-view v-<span class="keyword">if</span>=<span class="string">"ISCACHE_ARRAY.indexOf($route.fullPath) !== -1"</span> :key=<span class="string">"$route.fullPath"</span>&gt;</span><br><span class="line">          &lt;<span class="regexp">/router-view&gt;</span></span><br><span class="line"><span class="regexp">        &lt;/</span>keep-alive&gt;</span><br><span class="line">        &lt;router-view v-<span class="keyword">if</span>=<span class="string">"ISCACHE_ARRAY.indexOf($route.fullPath) === -1"</span> :key=<span class="string">"$route.fullPath"</span>&gt;</span><br><span class="line">        &lt;<span class="regexp">/router-view&gt;</span></span><br></pre></td></tr></table></figure>
+<p>这样是持久缓存了整个页面，问题也就出现当用户通过 tabviews 关闭页面然后从左侧打开菜单时是缓存的页面，这个不符合日常使用习惯，所以为了解决数据新鲜度的问题，看了文档发现在 keep-alive 的模式下多了 activated 这个生命周期函数,keep-alive 的声明周期执行:</p>
+<ul>
+<li>页面第一次进入，钩子的触发顺序<br>created-&gt; mounted-&gt; activated，<br>退出时触发 deactivated 当再次进入（前进或者后退）时，只触发 activated</li>
+<li>事件挂载的方法等，只执行一次的放在 mounted 中；组件每次进去执行的方法放在 activated 中</li>
+</ul>
+<p>所以在 activated 触发查询请求就能保证数据的新鲜度。</p>
+<p>但是使用后发现由于你切换 tab 是会请求数据，但是本项目的数据量有很大导致频繁 loading 。</p>
+<ul>
+<li>版本二：动态缓存</li>
+</ul>
+<p>由于版本一需要频繁拉去数据导致此方案已不合适只能动态缓存。<br>由于框架的原因，框架里把路由和菜单用同一个数据模型采用的嵌套路由是无法缓存组件的，改造前路由如下：<br><img src="https://cdn.poizon.com/node-common/d1edd0fb704d5c4605d07f525626713f.png" alt=""></p>
+<p>所以需要改造确定：左侧菜单嵌套，路由展开不嵌套的方式：<br>app.vue</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id=&quot;app&quot;&gt;</span><br><span class="line">    &lt;Layout&gt;&lt;/Layout&gt;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+<p>layout.vue</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;keep-alive :include=&quot;cachedViews&quot;&gt;</span><br><span class="line">          &lt;router-view :key=&quot;key&quot;&gt;</span><br><span class="line">          &lt;/router-view&gt;</span><br><span class="line">        &lt;/keep-alive&gt;</span><br></pre></td></tr></table></figure>
+<p>通过上面的修改完成动态缓存实现。</p>
+<p>其中 cachedViews 是通过监听路由动态增加删除维护要缓存的组件数组：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">const state = &#123;</span><br><span class="line">  cachedViews: [],</span><br><span class="line">&#125;</span><br><span class="line">const mutations = &#123;</span><br><span class="line">  ADD_VIEWS: (state, view) =&gt; &#123;</span><br><span class="line">    if (state.cachedViews.includes(view.name)) return</span><br><span class="line">    state.cachedViews.push(view.name)</span><br><span class="line">  &#125;,</span><br><span class="line">  DEL_CACHED_VIEW: (state, view) =&gt; &#123;</span><br><span class="line">    const index = state.cachedViews.indexOf(view.name)</span><br><span class="line">    index &gt; -1 &amp;&amp; state.cachedViews.splice(index, 1)</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;</span><br><span class="line">const actions = &#123;</span><br><span class="line">  addCachedView(&#123; commit &#125;, view) &#123;</span><br><span class="line">    commit(&apos;ADD_VIEWS&apos;, view)</span><br><span class="line">  &#125;,</span><br><span class="line">  deleteCachedView(&#123; commit &#125;, view) &#123;</span><br><span class="line">    commit(&apos;DEL_CACHED_VIEW&apos;, view)</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;</span><br><span class="line">export default &#123;</span><br><span class="line">  namespaced: true,</span><br><span class="line">  state,</span><br><span class="line">  mutations,</span><br><span class="line">  actions,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>通过监听路由变化：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">watch: &#123;</span><br><span class="line">    &apos;$route&apos;(newRoute) &#123;</span><br><span class="line">      const &#123; name &#125; = newRoute</span><br><span class="line">      console.log(name)</span><br><span class="line">      const cacheRout = this.ISCACHE_MAP[name] || []</span><br><span class="line">      cacheRout.map((item) =&gt; &#123;</span><br><span class="line">        store.dispatch(&apos;cached/addCachedView&apos;, &#123; name: item &#125;)</span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;,</span><br></pre></td></tr></table></figure>
+<p>ISCACHE_MAP 是配置每个页面要缓存的那些组件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">const ISCACHE_MAP = &#123;</span><br><span class="line">  &apos;/receipts-order&apos;: [&apos;ReceiptsOrder&apos;],</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<p>当通过 tabview 关闭页面时清除组件名称：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">closeTag(newRoute) &#123;</span><br><span class="line">     const &#123; name &#125; = newRoute</span><br><span class="line">     const cacheRout = this.ISCACHE_MAP[name] || []</span><br><span class="line">     cacheRout.map((item) =&gt; &#123;</span><br><span class="line">       store.dispatch(&apos;cached/deleteCachedView&apos;, &#123; name: item &#125;)</span><br><span class="line">     &#125;)</span><br><span class="line">   &#125;,</span><br></pre></td></tr></table></figure>
+<p>关于展开路由是在动态路由添加时展开:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">export const flatten = (data) =&gt; &#123;</span><br><span class="line">  return data.reduce((arr, v) =&gt; &#123;</span><br><span class="line">    if (Array.isArray(v.children) &amp;&amp; v.children.length !== 0) &#123;</span><br><span class="line">      return arr.concat(flatten(v.children))</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">      return arr.concat([v])</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;, [])</span><br><span class="line">&#125;</span><br><span class="line">routes.addRoutes(flatten(routeList))</span><br></pre></td></tr></table></figure>
+<p>改造后的路由：</p>
+<p><img src="https://cdn.poizon.com/node-common/5246ccef44ed399213902d488a0e24ea.png" alt=""></p>
+<p>到此完美解决了当前框架的设计问题</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>上述的常规方案网上一大把，如何将它们合理的使用在项目中，这才是我们需要多去思考的。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/09/03/视频编码/" rel="next" title="视频编码">
+                <i class="fa fa-chevron-left"></i> 视频编码
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2021/01/03/代码质量-圈复杂度/" rel="prev" title="代码质量-圈复杂度">
+                代码质量-圈复杂度 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="lennonover" />
+          <p class="site-author-name" itemprop="name">lennonover</p>
+           
+              <p class="site-description motion-element" itemprop="description">一丿口石砳磊</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">61</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">27</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#使用场景"><span class="nav-number">1.</span> <span class="nav-text">使用场景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#keep-alive"><span class="nav-number">2.</span> <span class="nav-text">keep-alive</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实现方案"><span class="nav-number">3.</span> <span class="nav-text">实现方案</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#本项目的实现"><span class="nav-number">3.1.</span> <span class="nav-text">本项目的实现</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">lennonover</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
