@@ -251,158 +251,6 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2021/09/02/配置打包分析与实践/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="lennonover">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="lennonover">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2021/09/02/配置打包分析与实践/" itemprop="url">
-                  vue-cli 配置打包分析与实践
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-09-02T22:33:19+08:00">
-                2021-09-02
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>Vue CLI 是一个基于 Vue.js 进行快速开发的完整系统,它确保了各种构建工具能够基于智能的默认配置即可平稳衔接，这样你可以专注在撰写应用上，而不必花好几天去纠结配置的问题。与此同时，它也为每个工具提供了调整配置的灵活性，无需 eject。</p>
-<h2 id="如何看-webpack-最终配置"><a href="#如何看-webpack-最终配置" class="headerlink" title="如何看 webpack 最终配置"></a>如何看 webpack 最终配置</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"scripts"</span>: &#123;</span><br><span class="line">    <span class="string">"webpack_output_dynamic"</span>: <span class="string">"vue inspect --mode=dynamic &gt; output.js"</span>,</span><br><span class="line">    <span class="string">"webpack_output_production"</span>: <span class="string">"vue inspect --mode=production &gt; output.js"</span></span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
-<h2 id="如何统计打包的时间"><a href="#如何统计打包的时间" class="headerlink" title="如何统计打包的时间"></a>如何统计打包的时间</h2><p>speed-measure-webpack-plugin 是一个专门测试 webpack 构建速度的工具，可以在终端列出所有 Loader 和 Plugin 的耗时。</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> SpeedMeasurePlugin = <span class="built_in">require</span>(<span class="string">'speed-measure-webpack-plugin'</span>)</span><br><span class="line"><span class="keyword">const</span> smp = <span class="keyword">new</span> SpeedMeasurePlugin()</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  configureWebpack: smp.wrap(&#123;</span><br><span class="line">    output: &#123;</span><br><span class="line">      ...</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>webpack 打包结束后，输出的时间统计</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"> SMP  ⏱</span><br><span class="line">General output time took <span class="number">51.66</span> secs</span><br><span class="line"></span><br><span class="line"> SMP  ⏱  Plugins</span><br><span class="line">DllReferencePlugin took <span class="number">0.55</span> secs</span><br><span class="line"></span><br><span class="line"> SMP  ⏱  Loaders</span><br><span class="line">mini-css-extract-plugin, and</span><br><span class="line">css-loader, and</span><br><span class="line">sass-loader took <span class="number">14.16</span> secs</span><br><span class="line">  <span class="built_in">module</span> count = <span class="number">1</span></span><br><span class="line">css-loader, and</span><br><span class="line">sass-loader took <span class="number">14.15</span> secs</span><br><span class="line">  <span class="built_in">module</span> count = <span class="number">1</span></span><br></pre></td></tr></table></figure>
-<p>配置 vue.config.js</p>
-<h2 id="添加别名-resolve-alias"><a href="#添加别名-resolve-alias" class="headerlink" title="添加别名 resolve.alias"></a>添加别名 resolve.alias</h2><p>目前的配置</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">configureWebpack: &#123;</span><br><span class="line">    resolve: &#123;</span><br><span class="line">      alias: &#123;</span><br><span class="line">         <span class="string">'@'</span>: <span class="string">'/Users/admin/Documents/code/gondor/src'</span>,</span><br><span class="line">      vue$: <span class="string">'vue/dist/vue.runtime.esm.js'</span></span><br><span class="line">      &#125;,</span><br><span class="line">    &#125;,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="扩展名配置-resolve-extensions"><a href="#扩展名配置-resolve-extensions" class="headerlink" title="扩展名配置 resolve.extensions"></a>扩展名配置 resolve.extensions</h2><p>extensions 的配置原则是频率出现高的排前面，数组长度尽量小,以下是 vue-cli 中的默认配置 [‘.mjs’, ‘.js’, ‘.jsx’, ‘.vue’, ‘.json’, ‘.wasm’]</p>
-<p>我们的文件没有 .mjs、.jsx，所以在 vue.config.js 中我这样配置会更好：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">chainWebpack: <span class="function">(<span class="params">config</span>) =&gt;</span> &#123;</span><br><span class="line">  config.resolve.extensions.store = <span class="keyword">new</span> <span class="built_in">Set</span>([<span class="string">".js"</span>, <span class="string">".vue"</span>, <span class="string">".json"</span>, <span class="string">".wasm"</span>]);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<h2 id="确定搜索目录-resolve-modules"><a href="#确定搜索目录-resolve-modules" class="headerlink" title="确定搜索目录 resolve.modules"></a>确定搜索目录 resolve.modules</h2><p>当搜索模块的时候告诉 webpack 确定的目录文件，这样可以避免无用的检索。webpack 默认的配置是相对路径，检索当前目录的下的 node_modules，如果没有则再会去根目录下的 node_modules，直到没有最后抛错。</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">chainWebpack: <span class="function">(<span class="params">config</span>) =&gt;</span> &#123;</span><br><span class="line">  config.resolve.modules.store = <span class="keyword">new</span> <span class="built_in">Set</span>([</span><br><span class="line">    path.resolve(__dirname, <span class="string">"node_modules"</span>),</span><br><span class="line">    <span class="string">"node_modules"</span>,</span><br><span class="line">  ]);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>上面也是默认的</p>
-<h2 id="忽略非模块化-Library-module-noParse"><a href="#忽略非模块化-Library-module-noParse" class="headerlink" title="忽略非模块化 Library module.noParse"></a>忽略非模块化 Library module.noParse</h2><p>忽略那些文件中不含有 import, require, define 的调用，或任何其他导入机制的 library。忽略大型的 library 可以提高构建性能。下面是默认配置，请根据项目需要修改</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">configureWebpack: &#123;</span><br><span class="line">  <span class="built_in">module</span>: &#123;</span><br><span class="line">    noParse: <span class="regexp">/^(vue|vue-router|vuex|vuex-router-sync)$/</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="动态链接库-DllPlugin"><a href="#动态链接库-DllPlugin" class="headerlink" title="动态链接库 DllPlugin"></a>动态链接库 DllPlugin</h2><p>DllPlugin 和 DllReferencePlugin 实现了拆分 bundles，可以将一些不常被更新的第三方依赖预编译到一个或多个 manifest.json 中，做到一次打包就可以重复引用的效果。比如说我们 vue 全家桶、axios 等依赖，只要版本不升级就没必要多次打包，我们可以让这些依赖与业务代码分开打包。<br>使用方式大致分三步：</p>
-<ul>
-<li>利用 DllPlugin 配置预先打包出 _.manifest.json 文件。</li>
-<li>在 webpack 主配置中设置 DllReferencePlugin，告诉 webpack 使用了哪些动态链接库。</li>
-<li>在页面文件中加载所有的动态链接库。<br>webpack.dll.config.js</li>
-</ul>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">"path"</span>);</span><br><span class="line"><span class="keyword">const</span> DllPlugin = <span class="built_in">require</span>(<span class="string">"webpack/lib/DllPlugin"</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  entry: &#123;</span><br><span class="line">    <span class="comment">// 将 Vue 相关模块打包到一个单独的动态链接库中</span></span><br><span class="line">    vue: [<span class="string">"vue"</span>, <span class="string">"vue-router"</span>, <span class="string">"vuex"</span>],</span><br><span class="line">    <span class="comment">// 将其他的一些不变动的第三方库打包到一个动态链接库中</span></span><br><span class="line">    polyfill: [<span class="string">"element-ui"</span>],</span><br><span class="line">  &#125;,</span><br><span class="line">  output: &#123;</span><br><span class="line">    <span class="comment">// 输出动态链接库的文件名称，[name] 代表当前动态链接库的名称</span></span><br><span class="line">    <span class="comment">// name 来自 entry 对象中的 key</span></span><br><span class="line">    filename: <span class="string">"[name].dll.js"</span>,</span><br><span class="line">    <span class="comment">// 输出的文件都放到 dist 目录下</span></span><br><span class="line">    path: path.resolve(__dirname, <span class="string">"dist"</span>),</span><br><span class="line">    <span class="comment">// 动态链接库全局名称，例如 vue 就是 _dll_vue</span></span><br><span class="line">    library: <span class="string">"dll[name]"</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">  plugins: [</span><br><span class="line">    <span class="keyword">new</span> DllPlugin(&#123;</span><br><span class="line">      <span class="comment">// 动态链接库的全局变量名称需要和 output.library 中的名称一致</span></span><br><span class="line">      <span class="comment">// 代表 manifest.json 文件中的 name 字段的值</span></span><br><span class="line">      <span class="comment">// 例如 vue.manifest.json 中的 'name': '_dll_vue'</span></span><br><span class="line">      name: <span class="string">"dll[name]"</span>,</span><br><span class="line">      <span class="comment">// 动态链接库文件输出的文件名，例如 vue.manifest.json</span></span><br><span class="line">      path: path.join(__dirname, <span class="string">"dll"</span>, <span class="string">"[name].manifest.json"</span>),</span><br><span class="line">    &#125;),</span><br><span class="line">  ],</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>vue.config.js</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">configureWebpack: &#123;</span><br><span class="line">    plugins: [</span><br><span class="line">      <span class="comment">// 告诉 webpack 使用的动态链接库</span></span><br><span class="line">      <span class="keyword">new</span> DllReferencePlugin(&#123;</span><br><span class="line">        manifest:      <span class="built_in">require</span>(<span class="string">'./dll/vue.manifest.json'</span>),</span><br><span class="line">      &#125;),</span><br><span class="line">      <span class="keyword">new</span> DllReferencePlugin(&#123;</span><br><span class="line">        manifest: <span class="built_in">require</span>(<span class="string">'./dll/polyfill.manifest.json'</span>),</span><br><span class="line">      &#125;),</span><br><span class="line">    ],</span><br><span class="line">&#125;</span><br><span class="line">···</span><br><span class="line">在 package.json 中增加</span><br><span class="line"><span class="string">``</span><span class="string">`js</span></span><br><span class="line"><span class="string"> "scripts": &#123;</span></span><br><span class="line"><span class="string">    "dll": "webpack --config webpack.dll.config.js"</span></span><br><span class="line"><span class="string">&#125;</span></span><br></pre></td></tr></table></figure>
-<h2 id="hard-source-webpack-plugin"><a href="#hard-source-webpack-plugin" class="headerlink" title="hard-source-webpack-plugin"></a>hard-source-webpack-plugin</h2><p>webpack4 抛弃了使用 dll，hard-source-webpack-plugin 就是一个很好的替代者，它可为模块提供中间缓存步骤。第二次构建将明显更快。</p>
-<h2 id="外部扩展（external）"><a href="#外部扩展（external）" class="headerlink" title="外部扩展（external）"></a>外部扩展（external）</h2><p>externals 配置选项提供了「从输出的 bundle 中排除依赖」的方法，也是个人最提倡的采用 script 引入 CDN 资源</p>
-<h2 id="分环境压缩代码"><a href="#分环境压缩代码" class="headerlink" title="分环境压缩代码"></a>分环境压缩代码</h2><p>在 development 环境时，我们可以关闭压缩来提升打包速度</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">chainWebpack: <span class="function">(<span class="params">config</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">if</span> (process.env.VUE_APP_ENV === <span class="string">"dynamic"</span>) &#123;</span><br><span class="line">    <span class="comment">// development</span></span><br><span class="line">    <span class="comment">// js is not compressed</span></span><br><span class="line">    config.optimization.minimize(<span class="literal">false</span>);</span><br><span class="line">    <span class="comment">// css is not compressed</span></span><br><span class="line">    config.plugins.delete(<span class="string">"optimize-css"</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<h2 id="打包后的代码质量"><a href="#打包后的代码质量" class="headerlink" title="打包后的代码质量"></a>打包后的代码质量</h2><p>使用 webpack-bundle-analyzer 分析工具，在启动打包完成后，会在 8888 端口显示一个交互式可视化 bundle treemap。</p>
-<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><p>升级打包机配置</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2021/02/07/代码质量-代码重复/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -889,6 +737,158 @@
 <p><img src="https://cdn.poizon.com/node-common/5246ccef44ed399213902d488a0e24ea.png" alt=""></p>
 <p>到此完美解决了当前框架的设计问题</p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>上述的常规方案网上一大把，如何将它们合理的使用在项目中，这才是我们需要多去思考的。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2020/10/02/配置打包分析与实践/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lennonover">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lennonover">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2020/10/02/配置打包分析与实践/" itemprop="url">
+                  vue-cli 配置打包分析与实践
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-10-02T22:33:19+08:00">
+                2020-10-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>Vue CLI 是一个基于 Vue.js 进行快速开发的完整系统,它确保了各种构建工具能够基于智能的默认配置即可平稳衔接，这样你可以专注在撰写应用上，而不必花好几天去纠结配置的问题。与此同时，它也为每个工具提供了调整配置的灵活性，无需 eject。</p>
+<h2 id="如何看-webpack-最终配置"><a href="#如何看-webpack-最终配置" class="headerlink" title="如何看 webpack 最终配置"></a>如何看 webpack 最终配置</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"scripts"</span>: &#123;</span><br><span class="line">    <span class="string">"webpack_output_dynamic"</span>: <span class="string">"vue inspect --mode=dynamic &gt; output.js"</span>,</span><br><span class="line">    <span class="string">"webpack_output_production"</span>: <span class="string">"vue inspect --mode=production &gt; output.js"</span></span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<h2 id="如何统计打包的时间"><a href="#如何统计打包的时间" class="headerlink" title="如何统计打包的时间"></a>如何统计打包的时间</h2><p>speed-measure-webpack-plugin 是一个专门测试 webpack 构建速度的工具，可以在终端列出所有 Loader 和 Plugin 的耗时。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> SpeedMeasurePlugin = <span class="built_in">require</span>(<span class="string">'speed-measure-webpack-plugin'</span>)</span><br><span class="line"><span class="keyword">const</span> smp = <span class="keyword">new</span> SpeedMeasurePlugin()</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  configureWebpack: smp.wrap(&#123;</span><br><span class="line">    output: &#123;</span><br><span class="line">      ...</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>webpack 打包结束后，输出的时间统计</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"> SMP  ⏱</span><br><span class="line">General output time took <span class="number">51.66</span> secs</span><br><span class="line"></span><br><span class="line"> SMP  ⏱  Plugins</span><br><span class="line">DllReferencePlugin took <span class="number">0.55</span> secs</span><br><span class="line"></span><br><span class="line"> SMP  ⏱  Loaders</span><br><span class="line">mini-css-extract-plugin, and</span><br><span class="line">css-loader, and</span><br><span class="line">sass-loader took <span class="number">14.16</span> secs</span><br><span class="line">  <span class="built_in">module</span> count = <span class="number">1</span></span><br><span class="line">css-loader, and</span><br><span class="line">sass-loader took <span class="number">14.15</span> secs</span><br><span class="line">  <span class="built_in">module</span> count = <span class="number">1</span></span><br></pre></td></tr></table></figure>
+<p>配置 vue.config.js</p>
+<h2 id="添加别名-resolve-alias"><a href="#添加别名-resolve-alias" class="headerlink" title="添加别名 resolve.alias"></a>添加别名 resolve.alias</h2><p>目前的配置</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">configureWebpack: &#123;</span><br><span class="line">    resolve: &#123;</span><br><span class="line">      alias: &#123;</span><br><span class="line">         <span class="string">'@'</span>: <span class="string">'/Users/admin/Documents/code/gondor/src'</span>,</span><br><span class="line">      vue$: <span class="string">'vue/dist/vue.runtime.esm.js'</span></span><br><span class="line">      &#125;,</span><br><span class="line">    &#125;,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="扩展名配置-resolve-extensions"><a href="#扩展名配置-resolve-extensions" class="headerlink" title="扩展名配置 resolve.extensions"></a>扩展名配置 resolve.extensions</h2><p>extensions 的配置原则是频率出现高的排前面，数组长度尽量小,以下是 vue-cli 中的默认配置 [‘.mjs’, ‘.js’, ‘.jsx’, ‘.vue’, ‘.json’, ‘.wasm’]</p>
+<p>我们的文件没有 .mjs、.jsx，所以在 vue.config.js 中我这样配置会更好：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">chainWebpack: <span class="function">(<span class="params">config</span>) =&gt;</span> &#123;</span><br><span class="line">  config.resolve.extensions.store = <span class="keyword">new</span> <span class="built_in">Set</span>([<span class="string">".js"</span>, <span class="string">".vue"</span>, <span class="string">".json"</span>, <span class="string">".wasm"</span>]);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h2 id="确定搜索目录-resolve-modules"><a href="#确定搜索目录-resolve-modules" class="headerlink" title="确定搜索目录 resolve.modules"></a>确定搜索目录 resolve.modules</h2><p>当搜索模块的时候告诉 webpack 确定的目录文件，这样可以避免无用的检索。webpack 默认的配置是相对路径，检索当前目录的下的 node_modules，如果没有则再会去根目录下的 node_modules，直到没有最后抛错。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">chainWebpack: <span class="function">(<span class="params">config</span>) =&gt;</span> &#123;</span><br><span class="line">  config.resolve.modules.store = <span class="keyword">new</span> <span class="built_in">Set</span>([</span><br><span class="line">    path.resolve(__dirname, <span class="string">"node_modules"</span>),</span><br><span class="line">    <span class="string">"node_modules"</span>,</span><br><span class="line">  ]);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>上面也是默认的</p>
+<h2 id="忽略非模块化-Library-module-noParse"><a href="#忽略非模块化-Library-module-noParse" class="headerlink" title="忽略非模块化 Library module.noParse"></a>忽略非模块化 Library module.noParse</h2><p>忽略那些文件中不含有 import, require, define 的调用，或任何其他导入机制的 library。忽略大型的 library 可以提高构建性能。下面是默认配置，请根据项目需要修改</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">configureWebpack: &#123;</span><br><span class="line">  <span class="built_in">module</span>: &#123;</span><br><span class="line">    noParse: <span class="regexp">/^(vue|vue-router|vuex|vuex-router-sync)$/</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="动态链接库-DllPlugin"><a href="#动态链接库-DllPlugin" class="headerlink" title="动态链接库 DllPlugin"></a>动态链接库 DllPlugin</h2><p>DllPlugin 和 DllReferencePlugin 实现了拆分 bundles，可以将一些不常被更新的第三方依赖预编译到一个或多个 manifest.json 中，做到一次打包就可以重复引用的效果。比如说我们 vue 全家桶、axios 等依赖，只要版本不升级就没必要多次打包，我们可以让这些依赖与业务代码分开打包。<br>使用方式大致分三步：</p>
+<ul>
+<li>利用 DllPlugin 配置预先打包出 _.manifest.json 文件。</li>
+<li>在 webpack 主配置中设置 DllReferencePlugin，告诉 webpack 使用了哪些动态链接库。</li>
+<li>在页面文件中加载所有的动态链接库。<br>webpack.dll.config.js</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">"path"</span>);</span><br><span class="line"><span class="keyword">const</span> DllPlugin = <span class="built_in">require</span>(<span class="string">"webpack/lib/DllPlugin"</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  entry: &#123;</span><br><span class="line">    <span class="comment">// 将 Vue 相关模块打包到一个单独的动态链接库中</span></span><br><span class="line">    vue: [<span class="string">"vue"</span>, <span class="string">"vue-router"</span>, <span class="string">"vuex"</span>],</span><br><span class="line">    <span class="comment">// 将其他的一些不变动的第三方库打包到一个动态链接库中</span></span><br><span class="line">    polyfill: [<span class="string">"element-ui"</span>],</span><br><span class="line">  &#125;,</span><br><span class="line">  output: &#123;</span><br><span class="line">    <span class="comment">// 输出动态链接库的文件名称，[name] 代表当前动态链接库的名称</span></span><br><span class="line">    <span class="comment">// name 来自 entry 对象中的 key</span></span><br><span class="line">    filename: <span class="string">"[name].dll.js"</span>,</span><br><span class="line">    <span class="comment">// 输出的文件都放到 dist 目录下</span></span><br><span class="line">    path: path.resolve(__dirname, <span class="string">"dist"</span>),</span><br><span class="line">    <span class="comment">// 动态链接库全局名称，例如 vue 就是 _dll_vue</span></span><br><span class="line">    library: <span class="string">"dll[name]"</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">  plugins: [</span><br><span class="line">    <span class="keyword">new</span> DllPlugin(&#123;</span><br><span class="line">      <span class="comment">// 动态链接库的全局变量名称需要和 output.library 中的名称一致</span></span><br><span class="line">      <span class="comment">// 代表 manifest.json 文件中的 name 字段的值</span></span><br><span class="line">      <span class="comment">// 例如 vue.manifest.json 中的 'name': '_dll_vue'</span></span><br><span class="line">      name: <span class="string">"dll[name]"</span>,</span><br><span class="line">      <span class="comment">// 动态链接库文件输出的文件名，例如 vue.manifest.json</span></span><br><span class="line">      path: path.join(__dirname, <span class="string">"dll"</span>, <span class="string">"[name].manifest.json"</span>),</span><br><span class="line">    &#125;),</span><br><span class="line">  ],</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>vue.config.js</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">configureWebpack: &#123;</span><br><span class="line">    plugins: [</span><br><span class="line">      <span class="comment">// 告诉 webpack 使用的动态链接库</span></span><br><span class="line">      <span class="keyword">new</span> DllReferencePlugin(&#123;</span><br><span class="line">        manifest:      <span class="built_in">require</span>(<span class="string">'./dll/vue.manifest.json'</span>),</span><br><span class="line">      &#125;),</span><br><span class="line">      <span class="keyword">new</span> DllReferencePlugin(&#123;</span><br><span class="line">        manifest: <span class="built_in">require</span>(<span class="string">'./dll/polyfill.manifest.json'</span>),</span><br><span class="line">      &#125;),</span><br><span class="line">    ],</span><br><span class="line">&#125;</span><br><span class="line">···</span><br><span class="line">在 package.json 中增加</span><br><span class="line"><span class="string">``</span><span class="string">`js</span></span><br><span class="line"><span class="string"> "scripts": &#123;</span></span><br><span class="line"><span class="string">    "dll": "webpack --config webpack.dll.config.js"</span></span><br><span class="line"><span class="string">&#125;</span></span><br></pre></td></tr></table></figure>
+<h2 id="hard-source-webpack-plugin"><a href="#hard-source-webpack-plugin" class="headerlink" title="hard-source-webpack-plugin"></a>hard-source-webpack-plugin</h2><p>webpack4 抛弃了使用 dll，hard-source-webpack-plugin 就是一个很好的替代者，它可为模块提供中间缓存步骤。第二次构建将明显更快。</p>
+<h2 id="外部扩展（external）"><a href="#外部扩展（external）" class="headerlink" title="外部扩展（external）"></a>外部扩展（external）</h2><p>externals 配置选项提供了「从输出的 bundle 中排除依赖」的方法，也是个人最提倡的采用 script 引入 CDN 资源</p>
+<h2 id="分环境压缩代码"><a href="#分环境压缩代码" class="headerlink" title="分环境压缩代码"></a>分环境压缩代码</h2><p>在 development 环境时，我们可以关闭压缩来提升打包速度</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">chainWebpack: <span class="function">(<span class="params">config</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">if</span> (process.env.VUE_APP_ENV === <span class="string">"dynamic"</span>) &#123;</span><br><span class="line">    <span class="comment">// development</span></span><br><span class="line">    <span class="comment">// js is not compressed</span></span><br><span class="line">    config.optimization.minimize(<span class="literal">false</span>);</span><br><span class="line">    <span class="comment">// css is not compressed</span></span><br><span class="line">    config.plugins.delete(<span class="string">"optimize-css"</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h2 id="打包后的代码质量"><a href="#打包后的代码质量" class="headerlink" title="打包后的代码质量"></a>打包后的代码质量</h2><p>使用 webpack-bundle-analyzer 分析工具，在启动打包完成后，会在 8888 端口显示一个交互式可视化 bundle treemap。</p>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><p>升级打包机配置</p>
 
           
         
