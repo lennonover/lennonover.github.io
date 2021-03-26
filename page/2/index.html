@@ -251,6 +251,139 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2019/11/28/useEffect-引起的无限循环/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lennonover">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lennonover">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2019/11/28/useEffect-引起的无限循环/" itemprop="url">
+                  useEffect 引起的无限循环
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-11-28T19:19:39+08:00">
+                2019-11-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="自定义-hook"><a href="#自定义-hook" class="headerlink" title="自定义 hook"></a>自定义 hook</h2><p>我们在使用 React Hock 时 为了逻辑复用经常来封装⼀个请求分⻚列表的⾃定义 hooks,写⼀个 hook 的核⼼就是处理：输⼊（使⽤ hook 时的变量）、输出（使⽤ hook 获取的值），以及哪些值可以被维护在 hook 内部，使⽤者可以⽆感知，⽽从输⼊到输出的过程，即可复⽤的逻辑。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">useFetchList</span>(<span class="params">url, params</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> [loading, setLoading] = useState(<span class="literal">false</span>);</span><br><span class="line">  <span class="keyword">const</span> [pageNo, setPageNo] = useState(<span class="number">1</span>);</span><br><span class="line">  <span class="keyword">const</span> [data, setData] = useState(&#123;</span><br><span class="line">    totalCount: <span class="number">0</span>,</span><br><span class="line">    end: <span class="literal">false</span>,</span><br><span class="line">    records: []</span><br><span class="line">  &#125;);</span><br><span class="line">  useEffect(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    setLoading(<span class="literal">true</span>);</span><br><span class="line">    ajax</span><br><span class="line">      .get(url, &#123;</span><br><span class="line">        ...params,</span><br><span class="line">        pageNo</span><br><span class="line">      &#125;)</span><br><span class="line">      .then(<span class="function">(<span class="params">&#123; result &#125;</span>) =&gt;</span> &#123;</span><br><span class="line">        setData(result);</span><br><span class="line">      &#125;)</span><br><span class="line">      .catch(handleError)</span><br><span class="line">      .then(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">        setLoading(<span class="literal">false</span>);</span><br><span class="line">      &#125;);</span><br><span class="line">  &#125;, [pageNo, params, url]);</span><br><span class="line">  <span class="keyword">return</span> [&#123; loading, data &#125;, setPageNo];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>但是！！上述代码会引发⼀个问题——⽆限循环</p>
+<p>引发原因：<code>useEffect</code> 的依赖对⽐，⽤的是 <code>Object.is()</code><br>也就是说，上⾯的代码中，使⽤ { bookId } 作为参数时，每次渲染都是⼀个新的参数，会导致<br>useFetchList 不断去取数据，⽽取到数据后，⼜会引发函数组件重新渲染，导致 { bookId } 更新。</p>
+<ul>
+<li>解决⽅法 1：调⽤ hook 前，使⽤ useState 缓存 { bookId }</li>
+<li>解决⽅法 2：调⽤ hook 前，使⽤ useMemo 缓存 { bookId }</li>
+<li>解决⽅法 3：hook 内部判断 params 是否真的更新了</li>
+<li>解决⽅法 4：使⽤ useDeepCompareEffect（第三⽅库）替换 useEffect，但是谨慎使⽤，滥⽤可能会导致性能问题。</li>
+</ul>
+<p>这⾥针对⽅法 3 做了实现，因为这是使⽤⽅可以最轻松的使⽤⽅法。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 通过 useRef（⻅官⽅ Hook API 说明) 缓存值的引⽤，每次传⼊新值时，通过深对⽐进⾏⽐较，如果没</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">useMemoizedValue</span>(<span class="params">value</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> cache = useRef(<span class="literal">null</span>);</span><br><span class="line">  <span class="keyword">const</span> previousValue = cache.current;</span><br><span class="line">  <span class="keyword">if</span> (_.isEqual(previousValue, value)) &#123;</span><br><span class="line">    <span class="keyword">return</span> previousValue;</span><br><span class="line">  &#125;</span><br><span class="line">  cache.current = value;</span><br><span class="line">  <span class="keyword">return</span> value;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这个 hook 终于可以被正常调⽤了</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2019/10/13/视频无损压缩工具/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1624,143 +1757,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2019/01/27/Js-几种循环的比较/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="lennonover">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="lennonover">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2019/01/27/Js-几种循环的比较/" itemprop="url">
-                  Js 几种循环的比较
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-27T21:34:29+08:00">
-                2019-01-27
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> TEST_SIZE = <span class="number">10000000</span>;</span><br><span class="line"><span class="comment">// 常用</span></span><br><span class="line"><span class="keyword">let</span> arr1 = (<span class="keyword">new</span> <span class="built_in">Array</span>(TEST_SIZE)).fill(<span class="number">1</span>);</span><br><span class="line"><span class="keyword">let</span> target1 = [];</span><br><span class="line"><span class="keyword">let</span> iStart1 = (<span class="keyword">new</span> <span class="built_in">Date</span>()).getTime();</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> i=<span class="number">0</span>; i &lt; arr1.length; i++) &#123;</span><br><span class="line">    target1.push(arr1[i]);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> iEnd1 = (<span class="keyword">new</span> <span class="built_in">Date</span>()).getTime();</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">'for:'</span> +(iEnd1 - iStart1)+<span class="string">'ms'</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 取 len</span></span><br><span class="line"><span class="keyword">let</span> arr11 = (<span class="keyword">new</span> <span class="built_in">Array</span>(TEST_SIZE)).fill(<span class="number">1</span>);</span><br><span class="line"><span class="keyword">let</span> target11 = [];</span><br><span class="line"><span class="keyword">let</span> iStart11 = (<span class="keyword">new</span> <span class="built_in">Date</span>()).getTime();</span><br><span class="line"><span class="keyword">let</span> len = arr11.length;</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> i=<span class="number">0</span>; i &lt; len; i++) &#123;</span><br><span class="line">    target11.push(arr11[i]);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> iEnd11 = (<span class="keyword">new</span> <span class="built_in">Date</span>()).getTime();</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">'for-len:'</span> +(iEnd11 - iStart11)+<span class="string">'ms'</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 倒叙</span></span><br><span class="line"><span class="keyword">let</span> arr12 = (<span class="keyword">new</span> <span class="built_in">Array</span>(TEST_SIZE)).fill(<span class="number">1</span>);</span><br><span class="line"><span class="keyword">let</span> target12 = [];</span><br><span class="line"><span class="keyword">let</span> iStart12 = (<span class="keyword">new</span> <span class="built_in">Date</span>()).getTime();</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> i = arr12.length; i--;) &#123;</span><br><span class="line">    target12.push(arr12[i]);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> iEnd12 = (<span class="keyword">new</span> <span class="built_in">Date</span>()).getTime();</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">'for-re:'</span> +(iEnd12 - iStart12)+<span class="string">'ms'</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 将取值与判断合并，通过不停的枚举每一项来循环</span></span><br><span class="line"><span class="keyword">let</span> arr13 = (<span class="keyword">new</span> <span class="built_in">Array</span>(TEST_SIZE)).fill(<span class="number">1</span>);</span><br><span class="line"><span class="keyword">let</span> target13 = [];</span><br><span class="line"><span class="keyword">let</span> iStart13 = (<span class="keyword">new</span> <span class="built_in">Date</span>()).getTime();</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>, a; a = arr13[i]; i++) &#123;</span><br><span class="line">    target13.push(a);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> iEnd13 = (<span class="keyword">new</span> <span class="built_in">Date</span>()).getTime();</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">'for-a:'</span> +(iEnd13 - iStart13)+<span class="string">'ms'</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// forEach</span></span><br><span class="line"><span class="keyword">let</span> arr2 = (<span class="keyword">new</span> <span class="built_in">Array</span>(TEST_SIZE)).fill(<span class="number">1</span>);</span><br><span class="line"><span class="keyword">let</span> target2 = [];</span><br><span class="line"><span class="keyword">let</span> iStart2 = (<span class="keyword">new</span> <span class="built_in">Date</span>()).getTime();</span><br><span class="line">arr2.forEach(<span class="function"><span class="keyword">function</span>(<span class="params">item</span>)</span>&#123;</span><br><span class="line">    target2.push(item);</span><br><span class="line">&#125;);</span><br><span class="line"><span class="keyword">let</span> iEnd2 = (<span class="keyword">new</span> <span class="built_in">Date</span>()).getTime();</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">'forEach:'</span> +(iEnd2 - iStart2)+<span class="string">'ms'</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// map</span></span><br><span class="line"><span class="keyword">let</span> arr3 = (<span class="keyword">new</span> <span class="built_in">Array</span>(TEST_SIZE)).fill(<span class="number">1</span>);</span><br><span class="line"><span class="keyword">let</span> target3 = [];</span><br><span class="line"><span class="keyword">let</span> iStart3 = (<span class="keyword">new</span> <span class="built_in">Date</span>()).getTime();</span><br><span class="line">arr3.map(<span class="function"><span class="keyword">function</span>(<span class="params">item</span>)</span>&#123;</span><br><span class="line">    target3.push(item);</span><br><span class="line">&#125;);</span><br><span class="line"><span class="keyword">let</span> iEnd3 = (<span class="keyword">new</span> <span class="built_in">Date</span>()).getTime();</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">'map:'</span> +(iEnd3 - iStart3)+<span class="string">'ms'</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// while</span></span><br><span class="line"><span class="keyword">let</span> arr4 = (<span class="keyword">new</span> <span class="built_in">Array</span>(TEST_SIZE)).fill(<span class="number">1</span>);</span><br><span class="line"><span class="keyword">let</span> target4 = [];</span><br><span class="line"><span class="keyword">let</span> iStart4 = (<span class="keyword">new</span> <span class="built_in">Date</span>()).getTime();</span><br><span class="line"><span class="keyword">let</span> index = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">while</span>(index &lt; arr4.length) &#123;</span><br><span class="line">    target4.push(arr4[index]);</span><br><span class="line">    index++</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> iEnd4 = (<span class="keyword">new</span> <span class="built_in">Date</span>()).getTime();</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">'while:'</span> +(iEnd4 - iStart4)+<span class="string">'ms'</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// for in</span></span><br><span class="line"><span class="keyword">let</span> arr5 = (<span class="keyword">new</span> <span class="built_in">Array</span>(TEST_SIZE)).fill(<span class="number">1</span>);</span><br><span class="line"><span class="keyword">let</span> target5 = [];</span><br><span class="line"><span class="keyword">let</span> iStart5 = (<span class="keyword">new</span> <span class="built_in">Date</span>()).getTime();</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> obj <span class="keyword">in</span> arr5) &#123;</span><br><span class="line">    target5.push(arr5[obj]);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> iEnd5 = (<span class="keyword">new</span> <span class="built_in">Date</span>()).getTime();</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">'forin:'</span> +(iEnd5 - iStart5)+<span class="string">'ms'</span>);</span><br></pre></td></tr></table></figure>
-<h2 id="结果"><a href="#结果" class="headerlink" title="结果"></a>结果</h2><blockquote>
-<p>测试环境<br>机器 iMac (Retina 5K, 27-inch, Late 2015) 10.13.6 (17G65)3.2 GHz Intel Core i5<br>node v8.11.3<br>chrome  71.0.3578.98（正式版本） （64 位）<br>firefox 64.0 (64 位)<br>safair</p>
-</blockquote>
-<p><img src="https://i.loli.net/2019/01/30/5c51901ba3fee.png" alt="结果"></p>
-<ul>
-<li><p>谷歌浏览器中 ES6+ 的循环语法会普遍比传统的循环语法慢</p>
-</li>
-<li><p>不管是 for 循环还是 forEach v8 里面都差不多</p>
-</li>
-<li><p>对于 “枚举” 循环</p>
-<p>  数组中应当避免查找空值或者是超出范围的值，这样会导致在原型链中的向上查找，很耗性能。这种循环方式会把所有的元素取出，并不停的迭代下一个，直到出现 undefined 或 null ，这样就出现的向上查找的情景。</p>
-</li>
-<li><p>对于 提前取数组长度也就是方法二 </p>
-<p>  实际数组的 length 在每次循环中都会重新读区，并不会提前计算好，而是 v8 引擎最大限度的优化了对象取值的性能。</p>
-</li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1810,7 +1806,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">61</span>
+                <span class="site-state-item-count">62</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
