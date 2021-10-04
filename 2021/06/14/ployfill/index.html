@@ -1,0 +1,687 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="polyfill 在英文中有垫片的意思，意为兜底的东西。在计算机科学中，指的是对未能实现进行的”兜底”操作。简单的说就是它可以让你可以毫无顾虑地使用最新的 JavaScript 特性，而不需要关注浏览器兼容性。我们用最多的 polyfill 方式都是基于 core-js 正常使用方式一般是这两种： 1.通过 cdn 不考虑按需引入整个 core-js 文件非常大，最新的 3.15.2 版本大小 7">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何实现个在线的按需的 ployfill">
+<meta property="og:url" content="https://github.com/lennonover/2021/06/14/ployfill/index.html">
+<meta property="og:site_name" content="lennonover">
+<meta property="og:description" content="polyfill 在英文中有垫片的意思，意为兜底的东西。在计算机科学中，指的是对未能实现进行的”兜底”操作。简单的说就是它可以让你可以毫无顾虑地使用最新的 JavaScript 特性，而不需要关注浏览器兼容性。我们用最多的 polyfill 方式都是基于 core-js 正常使用方式一般是这两种： 1.通过 cdn 不考虑按需引入整个 core-js 文件非常大，最新的 3.15.2 版本大小 7">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2021-10-04T09:17:46.086Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="如何实现个在线的按需的 ployfill">
+<meta name="twitter:description" content="polyfill 在英文中有垫片的意思，意为兜底的东西。在计算机科学中，指的是对未能实现进行的”兜底”操作。简单的说就是它可以让你可以毫无顾虑地使用最新的 JavaScript 特性，而不需要关注浏览器兼容性。我们用最多的 polyfill 方式都是基于 core-js 正常使用方式一般是这两种： 1.通过 cdn 不考虑按需引入整个 core-js 文件非常大，最新的 3.15.2 版本大小 7">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://github.com/lennonover/2021/06/14/ployfill/"/>
+
+
+
+
+
+  <title> 如何实现个在线的按需的 ployfill | lennonover </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">lennonover</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2021/06/14/ployfill/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lennonover">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lennonover">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                如何实现个在线的按需的 ployfill
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-06-14T21:10:04+08:00">
+                2021-06-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>polyfill 在英文中有垫片的意思，意为兜底的东西。在计算机科学中，指的是对未能实现进行的”兜底”操作。简单的说就是它可以让你可以毫无顾虑地使用最新的 JavaScript 特性，而不需要关注浏览器兼容性。<br>我们用最多的 polyfill 方式都是基于 core-js 正常使用方式一般是这两种： 1.通过 cdn 不考虑按需引入整个 core-js 文件非常大，最新的 3.15.2 版本大小 742 kB。 2.用 babel 处理，通过设置 @babel/preset-env 加上 useBuiltins 配置来按需裁剪 core-js。<br>目前主流做法都是选择方案 2 通过 @babel/preset-env 裁剪，事实上，在 CDN 的缓存的作用下收益会比方案 2 剪裁有更好的性能。</p>
+<h2 id="目标"><a href="#目标" class="headerlink" title="目标"></a>目标</h2><p>根据 babel 的做原理，如果能可以根据浏览器的兼容性配置动态的生成裁剪后的 core-js，然后只引入 CDN 上剪裁后的 core-js 文件。</p>
+<h3 id="如何根据浏览器的兼容性动态剪裁"><a href="#如何根据浏览器的兼容性动态剪裁" class="headerlink" title="如何根据浏览器的兼容性动态剪裁"></a>如何根据浏览器的兼容性动态剪裁</h3><p>很简单，只需要按照 babel 的处理方式</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">"core-js"</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="string">"regenerator-runtime/runtime"</span>;</span><br></pre></td></tr></table></figure>
+<p>配一个 .browserlisrc 浏览器信息</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chrome <span class="number">86</span></span><br></pre></td></tr></table></figure>
+<p>利用 rollup 打包</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> babel <span class="keyword">from</span> <span class="string">"@rollup/plugin-babel"</span>;</span><br><span class="line"><span class="keyword">import</span> nodeResolve <span class="keyword">from</span> <span class="string">"@rollup/plugin-node-resolve"</span>;</span><br><span class="line"><span class="comment">// CommonJS格式</span></span><br><span class="line"><span class="keyword">import</span> commonJS <span class="keyword">from</span> <span class="string">"@rollup/plugin-commonjs"</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; terser &#125; <span class="keyword">from</span> <span class="string">"rollup-plugin-terser"</span>;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">  input: <span class="string">"index.js"</span>,</span><br><span class="line">  output: &#123;</span><br><span class="line">    file: <span class="string">"dist.js"</span>,</span><br><span class="line">    format: <span class="string">"iife"</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">  plugins: [</span><br><span class="line">    babel(&#123; <span class="attr">babelHelpers</span>: <span class="string">"bundled"</span> &#125;),</span><br><span class="line">    nodeResolve(),</span><br><span class="line">    commonJS(),</span><br><span class="line">    terser(),</span><br><span class="line">  ],</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>经过 rollup 打包后就会生成一个根据浏览器裁剪后的 ployfill 文件了。</p>
+<h3 id="如何云化"><a href="#如何云化" class="headerlink" title="如何云化"></a>如何云化</h3><p>上面我们通过 babel 工具去生成 polyfill，然后上传到 CDN 并修改引用地址，当需要不同浏览器兼容性的时又要重复上面的操作，成本很高，所以我们希望运用云函数的能力来实现在线生成，生成的逻辑在线化，目前云服务上都提供 Serverless 计算服务像阿里云 <a href="https://www.aliyun.com/product/fc" target="_blank" rel="noopener">函数计算 FC</a> 。</p>
+<h4 id="改造"><a href="#改造" class="headerlink" title="改造"></a>改造</h4><p>只需要将 rollup 调用方式改成 api，通过 url 传参方式传递浏览器信息。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">"path"</span>);</span><br><span class="line"><span class="keyword">const</span> &#123; encode &#125; = <span class="built_in">require</span>(<span class="string">"js-base64"</span>);</span><br><span class="line"><span class="keyword">const</span> &#123; rollup &#125; = <span class="built_in">require</span>(<span class="string">"rollup"</span>);</span><br><span class="line"><span class="keyword">const</span> rollupConfig = <span class="built_in">require</span>(<span class="string">"./factory/rollupConfig"</span>);</span><br><span class="line"><span class="keyword">const</span> terser = <span class="built_in">require</span>(<span class="string">"terser"</span>);</span><br><span class="line"><span class="keyword">const</span> respond = <span class="function">(<span class="params">body, statusCode = <span class="number">200</span></span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">    statusCode,</span><br><span class="line">    body,</span><br><span class="line">    isBase64Encoded: <span class="literal">false</span>,</span><br><span class="line">    headers: &#123;</span><br><span class="line">      <span class="string">"Content-Type"</span>:</span><br><span class="line">        statusCode === <span class="number">200</span></span><br><span class="line">          ? <span class="string">"application/javascript; charset=utf-8"</span></span><br><span class="line">          : <span class="string">"text/plain; charset=utf-8"</span>,</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;;</span><br><span class="line">exports.handler = <span class="keyword">async</span> (event) =&gt; &#123;</span><br><span class="line">  <span class="keyword">const</span> &#123; targets &#125; = event.queryStringParameters;</span><br><span class="line">  <span class="keyword">if</span> (!targets) &#123;</span><br><span class="line">    <span class="keyword">return</span> respond(<span class="string">"No targets specified"</span>, <span class="number">400</span>);</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">const</span> key = encode(targets, <span class="literal">true</span>);</span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> bundle = <span class="keyword">await</span> rollup(rollupConfig(targets));</span><br><span class="line">    <span class="keyword">const</span> &#123;</span><br><span class="line">      output: [asset],</span><br><span class="line">    &#125; = <span class="keyword">await</span> bundle.generate(&#123; <span class="attr">file</span>: <span class="string">"dist.js"</span>, <span class="attr">format</span>: <span class="string">"iife"</span> &#125;);</span><br><span class="line">    <span class="keyword">const</span> minified = <span class="keyword">await</span> terser.minify(asset.code);</span><br><span class="line">    <span class="keyword">return</span> respond(minified.code);</span><br><span class="line">  &#125; <span class="keyword">catch</span> (ex) &#123;</span><br><span class="line">    <span class="built_in">console</span>.error(ex);</span><br><span class="line">    <span class="keyword">return</span> respond(ex.message, <span class="number">500</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>这样在线生成搞定了，但是每次生成时间巨长，真实启动的服务并不可用，所以我们需要在生成的前面加一个 CDN 配置，需要在上线前预热 CDN 就能达到秒开。当然业界也有成熟的在线服务例如 <a href="https://polyfill.io/v3/" target="_blank" rel="noopener">https://polyfill.io/v3/</a></p>
+<h2 id="现实"><a href="#现实" class="headerlink" title="现实"></a>现实</h2><p>这样就完成了加载按需剪裁 CDN 资源的 ployfill，减少了资源大小，同时增加了缓存命中。<br>但是 <a href="https://developers.google.com/web/updates/2020/10/http-cache-partitioning" target="_blank" rel="noopener">chrome 85</a> 版本之后更新了缓存策略，新的策略生效后会大大降低缓存命中,新的策略：</p>
+<ul>
+<li>之前，单资源的缓存是以 URL 来作为键，并不关心请求 URL 的来源；</li>
+<li>目前，缓存的键由 URL、顶部 window 域名、当前 window 域名三元组构成；<br>其他浏览器支持情况：</li>
+<li>Safari 实现了顶部 window 域名 + URL 的键控制机制；</li>
+<li>Firefox 即将实现同粒度的缓存键；<br>更新缓存机制后，缓存未命中的情形增加了 3.6%，整体网络加载字节数增加了 4%。</li>
+</ul>
+<h2 id="后续"><a href="#后续" class="headerlink" title="后续"></a>后续</h2><p>虽然由于浏览器的缓存策略更新从而导致跨站缓存无法共享，但是本站的收益还是很大的。另外也可以采用更加细致的方案，把每一个 core-js 的所有 api 都在线化编译成独立的 ES 模块，然后项目采用 ES 模块的方式打包，让浏览器去加载最小粒度的 polyfill，精细度更大。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2021/03/26/IntersectionObserver实现高性能的交互动画/" rel="next" title="IntersectionObserver实现高性能的交互动画">
+                <i class="fa fa-chevron-left"></i> IntersectionObserver实现高性能的交互动画
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2021/08/09/top/" rel="prev" title="Top-level await">
+                Top-level await <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="lennonover" />
+          <p class="site-author-name" itemprop="name">lennonover</p>
+           
+              <p class="site-description motion-element" itemprop="description">一丿口石砳磊</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">66</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">28</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#目标"><span class="nav-number">1.</span> <span class="nav-text">目标</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#如何根据浏览器的兼容性动态剪裁"><span class="nav-number">1.1.</span> <span class="nav-text">如何根据浏览器的兼容性动态剪裁</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如何云化"><span class="nav-number">1.2.</span> <span class="nav-text">如何云化</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#改造"><span class="nav-number">1.2.1.</span> <span class="nav-text">改造</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#现实"><span class="nav-number">2.</span> <span class="nav-text">现实</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#后续"><span class="nav-number">3.</span> <span class="nav-text">后续</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">lennonover</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

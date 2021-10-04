@@ -251,6 +251,614 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2021/10/04/我们是如何保证前端项目质量/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lennonover">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lennonover">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2021/10/04/我们是如何保证前端项目质量/" itemprop="url">
+                  我们是如何保证前端项目质量
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-10-04T17:12:58+08:00">
+                2021-10-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <blockquote>
+<p>本篇文章主要介绍一下我们团队开发过程中，如何做代码质量的把控和提升。</p>
+</blockquote>
+<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>代码质量是一个项目最重要部分，更好的质量的代码，能够产生更少的 bug，从而让项目的质量得到提升。业务快速增长，随之而来的前端需求激增，同时经过我们的分析，发现当前我们开发流程存在的一些问题：</p>
+<ul>
+<li>如何高效团队 CR？</li>
+<li>开发人员怎么衡量项目的质量？</li>
+<li>每个公司都有一个安全团队，他们负责公司一些代码安全，但是如果他万一发生一些问题的时候，通知到我们团队的时候，我们如何响应他们？</li>
+<li>团队沉淀、基建落地如何量化提供一个参考依据</li>
+<li>重构后的代码，除了一些我们通过一些生产或者性能对比，如何从代码层面来展示我们的量化结果。<br>面对上面的问题，就需要我们通过一些技术手段来实现，通过代码的扫描来找到潜在的问题。我们构建出衡量项目质量的模型，通过模型对项目分析输出评估结果反馈对进行质量趋势分析来推动优化。</li>
+</ul>
+<h2 id="如何定义质量模型？"><a href="#如何定义质量模型？" class="headerlink" title="如何定义质量模型？"></a>如何定义质量模型？</h2><p>衡量质量基础是要可量化，结合我们目前项目常用的标准主要从、技术选型、开发规范、可维护性和安全四个方面：</p>
+<ul>
+<li>技术选型<br>主要关注框架的技术选型是否先进、主流、收敛，例如：框架、请求库、UI 库。</li>
+<li>编码规范<br>主要包含是否遵守了最佳实践和团队编码规范（readme<br>、npm script、git 工作流、Mock、Eslint、团队最佳实践<br>）。</li>
+<li>可维护性<br>代码分层、模块化、圈复杂度、重复率、大文件、文档等得出可读性及复杂度评分。</li>
+<li>安全<br>基于团队开发规范，检测可能存在的安全风险（外链、敏感成词、token、npm 包等）。</li>
+</ul>
+<h2 id="如何检测？"><a href="#如何检测？" class="headerlink" title="如何检测？"></a>如何检测？</h2><p>通过代码静态分析的方式检测代码质量，平台整体架构分成四部分：</p>
+<ul>
+<li>代码分析计算服务：用于仓库代码元数据采集和规则检测，质量计算</li>
+<li>数据平台后端服务：用于存储采集的数据，为前端展示提供数据</li>
+<li>数据平台前端服务：用于对采集的数据可视化分析展示</li>
+<li>数据平台 web 可视化界面<br>系统工作流程主要分为两种：</li>
+<li>自动脚本服务定时拉取分析仓库代码，通过代码静态分析匹配规则生成检测结果计算出质量分，通过邮件、飞书等形式发送本次扫描报告，开发人员可以通过报告查看负责的项目详情做进一步处理。</li>
+<li>开发人员主动触发，通过指定项目分支主动触发分析脚本，根据检测结果分析。<br>同时为了能够实现编码事前修改，我们将部分检测规则的 lint 继承的本地开发环境来保证做到事前检测提升效率。</li>
+</ul>
+<h2 id="质量分计算"><a href="#质量分计算" class="headerlink" title="质量分计算"></a>质量分计算</h2><p>根据质量模型把各项指标加权求和，可以得到一个工程的度总分，代表它的综合评估结果，同时对质量分的历史趋势做出预判。</p>
+<h2 id="实践效果"><a href="#实践效果" class="headerlink" title="实践效果"></a>实践效果</h2><h2 id="后续计划"><a href="#后续计划" class="headerlink" title="后续计划"></a>后续计划</h2><p>未来我们会进一步的在检测维度上继续增加，同时持续优化可视化界面的用户体验，最终目标是打造一个完善的项目质量保障平台，能够为团队项目质量带来更大的提升。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2021/09/22/cookies/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lennonover">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lennonover">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2021/09/22/cookies/" itemprop="url">
+                  cookies
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-09-22T19:12:58+08:00">
+                2021-09-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="前置解释"><a href="#前置解释" class="headerlink" title="前置解释"></a>前置解释</h2><ul>
+<li>同源策略限制了从同一个源加载的文档或脚本如何与来自另一个源的资源进行交互，要求协议，端口和主机都相同。</li>
+<li>HTTP 是一个无状态的协议，所谓无状态协议，简单的理解就是即使同一个客户端连续两次发送请求给服务器，服务器也识别不出这是同一个客户端发送的请求</li>
+<li>Cookie 是客户端保存用户信息的一种机制，保存在客户机硬盘上。可以由服务器响应报文 Set-Cookie 的首部字段信息或者客户端 document.cookie 来设置，并随着每次请求发送到服务器。子域名可以获取父级域名 Cookie。</li>
+</ul>
+<h2 id="SameSite-来源"><a href="#SameSite-来源" class="headerlink" title="SameSite 来源"></a>SameSite 来源</h2><p>熟悉 web 安全攻击 CSRF 的都知道 CSRF 的本质实际上是利用了 Cookie 会自动在请求中携带的特性，诱使用户在第三方站点发起请求的行为。针对这个问题浏览器厂商对此给 cookie 加了 SameSite 属性。 Chrome 于 2015 年 6 月支持了该属性，Firefox 和 Safari 紧随其后也增加了支持。</p>
+<h3 id="同域和同站"><a href="#同域和同站" class="headerlink" title="同域和同站"></a>同域和同站</h3><ul>
+<li>同域是指两个 URL 的协议/主机名/端口一致，判断比较严格。</li>
+<li>同站判断就比较宽松，根据 Mozilla 维护的公共后缀表（Pulic Suffix List[2]）使用有效顶级域名(eTLD)+1 的规则查找得到的一级域名是否相同来判断是否是同站请求。<br>例如：<br>.org 是在 PSL 中记录的有效顶级域名，imnerd.org 则是一级域名。所以 <a href="https://blog.imnerd.org" target="_blank" rel="noopener">https://blog.imnerd.org</a> 和 <a href="https://www.imnerd.org" target="_blank" rel="noopener">https://www.imnerd.org</a> 是同站域名。<br>.github.io 也是在 PSL 中记录的有效顶级域名，所以 <a href="https://lizheming.github.io" target="_blank" rel="noopener">https://lizheming.github.io</a> 和 <a href="https://blog.github.io" target="_blank" rel="noopener">https://blog.github.io</a> 得到的一级域名是不一样的，他们两个是跨域请求。</li>
+</ul>
+<h2 id="SameSite-值"><a href="#SameSite-值" class="headerlink" title="SameSite 值"></a>SameSite 值</h2><p>SameSite 属性有以下几个值：</p>
+<ul>
+<li>SameSite=None：无论是否跨站都会发送 Cookie</li>
+<li>SameSite=Lax：允许部分第三方请求携带 Cookie</li>
+<li>SameSite=Strict：只发送相同站点请求的 Cookie，即当前网页 URL 与请求目标 URL 完全一致。</li>
+</ul>
+<h3 id="Strict"><a href="#Strict" class="headerlink" title="Strict"></a>Strict</h3><p>Strict 最为严格只发送相同站点请求的 Cookie，即当前网页 URL 与请求目标 URL 完全一致。浏览器做了仅针对 HTTPS 域名才支持 SameSite=None 配置。所以如果你要设置 SameSite=None 的话，则必须还要携带 Secure 属性才行。<br>例如对于一个普通的站点，如果一个已经登录的用户跟踪一个在电子邮件上的网站链接，这个站点将不会收到 Cookie ，用户访问该站点还需要重新登陆。</p>
+<h3 id="Lax"><a href="#Lax" class="headerlink" title="Lax"></a>Lax</h3><p>对于允许用户从外部链接到达本站并使用已有会话的网站站，默认的 Lax 值在安全性和可用性之间提供了合理的平衡。 Lax 属性只会在使用危险 HTTP 方法发送跨域 Cookie 的时候进行阻止，例如 POST 方式。同时，使用 JavaScript 脚本发起的请求也无法携带 Cookie。<br><a href="https://cdn.poizon.com/node-common/93a0229b7baac5aa63b3b4fc06efec7f.png" target="_blank" rel="noopener">lax</a><br>从上图可以看出，对大部分 web 应用而言，Post 表单，iframe，AJAX，Image 这四种情况从以前的跨站会发送三方 Cookie，变成了不发送。</p>
+<h3 id="none"><a href="#none" class="headerlink" title="none"></a>none</h3><p>浏览器会在同站请求、跨站请求下继续发送 Cookies，不区分大小写。</p>
+<h3 id="策略改变带来的影响"><a href="#策略改变带来的影响" class="headerlink" title="策略改变带来的影响"></a>策略改变带来的影响</h3><p>在 Chrome 80+ 版本中，SameSite 的默认属性是 SameSite=Lax。如果想要指定 Cookies 在同站、跨站请求都被发送，那么需要明确指定 SameSite 为 None。Chrome 也宣布，将在下个版本也就是 Chrome 83 版本，在访客模式下禁用三方 Cookie，在 2023 年全面禁用三方 Cookie。</p>
+<ul>
+<li>使用的三方埋点数据异常</li>
+<li>依赖 cookie 智能广告推荐失败</li>
+<li>跨站请求 cookie 丢失、统一登录、支付等失败</li>
+</ul>
+<h2 id="FLoC"><a href="#FLoC" class="headerlink" title="FLoC"></a>FLoC</h2><p>FLoC 通过获取浏览器的浏览记录将用户加入 “相似” 用户的分组内，每个分组拥有对应的 FLoC ID。有别于之前使用 Cookie ID 标记直接将用户行为数据传递到广告商网站处理的方式。它提出了 document.interestCohort() 这个新的 API，将用户的行为在本地转换成了不带个人隐私的关键词，既规避了用户隐私问题，同时又解决了广告的精准投放问题。<br>谷歌在 Chrome 浏览器的 89 版本上小规模测试了代替 cookie 的 FLoC（Federated Learning of Cohorts, 联邦学习群组）技术。<br>微软、Opera、Firefox、GitHub，EFF 等都对此表达了反对意见。<br>如果不想启用你可以：</p>
+<ul>
+<li>给站点添加相关的拒绝标头：Permissions-Policy: interest-cohort=() 可以屏蔽</li>
+<li>使用表示拒绝的浏览器：Brave、Vivaldi</li>
+<li>使用表示暂时不会跟进的浏览器：Mozilla Firefox、Microsoft Edge</li>
+</ul>
+<h2 id="Cookie-作用域处理"><a href="#Cookie-作用域处理" class="headerlink" title="Cookie 作用域处理"></a>Cookie 作用域处理</h2><ul>
+<li>同域名<br>当访问同域名下的页面时，Cookie 会正常携带，后台服务即可直接获取到对应的 SessionID 值，后台为单服务还是多服务无差别。</li>
+<li>不同子域名<br>子域名间 Cookie 是不共享的，但各子域名均可获取到父级域名的 Cookie，即 m.dewu.com 与 jiawu.dewu.com 均可以获取 dewu.com 域名下的 Cookie。所以可以通过将 Cookie 设置在父级域名上，可以达到子域名共享的效果。</li>
+<li>完全不同域名<br>不同域名是无法直接共享 Cookie ，可以选择将 Session ID （或 Token ）保存到浏览器的 LocalStorage 中，也可以通过特殊手段将它写入多个其他域下的 LocalStorage 中，让前端在每次向后端发送请求时，主动将 LocalStorage 的数据传递给服务端。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">// 获取 token</span><br><span class="line">var token = result.data.token;</span><br><span class="line">// 动态创建一个不可见的iframe，在iframe中加载一个跨域HTML</span><br><span class="line">var iframe = document.createElement(&quot;iframe&quot;);</span><br><span class="line">iframe.src = &quot;http://app1.com/localstorage.html&quot;;</span><br><span class="line">document.body.append(iframe);</span><br><span class="line">// 使用postMessage()方法将token传递给iframe</span><br><span class="line">setTimeout(function () &#123;</span><br><span class="line">iframe.contentWindow.postMessage(token, &quot;http://app1.com&quot;);</span><br><span class="line">&#125;, 4000);</span><br><span class="line">setTimeout(function () &#123;</span><br><span class="line">iframe.remove();</span><br><span class="line">&#125;, 6000);</span><br><span class="line">// 在这个iframe所加载的HTML中绑定一个事件监听器，当事件被触发时，把接收到的token数据写入localStorage</span><br><span class="line">window.addEventListener(&apos;message&apos;, function (event) &#123;</span><br><span class="line">localStorage.setItem(&apos;token&apos;, event.data)</span><br><span class="line">&#125;, false);</span><br></pre></td></tr></table></figure>
+<p>前端通过 iframe+postMessage() 方式，将同一份 Token 写入到了多个域下的 LocalStorage 中，前端每次在向后端发送请求之前，都会主动从 LocalStorage 中读取 Token 并在请求中携带，这样就实现了同一份 Token 被多个域所共享。<br>也可以 CAS（Central Authentication Service）中央认证服务，是 Yale 大学发起的一个开源项目，旨在为 Web 应用系统提供一种可靠的单点登录方法。</p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
+<li><a href="https://www.chromestatus.com/feature/5088147346030592" target="_blank" rel="noopener">https://www.chromestatus.com/feature/5088147346030592</a></li>
+<li><a href="https://www.chromium.org/updates/same-site" target="_blank" rel="noopener">https://www.chromium.org/updates/same-site</a></li>
+<li><a href="https://hacks.mozilla.org/2020/08/changes-to-samesite-cookie-behavior/" target="_blank" rel="noopener">https://hacks.mozilla.org/2020/08/changes-to-samesite-cookie-behavior/</a></li>
+<li><a href="https://github.com/mqyqingfeng/Blog/issues/157#">https://github.com/mqyqingfeng/Blog/issues/157#</a></li>
+<li><a href="https://mp.weixin.qq.com/s/QZkOXhQIg2LqDWpi7mzCdQ" target="_blank" rel="noopener">https://mp.weixin.qq.com/s/QZkOXhQIg2LqDWpi7mzCdQ</a></li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2021/08/09/top/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lennonover">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lennonover">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2021/08/09/top/" itemprop="url">
+                  Top-level await
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-08-09T17:15:27+08:00">
+                2021-08-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <blockquote>
+<p>背景： chrome 于 5 月 4 号发布 v9.1 版本 ，带来了 Top-level await 新特新，我们可以在模块顶级中使用 await，不需要在额外的加入 async。</p>
+</blockquote>
+<h2 id="什么是-Top-level-await"><a href="#什么是-Top-level-await" class="headerlink" title="什么是 Top-level await"></a>什么是 Top-level await</h2><p>如果我们试图在一个 async 函数外面使用 await 关键字，将会引起语法错误，例如：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;script type=<span class="string">"text/javascript"</span>&gt;</span><br><span class="line">  <span class="keyword">await</span> <span class="built_in">Promise</span>.resolve(<span class="built_in">console</span>.log(<span class="string">'执行'</span>))</span><br><span class="line">&lt;<span class="regexp">/script&gt;</span></span><br></pre></td></tr></table></figure>
+<p>会产生如下报错：</p>
+<blockquote>
+<p>await is only valid in async functions and the top level bodies of modules<br>但是在 v9.1 我们可以在模块顶级中使用 await，不需要额外的加入 async。</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;script type=<span class="string">"module"</span>&gt;<span class="keyword">await</span> <span class="built_in">Promise</span>.resolve(<span class="built_in">console</span>.log(<span class="string">'执行'</span>))&lt;<span class="regexp">/script&gt;</span></span><br></pre></td></tr></table></figure>
+<p>并且它有着如下特点：</p>
+<ul>
+<li>顶层 await 在模块图的执行阶段发挥作用，此时所有的资源都已经获取并链接了，不存在资源被阻塞的风险；</li>
+<li>顶层 await 只限于在 ES6 模块中使用，不支持普通脚本或者 CommonJS 模块</li>
+</ul>
+<h3 id="先看一个例子"><a href="#先看一个例子" class="headerlink" title="先看一个例子"></a>先看一个例子</h3><p>在使用 ES6 模块化的时候，经常会遇到需要导入导出的场景：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// a.js</span></span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">getSum</span>(<span class="params">x</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> x * x;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// b.js</span></span><br><span class="line"><span class="keyword">import</span> &#123; getSum &#125; <span class="keyword">from</span> <span class="string">"./a.js"</span>;</span><br><span class="line"><span class="keyword">let</span> sum;</span><br><span class="line">(<span class="keyword">async</span> () =&gt; &#123;</span><br><span class="line">  <span class="keyword">await</span> sleep(<span class="number">1000</span>);</span><br><span class="line">  sum = getSum(<span class="number">2</span>);</span><br><span class="line">&#125;)();</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">sleep</span>(<span class="params">time</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve</span>) =&gt;</span> &#123;</span><br><span class="line">    setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">      resolve();</span><br><span class="line">    &#125;, time);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">export</span> &#123; sum &#125;;</span><br><span class="line"><span class="comment">// c.js</span></span><br><span class="line"><span class="keyword">import</span> &#123; sum &#125; <span class="keyword">from</span> <span class="string">"./b.js"</span>;</span><br><span class="line"><span class="built_in">console</span>.log(sum); <span class="comment">// undefined</span></span><br><span class="line">setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> <span class="built_in">console</span>.log(sum), <span class="number">2000</span>); <span class="comment">// 4</span></span><br></pre></td></tr></table></figure>
+<p>在这个例子中，我们在文件之间进行变量的导入导出。<br>通过分析代码我们可以发现第一次打印的都是 undefined 第二次打印得到的是 4。因为在 async 函数执行完毕之前，c.js 就已经访问了 b.js 导出的变量。name 怎么解决呢？</p>
+<h4 id="导出-IIFE-promise"><a href="#导出-IIFE-promise" class="headerlink" title="导出 IIFE promise"></a>导出 IIFE promise</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// a.js</span></span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">getSum</span>(<span class="params">x</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> x * x;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// b.js</span></span><br><span class="line"><span class="keyword">import</span> &#123; getSum &#125; <span class="keyword">from</span> <span class="string">"./a.js"</span>;</span><br><span class="line"><span class="keyword">let</span> sum;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> (<span class="keyword">async</span> () =&gt; &#123;</span><br><span class="line">  <span class="keyword">await</span> sleep(<span class="number">1000</span>);</span><br><span class="line">  sum = getSum(<span class="number">2</span>);</span><br><span class="line">  <span class="keyword">return</span> &#123; sum &#125;;</span><br><span class="line">&#125;)();</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">sleep</span>(<span class="params">time</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve</span>) =&gt;</span> &#123;</span><br><span class="line">    setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">      resolve();</span><br><span class="line">    &#125;, time);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// c.js</span></span><br><span class="line"><span class="keyword">import</span> promise <span class="keyword">from</span> <span class="string">"./b.js"</span>;</span><br><span class="line">promise.then(<span class="function">(<span class="params">&#123; sum &#125;</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(sum); <span class="comment">// 4</span></span><br><span class="line">  setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> <span class="built_in">console</span>.log(sum), <span class="number">2000</span>); <span class="comment">// 4</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>我们将变量作为 async IIFE 的返回值返回。这样的话，c.js 只需简单地等待 promise 被 resolve，之后获取变量。<br>但是从静态分析、可测试性、工程学以及其它角度来讲，这种做法相比 ES2015 的模块化来说是一种显而易见的倒退。</p>
+<h3 id="Top-level-await-怎么解决"><a href="#Top-level-await-怎么解决" class="headerlink" title="Top-level await 怎么解决"></a>Top-level await 怎么解决</h3><p>我们仍然异步地初始化我们的导出，但是我们可以通过 Top-level await 来正常地使用 sum。<br>我们可以导入 b.js，而不需要知道它会异步初始化的导出：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// a.js</span></span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">getSum</span>(<span class="params">x</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> x * x;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// b.js</span></span><br><span class="line"><span class="keyword">import</span> &#123; getSum &#125; <span class="keyword">from</span> <span class="string">"./a.js"</span>;</span><br><span class="line"><span class="keyword">let</span> sum;</span><br><span class="line"><span class="keyword">await</span> sleep(<span class="number">1000</span>);</span><br><span class="line">sum = getSum(<span class="number">2</span>);</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">sleep</span>(<span class="params">time</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve</span>) =&gt;</span> &#123;</span><br><span class="line">    setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">      resolve();</span><br><span class="line">    &#125;, time);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">export</span> &#123; sum &#125;;</span><br><span class="line"><span class="comment">// c.js</span></span><br><span class="line"><span class="keyword">import</span> &#123; sum &#125; <span class="keyword">from</span> <span class="string">"./b.js"</span>;</span><br><span class="line"><span class="built_in">console</span>.log(sum); <span class="comment">// 4</span></span><br><span class="line">setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> <span class="built_in">console</span>.log(sum), <span class="number">2000</span>); <span class="comment">// 4</span></span><br></pre></td></tr></table></figure>
+<p>await promise 被 resolve 之前， c.js 中任意一条语句都不会执行。</p>
+<h2 id="Top-level-await-是怎么工作的"><a href="#Top-level-await-是怎么工作的" class="headerlink" title="Top-level await 是怎么工作的"></a>Top-level await 是怎么工作的</h2><p>JavaScript 会静态地确认哪些模块是异步的，这些模块导出的 Promise 都会放到 Promise.all() 中。其余的导入仍然照常处理，并且拒绝（reject）和同步的异常都会被转为异步函数。</p>
+<h2 id="Top-level-await-还可以做些什么"><a href="#Top-level-await-还可以做些什么" class="headerlink" title="Top-level await 还可以做些什么"></a>Top-level await 还可以做些什么</h2><h3 id="资源初始化"><a href="#资源初始化" class="headerlink" title="资源初始化"></a>资源初始化</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//connect() return a promise.</span></span><br><span class="line"><span class="keyword">const</span> connection = <span class="keyword">await</span> dbConnector.connect();</span><br></pre></td></tr></table></figure>
+<h3 id="动态加载模块"><a href="#动态加载模块" class="headerlink" title="动态加载模块"></a>动态加载模块</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> data = <span class="keyword">await</span> <span class="keyword">import</span>(<span class="string">`./file<span class="subst">$&#123;v&#125;</span>.js`</span>);</span><br></pre></td></tr></table></figure>
+<h3 id="资源加载备选方案"><a href="#资源加载备选方案" class="headerlink" title="资源加载备选方案"></a>资源加载备选方案</h3><p>如果 CDN A 无法导入 Vue，那么会尝试从 CDN B 中导入。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> Vue;</span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">  Vue = <span class="keyword">await</span> <span class="keyword">import</span>(<span class="string">"https://cdn-a.dewu.com/Vue"</span>);</span><br><span class="line">&#125; <span class="keyword">catch</span> &#123;</span><br><span class="line">  Vue = <span class="keyword">await</span> <span class="keyword">import</span>(<span class="string">"https://cdn-b.dewu.com/Vue"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="https://blog.bitsrc.io/why-should-you-use-top-level-await-in-javascript-a3ba8139ef23" target="_blank" rel="noopener">https://blog.bitsrc.io/why-should-you-use-top-level-await-in-javascript-a3ba8139ef23</a></li>
+<li><a href="https://javascript.plainenglish.io/javascript-top-level-await-in-a-nutshell-4e352b3fc8c8" target="_blank" rel="noopener">https://javascript.plainenglish.io/javascript-top-level-await-in-a-nutshell-4e352b3fc8c8</a></li>
+<li><a href="https://2ality.com/2020/09/ecmascript-2021.html" target="_blank" rel="noopener">https://2ality.com/2020/09/ecmascript-2021.html</a></li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2021/06/14/ployfill/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lennonover">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lennonover">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2021/06/14/ployfill/" itemprop="url">
+                  如何实现个在线的按需的 ployfill
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-06-14T21:10:04+08:00">
+                2021-06-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>polyfill 在英文中有垫片的意思，意为兜底的东西。在计算机科学中，指的是对未能实现进行的”兜底”操作。简单的说就是它可以让你可以毫无顾虑地使用最新的 JavaScript 特性，而不需要关注浏览器兼容性。<br>我们用最多的 polyfill 方式都是基于 core-js 正常使用方式一般是这两种： 1.通过 cdn 不考虑按需引入整个 core-js 文件非常大，最新的 3.15.2 版本大小 742 kB。 2.用 babel 处理，通过设置 @babel/preset-env 加上 useBuiltins 配置来按需裁剪 core-js。<br>目前主流做法都是选择方案 2 通过 @babel/preset-env 裁剪，事实上，在 CDN 的缓存的作用下收益会比方案 2 剪裁有更好的性能。</p>
+<h2 id="目标"><a href="#目标" class="headerlink" title="目标"></a>目标</h2><p>根据 babel 的做原理，如果能可以根据浏览器的兼容性配置动态的生成裁剪后的 core-js，然后只引入 CDN 上剪裁后的 core-js 文件。</p>
+<h3 id="如何根据浏览器的兼容性动态剪裁"><a href="#如何根据浏览器的兼容性动态剪裁" class="headerlink" title="如何根据浏览器的兼容性动态剪裁"></a>如何根据浏览器的兼容性动态剪裁</h3><p>很简单，只需要按照 babel 的处理方式</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">"core-js"</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="string">"regenerator-runtime/runtime"</span>;</span><br></pre></td></tr></table></figure>
+<p>配一个 .browserlisrc 浏览器信息</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chrome <span class="number">86</span></span><br></pre></td></tr></table></figure>
+<p>利用 rollup 打包</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> babel <span class="keyword">from</span> <span class="string">"@rollup/plugin-babel"</span>;</span><br><span class="line"><span class="keyword">import</span> nodeResolve <span class="keyword">from</span> <span class="string">"@rollup/plugin-node-resolve"</span>;</span><br><span class="line"><span class="comment">// CommonJS格式</span></span><br><span class="line"><span class="keyword">import</span> commonJS <span class="keyword">from</span> <span class="string">"@rollup/plugin-commonjs"</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; terser &#125; <span class="keyword">from</span> <span class="string">"rollup-plugin-terser"</span>;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">  input: <span class="string">"index.js"</span>,</span><br><span class="line">  output: &#123;</span><br><span class="line">    file: <span class="string">"dist.js"</span>,</span><br><span class="line">    format: <span class="string">"iife"</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">  plugins: [</span><br><span class="line">    babel(&#123; <span class="attr">babelHelpers</span>: <span class="string">"bundled"</span> &#125;),</span><br><span class="line">    nodeResolve(),</span><br><span class="line">    commonJS(),</span><br><span class="line">    terser(),</span><br><span class="line">  ],</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>经过 rollup 打包后就会生成一个根据浏览器裁剪后的 ployfill 文件了。</p>
+<h3 id="如何云化"><a href="#如何云化" class="headerlink" title="如何云化"></a>如何云化</h3><p>上面我们通过 babel 工具去生成 polyfill，然后上传到 CDN 并修改引用地址，当需要不同浏览器兼容性的时又要重复上面的操作，成本很高，所以我们希望运用云函数的能力来实现在线生成，生成的逻辑在线化，目前云服务上都提供 Serverless 计算服务像阿里云 <a href="https://www.aliyun.com/product/fc" target="_blank" rel="noopener">函数计算 FC</a> 。</p>
+<h4 id="改造"><a href="#改造" class="headerlink" title="改造"></a>改造</h4><p>只需要将 rollup 调用方式改成 api，通过 url 传参方式传递浏览器信息。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">"path"</span>);</span><br><span class="line"><span class="keyword">const</span> &#123; encode &#125; = <span class="built_in">require</span>(<span class="string">"js-base64"</span>);</span><br><span class="line"><span class="keyword">const</span> &#123; rollup &#125; = <span class="built_in">require</span>(<span class="string">"rollup"</span>);</span><br><span class="line"><span class="keyword">const</span> rollupConfig = <span class="built_in">require</span>(<span class="string">"./factory/rollupConfig"</span>);</span><br><span class="line"><span class="keyword">const</span> terser = <span class="built_in">require</span>(<span class="string">"terser"</span>);</span><br><span class="line"><span class="keyword">const</span> respond = <span class="function">(<span class="params">body, statusCode = <span class="number">200</span></span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">    statusCode,</span><br><span class="line">    body,</span><br><span class="line">    isBase64Encoded: <span class="literal">false</span>,</span><br><span class="line">    headers: &#123;</span><br><span class="line">      <span class="string">"Content-Type"</span>:</span><br><span class="line">        statusCode === <span class="number">200</span></span><br><span class="line">          ? <span class="string">"application/javascript; charset=utf-8"</span></span><br><span class="line">          : <span class="string">"text/plain; charset=utf-8"</span>,</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;;</span><br><span class="line">exports.handler = <span class="keyword">async</span> (event) =&gt; &#123;</span><br><span class="line">  <span class="keyword">const</span> &#123; targets &#125; = event.queryStringParameters;</span><br><span class="line">  <span class="keyword">if</span> (!targets) &#123;</span><br><span class="line">    <span class="keyword">return</span> respond(<span class="string">"No targets specified"</span>, <span class="number">400</span>);</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">const</span> key = encode(targets, <span class="literal">true</span>);</span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> bundle = <span class="keyword">await</span> rollup(rollupConfig(targets));</span><br><span class="line">    <span class="keyword">const</span> &#123;</span><br><span class="line">      output: [asset],</span><br><span class="line">    &#125; = <span class="keyword">await</span> bundle.generate(&#123; <span class="attr">file</span>: <span class="string">"dist.js"</span>, <span class="attr">format</span>: <span class="string">"iife"</span> &#125;);</span><br><span class="line">    <span class="keyword">const</span> minified = <span class="keyword">await</span> terser.minify(asset.code);</span><br><span class="line">    <span class="keyword">return</span> respond(minified.code);</span><br><span class="line">  &#125; <span class="keyword">catch</span> (ex) &#123;</span><br><span class="line">    <span class="built_in">console</span>.error(ex);</span><br><span class="line">    <span class="keyword">return</span> respond(ex.message, <span class="number">500</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>这样在线生成搞定了，但是每次生成时间巨长，真实启动的服务并不可用，所以我们需要在生成的前面加一个 CDN 配置，需要在上线前预热 CDN 就能达到秒开。当然业界也有成熟的在线服务例如 <a href="https://polyfill.io/v3/" target="_blank" rel="noopener">https://polyfill.io/v3/</a></p>
+<h2 id="现实"><a href="#现实" class="headerlink" title="现实"></a>现实</h2><p>这样就完成了加载按需剪裁 CDN 资源的 ployfill，减少了资源大小，同时增加了缓存命中。<br>但是 <a href="https://developers.google.com/web/updates/2020/10/http-cache-partitioning" target="_blank" rel="noopener">chrome 85</a> 版本之后更新了缓存策略，新的策略生效后会大大降低缓存命中,新的策略：</p>
+<ul>
+<li>之前，单资源的缓存是以 URL 来作为键，并不关心请求 URL 的来源；</li>
+<li>目前，缓存的键由 URL、顶部 window 域名、当前 window 域名三元组构成；<br>其他浏览器支持情况：</li>
+<li>Safari 实现了顶部 window 域名 + URL 的键控制机制；</li>
+<li>Firefox 即将实现同粒度的缓存键；<br>更新缓存机制后，缓存未命中的情形增加了 3.6%，整体网络加载字节数增加了 4%。</li>
+</ul>
+<h2 id="后续"><a href="#后续" class="headerlink" title="后续"></a>后续</h2><p>虽然由于浏览器的缓存策略更新从而导致跨站缓存无法共享，但是本站的收益还是很大的。另外也可以采用更加细致的方案，把每一个 core-js 的所有 api 都在线化编译成独立的 ES 模块，然后项目采用 ES 模块的方式打包，让浏览器去加载最小粒度的 polyfill，精细度更大。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2021/03/26/IntersectionObserver实现高性能的交互动画/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1227,594 +1835,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2020/07/10/祖传项目（vue）接入单元测试/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="lennonover">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="lennonover">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2020/07/10/祖传项目（vue）接入单元测试/" itemprop="url">
-                  祖传项目（vue）接入单元测试
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-07-10T20:09:08+08:00">
-                2020-07-10
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>最近在做财务项目，用着祖传的项目脚手架，秉承着能升级就升级，该用的就用了原则增加了单元测试。</p>
-<h2 id="Vue-Test-Utils-和-Jest"><a href="#Vue-Test-Utils-和-Jest" class="headerlink" title="Vue-Test-Utils 和 Jest"></a>Vue-Test-Utils 和 Jest</h2><p>Vue-Test-Utils 是 Vue.js 官方的单元测试实用工具库，它提供了一系列的 API 来使得我们可以很便捷的去写 Vue 应用中的单元测试。</p>
-<p>Jest 是一个由 Facebook 开发的测试框架，他是是功能最全的测试运行器。它所需的配置是最少的，默认安装了 JSDOM，内置断言且命令行的用户体验非常好。</p>
-<p>本文主要利用 Vue-Test-Utils + Jest 结合</p>
-<h3 id="安装依赖"><a href="#安装依赖" class="headerlink" title="安装依赖"></a>安装依赖</h3><h4 id="插件模式"><a href="#插件模式" class="headerlink" title="插件模式"></a>插件模式</h4><p>直接在项目中添加一个 unit-jest 插件</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vue add @vue/unit-jest</span><br></pre></td></tr></table></figure>
-<p>安装完成后配置自动完成</p>
-<h4 id="新建项目"><a href="#新建项目" class="headerlink" title="新建项目"></a>新建项目</h4><p>对于新建项目通过脚手架 vue-cli 来新建项目，选择了 Unit Testing 单元测试，选择的是 Jest 作为测试运行器，项目创建好后，会自动配置好单元测试需要的环境。</p>
-<h4 id="老项目接入"><a href="#老项目接入" class="headerlink" title="老项目接入"></a>老项目接入</h4><h5 id="安装依赖包"><a href="#安装依赖包" class="headerlink" title="安装依赖包"></a>安装依赖包</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yarn add --dev @vue/test-utils jest vue-jest @vue/babel-preset-app babel-core@^7.0.0-bridge.0</span><br></pre></td></tr></table></figure>
-<ul>
-<li>@vue/test-utils</li>
-<li>jest</li>
-<li>vue-jest</li>
-<li>@vue/babel-preset-app</li>
-</ul>
-<h5 id="配置-Jest"><a href="#配置-Jest" class="headerlink" title="配置 Jest"></a>配置 Jest</h5><p>在根目录新建一个文件 jest.config.js</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  moduleFileExtensions: [<span class="string">"js"</span>, <span class="string">"vue"</span>],</span><br><span class="line">  transform: &#123;</span><br><span class="line">    <span class="string">"^.+\\.vue$"</span>: <span class="string">"&lt;rootDir&gt;/node_modules/vue-jest"</span>,</span><br><span class="line">    <span class="string">"^.+\\.js$"</span>: <span class="string">"&lt;rootDir&gt;/node_modules/babel-jest"</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">  moduleNameMapper: &#123;</span><br><span class="line">    <span class="string">"^@/(.*)$"</span>: <span class="string">"&lt;rootDir&gt;/src/$1"</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">  snapshotSerializers: [<span class="string">"jest-serializer-vue"</span>],</span><br><span class="line">  testMatch: [<span class="string">"**/__tests__/**/*.spec.js"</span>],</span><br><span class="line">  transformIgnorePatterns: [<span class="string">"&lt;rootDir&gt;/node_modules/"</span>],</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>置项说明：</p>
-<ul>
-<li>moduleFileExtensions 告诉 Jest 需要匹配的文件后缀</li>
-<li>transform 匹配到 .vue 文件的时候用 vue-jest 处理， 匹配到 .js 文件的时候用 babel-jest 处理</li>
-<li>moduleNameMapper 处理 webpack 的别名，比如：将 @ 表示 /src 目录</li>
-<li>snapshotSerializers 将保存的快照测试结果进行序列化，使得其更美观</li>
-<li>testMatch 匹配哪些文件进行测试</li>
-<li>transformIgnorePatterns 不进行匹配的目录</li>
-</ul>
-<p>本地文件 babel.config.js 新增</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  env: &#123;</span><br><span class="line">    test: &#123;</span><br><span class="line">      presets: [[<span class="string">"@babel/env"</span>, &#123; <span class="attr">targets</span>: &#123; <span class="attr">node</span>: <span class="string">"current"</span> &#125; &#125;]],</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>顺利的话已经完成了</p>
-<h3 id="过程遇到的一些问题"><a href="#过程遇到的一些问题" class="headerlink" title="过程遇到的一些问题"></a>过程遇到的一些问题</h3><ul>
-<li>babel-preset-app</li>
-</ul>
-<p>vue-cli 这边用的 babel 预设集合是自己封装的 @vue/app,他是封装了 @babel/preset-env 且配置 useBuiltIns: ‘usage’</p>
-<p>而且最新版本是依赖 core-js@3 的所以当安装最新本版本会引起下面问题</p>
-<ul>
-<li>core-js@3 的更新引起的连锁反应</li>
-</ul>
-<p>@babel/polyfill 无法提供 core-js@2 向 core-js@3 过渡 Babel &gt; 7.4.0 不在使用<br>@babel/preset-env 也因 core-js@3 的原因，需要配置 corejs 参数去指定使用的 corejs 版本</p>
-<p>如果使用 corejs@3 根据 useBuiltIns 配置参数不同，需要做转译 ES 的新语法 + 新 API 升级</p>
-<h3 id="关于-Babel"><a href="#关于-Babel" class="headerlink" title="关于 Babel"></a>关于 Babel</h3><p>因为处理上面 babel 的问题所以这两天研究了一些，简单说下</p>
-<ul>
-<li>@babel/preset-env</li>
-</ul>
-<p>preset-env 是 ES 语法插件的合集，官方已经不再推荐使用 preset-201x 之类的包，该包可以通过配置自动兼容代码，包括自动引入 polyfill 垫片处理新的 API</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">     <span class="string">"presets"</span>: [</span><br><span class="line">         [ <span class="string">"@babel/preset-env"</span>, &#123;</span><br><span class="line">             <span class="string">"targets"</span>: &#123;&#125;,</span><br><span class="line">             <span class="string">"useBuiltIns"</span>: <span class="literal">false</span>,</span><br><span class="line">             <span class="string">"corejs"</span>: <span class="literal">false</span></span><br><span class="line">         &#125;]</span><br><span class="line">     ]</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// useBuiltIns的不同可以分为三种，即 entry(引入了所有的es扩展包), usage(按需) 和 false(只做了语法转换)。</span></span><br><span class="line"><span class="comment">// corejs: false 其实等同于使用 @babel/polyfill 时的 useBuiltIns: false，只对ES语法进行了转换。</span></span><br><span class="line"><span class="comment">// corejs：2 等同于 Babel 6时的 polyfill: true</span></span><br><span class="line"><span class="comment">// corejs: 3 是在 corejs: 2的基础上进而解决了之前无法实例方法的窘况，同时也保持了不污染全局空间</span></span><br></pre></td></tr></table></figure>
-<p>preset-env 在不引入 polyfill 时无法处理，实例的扩展 Array.prototype.includes 等，以及很多内置函数如：Promise、Symbol。而为了解决这样的问题，我们通常有两种方法：使用 Polyfill 或 Babel-runtime 进行功能填充。</p>
-<ul>
-<li>@babel/polyfill</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">import @babel/polyfill</span><br></pre></td></tr></table></figure>
-<p>等同于</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">import &apos;core-js/stable&apos;;</span><br><span class="line">import &apos;regenerator-runtime/runtime&apos;;</span><br></pre></td></tr></table></figure>
-<p>Babel &gt; 7.4.0 之前，通常我们会安装 @babel-polyfill，而 7.4.0 之后我们需要安装 core-js 替代 babel-polyfill</p>
-<ul>
-<li>@babel/runtime</li>
-</ul>
-<p>能实现按需加载，沙箱环境，公用函数的统一抽象</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>不可否认 vue-cli 作为非常优秀的脚手架，它可以实现在终端内输入一行指令就能生成模板，非常便利。我们在日常工作中享受工具带给我们的便利同时是不是也应该多花点时间了解脚手架前端工程化方面的内容，这样在日后项目优化，升级会有很大的便利。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2020/06/02/也可以这么写/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="lennonover">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="lennonover">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2020/06/02/也可以这么写/" itemprop="url">
-                  CSS 也可以这么写
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-06-02T22:01:17+08:00">
-                2020-06-02
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>这篇文章想介绍一下在项目中积累实践并结合 Atomic CSS 的思想的另一个 css 解决思路但并不适用所有。大家可能听说过各种 CSS 解决方案，例如 BEM，OOCSS 等等，最近几年体验下来可以说到目前来说还没让人完全满意的 CSS 框架的样式设计，目前市面上的主流 css 框架是提供完整的设计输出，是组件级别，你只要把类名复制进去，或者通过框架提供的变量进行自定义，在总的来说意义不大。</p>
-<h2 id="AtomicCSS"><a href="#AtomicCSS" class="headerlink" title="AtomicCSS"></a>AtomicCSS</h2><p>Atomic CSS 的思想，采用类似乐高搭积木的方法提供丰富原子，接入到项目的话它就是设计规范，你只需要从里面把这些元素挑出来进行组合，写好设计规范，接下来就是搭积木。<br>我很不喜欢起应用在 CSS 做用上的命名, 为了给一个按钮美化样式，需要给 HTML 元素命名，然后到样式文件写一堆无聊又重复的 CSS。<br>在以前我们在编写 css 方式总结了有以下几种：</p>
-<h3 id="语义化-结构化类名"><a href="#语义化-结构化类名" class="headerlink" title="语义化(结构化类名)"></a>语义化(结构化类名)</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="css">  <span class="selector-class">.nav</span>&#123;</span></span><br><span class="line"><span class="undefined">    height: 34px;</span></span><br><span class="line"><span class="undefined">    display: flex;</span></span><br><span class="line"><span class="undefined">    justify-content: space-between;</span></span><br><span class="line"><span class="undefined">  &#125;</span></span><br><span class="line"><span class="css">  <span class="selector-class">.nav-left</span>&#123;</span></span><br><span class="line"><span class="undefined">    font-size：14px;</span></span><br><span class="line"><span class="undefined">  &#125;</span></span><br><span class="line"><span class="css">  <span class="selector-class">.nav-center</span>&#123;</span></span><br><span class="line"><span class="undefined">    font-size：16px;</span></span><br><span class="line"><span class="undefined">  &#125;</span></span><br><span class="line"><span class="css">  <span class="selector-class">.nav-right-login</span>&#123;</span></span><br><span class="line"><span class="undefined">    font-size：18px;</span></span><br><span class="line"><span class="undefined">  &#125;</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">nav</span> <span class="attr">class</span>=<span class="string">"nav"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">a</span> <span class="attr">class</span>=<span class="string">"nav-left"</span> <span class="attr">href</span>=<span class="string">"#"</span>&gt;</span>Home<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">a</span> <span class="attr">class</span>=<span class="string">"nav-center"</span> <span class="attr">href</span>=<span class="string">"#"</span>&gt;</span>About<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">span</span> <span class="attr">class</span>=<span class="string">"nav-right"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">a</span> <span class="attr">class</span>=<span class="string">"nav-right-login"</span> <span class="attr">href</span>=<span class="string">"#"</span>&gt;</span>Login<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">nav</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>这种模式主要受 BEM 系统方法命名的影响，在 jQuery 独霸天下的年代很适用因为我们要操作 DOM 。</p>
-<h3 id="复用组合"><a href="#复用组合" class="headerlink" title="复用组合"></a>复用组合</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">nav</span> <span class="attr">class</span>=<span class="string">"uilist"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">a</span> <span class="attr">class</span>=<span class="string">"uilist-item"</span> <span class="attr">href</span>=<span class="string">"#"</span>&gt;</span>Home<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">a</span> <span class="attr">class</span>=<span class="string">"uilist-item"</span> <span class="attr">href</span>=<span class="string">"#"</span>&gt;</span>About<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">span</span> <span class="attr">class</span>=<span class="string">"uilist-item"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">a</span> <span class="attr">class</span>=<span class="string">"btn"</span> <span class="attr">href</span>=<span class="string">"#"</span>&gt;</span>Login<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">nav</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>当我们开始专注于创建可重用的类时，就会发现组件执行的次数越多，或者组件越具体，则重用就越困难。</p>
-<h3 id="组件修饰符"><a href="#组件修饰符" class="headerlink" title="组件修饰符"></a>组件修饰符</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">class</span>=<span class="string">"btn"</span>&gt;</span>Default<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">class</span>=<span class="string">"btn btn-primary"</span>&gt;</span>Login<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<h3 id="原子化"><a href="#原子化" class="headerlink" title="原子化"></a>原子化</h3><p>最后就是原子化也就是 AtomiCSS</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="css">  <span class="selector-class">.df</span>&#123;<span class="attribute">display</span>:flex;&#125;</span></span><br><span class="line"><span class="undefined">  .h34&#123;height：34px;&#125;</span></span><br><span class="line"><span class="css">  <span class="selector-class">.jcsb</span>&#123;<span class="attribute">justify-content</span>: space-between;&#125;</span></span><br><span class="line"><span class="css">  <span class="selector-class">.fs14</span>&#123; <span class="attribute">font-size</span>:<span class="number">14px</span>; &#125;</span></span><br><span class="line"><span class="css">  <span class="selector-class">.fs14</span>&#123; <span class="attribute">font-size</span>:<span class="number">16px</span>; &#125;</span></span><br><span class="line"><span class="css">  <span class="selector-class">.fs14</span>&#123; <span class="attribute">font-size</span>:<span class="number">18px</span>; &#125;</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">nav</span> <span class="attr">class</span>=<span class="string">"df h34 jcsb"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">a</span> <span class="attr">class</span>=<span class="string">"fs14"</span> <span class="attr">href</span>=<span class="string">"#"</span>&gt;</span>Home<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">a</span> <span class="attr">class</span>=<span class="string">"fs16"</span> <span class="attr">href</span>=<span class="string">"#"</span>&gt;</span>About<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">span</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">a</span> <span class="attr">class</span>=<span class="string">"fs18"</span> <span class="attr">href</span>=<span class="string">"#"</span>&gt;</span>Login<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">nav</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>看这种方法很容易认为这就像在 HTML 元素上添加样式标签并添加所需的任何属性 inline css 一中简写方式，但是根据我的经验，这是非常不同的。使用内联样式时，您选择的值没有限制，更不用说复用了，随着 react vue 的流程在组件化开发浪潮中才真正变得可行。</p>
-<ul>
-<li>Text sizes, colors, and weights</li>
-<li>Border colors, widths, and positions</li>
-<li>Background colors</li>
-<li>Flexbox</li>
-<li>Padding and margin</li>
-</ul>
-<h2 id="Tailwind-CSS"><a href="#Tailwind-CSS" class="headerlink" title="Tailwind CSS"></a>Tailwind CSS</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">button</span></span></span><br><span class="line"><span class="tag">  <span class="attr">class</span>=<span class="string">"bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"</span></span></span><br><span class="line"><span class="tag">&gt;</span></span><br><span class="line">  Button</span><br><span class="line"><span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>Tailwind CSS 可以看作是 utility-first CSS 的一种极致抽象: 所有的 CSS 类都有且只有一个单一的，独特的 CSS 规则。Tailwind CSS 的目的不是直接把设计过的东西给你，而是帮助你更快地实现你的设计。原子化的通用的 class 我们可以称为 utility， Tailwind CSS 提供的就是一些 utility。那么和 Tailwind 相比，是否需要手写 Atomic CSS ？<br>Tailwind CSS 和 手写 Atomic CSS 相比 ：<br>优点：</p>
-<ul>
-<li>可以方便地做到响应式设计</li>
-<li>丰富的预设，如字体大小，预设颜色<br>缺点：</li>
-<li>Tailwind CSS 有一定的学习曲线</li>
-<li>丰富的预设，也就带来繁重的内容，实际项目中配合规范之后并不需要这么多预设</li>
-<li>可能很多 (React, Vue) 组件需要自己动手实现毕竟只是个 UI</li>
-</ul>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>我认为原子化的 CSS 在基于组件化思维的 react 或者 vue 项目中使用是未来的大趋势，虽然感觉是在写行内样式。经过实践下来对与 Tailwind CSS 来说，它有一定的学习曲线且上手成本相对较高，且对与一个有追求的项目来说 Tailwind CSS 提供的内容过于丰富对与 UI 层影响大。从开发体验来说自定义的 Atomic CSS 更适合。</p>
-<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>前端时间看到一篇文章，Facebook 的改版也是用了原子化的思想，唯一的区别的他们是在工程化层面的实现，而且带来的收益正如 Atomic CSS 所期望的那样，Twitter 和 Facebook 的 CSS 都已经大幅减少了，他们都遵循图中的曲线。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2020/05/04/微码/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="lennonover">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="lennonover">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2020/05/04/微码/" itemprop="url">
-                  微码
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-05-04T15:55:59+08:00">
-                2020-05-04
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <ul>
-<li>XSS 对应</li>
-</ul>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">escapeHtml</span>(<span class="params">value</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (<span class="keyword">typeof</span> value !== <span class="string">"string"</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> value;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> value.replace(<span class="regexp">/[&amp;&lt;&gt;`"'\/]/g</span>, <span class="function"><span class="keyword">function</span> (<span class="params">result</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">      <span class="string">"&amp;"</span>: <span class="string">"&amp;amp;"</span>,</span><br><span class="line">      <span class="string">"&lt;"</span>: <span class="string">"&amp;lt;"</span>,</span><br><span class="line">      <span class="string">"&gt;"</span>: <span class="string">"&amp;gt;"</span>,</span><br><span class="line">      <span class="string">"`"</span>: <span class="string">"&amp;#x60;"</span>,</span><br><span class="line">      <span class="string">'"'</span>: <span class="string">"&amp;quot;"</span>,</span><br><span class="line">      <span class="string">"'"</span>: <span class="string">"&amp;#x27;"</span>,</span><br><span class="line">      <span class="string">"/"</span>: <span class="string">"&amp;#x2f;"</span>,</span><br><span class="line">    &#125;[result];</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>数字千分位</li>
-</ul>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> reg = <span class="regexp">/(?=(\B\d&#123;3&#125;)+$)/g</span>;</span><br><span class="line">(<span class="number">123456789</span>).replace(reg, <span class="string">","</span>);</span><br><span class="line">(<span class="number">123456789</span>).toLocaleString(<span class="string">"en-US"</span>);</span><br></pre></td></tr></table></figure>
-<ul>
-<li>url 参数</li>
-</ul>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">params</span>(<span class="params">url, key</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> obj = &#123;&#125;;</span><br><span class="line">  <span class="keyword">const</span> reg = <span class="regexp">/(\w_)=(\w+)/g</span>;</span><br><span class="line">  <span class="keyword">while</span> (reg.exec(url)) &#123;</span><br><span class="line">    obj[<span class="built_in">RegExp</span>.$<span class="number">1</span>]</span><br><span class="line">      ? (obj[<span class="built_in">RegExp</span>.$<span class="number">1</span>] = [...obj[<span class="built_in">RegExp</span>.$<span class="number">1</span>], <span class="built_in">RegExp</span>.$<span class="number">2</span>])</span><br><span class="line">      : (obj[<span class="built_in">RegExp</span>.$<span class="number">1</span>] = <span class="built_in">RegExp</span>.$<span class="number">2</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> (key) &#123;</span><br><span class="line">    <span class="keyword">return</span> obj[key];</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> obj;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>时间转换</li>
-</ul>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> date = <span class="keyword">new</span> <span class="built_in">Date</span>();</span><br><span class="line">date.toLocaleString(<span class="string">"zh"</span>, &#123; <span class="attr">hour12</span>: <span class="literal">true</span> &#125;); <span class="comment">//2020/4/4 下午6:57:36</span></span><br><span class="line">date.toLocaleString(<span class="string">"zh"</span>, &#123; <span class="attr">hour12</span>: <span class="literal">false</span> &#125;); <span class="comment">//2020/4/4 18:57:36</span></span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2020/03/28/webpack-动态导入/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="lennonover">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="lennonover">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2020/03/28/webpack-动态导入/" itemprop="url">
-                  webpack 动态导入
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-03-28T16:56:53+08:00">
-                2020-03-28
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="加载-chunks"><a href="#加载-chunks" class="headerlink" title="加载 chunks"></a>加载 chunks</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">__webpack_require__.e = <span class="function"><span class="keyword">function</span> <span class="title">requireEnsure</span>(<span class="params">chunkId</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 1、缓存查找 从缓存 installedChunks 中查找是否有缓存模块，如果缓存标识为0，则表示模块已加载过，直接返回 promise；</span></span><br><span class="line">  <span class="keyword">var</span> installedChunkData = installedChunks[chunkId];</span><br><span class="line">  <span class="keyword">if</span> (installedChunkData === <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span>(<span class="params">resolve</span>) </span>&#123;</span><br><span class="line">      resolve();</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 2、 如果缓存为数组，表示缓存正在加载中，则返回缓存的 promise 对象</span></span><br><span class="line">  <span class="keyword">if</span> (installedChunkData) &#123;</span><br><span class="line">    <span class="keyword">return</span> installedChunkData[<span class="number">2</span>];</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 3、没有缓存，则创建一个 promise，并将 promise和resolve、reject 缓存在 installedChunks 中</span></span><br><span class="line">  <span class="keyword">var</span> promise = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span>(<span class="params">resolve, reject</span>) </span>&#123;</span><br><span class="line">    installedChunkData = installedChunks[chunkId] = [resolve, reject];</span><br><span class="line">  &#125;);</span><br><span class="line">  installedChunkData[<span class="number">2</span>] = promise;</span><br><span class="line">  <span class="comment">// 4、加载模块 发送 JSONP 请求</span></span><br><span class="line">  <span class="keyword">var</span> head = <span class="built_in">document</span>.getElementsByTagName(<span class="string">"head"</span>)[<span class="number">0</span>];</span><br><span class="line">  <span class="keyword">var</span> script = <span class="built_in">document</span>.createElement(<span class="string">"script"</span>);</span><br><span class="line">  script.type = <span class="string">"text/javascript"</span>;</span><br><span class="line">  script.charset = <span class="string">"utf-8"</span>;</span><br><span class="line">  script.async = <span class="literal">true</span>;</span><br><span class="line">  script.timeout = <span class="number">120000</span>;</span><br><span class="line">  <span class="keyword">if</span> (__webpack_require__.nc) &#123;</span><br><span class="line">    script.setAttribute(<span class="string">"nonce"</span>, __webpack_require__.nc);</span><br><span class="line">  &#125;</span><br><span class="line">  script.src =</span><br><span class="line">    __webpack_require__.p +</span><br><span class="line">    <span class="string">""</span> +</span><br><span class="line">    (&#123; <span class="string">"0"</span>: <span class="string">"foo"</span> &#125;[chunkId] || chunkId) +</span><br><span class="line">    <span class="string">".bundle.js"</span>;</span><br><span class="line">  <span class="comment">// 5、异常处理 添加 script 标签 onload、onerror 事件，如果超时或者模块加载失败，则会调用 reject 返回模块加载失败异常</span></span><br><span class="line">  <span class="keyword">var</span> timeout = setTimeout(onScriptComplete, <span class="number">120000</span>);</span><br><span class="line">  script.onerror = script.onload = onScriptComplete;</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">onScriptComplete</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="comment">// avoid mem leaks in IE.</span></span><br><span class="line">    script.onerror = script.onload = <span class="literal">null</span>;</span><br><span class="line">    clearTimeout(timeout);</span><br><span class="line">    <span class="keyword">var</span> chunk = installedChunks[chunkId];</span><br><span class="line">    <span class="keyword">if</span> (chunk !== <span class="number">0</span>) &#123;</span><br><span class="line">      <span class="keyword">if</span> (chunk) &#123;</span><br><span class="line">        chunk[<span class="number">1</span>](<span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">"Loading chunk "</span> + chunkId + <span class="string">" failed."</span>));</span><br><span class="line">      &#125;</span><br><span class="line">      installedChunks[chunkId] = <span class="literal">undefined</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  head.appendChild(script);</span><br><span class="line">  <span class="comment">// 6、返回 promise</span></span><br><span class="line">  <span class="keyword">return</span> promise;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<h2 id="执行"><a href="#执行" class="headerlink" title="执行"></a>执行</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">window</span>[<span class="string">"webpackJsonp"</span>] = <span class="function"><span class="keyword">function</span> <span class="title">webpackJsonpCallback</span>(<span class="params"></span></span></span><br><span class="line"><span class="function"><span class="params">  chunkIds,</span></span></span><br><span class="line"><span class="function"><span class="params">  moreModules,</span></span></span><br><span class="line"><span class="function"><span class="params">  executeModules</span></span></span><br><span class="line"><span class="function"><span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> moduleId,</span><br><span class="line">    chunkId,</span><br><span class="line">    i = <span class="number">0</span>,</span><br><span class="line">    resolves = [],</span><br><span class="line">    result;</span><br><span class="line">  <span class="comment">// 7、根据 chunkId 收集模块 resolve</span></span><br><span class="line">  <span class="keyword">for</span> (; i &lt; chunkIds.length; i++) &#123;</span><br><span class="line">    chunkId = chunkIds[i];</span><br><span class="line">    <span class="keyword">if</span> (installedChunks[chunkId]) &#123;</span><br><span class="line">      resolves.push(installedChunks[chunkId][<span class="number">0</span>]);</span><br><span class="line">    &#125;</span><br><span class="line">    installedChunks[chunkId] = <span class="number">0</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 8、将 chunks 模块放到 modules</span></span><br><span class="line">  <span class="keyword">for</span> (moduleId <span class="keyword">in</span> moreModules) &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">Object</span>.prototype.hasOwnProperty.call(moreModules, moduleId)) &#123;</span><br><span class="line">      modules[moduleId] = moreModules[moduleId];</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> (parentJsonpFunction)</span><br><span class="line">    parentJsonpFunction(chunkIds, moreModules, executeModules);</span><br><span class="line">  <span class="comment">// 9、resolve import 执行回调</span></span><br><span class="line">  <span class="keyword">while</span> (resolves.length) &#123;</span><br><span class="line">    resolves.shift()();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<h2 id="总的流程"><a href="#总的流程" class="headerlink" title="总的流程"></a>总的流程</h2><ul>
-<li><code>__webpack_require__.e</code> 开始加载异步 chunks 将异步回调放入 installedChunks 发送 JSONP 请求</li>
-<li><code>window[&quot;webpackJsonp&quot;]</code> 根据 chunkIds 收集 resolve ，将 chunks 模块 放到 modules 中，执行 resolve ，加载 model</li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1864,7 +1884,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">62</span>
+                <span class="site-state-item-count">66</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -1877,7 +1897,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">27</span>
+                <span class="site-state-item-count">28</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

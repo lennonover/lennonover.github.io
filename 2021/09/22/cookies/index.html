@@ -1,0 +1,711 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="前置解释 同源策略限制了从同一个源加载的文档或脚本如何与来自另一个源的资源进行交互，要求协议，端口和主机都相同。 HTTP 是一个无状态的协议，所谓无状态协议，简单的理解就是即使同一个客户端连续两次发送请求给服务器，服务器也识别不出这是同一个客户端发送的请求 Cookie 是客户端保存用户信息的一种机制，保存在客户机硬盘上。可以由服务器响应报文 Set-Cookie 的首部字段信息或者客户端 do">
+<meta property="og:type" content="article">
+<meta property="og:title" content="cookies">
+<meta property="og:url" content="https://github.com/lennonover/2021/09/22/cookies/index.html">
+<meta property="og:site_name" content="lennonover">
+<meta property="og:description" content="前置解释 同源策略限制了从同一个源加载的文档或脚本如何与来自另一个源的资源进行交互，要求协议，端口和主机都相同。 HTTP 是一个无状态的协议，所谓无状态协议，简单的理解就是即使同一个客户端连续两次发送请求给服务器，服务器也识别不出这是同一个客户端发送的请求 Cookie 是客户端保存用户信息的一种机制，保存在客户机硬盘上。可以由服务器响应报文 Set-Cookie 的首部字段信息或者客户端 do">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2021-10-04T09:16:34.959Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="cookies">
+<meta name="twitter:description" content="前置解释 同源策略限制了从同一个源加载的文档或脚本如何与来自另一个源的资源进行交互，要求协议，端口和主机都相同。 HTTP 是一个无状态的协议，所谓无状态协议，简单的理解就是即使同一个客户端连续两次发送请求给服务器，服务器也识别不出这是同一个客户端发送的请求 Cookie 是客户端保存用户信息的一种机制，保存在客户机硬盘上。可以由服务器响应报文 Set-Cookie 的首部字段信息或者客户端 do">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://github.com/lennonover/2021/09/22/cookies/"/>
+
+
+
+
+
+  <title> cookies | lennonover </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">lennonover</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2021/09/22/cookies/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lennonover">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lennonover">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                cookies
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-09-22T19:12:58+08:00">
+                2021-09-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="前置解释"><a href="#前置解释" class="headerlink" title="前置解释"></a>前置解释</h2><ul>
+<li>同源策略限制了从同一个源加载的文档或脚本如何与来自另一个源的资源进行交互，要求协议，端口和主机都相同。</li>
+<li>HTTP 是一个无状态的协议，所谓无状态协议，简单的理解就是即使同一个客户端连续两次发送请求给服务器，服务器也识别不出这是同一个客户端发送的请求</li>
+<li>Cookie 是客户端保存用户信息的一种机制，保存在客户机硬盘上。可以由服务器响应报文 Set-Cookie 的首部字段信息或者客户端 document.cookie 来设置，并随着每次请求发送到服务器。子域名可以获取父级域名 Cookie。</li>
+</ul>
+<h2 id="SameSite-来源"><a href="#SameSite-来源" class="headerlink" title="SameSite 来源"></a>SameSite 来源</h2><p>熟悉 web 安全攻击 CSRF 的都知道 CSRF 的本质实际上是利用了 Cookie 会自动在请求中携带的特性，诱使用户在第三方站点发起请求的行为。针对这个问题浏览器厂商对此给 cookie 加了 SameSite 属性。 Chrome 于 2015 年 6 月支持了该属性，Firefox 和 Safari 紧随其后也增加了支持。</p>
+<h3 id="同域和同站"><a href="#同域和同站" class="headerlink" title="同域和同站"></a>同域和同站</h3><ul>
+<li>同域是指两个 URL 的协议/主机名/端口一致，判断比较严格。</li>
+<li>同站判断就比较宽松，根据 Mozilla 维护的公共后缀表（Pulic Suffix List[2]）使用有效顶级域名(eTLD)+1 的规则查找得到的一级域名是否相同来判断是否是同站请求。<br>例如：<br>.org 是在 PSL 中记录的有效顶级域名，imnerd.org 则是一级域名。所以 <a href="https://blog.imnerd.org" target="_blank" rel="noopener">https://blog.imnerd.org</a> 和 <a href="https://www.imnerd.org" target="_blank" rel="noopener">https://www.imnerd.org</a> 是同站域名。<br>.github.io 也是在 PSL 中记录的有效顶级域名，所以 <a href="https://lizheming.github.io" target="_blank" rel="noopener">https://lizheming.github.io</a> 和 <a href="https://blog.github.io" target="_blank" rel="noopener">https://blog.github.io</a> 得到的一级域名是不一样的，他们两个是跨域请求。</li>
+</ul>
+<h2 id="SameSite-值"><a href="#SameSite-值" class="headerlink" title="SameSite 值"></a>SameSite 值</h2><p>SameSite 属性有以下几个值：</p>
+<ul>
+<li>SameSite=None：无论是否跨站都会发送 Cookie</li>
+<li>SameSite=Lax：允许部分第三方请求携带 Cookie</li>
+<li>SameSite=Strict：只发送相同站点请求的 Cookie，即当前网页 URL 与请求目标 URL 完全一致。</li>
+</ul>
+<h3 id="Strict"><a href="#Strict" class="headerlink" title="Strict"></a>Strict</h3><p>Strict 最为严格只发送相同站点请求的 Cookie，即当前网页 URL 与请求目标 URL 完全一致。浏览器做了仅针对 HTTPS 域名才支持 SameSite=None 配置。所以如果你要设置 SameSite=None 的话，则必须还要携带 Secure 属性才行。<br>例如对于一个普通的站点，如果一个已经登录的用户跟踪一个在电子邮件上的网站链接，这个站点将不会收到 Cookie ，用户访问该站点还需要重新登陆。</p>
+<h3 id="Lax"><a href="#Lax" class="headerlink" title="Lax"></a>Lax</h3><p>对于允许用户从外部链接到达本站并使用已有会话的网站站，默认的 Lax 值在安全性和可用性之间提供了合理的平衡。 Lax 属性只会在使用危险 HTTP 方法发送跨域 Cookie 的时候进行阻止，例如 POST 方式。同时，使用 JavaScript 脚本发起的请求也无法携带 Cookie。<br><a href="https://cdn.poizon.com/node-common/93a0229b7baac5aa63b3b4fc06efec7f.png" target="_blank" rel="noopener">lax</a><br>从上图可以看出，对大部分 web 应用而言，Post 表单，iframe，AJAX，Image 这四种情况从以前的跨站会发送三方 Cookie，变成了不发送。</p>
+<h3 id="none"><a href="#none" class="headerlink" title="none"></a>none</h3><p>浏览器会在同站请求、跨站请求下继续发送 Cookies，不区分大小写。</p>
+<h3 id="策略改变带来的影响"><a href="#策略改变带来的影响" class="headerlink" title="策略改变带来的影响"></a>策略改变带来的影响</h3><p>在 Chrome 80+ 版本中，SameSite 的默认属性是 SameSite=Lax。如果想要指定 Cookies 在同站、跨站请求都被发送，那么需要明确指定 SameSite 为 None。Chrome 也宣布，将在下个版本也就是 Chrome 83 版本，在访客模式下禁用三方 Cookie，在 2023 年全面禁用三方 Cookie。</p>
+<ul>
+<li>使用的三方埋点数据异常</li>
+<li>依赖 cookie 智能广告推荐失败</li>
+<li>跨站请求 cookie 丢失、统一登录、支付等失败</li>
+</ul>
+<h2 id="FLoC"><a href="#FLoC" class="headerlink" title="FLoC"></a>FLoC</h2><p>FLoC 通过获取浏览器的浏览记录将用户加入 “相似” 用户的分组内，每个分组拥有对应的 FLoC ID。有别于之前使用 Cookie ID 标记直接将用户行为数据传递到广告商网站处理的方式。它提出了 document.interestCohort() 这个新的 API，将用户的行为在本地转换成了不带个人隐私的关键词，既规避了用户隐私问题，同时又解决了广告的精准投放问题。<br>谷歌在 Chrome 浏览器的 89 版本上小规模测试了代替 cookie 的 FLoC（Federated Learning of Cohorts, 联邦学习群组）技术。<br>微软、Opera、Firefox、GitHub，EFF 等都对此表达了反对意见。<br>如果不想启用你可以：</p>
+<ul>
+<li>给站点添加相关的拒绝标头：Permissions-Policy: interest-cohort=() 可以屏蔽</li>
+<li>使用表示拒绝的浏览器：Brave、Vivaldi</li>
+<li>使用表示暂时不会跟进的浏览器：Mozilla Firefox、Microsoft Edge</li>
+</ul>
+<h2 id="Cookie-作用域处理"><a href="#Cookie-作用域处理" class="headerlink" title="Cookie 作用域处理"></a>Cookie 作用域处理</h2><ul>
+<li>同域名<br>当访问同域名下的页面时，Cookie 会正常携带，后台服务即可直接获取到对应的 SessionID 值，后台为单服务还是多服务无差别。</li>
+<li>不同子域名<br>子域名间 Cookie 是不共享的，但各子域名均可获取到父级域名的 Cookie，即 m.dewu.com 与 jiawu.dewu.com 均可以获取 dewu.com 域名下的 Cookie。所以可以通过将 Cookie 设置在父级域名上，可以达到子域名共享的效果。</li>
+<li>完全不同域名<br>不同域名是无法直接共享 Cookie ，可以选择将 Session ID （或 Token ）保存到浏览器的 LocalStorage 中，也可以通过特殊手段将它写入多个其他域下的 LocalStorage 中，让前端在每次向后端发送请求时，主动将 LocalStorage 的数据传递给服务端。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">// 获取 token</span><br><span class="line">var token = result.data.token;</span><br><span class="line">// 动态创建一个不可见的iframe，在iframe中加载一个跨域HTML</span><br><span class="line">var iframe = document.createElement(&quot;iframe&quot;);</span><br><span class="line">iframe.src = &quot;http://app1.com/localstorage.html&quot;;</span><br><span class="line">document.body.append(iframe);</span><br><span class="line">// 使用postMessage()方法将token传递给iframe</span><br><span class="line">setTimeout(function () &#123;</span><br><span class="line">iframe.contentWindow.postMessage(token, &quot;http://app1.com&quot;);</span><br><span class="line">&#125;, 4000);</span><br><span class="line">setTimeout(function () &#123;</span><br><span class="line">iframe.remove();</span><br><span class="line">&#125;, 6000);</span><br><span class="line">// 在这个iframe所加载的HTML中绑定一个事件监听器，当事件被触发时，把接收到的token数据写入localStorage</span><br><span class="line">window.addEventListener(&apos;message&apos;, function (event) &#123;</span><br><span class="line">localStorage.setItem(&apos;token&apos;, event.data)</span><br><span class="line">&#125;, false);</span><br></pre></td></tr></table></figure>
+<p>前端通过 iframe+postMessage() 方式，将同一份 Token 写入到了多个域下的 LocalStorage 中，前端每次在向后端发送请求之前，都会主动从 LocalStorage 中读取 Token 并在请求中携带，这样就实现了同一份 Token 被多个域所共享。<br>也可以 CAS（Central Authentication Service）中央认证服务，是 Yale 大学发起的一个开源项目，旨在为 Web 应用系统提供一种可靠的单点登录方法。</p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
+<li><a href="https://www.chromestatus.com/feature/5088147346030592" target="_blank" rel="noopener">https://www.chromestatus.com/feature/5088147346030592</a></li>
+<li><a href="https://www.chromium.org/updates/same-site" target="_blank" rel="noopener">https://www.chromium.org/updates/same-site</a></li>
+<li><a href="https://hacks.mozilla.org/2020/08/changes-to-samesite-cookie-behavior/" target="_blank" rel="noopener">https://hacks.mozilla.org/2020/08/changes-to-samesite-cookie-behavior/</a></li>
+<li><a href="https://github.com/mqyqingfeng/Blog/issues/157#">https://github.com/mqyqingfeng/Blog/issues/157#</a></li>
+<li><a href="https://mp.weixin.qq.com/s/QZkOXhQIg2LqDWpi7mzCdQ" target="_blank" rel="noopener">https://mp.weixin.qq.com/s/QZkOXhQIg2LqDWpi7mzCdQ</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2021/08/09/top/" rel="next" title="Top-level await">
+                <i class="fa fa-chevron-left"></i> Top-level await
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2021/10/04/我们是如何保证前端项目质量/" rel="prev" title="我们是如何保证前端项目质量">
+                我们是如何保证前端项目质量 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="lennonover" />
+          <p class="site-author-name" itemprop="name">lennonover</p>
+           
+              <p class="site-description motion-element" itemprop="description">一丿口石砳磊</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">66</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">28</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前置解释"><span class="nav-number">1.</span> <span class="nav-text">前置解释</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SameSite-来源"><span class="nav-number">2.</span> <span class="nav-text">SameSite 来源</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#同域和同站"><span class="nav-number">2.1.</span> <span class="nav-text">同域和同站</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SameSite-值"><span class="nav-number">3.</span> <span class="nav-text">SameSite 值</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Strict"><span class="nav-number">3.1.</span> <span class="nav-text">Strict</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Lax"><span class="nav-number">3.2.</span> <span class="nav-text">Lax</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#none"><span class="nav-number">3.3.</span> <span class="nav-text">none</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#策略改变带来的影响"><span class="nav-number">3.4.</span> <span class="nav-text">策略改变带来的影响</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#FLoC"><span class="nav-number">4.</span> <span class="nav-text">FLoC</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Cookie-作用域处理"><span class="nav-number">5.</span> <span class="nav-text">Cookie 作用域处理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考链接"><span class="nav-number">6.</span> <span class="nav-text">参考链接</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">lennonover</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

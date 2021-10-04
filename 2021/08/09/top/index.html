@@ -1,0 +1,699 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="背景： chrome 于 5 月 4 号发布 v9.1 版本 ，带来了 Top-level await 新特新，我们可以在模块顶级中使用 await，不需要在额外的加入 async。  什么是 Top-level await如果我们试图在一个 async 函数外面使用 await 关键字，将会引起语法错误，例如： 123&amp;lt;script type=&quot;text/javascript&quot;&amp;gt;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Top-level await">
+<meta property="og:url" content="https://github.com/lennonover/2021/08/09/top/index.html">
+<meta property="og:site_name" content="lennonover">
+<meta property="og:description" content="背景： chrome 于 5 月 4 号发布 v9.1 版本 ，带来了 Top-level await 新特新，我们可以在模块顶级中使用 await，不需要在额外的加入 async。  什么是 Top-level await如果我们试图在一个 async 函数外面使用 await 关键字，将会引起语法错误，例如： 123&amp;lt;script type=&quot;text/javascript&quot;&amp;gt;">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2021-10-04T09:16:10.388Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Top-level await">
+<meta name="twitter:description" content="背景： chrome 于 5 月 4 号发布 v9.1 版本 ，带来了 Top-level await 新特新，我们可以在模块顶级中使用 await，不需要在额外的加入 async。  什么是 Top-level await如果我们试图在一个 async 函数外面使用 await 关键字，将会引起语法错误，例如： 123&amp;lt;script type=&quot;text/javascript&quot;&amp;gt;">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://github.com/lennonover/2021/08/09/top/"/>
+
+
+
+
+
+  <title> Top-level await | lennonover </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">lennonover</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2021/08/09/top/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lennonover">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lennonover">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Top-level await
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-08-09T17:15:27+08:00">
+                2021-08-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>背景： chrome 于 5 月 4 号发布 v9.1 版本 ，带来了 Top-level await 新特新，我们可以在模块顶级中使用 await，不需要在额外的加入 async。</p>
+</blockquote>
+<h2 id="什么是-Top-level-await"><a href="#什么是-Top-level-await" class="headerlink" title="什么是 Top-level await"></a>什么是 Top-level await</h2><p>如果我们试图在一个 async 函数外面使用 await 关键字，将会引起语法错误，例如：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;script type=<span class="string">"text/javascript"</span>&gt;</span><br><span class="line">  <span class="keyword">await</span> <span class="built_in">Promise</span>.resolve(<span class="built_in">console</span>.log(<span class="string">'执行'</span>))</span><br><span class="line">&lt;<span class="regexp">/script&gt;</span></span><br></pre></td></tr></table></figure>
+<p>会产生如下报错：</p>
+<blockquote>
+<p>await is only valid in async functions and the top level bodies of modules<br>但是在 v9.1 我们可以在模块顶级中使用 await，不需要额外的加入 async。</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;script type=<span class="string">"module"</span>&gt;<span class="keyword">await</span> <span class="built_in">Promise</span>.resolve(<span class="built_in">console</span>.log(<span class="string">'执行'</span>))&lt;<span class="regexp">/script&gt;</span></span><br></pre></td></tr></table></figure>
+<p>并且它有着如下特点：</p>
+<ul>
+<li>顶层 await 在模块图的执行阶段发挥作用，此时所有的资源都已经获取并链接了，不存在资源被阻塞的风险；</li>
+<li>顶层 await 只限于在 ES6 模块中使用，不支持普通脚本或者 CommonJS 模块</li>
+</ul>
+<h3 id="先看一个例子"><a href="#先看一个例子" class="headerlink" title="先看一个例子"></a>先看一个例子</h3><p>在使用 ES6 模块化的时候，经常会遇到需要导入导出的场景：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// a.js</span></span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">getSum</span>(<span class="params">x</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> x * x;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// b.js</span></span><br><span class="line"><span class="keyword">import</span> &#123; getSum &#125; <span class="keyword">from</span> <span class="string">"./a.js"</span>;</span><br><span class="line"><span class="keyword">let</span> sum;</span><br><span class="line">(<span class="keyword">async</span> () =&gt; &#123;</span><br><span class="line">  <span class="keyword">await</span> sleep(<span class="number">1000</span>);</span><br><span class="line">  sum = getSum(<span class="number">2</span>);</span><br><span class="line">&#125;)();</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">sleep</span>(<span class="params">time</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve</span>) =&gt;</span> &#123;</span><br><span class="line">    setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">      resolve();</span><br><span class="line">    &#125;, time);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">export</span> &#123; sum &#125;;</span><br><span class="line"><span class="comment">// c.js</span></span><br><span class="line"><span class="keyword">import</span> &#123; sum &#125; <span class="keyword">from</span> <span class="string">"./b.js"</span>;</span><br><span class="line"><span class="built_in">console</span>.log(sum); <span class="comment">// undefined</span></span><br><span class="line">setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> <span class="built_in">console</span>.log(sum), <span class="number">2000</span>); <span class="comment">// 4</span></span><br></pre></td></tr></table></figure>
+<p>在这个例子中，我们在文件之间进行变量的导入导出。<br>通过分析代码我们可以发现第一次打印的都是 undefined 第二次打印得到的是 4。因为在 async 函数执行完毕之前，c.js 就已经访问了 b.js 导出的变量。name 怎么解决呢？</p>
+<h4 id="导出-IIFE-promise"><a href="#导出-IIFE-promise" class="headerlink" title="导出 IIFE promise"></a>导出 IIFE promise</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// a.js</span></span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">getSum</span>(<span class="params">x</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> x * x;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// b.js</span></span><br><span class="line"><span class="keyword">import</span> &#123; getSum &#125; <span class="keyword">from</span> <span class="string">"./a.js"</span>;</span><br><span class="line"><span class="keyword">let</span> sum;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> (<span class="keyword">async</span> () =&gt; &#123;</span><br><span class="line">  <span class="keyword">await</span> sleep(<span class="number">1000</span>);</span><br><span class="line">  sum = getSum(<span class="number">2</span>);</span><br><span class="line">  <span class="keyword">return</span> &#123; sum &#125;;</span><br><span class="line">&#125;)();</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">sleep</span>(<span class="params">time</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve</span>) =&gt;</span> &#123;</span><br><span class="line">    setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">      resolve();</span><br><span class="line">    &#125;, time);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// c.js</span></span><br><span class="line"><span class="keyword">import</span> promise <span class="keyword">from</span> <span class="string">"./b.js"</span>;</span><br><span class="line">promise.then(<span class="function">(<span class="params">&#123; sum &#125;</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(sum); <span class="comment">// 4</span></span><br><span class="line">  setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> <span class="built_in">console</span>.log(sum), <span class="number">2000</span>); <span class="comment">// 4</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>我们将变量作为 async IIFE 的返回值返回。这样的话，c.js 只需简单地等待 promise 被 resolve，之后获取变量。<br>但是从静态分析、可测试性、工程学以及其它角度来讲，这种做法相比 ES2015 的模块化来说是一种显而易见的倒退。</p>
+<h3 id="Top-level-await-怎么解决"><a href="#Top-level-await-怎么解决" class="headerlink" title="Top-level await 怎么解决"></a>Top-level await 怎么解决</h3><p>我们仍然异步地初始化我们的导出，但是我们可以通过 Top-level await 来正常地使用 sum。<br>我们可以导入 b.js，而不需要知道它会异步初始化的导出：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// a.js</span></span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">getSum</span>(<span class="params">x</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> x * x;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// b.js</span></span><br><span class="line"><span class="keyword">import</span> &#123; getSum &#125; <span class="keyword">from</span> <span class="string">"./a.js"</span>;</span><br><span class="line"><span class="keyword">let</span> sum;</span><br><span class="line"><span class="keyword">await</span> sleep(<span class="number">1000</span>);</span><br><span class="line">sum = getSum(<span class="number">2</span>);</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">sleep</span>(<span class="params">time</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve</span>) =&gt;</span> &#123;</span><br><span class="line">    setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">      resolve();</span><br><span class="line">    &#125;, time);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">export</span> &#123; sum &#125;;</span><br><span class="line"><span class="comment">// c.js</span></span><br><span class="line"><span class="keyword">import</span> &#123; sum &#125; <span class="keyword">from</span> <span class="string">"./b.js"</span>;</span><br><span class="line"><span class="built_in">console</span>.log(sum); <span class="comment">// 4</span></span><br><span class="line">setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> <span class="built_in">console</span>.log(sum), <span class="number">2000</span>); <span class="comment">// 4</span></span><br></pre></td></tr></table></figure>
+<p>await promise 被 resolve 之前， c.js 中任意一条语句都不会执行。</p>
+<h2 id="Top-level-await-是怎么工作的"><a href="#Top-level-await-是怎么工作的" class="headerlink" title="Top-level await 是怎么工作的"></a>Top-level await 是怎么工作的</h2><p>JavaScript 会静态地确认哪些模块是异步的，这些模块导出的 Promise 都会放到 Promise.all() 中。其余的导入仍然照常处理，并且拒绝（reject）和同步的异常都会被转为异步函数。</p>
+<h2 id="Top-level-await-还可以做些什么"><a href="#Top-level-await-还可以做些什么" class="headerlink" title="Top-level await 还可以做些什么"></a>Top-level await 还可以做些什么</h2><h3 id="资源初始化"><a href="#资源初始化" class="headerlink" title="资源初始化"></a>资源初始化</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//connect() return a promise.</span></span><br><span class="line"><span class="keyword">const</span> connection = <span class="keyword">await</span> dbConnector.connect();</span><br></pre></td></tr></table></figure>
+<h3 id="动态加载模块"><a href="#动态加载模块" class="headerlink" title="动态加载模块"></a>动态加载模块</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> data = <span class="keyword">await</span> <span class="keyword">import</span>(<span class="string">`./file<span class="subst">$&#123;v&#125;</span>.js`</span>);</span><br></pre></td></tr></table></figure>
+<h3 id="资源加载备选方案"><a href="#资源加载备选方案" class="headerlink" title="资源加载备选方案"></a>资源加载备选方案</h3><p>如果 CDN A 无法导入 Vue，那么会尝试从 CDN B 中导入。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> Vue;</span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">  Vue = <span class="keyword">await</span> <span class="keyword">import</span>(<span class="string">"https://cdn-a.dewu.com/Vue"</span>);</span><br><span class="line">&#125; <span class="keyword">catch</span> &#123;</span><br><span class="line">  Vue = <span class="keyword">await</span> <span class="keyword">import</span>(<span class="string">"https://cdn-b.dewu.com/Vue"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="https://blog.bitsrc.io/why-should-you-use-top-level-await-in-javascript-a3ba8139ef23" target="_blank" rel="noopener">https://blog.bitsrc.io/why-should-you-use-top-level-await-in-javascript-a3ba8139ef23</a></li>
+<li><a href="https://javascript.plainenglish.io/javascript-top-level-await-in-a-nutshell-4e352b3fc8c8" target="_blank" rel="noopener">https://javascript.plainenglish.io/javascript-top-level-await-in-a-nutshell-4e352b3fc8c8</a></li>
+<li><a href="https://2ality.com/2020/09/ecmascript-2021.html" target="_blank" rel="noopener">https://2ality.com/2020/09/ecmascript-2021.html</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2021/06/14/ployfill/" rel="next" title="如何实现个在线的按需的 ployfill">
+                <i class="fa fa-chevron-left"></i> 如何实现个在线的按需的 ployfill
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2021/09/22/cookies/" rel="prev" title="cookies">
+                cookies <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="lennonover" />
+          <p class="site-author-name" itemprop="name">lennonover</p>
+           
+              <p class="site-description motion-element" itemprop="description">一丿口石砳磊</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">66</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">28</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是-Top-level-await"><span class="nav-number">1.</span> <span class="nav-text">什么是 Top-level await</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#先看一个例子"><span class="nav-number">1.1.</span> <span class="nav-text">先看一个例子</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#导出-IIFE-promise"><span class="nav-number">1.1.1.</span> <span class="nav-text">导出 IIFE promise</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Top-level-await-怎么解决"><span class="nav-number">1.2.</span> <span class="nav-text">Top-level await 怎么解决</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Top-level-await-是怎么工作的"><span class="nav-number">2.</span> <span class="nav-text">Top-level await 是怎么工作的</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Top-level-await-还可以做些什么"><span class="nav-number">3.</span> <span class="nav-text">Top-level await 还可以做些什么</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#资源初始化"><span class="nav-number">3.1.</span> <span class="nav-text">资源初始化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#动态加载模块"><span class="nav-number">3.2.</span> <span class="nav-text">动态加载模块</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#资源加载备选方案"><span class="nav-number">3.3.</span> <span class="nav-text">资源加载备选方案</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">4.</span> <span class="nav-text">参考</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">lennonover</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

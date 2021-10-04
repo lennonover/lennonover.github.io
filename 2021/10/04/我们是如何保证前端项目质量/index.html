@@ -1,0 +1,698 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="质量," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="本篇文章主要介绍一下我们团队开发过程中，如何做代码质量的把控和提升。  背景代码质量是一个项目最重要部分，更好的质量的代码，能够产生更少的 bug，从而让项目的质量得到提升。业务快速增长，随之而来的前端需求激增，同时经过我们的分析，发现当前我们开发流程存在的一些问题：  如何高效团队 CR？ 开发人员怎么衡量项目的质量？ 每个公司都有一个安全团队，他们负责公司一些代码安全，但是如果他万一发生一些">
+<meta name="keywords" content="质量">
+<meta property="og:type" content="article">
+<meta property="og:title" content="我们是如何保证前端项目质量">
+<meta property="og:url" content="https://github.com/lennonover/2021/10/04/我们是如何保证前端项目质量/index.html">
+<meta property="og:site_name" content="lennonover">
+<meta property="og:description" content="本篇文章主要介绍一下我们团队开发过程中，如何做代码质量的把控和提升。  背景代码质量是一个项目最重要部分，更好的质量的代码，能够产生更少的 bug，从而让项目的质量得到提升。业务快速增长，随之而来的前端需求激增，同时经过我们的分析，发现当前我们开发流程存在的一些问题：  如何高效团队 CR？ 开发人员怎么衡量项目的质量？ 每个公司都有一个安全团队，他们负责公司一些代码安全，但是如果他万一发生一些">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2021-10-04T09:14:04.028Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="我们是如何保证前端项目质量">
+<meta name="twitter:description" content="本篇文章主要介绍一下我们团队开发过程中，如何做代码质量的把控和提升。  背景代码质量是一个项目最重要部分，更好的质量的代码，能够产生更少的 bug，从而让项目的质量得到提升。业务快速增长，随之而来的前端需求激增，同时经过我们的分析，发现当前我们开发流程存在的一些问题：  如何高效团队 CR？ 开发人员怎么衡量项目的质量？ 每个公司都有一个安全团队，他们负责公司一些代码安全，但是如果他万一发生一些">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://github.com/lennonover/2021/10/04/我们是如何保证前端项目质量/"/>
+
+
+
+
+
+  <title> 我们是如何保证前端项目质量 | lennonover </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">lennonover</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2021/10/04/我们是如何保证前端项目质量/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lennonover">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lennonover">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                我们是如何保证前端项目质量
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-10-04T17:12:58+08:00">
+                2021-10-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>本篇文章主要介绍一下我们团队开发过程中，如何做代码质量的把控和提升。</p>
+</blockquote>
+<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>代码质量是一个项目最重要部分，更好的质量的代码，能够产生更少的 bug，从而让项目的质量得到提升。业务快速增长，随之而来的前端需求激增，同时经过我们的分析，发现当前我们开发流程存在的一些问题：</p>
+<ul>
+<li>如何高效团队 CR？</li>
+<li>开发人员怎么衡量项目的质量？</li>
+<li>每个公司都有一个安全团队，他们负责公司一些代码安全，但是如果他万一发生一些问题的时候，通知到我们团队的时候，我们如何响应他们？</li>
+<li>团队沉淀、基建落地如何量化提供一个参考依据</li>
+<li>重构后的代码，除了一些我们通过一些生产或者性能对比，如何从代码层面来展示我们的量化结果。<br>面对上面的问题，就需要我们通过一些技术手段来实现，通过代码的扫描来找到潜在的问题。我们构建出衡量项目质量的模型，通过模型对项目分析输出评估结果反馈对进行质量趋势分析来推动优化。</li>
+</ul>
+<h2 id="如何定义质量模型？"><a href="#如何定义质量模型？" class="headerlink" title="如何定义质量模型？"></a>如何定义质量模型？</h2><p>衡量质量基础是要可量化，结合我们目前项目常用的标准主要从、技术选型、开发规范、可维护性和安全四个方面：</p>
+<ul>
+<li>技术选型<br>主要关注框架的技术选型是否先进、主流、收敛，例如：框架、请求库、UI 库。</li>
+<li>编码规范<br>主要包含是否遵守了最佳实践和团队编码规范（readme<br>、npm script、git 工作流、Mock、Eslint、团队最佳实践<br>）。</li>
+<li>可维护性<br>代码分层、模块化、圈复杂度、重复率、大文件、文档等得出可读性及复杂度评分。</li>
+<li>安全<br>基于团队开发规范，检测可能存在的安全风险（外链、敏感成词、token、npm 包等）。</li>
+</ul>
+<h2 id="如何检测？"><a href="#如何检测？" class="headerlink" title="如何检测？"></a>如何检测？</h2><p>通过代码静态分析的方式检测代码质量，平台整体架构分成四部分：</p>
+<ul>
+<li>代码分析计算服务：用于仓库代码元数据采集和规则检测，质量计算</li>
+<li>数据平台后端服务：用于存储采集的数据，为前端展示提供数据</li>
+<li>数据平台前端服务：用于对采集的数据可视化分析展示</li>
+<li>数据平台 web 可视化界面<br>系统工作流程主要分为两种：</li>
+<li>自动脚本服务定时拉取分析仓库代码，通过代码静态分析匹配规则生成检测结果计算出质量分，通过邮件、飞书等形式发送本次扫描报告，开发人员可以通过报告查看负责的项目详情做进一步处理。</li>
+<li>开发人员主动触发，通过指定项目分支主动触发分析脚本，根据检测结果分析。<br>同时为了能够实现编码事前修改，我们将部分检测规则的 lint 继承的本地开发环境来保证做到事前检测提升效率。</li>
+</ul>
+<h2 id="质量分计算"><a href="#质量分计算" class="headerlink" title="质量分计算"></a>质量分计算</h2><p>根据质量模型把各项指标加权求和，可以得到一个工程的度总分，代表它的综合评估结果，同时对质量分的历史趋势做出预判。</p>
+<h2 id="实践效果"><a href="#实践效果" class="headerlink" title="实践效果"></a>实践效果</h2><h2 id="后续计划"><a href="#后续计划" class="headerlink" title="后续计划"></a>后续计划</h2><p>未来我们会进一步的在检测维度上继续增加，同时持续优化可视化界面的用户体验，最终目标是打造一个完善的项目质量保障平台，能够为团队项目质量带来更大的提升。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/质量/" rel="tag"># 质量</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2021/09/22/cookies/" rel="next" title="cookies">
+                <i class="fa fa-chevron-left"></i> cookies
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="lennonover" />
+          <p class="site-author-name" itemprop="name">lennonover</p>
+           
+              <p class="site-description motion-element" itemprop="description">一丿口石砳磊</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">66</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">28</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#背景"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何定义质量模型？"><span class="nav-number">2.</span> <span class="nav-text">如何定义质量模型？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何检测？"><span class="nav-number">3.</span> <span class="nav-text">如何检测？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#质量分计算"><span class="nav-number">4.</span> <span class="nav-text">质量分计算</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实践效果"><span class="nav-number">5.</span> <span class="nav-text">实践效果</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#后续计划"><span class="nav-number">6.</span> <span class="nav-text">后续计划</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">lennonover</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

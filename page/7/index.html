@@ -251,6 +251,818 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2016/08/29/JS继承/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lennonover">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lennonover">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/08/29/JS继承/" itemprop="url">
+                  JS继承
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-08-29T22:59:32+08:00">
+                2016-08-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="继承"><a href="#继承" class="headerlink" title="继承"></a>继承</h1><p>一种减少重复性代码的一种设计模式，尽量弱化对象间耦合。在学习JS中继承过程中，遇到坑比较多，抽点时间记录下。由于javascript的语言特性，它的继承也被分为了3中实现方式。</p>
+<h2 id="对象创建"><a href="#对象创建" class="headerlink" title="对象创建"></a>对象创建</h2><p>说道继承先来看看对象的创建</p>
+<pre><code>//第一种，手动创建
+var a={&apos;name&apos;:&apos;hahaha&apos;};   
+//第二种，构造函数
+function A(){
+    this.name=&apos;hahaha&apos;;
+}
+var a=new A();
+//第三种，class (ES6标准写法)
+class A{
+    constructor(){
+        super();
+        this.name=&apos;hahaha&apos;;
+    }
+}
+var a=new A()
+//其实后面两种方法本质上是一种写法
+</code></pre><p>这三种写法创建的对象的原型（父对象）都是Object,需要提到的是，ES6通过引入class ,extends等关键字，以一种语法糖的形式把构造函数包装成类的概念，更便于大家理解。是希望开发者不再花精力去关注原型以及原型链，也充分说明原型的设计意图和类是一样的。</p>
+<h2 id="构造函数继承"><a href="#构造函数继承" class="headerlink" title="构造函数继承"></a>构造函数继承</h2><p>在子类型构造函数的内部调用超类构造函数，通过使用call()和apply()方法可以在新创建的对象上执行构造函数。</p>
+<pre><code>function Father(name){
+    this.name =name;
+    this.age=5;
+}
+function Children(name){
+    Father.call(this,name);
+}
+let jc = new Children(&quot;jicheng&quot;);
+let jc2 = new Children(&quot;jicheng2&quot;);
+jc2.age = 10;
+console.log(jc.name + jc.age);  //jicheng 5
+console.log(jc2.name + jc2.age);  //jicheng2 10
+</code></pre><p>当我们new这个构造函数的时候，就会生成一个Children对象的实例。<br>但是通过上面的例子你会发现用构造函数生成实例对象，它有一个缺点，那就是无法共享属性和方法，没有涉及到原型。<br>因为这两个对象的age属性是独立的，修改其中一个，不会影响到另一个。<br>这样做的坏处就是会造成资源浪费，那么我们要如何来解决这件事呢，那就需要prototype出场了。</p>
+<h2 id="组合继承"><a href="#组合继承" class="headerlink" title="组合继承"></a>组合继承</h2><p>就是融合了原型和构造器的一种继承方法。 这个应该算是一种比较稳妥的继承方式.即能排除引用类型造成的问题，又可以实现共享的效果。</p>
+<pre><code>function Father(name){
+    this.name =name;
+}
+Father.prototype.age=5;
+function Children(name){
+    Father.call(this,name);
+}
+Children.prototype = new Father();
+Children.prototype.constructor = Children;
+let jc = new Children(&quot;jicheng&quot;);
+let jc2 = new Children(&quot;jicheng2&quot;);
+Father.prototype.age = 10;
+console.log(jc.name + jc.age);  //jicheng 10
+console.log(jc2.name + jc2.age);  //jicheng2 10
+</code></pre><p>age属性放在prototype对象里，是两个实例对象共享的。只要修改了prototype对象，就会同时影响到两个实例对象。<br>这样会两次调用到父类型，对内存影响还是比较大的。但是es6 class  的出现，解决了这一问题。</p>
+<h2 id="class"><a href="#class" class="headerlink" title="class"></a>class</h2><p>在使用class的使用，你完全可以不去写，constructor, prototype之类的东西了</p>
+<pre><code>//原生继承方式   
+function Father(name){
+    this.name =name;
+}
+Father.prototype.age=function(){
+    return &quot;4&quot;
+};
+var father = new Father(&quot;张三&quot;)
+//使用class
+class Father(){
+    constructor(name){
+        this.name = name;
+    }
+    age(){
+        return &quot;4&quot;
+    }
+}
+var father = new Father(&quot;张三&quot;)
+</code></pre>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2016/08/02/DOM编程总结/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lennonover">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lennonover">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/08/02/DOM编程总结/" itemprop="url">
+                  DOM编程总结
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-08-02T22:48:59+08:00">
+                2016-08-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="节点操作"><a href="#节点操作" class="headerlink" title="节点操作"></a>节点操作</h2><h3 id="获取节点"><a href="#获取节点" class="headerlink" title="获取节点"></a>获取节点</h3><ul>
+<li>父子关系<ul>
+<li>parentNode</li>
+<li>firstChild/lastChild/childNodes</li>
+<li>childNodes/children</li>
+</ul>
+</li>
+<li>兄弟关系<ul>
+<li>previousSibling/nextSibling</li>
+<li>previousElementSibling/nextElementSibling</li>
+</ul>
+</li>
+<li>选择器   <ul>
+<li>element=document.getElementById(id)</li>
+<li>collection=element.getElementByTagName(tarName)<ul>
+<li>collection 是个动态的随着节点改变而改变</li>
+<li>tarName=*代表获取所有</li>
+</ul>
+</li>
+<li>collection=element.getElementByClassName(className)</li>
+<li>list=element.querySelect/All(selector)</li>
+</ul>
+</li>
+<li><p>现代浏览器中内置的可以等效替代jQuery的功能</p>
+<ul>
+<li><p>创建全局的 ‘$’ 变量</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">window.$ = function(selector) &#123;   </span><br><span class="line">  return document.querySelector(selector);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="创建节点"><a href="#创建节点" class="headerlink" title="创建节点"></a>创建节点</h3><ul>
+<li>element=document.createElement(tagName)</li>
+</ul>
+<h3 id="修改节点"><a href="#修改节点" class="headerlink" title="修改节点"></a>修改节点</h3><ul>
+<li>element.textContent 获取节点以及后面的文本内容</li>
+<li>element.textContent = “修改内容”</li>
+<li>element.innerText 不规范不推荐使用</li>
+</ul>
+<h3 id="插入节点"><a href="#插入节点" class="headerlink" title="插入节点"></a>插入节点</h3><ul>
+<li>element.appendChild(a) 在指定元素后追加a</li>
+<li>element.insertBefore(h,a) 在指定元素h之前添加a</li>
+</ul>
+<h3 id="删除节点"><a href="#删除节点" class="headerlink" title="删除节点"></a>删除节点</h3><ul>
+<li>element.removeChild</li>
+</ul>
+<h3 id="innerHtml"><a href="#innerHtml" class="headerlink" title="innerHtml"></a>innerHtml</h3><ul>
+<li>节点的HTML内容</li>
+</ul>
+<h2 id="设置样式"><a href="#设置样式" class="headerlink" title="设置样式"></a>设置样式</h2><ul>
+<li>element.style.cssText=’color:red;’ 一条语句设置样式</li>
+<li>element.className =’clasname’ 编辑类名一次修改多个样式</li>
+<li>element.style.color 获取颜色样式 不一定是它实际样式 当元素上有设置颜色的才获取到实际的<pre><code>* window.getComputedStyle(element).color 获取到的是实际
+</code></pre></li>
+</ul>
+<h2 id="事件"><a href="#事件" class="headerlink" title="事件"></a>事件</h2><h3 id="事件注册"><a href="#事件注册" class="headerlink" title="事件注册"></a>事件注册</h3><ul>
+<li>elem.addEventListener(type,function,false/true)</li>
+</ul>
+<h3 id="浏览器兼容型事件注册"><a href="#浏览器兼容型事件注册" class="headerlink" title="浏览器兼容型事件注册"></a>浏览器兼容型事件注册</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">function addEvent(element,type,handler)&#123;</span><br><span class="line">  if (element.addEventListener) &#123;</span><br><span class="line">    element.addEventListener(type,handler,false);</span><br><span class="line">  &#125;else if (element.attachEvent) &#123;</span><br><span class="line">    element.attachEvent(&apos;on&apos;+type,handler);</span><br><span class="line">  &#125;else&#123;</span><br><span class="line">    element[&apos;on&apos;+type]=handler;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="取消事件注册"><a href="#取消事件注册" class="headerlink" title="取消事件注册"></a>取消事件注册</h3><ul>
+<li>elem.removeEventListener(type,function,false/true)</li>
+</ul>
+<h3 id="事件触发"><a href="#事件触发" class="headerlink" title="事件触发"></a>事件触发</h3><ul>
+<li>elem.dispatchEvent(type)</li>
+</ul>
+<h3 id="事件对象"><a href="#事件对象" class="headerlink" title="事件对象"></a>事件对象</h3><ul>
+<li><p>属性</p>
+<ul>
+<li>type</li>
+<li><p>target </p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">//兼容        </span><br><span class="line">var event=e || window.event;         </span><br><span class="line">var target=event.target || event.srcElement;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>currentTarget</p>
+</li>
+</ul>
+</li>
+<li>方法<ul>
+<li>stopPropagation（W3C） 阻止事件传播 cancelBubble（IE低版本）</li>
+<li>preventDefault（W3C） 阻止默认行为  returnValue=false（IE低版本）</li>
+<li>stopImmediatePropagation</li>
+</ul>
+</li>
+</ul>
+<h3 id="事件类型"><a href="#事件类型" class="headerlink" title="事件类型"></a>事件类型</h3><ul>
+<li>Event<ul>
+<li>load</li>
+<li>unload</li>
+<li>error</li>
+<li>select</li>
+<li>abort</li>
+</ul>
+</li>
+<li>UIEvent   //继承自Event<ul>
+<li>resize</li>
+<li>scroll</li>
+</ul>
+</li>
+<li>FocusEvent    //继承自UIevent<ul>
+<li>blur</li>
+<li>focus</li>
+<li>focusin</li>
+<li>focusout</li>
+</ul>
+</li>
+<li>InputEvent    //继承自UIevent<ul>
+<li>beforeinput</li>
+<li>input</li>
+</ul>
+</li>
+<li>KeyboarEvent  //继承自UIevent<ul>
+<li>keydown</li>
+<li>keyup</li>
+</ul>
+</li>
+<li>MouseEvent    //继承自UIevent<ul>
+<li>click</li>
+<li>dbclick</li>
+<li>mousedown</li>
+<li>mouseleave</li>
+<li>mousemove</li>
+<li>mouseout</li>
+<li>mouseup</li>
+</ul>
+</li>
+<li>wheelEvent    //继承自MouseEvent<ul>
+<li>wheel</li>
+</ul>
+</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2016/07/27/CSS布局/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lennonover">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lennonover">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/07/27/CSS布局/" itemprop="url">
+                  CSS布局
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-07-27T23:42:41+08:00">
+                2016-07-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="CSS布局"><a href="#CSS布局" class="headerlink" title="CSS布局"></a>CSS布局</h2><h3 id="布局–display"><a href="#布局–display" class="headerlink" title="布局–display"></a>布局–display</h3><h4 id="block"><a href="#block" class="headerlink" title="block"></a>block</h4><ul>
+<li>默认宽度是父元素宽度</li>
+<li>可设置宽高</li>
+<li>换行显示</li>
+<li>常见块状元素 div p h1-h6 ul from</li>
+</ul>
+<h4 id="inline"><a href="#inline" class="headerlink" title="inline"></a>inline</h4><ul>
+<li>默认宽度是内容宽度</li>
+<li>不可设置宽高</li>
+<li>同行显示</li>
+<li>常见行内元素 span a label cite em</li>
+</ul>
+<h4 id="inline-block"><a href="#inline-block" class="headerlink" title="inline-block"></a>inline-block</h4><ul>
+<li>默认宽度是内容宽度</li>
+<li>可设置宽高</li>
+<li>同行显示</li>
+<li>常见的行内块状元素 input textarea select button</li>
+</ul>
+<h4 id="none"><a href="#none" class="headerlink" title="none"></a>none</h4><ul>
+<li>隐藏不占位置</li>
+<li>visiblity：hidden隐藏占位置</li>
+</ul>
+<h3 id="布局–position"><a href="#布局–position" class="headerlink" title="布局–position"></a>布局–position</h3><h4 id="relative"><a href="#relative" class="headerlink" title="relative"></a>relative</h4><ul>
+<li>在文档流中</li>
+<li>参照物是本身</li>
+</ul>
+<h4 id="absolute"><a href="#absolute" class="headerlink" title="absolute"></a>absolute</h4><ul>
+<li>默认宽度是内容宽度</li>
+<li>脱离文档流</li>
+<li>参照物是第一个定位的祖先元素</li>
+</ul>
+<h4 id="fixed"><a href="#fixed" class="headerlink" title="fixed"></a>fixed</h4><ul>
+<li>默认宽度是内容宽度</li>
+<li>脱离文档流</li>
+<li>参照物是视窗</li>
+</ul>
+<h3 id="布局–float"><a href="#布局–float" class="headerlink" title="布局–float"></a>布局–float</h3><ul>
+<li>默认宽度为内容宽度</li>
+<li>半脱离文档流，对元素脱离文档流，对内容在文档流</li>
+<li>向指定方向移动   </li>
+</ul>
+<h4 id="清除浮动"><a href="#清除浮动" class="headerlink" title="清除浮动"></a>清除浮动</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">.fix:before,.fix:after&#123;</span><br><span class="line">    content: &quot;&quot;;</span><br><span class="line">    display: table;</span><br><span class="line">&#125;</span><br><span class="line">.fix:after&#123;</span><br><span class="line">    clear: both;</span><br><span class="line">    overflow: hidden;</span><br><span class="line">&#125;</span><br><span class="line">.fix&#123;</span><br><span class="line">    zoom:1; /*for IE6 IE7*/</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="居中布局"><a href="#居中布局" class="headerlink" title="居中布局"></a>居中布局</h3><h4 id="水平居中"><a href="#水平居中" class="headerlink" title="水平居中"></a>水平居中</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class=&quot;parent&quot;&gt;</span><br><span class="line">    &lt;div class=&quot;child&quot;&gt;DEMO&lt;/div&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line">body&#123;margin:20px;&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>inline-block + text-align</p>
+<pre><code>优点：兼容性好；缺点：子元素会继承父元素的居中
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">.parent&#123;</span><br><span class="line">    text-align: center;</span><br><span class="line">&#125;</span><br><span class="line">.child&#123;</span><br><span class="line">    display: inline-block;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>table + margin</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">.child&#123;</span><br><span class="line">    display: table;</span><br><span class="line">    margin: 0 auto;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>absolute + transform</p>
+<pre><code>优点：脱离文档流对其它元素没有影响。缺点：兼容性问题
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">.parent&#123;</span><br><span class="line">    height:1.5em;</span><br><span class="line">    position: relative;</span><br><span class="line">    &#125;</span><br><span class="line">.child&#123;</span><br><span class="line">    position: absolute;</span><br><span class="line">    left: 50%;</span><br><span class="line">    transform: translateX(-50%);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>flex + justify-content</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">.parent&#123;</span><br><span class="line">    display: flex;</span><br><span class="line">    justify-content: center;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="垂直居中"><a href="#垂直居中" class="headerlink" title="垂直居中"></a>垂直居中</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class=&quot;parent&quot;&gt;</span><br><span class="line">    &lt;div class=&quot;child&quot;&gt;DEMO&lt;/div&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line">body&#123;margin:20px;&#125;</span><br><span class="line">    .parent&#123;width:4em;height:500px;&#125;</span><br><span class="line">    .child&#123;width:100%;&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>table-cell + vertical-align</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">.parent&#123;</span><br><span class="line">    display: table-cell;</span><br><span class="line">    vertical-align: middle;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>absolute + transform</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">.parent&#123;</span><br><span class="line">    position: relative;</span><br><span class="line">&#125;</span><br><span class="line">.child&#123;</span><br><span class="line">    position: absolute;</span><br><span class="line">    top: 50%;</span><br><span class="line">    transform: translateY(-50%);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>flex + align-items</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">.parent&#123;</span><br><span class="line">    display: flex;</span><br><span class="line">    align-items: center;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<iframe width="100%" height="300" src="//jsfiddle.net/lennonover/u9erhetx/embedded/html,css,result/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+
+<h4 id="垂直水平居中"><a href="#垂直水平居中" class="headerlink" title="垂直水平居中"></a>垂直水平居中</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class=&quot;parent&quot;&gt;</span><br><span class="line">    &lt;div class=&quot;child&quot;&gt;DEMO&lt;/div&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">body&#123;margin:20px;&#125;</span><br><span class="line">.parent&#123;width:200px;height:300px;&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>inline-block + text-aligin + table-cell + vertical-align</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">.parent&#123;</span><br><span class="line">    text-align: center;</span><br><span class="line">    display: table-cell;</span><br><span class="line">    vertical-align: middle;</span><br><span class="line">&#125;</span><br><span class="line">.child&#123;</span><br><span class="line">    display: inline-block;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>absolute + transform</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">.parent&#123;</span><br><span class="line">    position: relative;</span><br><span class="line">&#125;</span><br><span class="line">.child&#123;</span><br><span class="line">    position: absolute;</span><br><span class="line">    left: 50%;</span><br><span class="line">    top: 50%;</span><br><span class="line">    transform:</span><br><span class="line">    translate(-50%,-50%);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>flex + justify-content + align-items</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">.parent&#123;</span><br><span class="line">    display: flex;</span><br><span class="line">    justify-content: center;</span><br><span class="line">    align-items: center;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="多列布局"><a href="#多列布局" class="headerlink" title="多列布局"></a>多列布局</h3><h4 id="定宽自适应"><a href="#定宽自适应" class="headerlink" title="定宽自适应"></a>定宽自适应</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class=&quot;parent&quot;&gt;</span><br><span class="line">    &lt;div class=&quot;left&quot;&gt;</span><br><span class="line">        &lt;p&gt;left&lt;/p&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">    &lt;div class=&quot;right&quot;&gt;</span><br><span class="line">        &lt;p&gt;right&lt;/p&gt;</span><br><span class="line">        &lt;p&gt;right&lt;/p&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+<h5 id="左侧定宽右侧自适应"><a href="#左侧定宽右侧自适应" class="headerlink" title="左侧定宽右侧自适应"></a>左侧定宽右侧自适应</h5><ul>
+<li><p>float + margin</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">.left&#123;</span><br><span class="line">    float: left;</span><br><span class="line">    width: 100px;</span><br><span class="line">&#125;</span><br><span class="line">.right&#123;</span><br><span class="line">    margin-left: 120px;</span><br><span class="line">&#125;</span><br><span class="line">//在IE6中因为right是没有浮动的所以right里面的文字会往右边缩进3像素</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>float + overflow</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">.left&#123;</span><br><span class="line">    float: left;</span><br><span class="line">    width: 100px;</span><br><span class="line">    margin-right: 20px;</span><br><span class="line">&#125;</span><br><span class="line">.right&#123;</span><br><span class="line">    overflow: hidden;</span><br><span class="line">&#125;</span><br><span class="line">//IE6不支持</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>table</p>
+<pre><code>table默认宽度内容宽度、且对margin无效、响应padding
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">.parent&#123;</span><br><span class="line">    display: table;</span><br><span class="line">    width: 100%;</span><br><span class="line">    table-layout: fixed;//布局优先、且加速table渲染</span><br><span class="line">&#125;</span><br><span class="line">.left,.right&#123;</span><br><span class="line">    display: table-cell;</span><br><span class="line">&#125;</span><br><span class="line">.left&#123;</span><br><span class="line">    width: 100px;</span><br><span class="line">    padding-right: 20px;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>flex</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">.parent&#123;</span><br><span class="line">    display: flex;</span><br><span class="line">&#125;</span><br><span class="line">.left&#123;</span><br><span class="line">    width: 100px;</span><br><span class="line">    margin-right: 20px;</span><br><span class="line">&#125;</span><br><span class="line">.right&#123;</span><br><span class="line">    flex: 1;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h5 id="左侧不定宽右侧自适应"><a href="#左侧不定宽右侧自适应" class="headerlink" title="左侧不定宽右侧自适应"></a>左侧不定宽右侧自适应</h5><ul>
+<li>float + overflow</li>
+<li>table</li>
+<li>flex</li>
+</ul>
+<h4 id="等分布局"><a href="#等分布局" class="headerlink" title="等分布局"></a>等分布局</h4><ul>
+<li><p>float</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class=&quot;parent&quot;&gt;</span><br><span class="line">    &lt;div class=&quot;column&quot;&gt;&lt;p&gt;1&lt;/p&gt;&lt;/div&gt;</span><br><span class="line">    &lt;div class=&quot;column&quot;&gt;&lt;p&gt;2&lt;/p&gt;&lt;/div&gt;</span><br><span class="line">    &lt;div class=&quot;column&quot;&gt;&lt;p&gt;3&lt;/p&gt;&lt;/div&gt;</span><br><span class="line">    &lt;div class=&quot;column&quot;&gt;&lt;p&gt;4&lt;/p&gt;&lt;/div&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line">.parent&#123;</span><br><span class="line">    margin-left: -20px;</span><br><span class="line">&#125;</span><br><span class="line">.column&#123;</span><br><span class="line">    float: left;</span><br><span class="line">    width: 25%;</span><br><span class="line">    padding-left: 20px;</span><br><span class="line">    box-sizing: border-box;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>table</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class=&quot;parent-fix&quot;&gt;</span><br><span class="line">    &lt;div class=&quot;parent&quot;&gt;</span><br><span class="line">        &lt;div class=&quot;column&quot;&gt;&lt;p&gt;1&lt;/p&gt;&lt;/div&gt;</span><br><span class="line">        &lt;div class=&quot;column&quot;&gt;&lt;p&gt;2&lt;/p&gt;&lt;/div&gt;</span><br><span class="line">        &lt;div class=&quot;column&quot;&gt;&lt;p&gt;3&lt;/p&gt;&lt;/div&gt;</span><br><span class="line">        &lt;div class=&quot;column&quot;&gt;&lt;p&gt;4&lt;/p&gt;&lt;/div&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line">.parent-fix&#123;</span><br><span class="line">    margin-left: -20px;</span><br><span class="line">&#125;</span><br><span class="line">.parent&#123;</span><br><span class="line">    display: table;</span><br><span class="line">    width:100%;</span><br><span class="line">    table-layout: fixed;//平分单元格</span><br><span class="line">&#125;</span><br><span class="line">.column&#123;</span><br><span class="line">    display: table-cell;</span><br><span class="line">    padding-left: 20px;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>flex</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class=&quot;parent&quot;&gt;</span><br><span class="line">    &lt;div class=&quot;column&quot;&gt;&lt;p&gt;1&lt;/p&gt;&lt;/div&gt;</span><br><span class="line">    &lt;div class=&quot;column&quot;&gt;&lt;p&gt;2&lt;/p&gt;&lt;/div&gt;</span><br><span class="line">    &lt;div class=&quot;column&quot;&gt;&lt;p&gt;3&lt;/p&gt;&lt;/div&gt;</span><br><span class="line">    &lt;div class=&quot;column&quot;&gt;&lt;p&gt;4&lt;/p&gt;&lt;/div&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line">.parent&#123;</span><br><span class="line">    display: -flex;</span><br><span class="line">&#125;</span><br><span class="line">.column&#123;</span><br><span class="line">   flex:1;</span><br><span class="line">&#125;</span><br><span class="line">.column+.column&#123;</span><br><span class="line">    margin-left:20px;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="等高布局"><a href="#等高布局" class="headerlink" title="等高布局"></a>等高布局</h4><ul>
+<li>table</li>
+<li>flex</li>
+<li>float<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">//float的伪等高</span><br><span class="line">&lt;div class=&quot;parent&quot;&gt;</span><br><span class="line">    &lt;div class=&quot;left&quot;&gt;</span><br><span class="line">        &lt;p&gt;left&lt;/p&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">    &lt;div class=&quot;right&quot;&gt;</span><br><span class="line">        &lt;p&gt;right&lt;/p&gt;</span><br><span class="line">        &lt;p&gt;right&lt;/p&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line">body&#123;margin:20px;&#125;</span><br><span class="line">p&#123;background: none!important;&#125;</span><br><span class="line">.left,.right&#123;background: #444;&#125;</span><br><span class="line">.parent&#123;</span><br><span class="line">    overflow: hidden;</span><br><span class="line">&#125;</span><br><span class="line">.left,.right&#123;</span><br><span class="line">    padding-bottom: 9999px;</span><br><span class="line">    margin-bottom: -9999px;</span><br><span class="line">&#125;</span><br><span class="line">.left&#123;</span><br><span class="line">    float: left; width: 100px;</span><br><span class="line">    margin-right: 20px;</span><br><span class="line">&#125;</span><br><span class="line">.right&#123;</span><br><span class="line">    overflow: hidden;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2016/07/11/用Gulp优化项目/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lennonover">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lennonover">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/07/11/用Gulp优化项目/" itemprop="url">
+                  用Gulp优化项目
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-07-11T20:49:47+08:00">
+                2016-07-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h1><p>公司的项目性能很差,由于刚来实习老大让我尝试优化下就当给我练练手</p>
+<h1 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h1><p>发现这个项目是JSP写的动态网页并没有模块化预加载什么的单纯的引入JS/CSS，每次访问请求用太多时间</p>
+<h1 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h1><p>想到就先合并请求，并压缩代码之类的 工具是基于流的Gulp<br>//然并没用过</p>
+<h2 id="首先安装Gulp"><a href="#首先安装Gulp" class="headerlink" title="首先安装Gulp"></a>首先安装Gulp</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g gulp</span><br></pre></td></tr></table></figure>
+<h2 id="安装相应的插件"><a href="#安装相应的插件" class="headerlink" title="安装相应的插件"></a>安装相应的插件</h2><p>为了解决插件和模块依赖被重复的引入进来我用了ulp-load-plugins<br>为了以后项目的升级我也进行了参数配置全局化在gulp.config.js<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install gulp-minify-css gulp-uglify gulp-concat gulp-rename ulp-load-plugins through2 vinyl-source-stream gulp-marked --save-dev gulp</span><br></pre></td></tr></table></figure></p>
+<h2 id="由于是jsp写的路径useref方法无法识别"><a href="#由于是jsp写的路径useref方法无法识别" class="headerlink" title="由于是jsp写的路径useref方法无法识别"></a>由于是jsp写的路径useref方法无法识别</h2><p>用到filesystem模块先读到index.jsp然后用正则替换路径<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">gulp.task(&apos;readBuffer&apos;, function() &#123;</span><br><span class="line">    return gulp.src(&apos;app/index.jsp&apos;)</span><br><span class="line">    .pipe(modify(swapStuff))</span><br><span class="line">    .pipe(modify(swapStuff_))</span><br><span class="line">    .pipe(gulp.dest(config.build));</span><br><span class="line"></span><br><span class="line">&#125;)</span><br><span class="line">function modify(modifier) &#123;</span><br><span class="line">    return through2.obj(function(file, encoding, done) &#123;</span><br><span class="line">        var content = modifier(String(file.contents));</span><br><span class="line">        file.contents = new Buffer(content);</span><br><span class="line">        this.push(file);</span><br><span class="line">        done();</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br><span class="line">//正则</span><br><span class="line">function swapStuff(data) &#123;</span><br><span class="line">    return data.replace(/\$\&#123;pageContext\.request\.contextPath\s*\&#125;/g, &apos;..&apos;);</span><br><span class="line">&#125;</span><br><span class="line">function swapStuff_(data) &#123;</span><br><span class="line">    return data.replace(/window\.ContextPath \= \&quot;\.\.\/\&quot;/, &apos;window.ContextPath = &quot;$&#123;pageContext.request.contextPath&#125;/&quot;&apos;)</span><br><span class="line">               .replace(/base\shref\=\&quot;\.\.\/\&quot;/,&apos;base href=&quot;dist/&quot;&apos;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="然后用useref方法读到所有内容，进行压缩合并等步骤"><a href="#然后用useref方法读到所有内容，进行压缩合并等步骤" class="headerlink" title="然后用useref方法读到所有内容，进行压缩合并等步骤"></a>然后用useref方法读到所有内容，进行压缩合并等步骤</h2><p>这里需要在index.jsp根据你的需求页面配置<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- build:css css/lib.css --&gt;</span><br><span class="line">&lt;!-- endbuild --&gt;</span><br><span class="line">&lt;!-- build:css css/app.css --&gt;</span><br><span class="line">&lt;!-- endbuild --&gt;</span><br><span class="line">&lt;!-- build:js js/lib.js --&gt;</span><br><span class="line">&lt;!-- endbuild --&gt;</span><br><span class="line">&lt;!-- build:js js/app.js --&gt;</span><br><span class="line">&lt;!-- endbuild --&gt;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">gulp.task(&apos;optimize&apos;,[&apos;readBuffer&apos;],function() &#123;</span><br><span class="line">   return gulp</span><br><span class="line">            .src(&apos;dist/index.jsp&apos;)</span><br><span class="line">            .pipe($.useref())  // 解析jsp中build，将里面引用到的文件合并传过来</span><br><span class="line">            .pipe($.if(&apos;js/app.js&apos;, $.ngAnnotate()))</span><br><span class="line">            .pipe($.if(&apos;js/*.js&apos;, $.uglify()))</span><br><span class="line">            .pipe($.if(&apos;css/*.css&apos;, $.minifyCss()))</span><br><span class="line">            .pipe($.if(&apos;!index.jsp&apos;, $.rev()))</span><br><span class="line">            .pipe($.revReplace())</span><br><span class="line">            .pipe(gulp.dest(config.build))</span><br><span class="line">            .pipe($.rev.manifest())</span><br><span class="line">            .pipe(gulp.dest(&apos;dist/rev/&apos;));</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h2 id="给资源文件加时间戳"><a href="#给资源文件加时间戳" class="headerlink" title="给资源文件加时间戳"></a>给资源文件加时间戳</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">gulp.task(&apos;rev&apos;, [&apos;optimize&apos;],function() &#123;</span><br><span class="line">    return gulp.src([&apos;dist/rev/*.json&apos;, &apos;dist/index.jsp&apos;])  </span><br><span class="line">        .pipe($.revCollector())                                   </span><br><span class="line">        .pipe(gulp.dest(config.build));                     </span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h2 id="由于所有图片都合并到一起、路径就会发生变化这里对路径做个统一"><a href="#由于所有图片都合并到一起、路径就会发生变化这里对路径做个统一" class="headerlink" title="由于所有图片都合并到一起、路径就会发生变化这里对路径做个统一"></a>由于所有图片都合并到一起、路径就会发生变化这里对路径做个统一</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">gulp.task(&apos;images&apos;, function() &#123;</span><br><span class="line">  return gulp</span><br><span class="line">      .src(config.images)</span><br><span class="line">      .pipe($.rename(function(path) &#123;</span><br><span class="line">        path.dirname = path.dirname.replace(/.*\\images(.*)/, &apos;images$1&apos;);</span><br><span class="line">        path.dirname = path.dirname.replace(/.*\\img(.*)/, &apos;img$1&apos;);</span><br><span class="line">      &#125;))</span><br><span class="line">    .pipe(gulp.dest(config.build + &apos;images/&apos;));</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h2 id="最后调用任务"><a href="#最后调用任务" class="headerlink" title="最后调用任务"></a>最后调用任务</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gulp.task(&apos;default&apos;, [&apos;rev&apos;,&apos;images&apos;]);</span><br></pre></td></tr></table></figure>
+<h2 id="结束"><a href="#结束" class="headerlink" title="结束"></a>结束</h2><p>刚接触gulp目前只是实现了更能，代码还有很多不足和优化地方欢迎指正O(∩_∩)O哈哈~<br><a href="https://github.com/lennonover/Gulp">源码</a> </p>
+<h3 id="注：任务依赖要处理好"><a href="#注：任务依赖要处理好" class="headerlink" title="注：任务依赖要处理好"></a>注：任务依赖要处理好</h3>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2016/07/08/JS作用域/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -592,7 +1404,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">62</span>
+                <span class="site-state-item-count">66</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -605,7 +1417,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">27</span>
+                <span class="site-state-item-count">28</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
