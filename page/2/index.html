@@ -251,6 +251,151 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2020/09/03/视频编码/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lennonover">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lennonover">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2020/09/03/视频编码/" itemprop="url">
+                  视频编码
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-09-03T21:34:50+08:00">
+                2020-09-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>视频编解码对于大多数前端工程师来说是一个比较少涉足的领域，业内主流的处理是通过 FFmpeg 做简单的转码和简单的优化，其中涉及到流媒体技术中的文本、图形、图像、音频和视频多种理论知识。</p>
+<h2 id="视频编码"><a href="#视频编码" class="headerlink" title="视频编码"></a>视频编码</h2><p>我们常说的视频编码是指通过特定的压缩技术，将某个视频格式的文件转换成另一种视频格式文件的方式。常见的视频编码 H.265、H.264 等。</p>
+<h3 id="H-264"><a href="#H-264" class="headerlink" title="H.264"></a>H.264</h3><p>H.264，同时也是 MPEG-4 第十部分，是由视频编解码技术的组织国际电联（ITU-T）视频编码专家组（VCEG）和 ISO/IEC 动态图像专家组（MPEG）联合组成的联合视频组（JVT）提出的高度压缩数字视频编解码器标准。这个标准通常被称之为 H.264/AVC–用来明确的说明它两方面的开发者。因此，不论是 MPEG-4 AVC、MPEG-4 Part 10，还是 ISO/IEC 14496-10，都是指 H.264。</p>
+<h3 id="H-265"><a href="#H-265" class="headerlink" title="H.265"></a>H.265</h3><p>H.265（HEVC，High Efficiency Video Coding，高效率视频编码），是新一代视频编码技术。它围绕现有视频编码标准 H.264，保留原来的某些技术，使用新技术对某些方面进行改进优化，如码流、编码质量、延时等，提高压缩效率、增强鲁棒性和错误恢复能力、减少实时的时延、降低复杂度等。</p>
+<h3 id="H-265-与-H-264"><a href="#H-265-与-H-264" class="headerlink" title="H.265 与 H.264"></a>H.265 与 H.264</h3><p>H.265 与 H.264 的区别，就在于 H.265 压缩效率更高，传输码率更低，视频画质更优，实现监控视频传输带宽减半、存储减半、成本减半，带给人们更优质的体验。<br>但是因为 H.265 专利及硬解支持情况不完善的原因，主流现代浏览器均不兼容 H.265 编码的视频播放。想要在浏览器端播放 H.265 原生的视频标签是没有办法支持的。浏览器兼容性：<br><img src="https://cdn.poizon.com/node-common/ed33a3a47cf13612e7ecbcdc018cea6c.png" alt="h265"></p>
+<h2 id="解码支持"><a href="#解码支持" class="headerlink" title="解码支持"></a>解码支持</h2><h3 id="硬解码"><a href="#硬解码" class="headerlink" title="硬解码"></a>硬解码</h3><p>Apple 公司的最新的操作系统版本（Mac Hight Sierra 和 iOS 11）迎来了 HEVC (高效视频编码，也称 H.265) 这一新的行业标准，也是上面的 safari 13 以上版本支持的原因。</p>
+<h3 id="Web-软解码"><a href="#Web-软解码" class="headerlink" title="Web 软解码"></a>Web 软解码</h3><p>主要用到了 WebAssembly 及 WebWorker 的支持，通过解码器编译为 wasm 库，wasm 文件是以二进制形式存在的，这也是很多移动平台采用的方案。该技术方案已经能在大部分机器的主流浏览器上流畅的播放 720P 的高清直播流，但是在性能稍差的机器上还是存在高清视频解码性能不能满足流畅播放的风险，针对 WebAssembly 达到 native 速度的目标还有一定距离，尤其是汇编并行计算的支持。</p>
+<h2 id="遇到的问题"><a href="#遇到的问题" class="headerlink" title="遇到的问题"></a>遇到的问题</h2><p>有了上面的理论基础我们来看看问题：</p>
+<blockquote>
+<p>测试在上传视频时有的视频无法获得宽高默认是 0</p>
+</blockquote>
+<p>上传组件是用的 @du/upload ，通过代码研究发现 @du/upload 获取宽高是基于 <code>loadedmetadata</code></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">video.addEventListener(</span><br><span class="line">  <span class="string">"loadedmetadata"</span>,</span><br><span class="line">  <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> resolve(&#123;</span><br><span class="line">      width: <span class="keyword">this</span>.videoWidth,</span><br><span class="line">      height: <span class="keyword">this</span>.videoHeight,</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="literal">false</span></span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<p>通过分析异常视频：<br><img src="https://cdn.poizon.com/node-common/02db1fa8e19c6bacd63e8829e25bcfd2.png" alt=""></p>
+<p>出现错误的视频编码是 HEVC 也就是 H.265,因为当前浏览器不支持解析视频所以拿不到视频资源的数据。至于为什么通过飞书、微信之类的聊天工具传输过就可以是因为在传输过程中通讯工具已经默认转码成 AVC（H.264） 格式。最快解决方案目前做的是提醒用户转换视频。</p>
+<ul>
+<li>判断视频编码格式<br>可以引用 <a href="https://github.com/buzz/mediainfo.js">mediainfo</a> 或者 <a href="https://github.com/strukturag/libde265.js?files=1">libde265</a> 解析视频但是成本太高 mediainfo 这个库 7M 多。</li>
+<li>判断平台是否支持播放</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> supportHEVC = <span class="function"><span class="keyword">function</span>(<span class="params">video</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">typeof</span> video.canPlayType == ‘ <span class="function"><span class="keyword">function</span>’) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> playable = elem.canPlayType(<span class="string">'video/mp4; codecs="hevc"'</span>);</span><br><span class="line">        <span class="keyword">if</span> ((playable.toLowerCase() == <span class="string">'maybe'</span>) || (playable.toLowerCase() == <span class="string">'probably'</span>)) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>web 播放 H.265 视频<br>libde265.js 是一个通过 JS 来解码 H.265 视频的库，它通过将 视频的 frame data 转化为 rgba 像素，然后绘制到 Canvas 上。</li>
+</ul>
+<h2 id="未来展望"><a href="#未来展望" class="headerlink" title="未来展望"></a>未来展望</h2><p>在有限带宽下 H.265 能传输更高质量的网络视频，更低的带宽可以更好的降低存储及传输成本，H.265 将为未来基于短视频及直播领域更多更复杂好玩的互动玩法做铺垫。以后借助 WebAssembly 的跨平台优势，web 端可以将传统的其他语言的开源框架如图形相关开源库 OpenGL、SDL 等的能力移植到浏览器上来。借助性能上的优势也可以将传统的图像、3D 等运算能力要求较高的应用扩展到浏览器端，前端将会后更多的玩法，尤其是直播的兴起，所以在 WebAssembly 技术上需要提前做好积累。</p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p>1.花椒前端基于 WebAssembly 的 H.265 播放器研发<br>2.ffmpeg<br>3.webassembly</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2020/07/10/祖传项目（vue）接入单元测试/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1642,149 +1787,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2019/04/17/移动端键盘表现/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="lennonover">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="lennonover">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2019/04/17/移动端键盘表现/" itemprop="url">
-                  移动端键盘表现
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-17T21:58:37+08:00">
-                2019-04-17
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="键盘弹出的表现"><a href="#键盘弹出的表现" class="headerlink" title="键盘弹出的表现"></a>键盘弹出的表现</h2><h3 id="头部及中间输入框处于正常的文档流，底部元素-fixed-bottom；头部处于正常的文档流，输入框脱离文档流，底部元素-fixed-bottom。"><a href="#头部及中间输入框处于正常的文档流，底部元素-fixed-bottom；头部处于正常的文档流，输入框脱离文档流，底部元素-fixed-bottom。" class="headerlink" title="头部及中间输入框处于正常的文档流，底部元素 fixed bottom；头部处于正常的文档流，输入框脱离文档流，底部元素 fixed bottom。"></a>头部及中间输入框处于正常的文档流，底部元素 fixed bottom；头部处于正常的文档流，输入框脱离文档流，底部元素 fixed bottom。</h3><ul>
-<li>IOS(12.1.4)<br><img src="https://i.loli.net/2019/04/18/5cb80cab381f8.jpg" alt="ios1.jpg"></li>
-<li>Android(8.0)<br><img src="https://i.loli.net/2019/04/18/5cb80ce34572c.jpg" alt="android1.jpg"></li>
-</ul>
-<p>IOS 页面高度始终不变，页面可以滚动，底部元素被遮挡，基线不变；<br>Android 页面高度减少，页面可以滚动，fixed 元素的 bottom 属性的基线为键盘；</p>
-<h2 id="键盘事件"><a href="#键盘事件" class="headerlink" title="键盘事件"></a>键盘事件</h2><h3 id="键盘弹出"><a href="#键盘弹出" class="headerlink" title="键盘弹出"></a>键盘弹出</h3><ul>
-<li><p>IOS(12.1.4)</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// 监听输入框的 focus 事件</span><br><span class="line">const input = document.getElementById(&apos;input&apos;);</span><br><span class="line">input.addEventListener(&apos;focus&apos;, () =&gt; &#123;</span><br><span class="line">	console.log(&quot;弹出&quot;)</span><br><span class="line">&#125;, false);</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>Android(8.0)</p>
-</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">// 监听输入框的 focus 事件</span><br><span class="line">const input = document.getElementById(&apos;input&apos;);</span><br><span class="line">input.addEventListener(&apos;focus&apos;, () =&gt; &#123;</span><br><span class="line">	console.log(&quot;弹出&quot;)</span><br><span class="line">&#125;, false);</span><br><span class="line"></span><br><span class="line">// 监听 webview height 的变化</span><br><span class="line">const originHeight = document.documentElement.clientHeight || document.body.clientHeight;</span><br><span class="line">window.addEventListener(&apos;resize&apos;, () =&gt; &#123;</span><br><span class="line">	const resizeHeight = document.documentElement.clientHeight ||   document.body.clientHeight;</span><br><span class="line">	if (resizeHeight &lt; originHeight) &#123;</span><br><span class="line">       console.log(&quot;弹出&quot;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;, false);</span><br></pre></td></tr></table></figure>
-<h3 id="键盘收起"><a href="#键盘收起" class="headerlink" title="键盘收起"></a>键盘收起</h3><ul>
-<li><p>IOS(12.1.4)</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// 监听输入框的 blur 事件</span><br><span class="line">const input = document.getElementById(&apos;input&apos;);</span><br><span class="line">input.addEventListener(&apos;blur&apos;, () =&gt; &#123;</span><br><span class="line">	console.log(&quot;收起&quot;)</span><br><span class="line">&#125;, false);</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>Android(8.0)</p>
-</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">// 监听 webview height 的变化</span><br><span class="line">const originHeight = document.documentElement.clientHeight || document.body.clientHeight;</span><br><span class="line">window.addEventListener(&apos;resize&apos;, () =&gt; &#123;</span><br><span class="line">	const resizeHeight = document.documentElement.clientHeight || document.body.clientHeight;</span><br><span class="line">	if (resizeHeight &gt;= originHeight) &#123;</span><br><span class="line">		console.log(&quot;收起&quot;)</span><br><span class="line">	&#125; </span><br><span class="line">&#125;, false);</span><br></pre></td></tr></table></figure>
-<p><img src="https://i.loli.net/2019/04/18/5cb80d075d003.jpg" alt="ios2.jpg"><br><img src="https://i.loli.net/2019/04/18/5cb80d0806c7d.jpg" alt="android2.jpg"></p>
-<h2 id="其他已知的一些问题"><a href="#其他已知的一些问题" class="headerlink" title="其他已知的一些问题"></a>其他已知的一些问题</h2><p>在上文键盘事件 IOS 测试中有个很明显的差别是页面头部的 <code>起点读书</code> 不见了，见下图：<br><img src="https://i.loli.net/2019/04/18/5cb80d2682bea.jpg" alt="jianpan.jpg"><br>从上图可以发现，当聚焦 <code>input</code> 输入框时候 ios 版本会被整体上推而且键盘收起试并不会恢复具体事例可以查看 <a href="https://yuewen.lexiangla.com/teams/yued/docs/1d100cf03e7011e9af285254002ec14d?company_from=yuewen" target="_blank" rel="noopener">运领这篇</a>，也给出了相关解决方案用 JS 记住位移收起时恢复。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1834,7 +1836,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">66</span>
+                <span class="site-state-item-count">67</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
