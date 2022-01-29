@@ -1,0 +1,719 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="背景为了解决在维护 Web 图标库时所面临的痛苦，期望打造最友好的从设计到研发图标交付方案，我希望它们能让更多的开发者和设计师受益，让网站建设更简单、更快速，更高效。 之前的方案目前团队没有统一的图标库，对于图标的使用根据业务有两种，针对移动端（H5）设计交付设计稿后研发图片形式集成到项目中使用；对于 web 端设计同学有在 Iconfont 维护字体图标也就是 IconFont 但是在维护过程比">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Icon 图标交付-我们有了最友好的方案">
+<meta property="og:url" content="https://github.com/lennonover/2022/01/29/figmabot/index.html">
+<meta property="og:site_name" content="lennonover">
+<meta property="og:description" content="背景为了解决在维护 Web 图标库时所面临的痛苦，期望打造最友好的从设计到研发图标交付方案，我希望它们能让更多的开发者和设计师受益，让网站建设更简单、更快速，更高效。 之前的方案目前团队没有统一的图标库，对于图标的使用根据业务有两种，针对移动端（H5）设计交付设计稿后研发图片形式集成到项目中使用；对于 web 端设计同学有在 Iconfont 维护字体图标也就是 IconFont 但是在维护过程比">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://cdn.poizon.com/node-common/fba7ff8860e15e6b484aec1ca1b50ae6.png">
+<meta property="og:image" content="https://cdn.poizon.com/node-common/63f710ce37a1b35c80da5cfcd3427891.png">
+<meta property="og:image" content="https://cdn.poizon.com/node-common/7cfea293016a78e8be0f4c1741d005fe.png">
+<meta property="og:image" content="https://cdn.poizon.com/node-common/9a953485449d131d4c9f6a331b5b68f0.png">
+<meta property="og:image" content="https://cdn.poizon.com/node-common/7e3f39c484a2b6a99ca156e2462ebf42.png">
+<meta property="og:image" content="https://cdn.poizon.com/node-common/8c33b16da002fd1995bdcd08ed55082a.png">
+<meta property="og:image" content="https://cdn.poizon.com/node-common/83dcc404cd2c2207d0c727de82734a43.png">
+<meta property="og:image" content="https://cdn.poizon.com/node-common/f2a2913706486582d9de34704f05d404.png">
+<meta property="og:updated_time" content="2022-01-29T12:52:25.738Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Icon 图标交付-我们有了最友好的方案">
+<meta name="twitter:description" content="背景为了解决在维护 Web 图标库时所面临的痛苦，期望打造最友好的从设计到研发图标交付方案，我希望它们能让更多的开发者和设计师受益，让网站建设更简单、更快速，更高效。 之前的方案目前团队没有统一的图标库，对于图标的使用根据业务有两种，针对移动端（H5）设计交付设计稿后研发图片形式集成到项目中使用；对于 web 端设计同学有在 Iconfont 维护字体图标也就是 IconFont 但是在维护过程比">
+<meta name="twitter:image" content="https://cdn.poizon.com/node-common/fba7ff8860e15e6b484aec1ca1b50ae6.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://github.com/lennonover/2022/01/29/figmabot/"/>
+
+
+
+
+
+  <title> Icon 图标交付-我们有了最友好的方案 | lennonover </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">lennonover</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2022/01/29/figmabot/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lennonover">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lennonover">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Icon 图标交付-我们有了最友好的方案
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2022-01-29T20:51:44+08:00">
+                2022-01-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>为了解决在维护 Web 图标库时所面临的痛苦，期望打造最友好的从设计到研发图标交付方案，我希望它们能让更多的开发者和设计师受益，让网站建设更简单、更快速，更高效。</p>
+<h2 id="之前的方案"><a href="#之前的方案" class="headerlink" title="之前的方案"></a>之前的方案</h2><p>目前团队没有统一的图标库，对于图标的使用根据业务有两种，针对移动端（H5）设计交付设计稿后研发图片形式集成到项目中使用；对于 web 端设计同学有在 Iconfont 维护字体图标也就是 IconFont 但是在维护过程比较繁琐。</p>
+<h3 id="图片资源"><a href="#图片资源" class="headerlink" title="图片资源"></a>图片资源</h3><p>在移动端场景，开发同学目前都是根据设计交付的设计稿在 Figma 导出图片资源使用，为了解决图片上传问题也开发相应 chrome 插件自动上传。再此场景使用图片也是可以的也是最基础的处理方式，问题就是相同图标无法复用。</p>
+<h3 id="IconFont"><a href="#IconFont" class="headerlink" title="IconFont"></a>IconFont</h3><p>Web Font 的发展得益于 CSS3 的 @font-face 属性。我们通常看到的图标都是以图片形式集成到项目中使用，Iconfont 是一套字体图标由<a href="https://www.iconfont.cn/" target="_blank" rel="noopener">阿里妈妈</a>团队出品，和我们使用自定义字体的方式是一样的，并且它是一种矢量图标，在 web 端用到 iconfont 相对较多，但是很少移动端很少采用 iconfont；<br>IconFont 的使用支持 unicode 引用、 font-class 引用和 symbol 引用<a href="https://www.iconfont.cn/help/detail?helptype=code" target="_blank" rel="noopener">三种</a>，简单总结一下 iconfont 的优缺点：</p>
+<ul>
+<li>优点</li>
+<li>缩放不会模糊</li>
+<li>跨平台一套资源可在 web、iOS、Android 等多个平台使用</li>
+<li>体积小包含几十个图标的字体包比一个 svg 图标资源的体积还要小</li>
+<li>缺点</li>
+<li>更新成本高，目前没有特别友好的解决方案这样是本文最重要的原因</li>
+<li>毕竟是字体图标在没有目前浏览器还没实现渐进式字体前还是有体验问题</li>
+<li>虽然支持了彩色图标，但是无法和单色共存，也是依赖浏览器的彩色字体（COLR）规范的实现<br>随着我们前端一体化平台建设，我们在开发平台 icon 库遇到最大的问题组件库的更新，也就是如何和设计协作，针对现有的 Iconfont 的协作方式目前无法满足，尤其针对在后续的更新维护。我们期望有个高效的协作方式，参考了业界 <a href="https://github.com/leadream/Figma-icon-automation">Juuun</a>开源 和 github icon 的技术方案实现了以下方案。</li>
+</ul>
+<h2 id="现在的方案"><a href="#现在的方案" class="headerlink" title="现在的方案"></a>现在的方案</h2><p>现在我们采用 Figma + Figma 插件 + gitlab CI 生成 SVG React/Vue 组件库。 1.对于设计只需要在 Figma Icon 页面运行插件<br>由于我们公司当前设计工作都迁移在 Figma ，所以对于设计只需要在 Figma 维护一个 Icon 资源页面，当 Icon 需要更新时运行插件：<br><img src="https://cdn.poizon.com/node-common/fba7ff8860e15e6b484aec1ca1b50ae6.png" alt=""><br><img src="https://cdn.poizon.com/node-common/63f710ce37a1b35c80da5cfcd3427891.png" alt=""> 2.开发在飞书群收到 MR 通知<br><img src="https://cdn.poizon.com/node-common/7cfea293016a78e8be0f4c1741d005fe.png" alt=""><br>对于研发可以从机器人了解到操作人、修改的内容，我们会根据仓库 ID 配置 MR 同步到多仓库，同时对比当前版本和私服最新版本的差异避免误操作。 3.审核修改内容合并 MR 执行 gitlab CI<br><img src="https://cdn.poizon.com/node-common/9a953485449d131d4c9f6a331b5b68f0.png" alt=""><br>开发根据修改内容决定是否合并，如果合并 CI 会执行三个 Stages 分别是 install 获取依赖；build 通过 Figma API 获取 svg 图标并构建成 React 和 Vue 版本组件库；publish 推送到 npm 同时将图标站点推送到静态服务方便查找图标。<br><img src="https://cdn.poizon.com/node-common/7e3f39c484a2b6a99ca156e2462ebf42.png" alt=""><br>4.CI 发布到 npm 仓库、静态站点成功后飞书再次通知完成<br>这时候开发界面可以根据版本预览到图标使用<br><img src="https://cdn.poizon.com/node-common/8c33b16da002fd1995bdcd08ed55082a.png" alt=""> 5.开发使用时只需要更新对应的 npm 包（React、Vue）</p>
+<h3 id="SVG"><a href="#SVG" class="headerlink" title="SVG"></a>SVG</h3><p>为什么选择 svg 方案，回看图标演进从雪碧图到 iconfont，再到 SVG 图片，以及内联 SVG 代码的 React/Vue 组件，组件无疑是目前最方便的模式。参考 Vite 的核心理念就是一切都是按需的，模块只有在被请求时才会被转换。通过将所有图标编译成多个文件并将它们作为 npm 包分发来解决这个问题，因此我们开发 react 和 vue 两个版本的 npm 包。同时 svg 也有着以下特点：</p>
+<ul>
+<li>svg 可缩放矢量图形可以无损放大，也不会出现字体渲染锯齿问题表现最好</li>
+<li>可着色能力我们可以使用 fill=”currentColor” 来为 SVG 着色（ CSS filters 和 CSS Mask 也可以）</li>
+<li>灵活性 Inline svg 直接写进 html 特别适合组件化<br><a href="https://css-tricks.com/icon-fonts-vs-svg/" target="_blank" rel="noopener">Inline SVG vs Icon Fonts</a> 也给出了详细的 Inline Svg 与 Icon Fonts 之间的区别。当然 svg 还有很多可玩比如：张老师的<a href="https://www.zhangxinxu.com/wordpress/2018/08/css-svg-background-image-base64-encode/" target="_blank" rel="noopener">《学习了，CSS 中内联 SVG 图片有比 Base64 更好的形式》</a>等等，这里不过多介绍。</li>
+</ul>
+<h3 id="Figma"><a href="#Figma" class="headerlink" title="Figma"></a>Figma</h3><p>Figma 是一个 基于浏览器 的协作式 UI 设计工具，从推出至今越来越受到 UI 设计师的青睐很多的设计团队投入了 Figma 的怀抱。同时它已经推出的 Web API，通过 API 可以快速轻松地对内部公司工作流程进行脚本改进，或将 Figma 与其他工具集成。也就为我们从 Figma 图标文件生成 React/Vue 组件代码提供了能力。</p>
+<h3 id="Figma-插件"><a href="#Figma-插件" class="headerlink" title="Figma 插件"></a>Figma 插件</h3><p>Figma 插件类似于浏览器插件，使用 Web 技术（HTML/CSS/JS）进行开发。Figma 为插件提供的沙箱环境，可以访问到 Figma 全局变量用于获取文档内容，但是屏蔽了其它的各种全局变量，如 window、document 以及 fetch 等，可以避免恶意插件越权访问未授权的内容或破坏程序运行环境，提升安全性，你可以理解成 main 和 ui，其中 main 代码运行在沙箱之中，ui 部分代码运行在 iframe 之中。编程过程涉及到两个窗口之间的通信用 postMessage，其他详见<a href="https://www.Figma.com/plugin-docs/intro/" target="_blank" rel="noopener">官方文档</a>。<br>在设计执行插件通知时，为了避免删除或者重命名 ICON 而造成更新后老版本不兼容，新增了版本对比及时提醒：<br><img src="https://cdn.poizon.com/node-common/83dcc404cd2c2207d0c727de82734a43.png" alt=""></p>
+<h3 id="Figma-Web-Api"><a href="#Figma-Web-Api" class="headerlink" title="Figma Web Api"></a>Figma Web Api</h3><p>通过 <a href="https://www.figma.com/developers/api" target="_blank" rel="noopener">web api</a> 就可以拿到原始的 svg 图标资源，通过脚本对 svg 图标处理，因此我们和设计定了一些规则：</p>
+<ol>
+<li>确保图标基础尺寸是 24*24</li>
+<li>每个图标必须编组 create component（Option+Command+K）</li>
+<li>如果是彩色图标可以在命名中包含 <code>colr</code> 例如 social-wechatcolr-origin</li>
+<li>图标命名请使用英文（不可以含 /）和 -，例如 dewu-logo-original</li>
+<li>图标一般有描边（stroke）和填充（fill）两种样式，一个图标只能采用一种形式，不可以混合，默认 fill。想要转为 fill 样式，你可以使用 Outline Stroke（Shift+Command+O） 将图标转换为填充形状。<br>通过图标命名我们对 svg 处理成单色（去掉原始颜色设置 fill=”currentColor”）、彩色（保留原始颜色）。</li>
+</ol>
+<h3 id="Gitlab-Api"><a href="#Gitlab-Api" class="headerlink" title="Gitlab Api"></a>Gitlab Api</h3><p>通过 GitLab API 获取、操作 GitLab 项目，详见官方文档。我们主要用到了 repository 、merge_requests 两个模块：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">getPackageContent();</span><br><span class="line">updatePackage();</span><br><span class="line">createBranch();</span><br><span class="line">createMRequest();</span><br></pre></td></tr></table></figure>
+<h3 id="Component"><a href="#Component" class="headerlink" title="Component"></a>Component</h3><p>在通过 Figma Web Api 获取 svg 文件并根据规则处理 svg 文件后，我们需要编码把 svg icon 转换成 React 和 Vue 的组件库。对于 svg 文件处理使用了第三方 svgo，svgo 是 SVG Optimizer 的简写，是一个基于 Nodejs 的 SVG 文件优化工具，简单使用：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">constSvgo = <span class="built_in">require</span>(<span class="string">"svgo"</span>);</span><br><span class="line">constsvgo = newSvgo(&#123;</span><br><span class="line">  plugins: [</span><br><span class="line">    &#123; <span class="attr">convertShapeToPath</span>: <span class="literal">false</span> &#125;,</span><br><span class="line">    &#123; <span class="attr">mergePaths</span>: <span class="literal">false</span> &#125;,</span><br><span class="line">    &#123; <span class="attr">removeAttrs</span>: &#123; <span class="attr">attrs</span>: <span class="string">"(fill|stroke.*)"</span> &#125; &#125;,</span><br><span class="line">    &#123; <span class="attr">removeTitle</span>: <span class="literal">true</span> &#125;,</span><br><span class="line">  ],</span><br><span class="line">&#125;);</span><br><span class="line">svgo.optimize(svg);</span><br></pre></td></tr></table></figure>
+<p>这里面的 <code>{ removeAttrs: { attrs: &#39;(fill|stroke.*)&#39; } }</code> 是为了都给图标去色，当然对于彩色图标是不要去色。后面就是真的单个 svg 文件生成组件，过程不再赘述。</p>
+<h3 id="Gitlab-CI"><a href="#Gitlab-CI" class="headerlink" title="Gitlab CI"></a>Gitlab CI</h3><p>GitLab CI 是 GitLab 内置的进行持续集成的工具，只需要在仓库根目录下创建 .gitlab-ci.yml 文件，并配置 GitLab Runner；每次提交的时候，gitlab 将自动识别到.gitlab-ci.yml 文件，并且使用 Gitlab Runner 执行该脚本。公司部署的 Gitlab 已有公共 Runner 所以我们只需编写 .gitlab-ci.yml 文件即可：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">image: node:14.13.1</span><br><span class="line"><span class="meta">#</span> 定义 stages</span><br><span class="line">stages:</span><br><span class="line"> - install</span><br><span class="line"> - build</span><br><span class="line"> - publish</span><br><span class="line"><span class="meta">#</span> 定义 job</span><br><span class="line">install-staging:dep:</span><br><span class="line"> stage: install</span><br><span class="line"> tags:</span><br><span class="line"> - ep-share</span><br><span class="line"> only:</span><br><span class="line"> - master</span><br><span class="line"> script:</span><br><span class="line"> - echo"=====start install======"</span><br><span class="line"> - yarn</span><br><span class="line"> - echo"=====end install======"</span><br><span class="line"> artifacts:</span><br><span class="line"> expire_in: 60 mins</span><br><span class="line"> paths:</span><br><span class="line"> - node_modules/</span><br><span class="line">build-staging:dep:</span><br><span class="line"><span class="meta">#</span> 省略 build 代码</span><br><span class="line">publish-staging:dep:</span><br><span class="line"><span class="meta">#</span> 省略 publish 代码</span><br></pre></td></tr></table></figure>
+<p>我们设置 master 变化是执行：<br><img src="https://cdn.poizon.com/node-common/f2a2913706486582d9de34704f05d404.png" alt=""></p>
+<h3 id="图标文档站点"><a href="#图标文档站点" class="headerlink" title="图标文档站点"></a>图标文档站点</h3><p>我们通过把构建后的静态站点和组件包同步到 npm 私服上，由于我们内网部署了 unpkg 的 CDN 服务，所以我们只需要根据版本就能访问到相应的文档，例如：<a href="https://unpkg.shizhuang-inc.com/poizon-react-icon@1.0.6/docs/index.html" target="_blank" rel="noopener">https://unpkg.shizhuang-inc.com/poizon-react-icon@1.0.6/docs/index.html</a><br><code>poizon-react-icon</code> 的 <code>1.0.6</code> 版本文档，这样好处是不用再关心文档部署，同时也提供了文档版本管理的能力。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>我们再来回顾完整交付更新流程，设计和研发整个过程只需要在自己工作流中简单操作即可完成图标交付，非常高效！当然任何技术方案都有它的优劣，最重要的还是根据需求取舍，未来渐进式字体和彩色字体的推进我们也可能会拥抱 font 同时也会有新的交付方案，但是对于我们目前阶段最合适的还是这套。</p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
+<li><a href="https://github.com/leadream/Figma-icon-automation">https://github.com/leadream/Figma-icon-automation</a></li>
+<li><a href="https://www.Figma.com/plugin-docs/intro/" target="_blank" rel="noopener">https://www.Figma.com/plugin-docs/intro/</a></li>
+<li><a href="https://www.iconfont.cn/help/detail?helptype=code" target="_blank" rel="noopener">https://www.iconfont.cn/help/detail?helptype=code</a></li>
+<li><a href="https://gist.github.com/banyudu/f7472f935897adfbb54cc8eb38dc5373" target="_blank" rel="noopener">https://gist.github.com/banyudu/f7472f935897adfbb54cc8eb38dc5373</a></li>
+<li><a href="https://github.blog/2018-04-12-driving-changes-from-designs/" target="_blank" rel="noopener">https://github.blog/2018-04-12-driving-changes-from-designs/</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2022/01/10/forin/" rel="next" title="你不知道的 for in 中 key 的顺序机制">
+                <i class="fa fa-chevron-left"></i> 你不知道的 for in 中 key 的顺序机制
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="lennonover" />
+          <p class="site-author-name" itemprop="name">lennonover</p>
+           
+              <p class="site-description motion-element" itemprop="description">一丿口石砳磊</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">70</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">28</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#背景"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#之前的方案"><span class="nav-number">2.</span> <span class="nav-text">之前的方案</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#图片资源"><span class="nav-number">2.1.</span> <span class="nav-text">图片资源</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#IconFont"><span class="nav-number">2.2.</span> <span class="nav-text">IconFont</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#现在的方案"><span class="nav-number">3.</span> <span class="nav-text">现在的方案</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#SVG"><span class="nav-number">3.1.</span> <span class="nav-text">SVG</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Figma"><span class="nav-number">3.2.</span> <span class="nav-text">Figma</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Figma-插件"><span class="nav-number">3.3.</span> <span class="nav-text">Figma 插件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Figma-Web-Api"><span class="nav-number">3.4.</span> <span class="nav-text">Figma Web Api</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Gitlab-Api"><span class="nav-number">3.5.</span> <span class="nav-text">Gitlab Api</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Component"><span class="nav-number">3.6.</span> <span class="nav-text">Component</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Gitlab-CI"><span class="nav-number">3.7.</span> <span class="nav-text">Gitlab CI</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#图标文档站点"><span class="nav-number">3.8.</span> <span class="nav-text">图标文档站点</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考链接"><span class="nav-number">5.</span> <span class="nav-text">参考链接</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">lennonover</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

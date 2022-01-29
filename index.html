@@ -251,6 +251,482 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2022/01/29/figmabot/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lennonover">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lennonover">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2022/01/29/figmabot/" itemprop="url">
+                  Icon 图标交付-我们有了最友好的方案
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2022-01-29T20:51:44+08:00">
+                2022-01-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>为了解决在维护 Web 图标库时所面临的痛苦，期望打造最友好的从设计到研发图标交付方案，我希望它们能让更多的开发者和设计师受益，让网站建设更简单、更快速，更高效。</p>
+<h2 id="之前的方案"><a href="#之前的方案" class="headerlink" title="之前的方案"></a>之前的方案</h2><p>目前团队没有统一的图标库，对于图标的使用根据业务有两种，针对移动端（H5）设计交付设计稿后研发图片形式集成到项目中使用；对于 web 端设计同学有在 Iconfont 维护字体图标也就是 IconFont 但是在维护过程比较繁琐。</p>
+<h3 id="图片资源"><a href="#图片资源" class="headerlink" title="图片资源"></a>图片资源</h3><p>在移动端场景，开发同学目前都是根据设计交付的设计稿在 Figma 导出图片资源使用，为了解决图片上传问题也开发相应 chrome 插件自动上传。再此场景使用图片也是可以的也是最基础的处理方式，问题就是相同图标无法复用。</p>
+<h3 id="IconFont"><a href="#IconFont" class="headerlink" title="IconFont"></a>IconFont</h3><p>Web Font 的发展得益于 CSS3 的 @font-face 属性。我们通常看到的图标都是以图片形式集成到项目中使用，Iconfont 是一套字体图标由<a href="https://www.iconfont.cn/" target="_blank" rel="noopener">阿里妈妈</a>团队出品，和我们使用自定义字体的方式是一样的，并且它是一种矢量图标，在 web 端用到 iconfont 相对较多，但是很少移动端很少采用 iconfont；<br>IconFont 的使用支持 unicode 引用、 font-class 引用和 symbol 引用<a href="https://www.iconfont.cn/help/detail?helptype=code" target="_blank" rel="noopener">三种</a>，简单总结一下 iconfont 的优缺点：</p>
+<ul>
+<li>优点</li>
+<li>缩放不会模糊</li>
+<li>跨平台一套资源可在 web、iOS、Android 等多个平台使用</li>
+<li>体积小包含几十个图标的字体包比一个 svg 图标资源的体积还要小</li>
+<li>缺点</li>
+<li>更新成本高，目前没有特别友好的解决方案这样是本文最重要的原因</li>
+<li>毕竟是字体图标在没有目前浏览器还没实现渐进式字体前还是有体验问题</li>
+<li>虽然支持了彩色图标，但是无法和单色共存，也是依赖浏览器的彩色字体（COLR）规范的实现<br>随着我们前端一体化平台建设，我们在开发平台 icon 库遇到最大的问题组件库的更新，也就是如何和设计协作，针对现有的 Iconfont 的协作方式目前无法满足，尤其针对在后续的更新维护。我们期望有个高效的协作方式，参考了业界 <a href="https://github.com/leadream/Figma-icon-automation">Juuun</a>开源 和 github icon 的技术方案实现了以下方案。</li>
+</ul>
+<h2 id="现在的方案"><a href="#现在的方案" class="headerlink" title="现在的方案"></a>现在的方案</h2><p>现在我们采用 Figma + Figma 插件 + gitlab CI 生成 SVG React/Vue 组件库。 1.对于设计只需要在 Figma Icon 页面运行插件<br>由于我们公司当前设计工作都迁移在 Figma ，所以对于设计只需要在 Figma 维护一个 Icon 资源页面，当 Icon 需要更新时运行插件：<br><img src="https://cdn.poizon.com/node-common/fba7ff8860e15e6b484aec1ca1b50ae6.png" alt=""><br><img src="https://cdn.poizon.com/node-common/63f710ce37a1b35c80da5cfcd3427891.png" alt=""> 2.开发在飞书群收到 MR 通知<br><img src="https://cdn.poizon.com/node-common/7cfea293016a78e8be0f4c1741d005fe.png" alt=""><br>对于研发可以从机器人了解到操作人、修改的内容，我们会根据仓库 ID 配置 MR 同步到多仓库，同时对比当前版本和私服最新版本的差异避免误操作。 3.审核修改内容合并 MR 执行 gitlab CI<br><img src="https://cdn.poizon.com/node-common/9a953485449d131d4c9f6a331b5b68f0.png" alt=""><br>开发根据修改内容决定是否合并，如果合并 CI 会执行三个 Stages 分别是 install 获取依赖；build 通过 Figma API 获取 svg 图标并构建成 React 和 Vue 版本组件库；publish 推送到 npm 同时将图标站点推送到静态服务方便查找图标。<br><img src="https://cdn.poizon.com/node-common/7e3f39c484a2b6a99ca156e2462ebf42.png" alt=""><br>4.CI 发布到 npm 仓库、静态站点成功后飞书再次通知完成<br>这时候开发界面可以根据版本预览到图标使用<br><img src="https://cdn.poizon.com/node-common/8c33b16da002fd1995bdcd08ed55082a.png" alt=""> 5.开发使用时只需要更新对应的 npm 包（React、Vue）</p>
+<h3 id="SVG"><a href="#SVG" class="headerlink" title="SVG"></a>SVG</h3><p>为什么选择 svg 方案，回看图标演进从雪碧图到 iconfont，再到 SVG 图片，以及内联 SVG 代码的 React/Vue 组件，组件无疑是目前最方便的模式。参考 Vite 的核心理念就是一切都是按需的，模块只有在被请求时才会被转换。通过将所有图标编译成多个文件并将它们作为 npm 包分发来解决这个问题，因此我们开发 react 和 vue 两个版本的 npm 包。同时 svg 也有着以下特点：</p>
+<ul>
+<li>svg 可缩放矢量图形可以无损放大，也不会出现字体渲染锯齿问题表现最好</li>
+<li>可着色能力我们可以使用 fill=”currentColor” 来为 SVG 着色（ CSS filters 和 CSS Mask 也可以）</li>
+<li>灵活性 Inline svg 直接写进 html 特别适合组件化<br><a href="https://css-tricks.com/icon-fonts-vs-svg/" target="_blank" rel="noopener">Inline SVG vs Icon Fonts</a> 也给出了详细的 Inline Svg 与 Icon Fonts 之间的区别。当然 svg 还有很多可玩比如：张老师的<a href="https://www.zhangxinxu.com/wordpress/2018/08/css-svg-background-image-base64-encode/" target="_blank" rel="noopener">《学习了，CSS 中内联 SVG 图片有比 Base64 更好的形式》</a>等等，这里不过多介绍。</li>
+</ul>
+<h3 id="Figma"><a href="#Figma" class="headerlink" title="Figma"></a>Figma</h3><p>Figma 是一个 基于浏览器 的协作式 UI 设计工具，从推出至今越来越受到 UI 设计师的青睐很多的设计团队投入了 Figma 的怀抱。同时它已经推出的 Web API，通过 API 可以快速轻松地对内部公司工作流程进行脚本改进，或将 Figma 与其他工具集成。也就为我们从 Figma 图标文件生成 React/Vue 组件代码提供了能力。</p>
+<h3 id="Figma-插件"><a href="#Figma-插件" class="headerlink" title="Figma 插件"></a>Figma 插件</h3><p>Figma 插件类似于浏览器插件，使用 Web 技术（HTML/CSS/JS）进行开发。Figma 为插件提供的沙箱环境，可以访问到 Figma 全局变量用于获取文档内容，但是屏蔽了其它的各种全局变量，如 window、document 以及 fetch 等，可以避免恶意插件越权访问未授权的内容或破坏程序运行环境，提升安全性，你可以理解成 main 和 ui，其中 main 代码运行在沙箱之中，ui 部分代码运行在 iframe 之中。编程过程涉及到两个窗口之间的通信用 postMessage，其他详见<a href="https://www.Figma.com/plugin-docs/intro/" target="_blank" rel="noopener">官方文档</a>。<br>在设计执行插件通知时，为了避免删除或者重命名 ICON 而造成更新后老版本不兼容，新增了版本对比及时提醒：<br><img src="https://cdn.poizon.com/node-common/83dcc404cd2c2207d0c727de82734a43.png" alt=""></p>
+<h3 id="Figma-Web-Api"><a href="#Figma-Web-Api" class="headerlink" title="Figma Web Api"></a>Figma Web Api</h3><p>通过 <a href="https://www.figma.com/developers/api" target="_blank" rel="noopener">web api</a> 就可以拿到原始的 svg 图标资源，通过脚本对 svg 图标处理，因此我们和设计定了一些规则：</p>
+<ol>
+<li>确保图标基础尺寸是 24*24</li>
+<li>每个图标必须编组 create component（Option+Command+K）</li>
+<li>如果是彩色图标可以在命名中包含 <code>colr</code> 例如 social-wechatcolr-origin</li>
+<li>图标命名请使用英文（不可以含 /）和 -，例如 dewu-logo-original</li>
+<li>图标一般有描边（stroke）和填充（fill）两种样式，一个图标只能采用一种形式，不可以混合，默认 fill。想要转为 fill 样式，你可以使用 Outline Stroke（Shift+Command+O） 将图标转换为填充形状。<br>通过图标命名我们对 svg 处理成单色（去掉原始颜色设置 fill=”currentColor”）、彩色（保留原始颜色）。</li>
+</ol>
+<h3 id="Gitlab-Api"><a href="#Gitlab-Api" class="headerlink" title="Gitlab Api"></a>Gitlab Api</h3><p>通过 GitLab API 获取、操作 GitLab 项目，详见官方文档。我们主要用到了 repository 、merge_requests 两个模块：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">getPackageContent();</span><br><span class="line">updatePackage();</span><br><span class="line">createBranch();</span><br><span class="line">createMRequest();</span><br></pre></td></tr></table></figure>
+<h3 id="Component"><a href="#Component" class="headerlink" title="Component"></a>Component</h3><p>在通过 Figma Web Api 获取 svg 文件并根据规则处理 svg 文件后，我们需要编码把 svg icon 转换成 React 和 Vue 的组件库。对于 svg 文件处理使用了第三方 svgo，svgo 是 SVG Optimizer 的简写，是一个基于 Nodejs 的 SVG 文件优化工具，简单使用：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">constSvgo = <span class="built_in">require</span>(<span class="string">"svgo"</span>);</span><br><span class="line">constsvgo = newSvgo(&#123;</span><br><span class="line">  plugins: [</span><br><span class="line">    &#123; <span class="attr">convertShapeToPath</span>: <span class="literal">false</span> &#125;,</span><br><span class="line">    &#123; <span class="attr">mergePaths</span>: <span class="literal">false</span> &#125;,</span><br><span class="line">    &#123; <span class="attr">removeAttrs</span>: &#123; <span class="attr">attrs</span>: <span class="string">"(fill|stroke.*)"</span> &#125; &#125;,</span><br><span class="line">    &#123; <span class="attr">removeTitle</span>: <span class="literal">true</span> &#125;,</span><br><span class="line">  ],</span><br><span class="line">&#125;);</span><br><span class="line">svgo.optimize(svg);</span><br></pre></td></tr></table></figure>
+<p>这里面的 <code>{ removeAttrs: { attrs: &#39;(fill|stroke.*)&#39; } }</code> 是为了都给图标去色，当然对于彩色图标是不要去色。后面就是真的单个 svg 文件生成组件，过程不再赘述。</p>
+<h3 id="Gitlab-CI"><a href="#Gitlab-CI" class="headerlink" title="Gitlab CI"></a>Gitlab CI</h3><p>GitLab CI 是 GitLab 内置的进行持续集成的工具，只需要在仓库根目录下创建 .gitlab-ci.yml 文件，并配置 GitLab Runner；每次提交的时候，gitlab 将自动识别到.gitlab-ci.yml 文件，并且使用 Gitlab Runner 执行该脚本。公司部署的 Gitlab 已有公共 Runner 所以我们只需编写 .gitlab-ci.yml 文件即可：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">image: node:14.13.1</span><br><span class="line"><span class="meta">#</span> 定义 stages</span><br><span class="line">stages:</span><br><span class="line"> - install</span><br><span class="line"> - build</span><br><span class="line"> - publish</span><br><span class="line"><span class="meta">#</span> 定义 job</span><br><span class="line">install-staging:dep:</span><br><span class="line"> stage: install</span><br><span class="line"> tags:</span><br><span class="line"> - ep-share</span><br><span class="line"> only:</span><br><span class="line"> - master</span><br><span class="line"> script:</span><br><span class="line"> - echo"=====start install======"</span><br><span class="line"> - yarn</span><br><span class="line"> - echo"=====end install======"</span><br><span class="line"> artifacts:</span><br><span class="line"> expire_in: 60 mins</span><br><span class="line"> paths:</span><br><span class="line"> - node_modules/</span><br><span class="line">build-staging:dep:</span><br><span class="line"><span class="meta">#</span> 省略 build 代码</span><br><span class="line">publish-staging:dep:</span><br><span class="line"><span class="meta">#</span> 省略 publish 代码</span><br></pre></td></tr></table></figure>
+<p>我们设置 master 变化是执行：<br><img src="https://cdn.poizon.com/node-common/f2a2913706486582d9de34704f05d404.png" alt=""></p>
+<h3 id="图标文档站点"><a href="#图标文档站点" class="headerlink" title="图标文档站点"></a>图标文档站点</h3><p>我们通过把构建后的静态站点和组件包同步到 npm 私服上，由于我们内网部署了 unpkg 的 CDN 服务，所以我们只需要根据版本就能访问到相应的文档，例如：<a href="https://unpkg.shizhuang-inc.com/poizon-react-icon@1.0.6/docs/index.html" target="_blank" rel="noopener">https://unpkg.shizhuang-inc.com/poizon-react-icon@1.0.6/docs/index.html</a><br><code>poizon-react-icon</code> 的 <code>1.0.6</code> 版本文档，这样好处是不用再关心文档部署，同时也提供了文档版本管理的能力。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>我们再来回顾完整交付更新流程，设计和研发整个过程只需要在自己工作流中简单操作即可完成图标交付，非常高效！当然任何技术方案都有它的优劣，最重要的还是根据需求取舍，未来渐进式字体和彩色字体的推进我们也可能会拥抱 font 同时也会有新的交付方案，但是对于我们目前阶段最合适的还是这套。</p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
+<li><a href="https://github.com/leadream/Figma-icon-automation">https://github.com/leadream/Figma-icon-automation</a></li>
+<li><a href="https://www.Figma.com/plugin-docs/intro/" target="_blank" rel="noopener">https://www.Figma.com/plugin-docs/intro/</a></li>
+<li><a href="https://www.iconfont.cn/help/detail?helptype=code" target="_blank" rel="noopener">https://www.iconfont.cn/help/detail?helptype=code</a></li>
+<li><a href="https://gist.github.com/banyudu/f7472f935897adfbb54cc8eb38dc5373" target="_blank" rel="noopener">https://gist.github.com/banyudu/f7472f935897adfbb54cc8eb38dc5373</a></li>
+<li><a href="https://github.blog/2018-04-12-driving-changes-from-designs/" target="_blank" rel="noopener">https://github.blog/2018-04-12-driving-changes-from-designs/</a></li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2022/01/10/forin/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lennonover">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lennonover">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2022/01/10/forin/" itemprop="url">
+                  你不知道的 for in 中 key 的顺序机制
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2022-01-10T20:50:37+08:00">
+                2022-01-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>最近开发业务遇到一个需求:<br><img src="https://cdn.poizon.com/node-common/f5a595aaf7c5546bb0fe4115b0ef33e2.png" alt="图片"><br>产品希望把公司按照他希望的顺序排列，我们当前的实现逻辑是：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> sectionMapToArray = <span class="function">(<span class="params"><span class="built_in">Object</span></span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> _arr = [];</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">const</span> key <span class="keyword">in</span> <span class="built_in">Object</span>) &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">Object</span>.hasOwnProperty(key)) &#123;</span><br><span class="line">      <span class="keyword">const</span> element = <span class="built_in">Object</span>[key];</span><br><span class="line">      _arr.push(&#123;</span><br><span class="line">        label: element,</span><br><span class="line">        value: key,</span><br><span class="line">      &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> _arr;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>很简单的一个循环操作，但是它引发了什么问题呢？</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> object = &#123;</span><br><span class="line">  <span class="string">"010101"</span>: <span class="string">"识装信息"</span>,</span><br><span class="line">  <span class="number">102</span>: <span class="string">"识装集团"</span>,</span><br><span class="line">  <span class="number">101</span>: <span class="string">"得物集团"</span>,</span><br><span class="line">  A01: <span class="string">"JiaWu Pro"</span>,</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">const</span> key <span class="keyword">in</span> object) &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(key);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 输出 '101'、'102'、'010101'、‘A01’</span></span><br></pre></td></tr></table></figure>
+<p>我们看到输出的顺序变了,理想状态下是输出 ‘010101’、’102’、’101’、‘A01’</p>
+<ul>
+<li>猜想一 按照 key 的 ASC 码</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> object = &#123;</span><br><span class="line">  A: <span class="string">"JiaWu Pro"</span>,</span><br><span class="line">  <span class="string">"010101"</span>: <span class="string">"识装信息"</span>,</span><br><span class="line">  识装集团: <span class="string">"识装集团"</span>,</span><br><span class="line">  <span class="number">101</span>: <span class="string">"得物集团"</span>,</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">const</span> key <span class="keyword">in</span> object) &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(key);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 输出 '101'、'A'、'010101'、‘识装集团’</span></span><br></pre></td></tr></table></figure>
+<p>对象的遍历输出并不是按照属性的 ASC 码升序排序。</p>
+<ul>
+<li>猜想二 按照 key 转换成整数的大小</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> object = &#123;</span><br><span class="line">  <span class="string">"010101"</span>: <span class="string">"识装信息"</span>,</span><br><span class="line">  <span class="number">102</span>: <span class="string">"识装集团"</span>,</span><br><span class="line">  <span class="number">101</span>: <span class="string">"得物集团"</span>,</span><br><span class="line">  A01: <span class="string">"JiaWu Pro"</span>,</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">const</span> key <span class="keyword">in</span> object) &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(key);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 输出 '101'、'102'、'010101'、‘A01’</span></span><br></pre></td></tr></table></figure>
+<p>我们在再看开头的例子好像是按照 key 的整数大小，测试一下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> object = &#123;</span><br><span class="line">  <span class="string">"010101"</span>: <span class="string">"识装信息"</span>,</span><br><span class="line">  <span class="number">102</span>: <span class="string">"识装集团"</span>,</span><br><span class="line">  <span class="number">101</span>: <span class="string">"得物集团"</span>,</span><br><span class="line">  <span class="string">"-100"</span>: <span class="string">"JiaWu Pro"</span>,</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">const</span> key <span class="keyword">in</span> object) &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(key);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 输出 '101'、'102'、'010101'、‘-100’</span></span><br></pre></td></tr></table></figure>
+<p>看结果 -100 应该是第一个但是并没有，在猜测一下是非负数整数：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> object = &#123;</span><br><span class="line">  <span class="string">"010101"</span>: <span class="string">"识装信息"</span>,</span><br><span class="line">  <span class="number">102</span>: <span class="string">"识装集团"</span>,</span><br><span class="line">  <span class="number">101</span>: <span class="string">"得物集团"</span>,</span><br><span class="line">  测试: <span class="string">"JiaWu Pro"</span>,</span><br><span class="line">  <span class="string">"-100"</span>: <span class="string">"JiaWu Pro"</span>,</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">const</span> key <span class="keyword">in</span> object) &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(key);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 输出 '101'、'102'、'010101'、'测试'、‘-100’</span></span><br></pre></td></tr></table></figure>
+<p>看结果似乎似乎接近真相了,我们在试试：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> object = &#123;</span><br><span class="line">  <span class="string">"010101"</span>: <span class="string">"识装信息"</span>,</span><br><span class="line">  <span class="string">"0101"</span>: <span class="string">"识装信息"</span>,</span><br><span class="line">  <span class="number">102</span>: <span class="string">"识装集团"</span>,</span><br><span class="line">  <span class="number">101</span>: <span class="string">"得物集团"</span>,</span><br><span class="line">  测试: <span class="string">"JiaWu Pro"</span>,</span><br><span class="line">  <span class="string">"-100"</span>: <span class="string">"JiaWu Pro"</span>,</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">const</span> key <span class="keyword">in</span> object) &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(key);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 输出 '101'、'102'、'010101'、'0101'、'测试'、‘-100’</span></span><br></pre></td></tr></table></figure>
+<p>我们发现 ‘010101’、’0101’ 这两个位置并不对，但是到这里已经没有什么头绪只能去查资料。</p>
+<h2 id="排序机制"><a href="#排序机制" class="headerlink" title="排序机制"></a>排序机制</h2><blockquote>
+<p>integer properties are sorted, others appear in creation order.<br>通过查阅资料发现这么定义：当 key 整数类型会做一层排序，其他类型则按创建顺序来排。<br>但是我们通过最后例子可以发现 ‘010101’、’0101’ 转换成 number 后并不符合，所以如何定义 integer 整数？<br>通过上 integer 关键词在 <a href="https://262.ecma-international.org/6.0" target="_blank" rel="noopener"></a> 查找：<br>An integer index is a String-valued property key that is a canonical numeric String (see 7.1.16) and whose numeric value is either +0 or a positive integer ≤ 2^53−1. An array index is an integer index whose numeric value i is in the range +0 ≤ i &lt; 2^32−1.<br>我们发现 <code>canonical numeric String (see 7.1.16)</code> 有定义 integer :<br>The abstract operation CanonicalNumericIndexString returns argument converted to a numeric value if it is a String representation of a Number that would be produced by ToString, or the string “-0”. Otherwise, it returns undefined. This abstract operation functions as follows:<br>1.Assert: Type(argument) is String.<br>2.If argument is “-0”, return −0.<br>3.Let n be ToNumber(argument).<br>4.If SameValue(ToString(n), argument) is false, return undefined.<br>5.Return n.<br>A canonical numeric string is any String value for which the CanonicalNumericIndexString abstract operation does not return undefined.&gt;<br>通过 7.1.16 我们知道会把 key 转换成数字，由于转换数字过程，第四条规则：<br>SameValue(ToString(n), argument)<br>我们知道 SameValue 是 Object.is() 内部采用的比较算法类似于 ===，区别保证 -0 和 +0 不再相同，但 Object.is(NaN, NaN) 会返回 true。<br>所以也就出现了 SameValue(TOString(10101),’010101’) 为 false 的情况就解释了</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> object = &#123;</span><br><span class="line">  <span class="string">"010101"</span>: <span class="string">"识装信息"</span>,</span><br><span class="line">  <span class="string">"0101"</span>: <span class="string">"识装信息"</span>,</span><br><span class="line">  <span class="number">102</span>: <span class="string">"识装集团"</span>,</span><br><span class="line">  <span class="number">101</span>: <span class="string">"得物集团"</span>,</span><br><span class="line">  测试: <span class="string">"JiaWu Pro"</span>,</span><br><span class="line">  <span class="string">"-100"</span>: <span class="string">"JiaWu Pro"</span>,</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">const</span> key <span class="keyword">in</span> object) &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(key);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 输出 '101'、'102'、'010101'、'0101'、'测试'、‘-100’</span></span><br></pre></td></tr></table></figure>
+<p>‘010101’、’0101’ 的顺序问题</p>
+<h2 id="2-32−1"><a href="#2-32−1" class="headerlink" title="2^32−1"></a>2^32−1</h2><p>我们回过来在看文档中 2^32−1 代表什么意思，在看一个例子：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> object = &#123;</span><br><span class="line">  <span class="string">"010101"</span>: <span class="string">"识装信息"</span>,</span><br><span class="line">  <span class="number">10188988888</span>: <span class="string">"识装信息"</span>,</span><br><span class="line">  <span class="number">102</span>: <span class="string">"识装集团"</span>,</span><br><span class="line">  <span class="number">101</span>: <span class="string">"得物集团"</span>,</span><br><span class="line">  测试: <span class="string">"JiaWu Pro"</span>,</span><br><span class="line">  <span class="string">"-100"</span>: <span class="string">"JiaWu Pro"</span>,</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">const</span> key <span class="keyword">in</span> object) &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(key);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 输出 '101'、'102'、'010101'、'10188988888'、'测试'、‘-100’</span></span><br></pre></td></tr></table></figure>
+<p>我们发现 <code>10188988888</code> 在 <code>010101</code> 的前面，按照之前的逻辑应该是反着来的，所以就要介绍下 2^32−1：<br>32 位无符号整数的最大值。<br>为什么会有 2^32−1 边界限制，这里又涉及到 V8 的排序实现，大概意思是因为性能原因 详见：<a href="https://zhuanlan.zhihu.com/p/26169639" target="_blank" rel="noopener">从 Chrome 源码看 JS Object 的实现</a></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>当 key 整数类型会做一层排序，其他类型则按创建顺序来排，关于什么是整数类型要同时满足 <code>canonical numeric String</code> 和 <code>+0 ≤ i &lt; 2^32−1</code></p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
+<li><a href="https://262.ecma-international.org/6.0/#sec-canonicalnumericindexstring" target="_blank" rel="noopener">https://262.ecma-international.org/6.0/#sec-canonicalnumericindexstring</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/26169639" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/26169639</a></li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2021/11/15/的顺序机制/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lennonover">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lennonover">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2021/11/15/的顺序机制/" itemprop="url">
+                  你不知道的 for in 中 key 的顺序机制
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-11-15T22:39:11+08:00">
+                2021-11-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>最近开发业务遇到一个需求:<br><img src="https://cdn.poizon.com/node-common/f5a595aaf7c5546bb0fe4115b0ef33e2.png" alt="图片"><br>产品希望把公司按照他希望的顺序排列，我们当前的实现逻辑是：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> sectionMapToArray = <span class="function">(<span class="params"><span class="built_in">Object</span></span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> _arr = [];</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">const</span> key <span class="keyword">in</span> <span class="built_in">Object</span>) &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">Object</span>.hasOwnProperty(key)) &#123;</span><br><span class="line">      <span class="keyword">const</span> element = <span class="built_in">Object</span>[key];</span><br><span class="line">      _arr.push(&#123;</span><br><span class="line">        label: element,</span><br><span class="line">        value: key,</span><br><span class="line">      &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> _arr;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>很简单的一个循环操作，但是它引发了什么问题呢？</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> object = &#123;</span><br><span class="line">  <span class="string">"010101"</span>: <span class="string">"识装信息"</span>,</span><br><span class="line">  <span class="number">102</span>: <span class="string">"识装集团"</span>,</span><br><span class="line">  <span class="number">101</span>: <span class="string">"得物集团"</span>,</span><br><span class="line">  A01: <span class="string">"JiaWu Pro"</span>,</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">const</span> key <span class="keyword">in</span> object) &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(key);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 输出 '101'、'102'、'010101'、‘A01’</span></span><br></pre></td></tr></table></figure>
+<p>我们看到输出的顺序变了,理想状态下是输出 ‘010101’、’102’、’101’、‘A01’</p>
+<ul>
+<li>猜想一 按照 key 的 ASC 码</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> object = &#123;</span><br><span class="line">  A: <span class="string">"JiaWu Pro"</span>,</span><br><span class="line">  <span class="string">"010101"</span>: <span class="string">"识装信息"</span>,</span><br><span class="line">  识装集团: <span class="string">"识装集团"</span>,</span><br><span class="line">  <span class="number">101</span>: <span class="string">"得物集团"</span>,</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">const</span> key <span class="keyword">in</span> object) &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(key);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 输出 '101'、'A'、'010101'、‘识装集团’</span></span><br></pre></td></tr></table></figure>
+<p>对象的遍历输出并不是按照属性的 ASC 码升序排序。</p>
+<ul>
+<li>猜想二 按照 key 转换成整数的大小</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> object = &#123;</span><br><span class="line">  <span class="string">"010101"</span>: <span class="string">"识装信息"</span>,</span><br><span class="line">  <span class="number">102</span>: <span class="string">"识装集团"</span>,</span><br><span class="line">  <span class="number">101</span>: <span class="string">"得物集团"</span>,</span><br><span class="line">  A01: <span class="string">"JiaWu Pro"</span>,</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">const</span> key <span class="keyword">in</span> object) &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(key);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 输出 '101'、'102'、'010101'、‘A01’</span></span><br></pre></td></tr></table></figure>
+<p>我们在再看开头的例子好像是按照 key 的整数大小，测试一下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> object = &#123;</span><br><span class="line">  <span class="string">"010101"</span>: <span class="string">"识装信息"</span>,</span><br><span class="line">  <span class="number">102</span>: <span class="string">"识装集团"</span>,</span><br><span class="line">  <span class="number">101</span>: <span class="string">"得物集团"</span>,</span><br><span class="line">  <span class="string">"-100"</span>: <span class="string">"JiaWu Pro"</span>,</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">const</span> key <span class="keyword">in</span> object) &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(key);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 输出 '101'、'102'、'010101'、‘-100’</span></span><br></pre></td></tr></table></figure>
+<p>看结果 -100 应该是第一个但是并没有，在猜测一下是非负数整数：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> object = &#123;</span><br><span class="line">  <span class="string">"010101"</span>: <span class="string">"识装信息"</span>,</span><br><span class="line">  <span class="number">102</span>: <span class="string">"识装集团"</span>,</span><br><span class="line">  <span class="number">101</span>: <span class="string">"得物集团"</span>,</span><br><span class="line">  测试: <span class="string">"JiaWu Pro"</span>,</span><br><span class="line">  <span class="string">"-100"</span>: <span class="string">"JiaWu Pro"</span>,</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">const</span> key <span class="keyword">in</span> object) &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(key);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 输出 '101'、'102'、'010101'、'测试'、‘-100’</span></span><br></pre></td></tr></table></figure>
+<p>看结果似乎似乎接近真相了,我们在试试：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> object = &#123;</span><br><span class="line">  <span class="string">"010101"</span>: <span class="string">"识装信息"</span>,</span><br><span class="line">  <span class="string">"0101"</span>: <span class="string">"识装信息"</span>,</span><br><span class="line">  <span class="number">102</span>: <span class="string">"识装集团"</span>,</span><br><span class="line">  <span class="number">101</span>: <span class="string">"得物集团"</span>,</span><br><span class="line">  测试: <span class="string">"JiaWu Pro"</span>,</span><br><span class="line">  <span class="string">"-100"</span>: <span class="string">"JiaWu Pro"</span>,</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">const</span> key <span class="keyword">in</span> object) &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(key);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 输出 '101'、'102'、'010101'、'0101'、'测试'、‘-100’</span></span><br></pre></td></tr></table></figure>
+<p>我们发现 ‘010101’、’0101’ 这两个位置并不对，但是到这里已经没有什么头绪只能去查资料。</p>
+<h2 id="排序机制"><a href="#排序机制" class="headerlink" title="排序机制"></a>排序机制</h2><blockquote>
+<p>integer properties are sorted, others appear in creation order.<br>通过查阅资料发现这么定义：当 key 整数类型会做一层排序，其他类型则按创建顺序来排。<br>但是我们通过最后例子可以发现 ‘010101’、’0101’ 转换成 number 后并不符合，所以如何定义 integer 整数？<br>通过上 integer 关键词在 <a href="https://262.ecma-international.org/6.0" target="_blank" rel="noopener"></a> 查找：<br>An integer index is a String-valued property key that is a canonical numeric String (see 7.1.16) and whose numeric value is either +0 or a positive integer ≤ 2^53−1. An array index is an integer index whose numeric value i is in the range +0 ≤ i &lt; 2^32−1.<br>我们发现 <code>canonical numeric String (see 7.1.16)</code> 有定义 integer :<br>The abstract operation CanonicalNumericIndexString returns argument converted to a numeric value if it is a String representation of a Number that would be produced by ToString, or the string “-0”. Otherwise, it returns undefined. This abstract operation functions as follows:<br>1.Assert: Type(argument) is String.<br>2.If argument is “-0”, return −0.<br>3.Let n be ToNumber(argument).<br>4.If SameValue(ToString(n), argument) is false, return undefined.<br>5.Return n.<br>A canonical numeric string is any String value for which the CanonicalNumericIndexString abstract operation does not return undefined.&gt;<br>通过 7.1.16 我们知道会把 key 转换成数字，由于转换数字过程，第四条规则：<br>SameValue(ToString(n), argument)<br>我们知道 SameValue 是 Object.is() 内部采用的比较算法类似于 ===，区别保证 -0 和 +0 不再相同，但 Object.is(NaN, NaN) 会返回 true。<br>所以也就出现了 SameValue(TOString(10101),’010101’) 为 false 的情况就解释了</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> object = &#123;</span><br><span class="line">  <span class="string">"010101"</span>: <span class="string">"识装信息"</span>,</span><br><span class="line">  <span class="string">"0101"</span>: <span class="string">"识装信息"</span>,</span><br><span class="line">  <span class="number">102</span>: <span class="string">"识装集团"</span>,</span><br><span class="line">  <span class="number">101</span>: <span class="string">"得物集团"</span>,</span><br><span class="line">  测试: <span class="string">"JiaWu Pro"</span>,</span><br><span class="line">  <span class="string">"-100"</span>: <span class="string">"JiaWu Pro"</span>,</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">const</span> key <span class="keyword">in</span> object) &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(key);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 输出 '101'、'102'、'010101'、'0101'、'测试'、‘-100’</span></span><br></pre></td></tr></table></figure>
+<p>‘010101’、’0101’ 的顺序问题</p>
+<h2 id="2-32−1"><a href="#2-32−1" class="headerlink" title="2^32−1"></a>2^32−1</h2><p>我们回过来在看文档中 2^32−1 代表什么意思，在看一个例子：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> object = &#123;</span><br><span class="line">  <span class="string">"010101"</span>: <span class="string">"识装信息"</span>,</span><br><span class="line">  <span class="number">10188988888</span>: <span class="string">"识装信息"</span>,</span><br><span class="line">  <span class="number">102</span>: <span class="string">"识装集团"</span>,</span><br><span class="line">  <span class="number">101</span>: <span class="string">"得物集团"</span>,</span><br><span class="line">  测试: <span class="string">"JiaWu Pro"</span>,</span><br><span class="line">  <span class="string">"-100"</span>: <span class="string">"JiaWu Pro"</span>,</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">const</span> key <span class="keyword">in</span> object) &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(key);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 输出 '101'、'102'、'010101'、'10188988888'、'测试'、‘-100’</span></span><br></pre></td></tr></table></figure>
+<p>我们发现 <code>10188988888</code> 在 <code>010101</code> 的前面，按照之前的逻辑应该是反着来的，所以就要介绍下 2^32−1：<br>32 位无符号整数的最大值。<br>为什么会有 2^32−1 边界限制，这里又涉及到 V8 的排序实现，大概意思是因为性能原因 详见：<a href="https://zhuanlan.zhihu.com/p/26169639" target="_blank" rel="noopener">从 Chrome 源码看 JS Object 的实现</a></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>当 key 整数类型会做一层排序，其他类型则按创建顺序来排，关于什么是整数类型要同时满足 <code>canonical numeric String</code> 和 <code>+0 ≤ i &lt; 2^32−1</code></p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
+<li><a href="https://262.ecma-international.org/6.0/#sec-canonicalnumericindexstring" target="_blank" rel="noopener">https://262.ecma-international.org/6.0/#sec-canonicalnumericindexstring</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/26169639" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/26169639</a></li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2021/11/07/物料市场组件monorepo架构/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1342,523 +1818,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2021/01/03/代码质量-圈复杂度/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="lennonover">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="lennonover">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2021/01/03/代码质量-圈复杂度/" itemprop="url">
-                  代码质量-圈复杂度
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-01-03T21:27:05+08:00">
-                2021-01-03
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>圈复杂度是 oasis（衡量前端工程质量平台）的检测指标之一，目的是为了检测出逻辑复杂，可能质量低，且难于测试和维护的模块，提高 CR 效率和推动优化提升前端工程质量。</p>
-<h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><p>圈复杂度（Cyclomatic complexity，CC）也称为条件复杂度，其符号为 V(G),是衡量计算机程序复杂程度的一种措施。它根据程序从开始到结束的线性独立路径的数量计算得来的,其数量上为独立路径的条数，也可理解为覆盖所有的可能情况最少使用的测试用例个数。</p>
-<h2 id="衡量标准"><a href="#衡量标准" class="headerlink" title="衡量标准"></a>衡量标准</h2><p>圈复杂度大说明程序代码的判断逻辑复杂，可能质量低，且难于测试和维护。 代码复杂度低，代码不一定好，但代码复杂度高，代码一定不好。</p>
-<table>
-<thead>
-<tr>
-<th>圈复杂度</th>
-<th>代码状况</th>
-<th>可测性</th>
-<th>维护成本</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>1 - 10</td>
-<td>清晰</td>
-<td>高</td>
-<td>低</td>
-</tr>
-<tr>
-<td>10 - 20</td>
-<td>复杂</td>
-<td>中</td>
-<td>中</td>
-</tr>
-<tr>
-<td>20 - 30</td>
-<td>非常复杂</td>
-<td>低</td>
-<td>高</td>
-</tr>
-<tr>
-<td>&gt; 30</td>
-<td>不可读</td>
-<td>不可测</td>
-<td>非常高</td>
-</tr>
-</tbody>
-</table>
-<p>同时测试驱动的开发和圈复杂度存在紧密的关系。一个好的测试用例是创建数量与被测代码圈复杂度值相等的测试用例，以此提升测试用例对代码的分支覆盖率。</p>
-<h2 id="计算方法"><a href="#计算方法" class="headerlink" title="计算方法"></a>计算方法</h2><p>圈复杂度有两种计算方法：点边计算法和节点判定法。</p>
-<h3 id="节点判定法"><a href="#节点判定法" class="headerlink" title="节点判定法"></a>节点判定法</h3><p>因为圈复杂度所反映的是“判定条件”的数量，所以圈复杂度实际上就是等于判定节点的数量再加上 1。从 1 开始，一直往下通过程序,一但遇到 P 关键字，或者其它同类的词，就加 1。</p>
-<blockquote>
-<p>V (G) = P + 1</p>
-</blockquote>
-<p>其中 P 为判定节点数，常见的判定节点有：</p>
-<p>if 语句、while 语句、for 语句、case 语句、catch 语句、and 和 or 布尔操作</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">function test(a) &#123;</span><br><span class="line">    let b = 1;</span><br><span class="line">    if (a &lt; 0 || a &gt; 100) &#123;</span><br><span class="line">        a = 1;</span><br><span class="line">    &#125;</span><br><span class="line">    for (let i = 0; i &lt; 10; i++) &#123;</span><br><span class="line">        a++;</span><br><span class="line">    &#125;</span><br><span class="line">    while (a &lt; 30 ) &#123;</span><br><span class="line">        a++;</span><br><span class="line">    &#125;</span><br><span class="line">    switch (a) &#123;</span><br><span class="line">        case 31:</span><br><span class="line">            b++ ;</span><br><span class="line">            break;</span><br><span class="line">        default:</span><br><span class="line">            break;</span><br><span class="line">    &#125;</span><br><span class="line">    return b === 1 ? 0 : b;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>1 个 if ，1 个 or ，1 个 for ，1 个 while，1 个 case，1 个三元 所以代码复杂度 7</p>
-<h3 id="点边计算法"><a href="#点边计算法" class="headerlink" title="点边计算法"></a>点边计算法</h3><p>圈复杂度由程序的控制流图来计算：节点对应程序中个别的代码，而若一个程序运行后会立刻运行另一代码，则会有边连接另一代码对应的节点。</p>
-<blockquote>
-<p>V(G) = E - N + 2</p>
-</blockquote>
-<p>E 表示控制流图中边的数量，N 表示控制流图中节点的数量。</p>
-<p><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1glhni7agy2j30wm0p4753.jpg" alt=""></p>
-<p>如上图正常顺序的圈复杂度为 1；if else 的圈复杂度为 2；while 的圈复杂度也为 2。</p>
-<h2 id="如何检测"><a href="#如何检测" class="headerlink" title="如何检测"></a>如何检测</h2><h3 id="es6-plato"><a href="#es6-plato" class="headerlink" title="es6-plato"></a>es6-plato</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install --save-dev es6-plato</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&quot;scripts&quot; : &#123;</span><br><span class="line">    &quot;complexity-report&quot;: &quot;./node_modules/.bin/es6-plato -r -d ./report src&quot;,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm run complexity-report</span><br></pre></td></tr></table></figure>
-<h3 id="eslint"><a href="#eslint" class="headerlink" title="eslint"></a>eslint</h3><p>oasis 用的是 eslint 提供了检测代码圈复杂度的 rules ，根据 eslint 的 api 会自动检测出所有函数的代码复杂度输出检测信息，通过解析检测信息</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> CLIEngine(&#123;</span><br><span class="line">  baseConfig: &#123;</span><br><span class="line">    root: <span class="literal">true</span>,</span><br><span class="line">    parser: <span class="string">"vue-eslint-parser"</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">  parserOptions: &#123;</span><br><span class="line">    ecmaVersion: <span class="number">9</span>,</span><br><span class="line">    sourceType: <span class="string">"module"</span>,</span><br><span class="line">    ecmaFeatures: &#123;</span><br><span class="line">      experimentalObjectRestSpread: <span class="literal">true</span>,</span><br><span class="line">      jsx: <span class="literal">true</span>,</span><br><span class="line">      globalReturn: <span class="literal">true</span>,</span><br><span class="line">      impliedStrict: <span class="literal">true</span>,</span><br><span class="line">    &#125;,</span><br><span class="line">    parser: <span class="string">"babel-eslint"</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">  useEslintrc: <span class="literal">false</span>,</span><br><span class="line">  rules: &#123;</span><br><span class="line">    complexity: [<span class="string">"error"</span>, &#123; <span class="attr">max</span>: <span class="number">0</span> &#125;],</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-<h2 id="降低圈复杂度"><a href="#降低圈复杂度" class="headerlink" title="降低圈复杂度"></a>降低圈复杂度</h2><p>降低复杂度有的是把函数的一部分提取成另一个子函数，不会降低整个项目的复杂度，只是把决策点移到其他地方，但是这样做可以降低你在同一时间必须关注的复杂度。</p>
-<h3 id="单一职责"><a href="#单一职责" class="headerlink" title="单一职责"></a>单一职责</h3><blockquote>
-<p>函数应该做一件事，做好这件事，只做这一件事。 — 代码整洁之道</p>
-</blockquote>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">add</span>(<span class="params">a, b</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (a === <span class="number">10</span>) &#123;</span><br><span class="line">    <span class="comment">// dosomething</span></span><br><span class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span> (a === <span class="number">12</span>) &#123;</span><br><span class="line">    <span class="comment">// dosomething</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> (b === <span class="number">10</span>) &#123;</span><br><span class="line">    <span class="comment">// dosomething</span></span><br><span class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span> (b === <span class="number">12</span>) &#123;</span><br><span class="line">    <span class="comment">// dosomething</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> a + b;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>转换后</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">add</span>(<span class="params">a, b</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> calcA(a) + calcB(b);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">calcA</span>(<span class="params">a</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (a === <span class="number">10</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span>; <span class="comment">// dosomething</span></span><br><span class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span> (a === <span class="number">12</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span>; <span class="comment">// dosomething</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">calcB</span>(<span class="params">b</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (b === <span class="number">10</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span>; <span class="comment">// dosomething</span></span><br><span class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span> (b === <span class="number">12</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span>; <span class="comment">// dosomething</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="查找表"><a href="#查找表" class="headerlink" title="查找表"></a>查找表</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">demo</span> (<span class="params">a, b, c</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (f(a, b, c)) &#123;</span><br><span class="line">    <span class="keyword">if</span> (g(a, b, c)) &#123;</span><br><span class="line">      <span class="comment">// ...</span></span><br><span class="line">    &#125;<span class="keyword">else</span> <span class="keyword">if</span> (h(a, b, c)) &#123;</span><br><span class="line">      <span class="comment">// ...</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span> (j(a, b, c)) &#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span> (k(a, b, c)) &#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>转换后</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> rules = &#123;</span><br><span class="line">  x: <span class="function"><span class="keyword">function</span> (<span class="params">a, b, c</span>) </span>&#123;&#125;,</span><br><span class="line">  y: <span class="function"><span class="keyword">function</span> (<span class="params">a, b, c</span>) </span>&#123;&#125;,</span><br><span class="line">  z: <span class="function"><span class="keyword">function</span> (<span class="params">a, b, c</span>) </span>&#123;&#125;</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">demo</span> (<span class="params">a, b, c</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> action = determineAction(a, b, c)</span><br><span class="line">  <span class="keyword">return</span> rules[action](a, b, c)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="职责链"><a href="#职责链" class="headerlink" title="职责链"></a>职责链</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">demo</span> (<span class="params">a, b, c</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (f(a, b, c)) &#123;</span><br><span class="line">    <span class="keyword">if</span> (g(a, b, c)) &#123;</span><br><span class="line">      <span class="comment">// ...</span></span><br><span class="line">    &#125;<span class="keyword">else</span> <span class="keyword">if</span> (h(a, b, c)) &#123;</span><br><span class="line">      <span class="comment">// ...</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span> (j(a, b, c)) &#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span> (k(a, b, c)) &#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>转换后</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> rules = [</span><br><span class="line">  &#123;</span><br><span class="line">    match: <span class="function"><span class="keyword">function</span> (<span class="params">a, b, c</span>) </span>&#123;&#125;,</span><br><span class="line">    action: <span class="function"><span class="keyword">function</span> (<span class="params">a, b, c</span>) </span>&#123;&#125;,</span><br><span class="line">  &#125;,</span><br><span class="line">  &#123;</span><br><span class="line">    match: <span class="function"><span class="keyword">function</span> (<span class="params">a, b, c</span>) </span>&#123;&#125;,</span><br><span class="line">    action: <span class="function"><span class="keyword">function</span> (<span class="params">a, b, c</span>) </span>&#123;&#125;,</span><br><span class="line">  &#125;,</span><br><span class="line">  &#123;</span><br><span class="line">    match: <span class="function"><span class="keyword">function</span> (<span class="params">a, b, c</span>) </span>&#123;&#125;,</span><br><span class="line">    action: <span class="function"><span class="keyword">function</span> (<span class="params">a, b, c</span>) </span>&#123;&#125;,</span><br><span class="line">  &#125;,</span><br><span class="line">];</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">demo</span>(<span class="params">a, b, c</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; rules.length; i++) &#123;</span><br><span class="line">    <span class="keyword">if</span> (rules[i].match(a, b, c)) &#123;</span><br><span class="line">      <span class="keyword">return</span> rules[i].action(a, b, c);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>圈复杂度低，代码不一定好，但圈复杂度很高，代码一定不好，所以圈复杂度才作为一个 oasis 的指标之一。圈复杂度还需要具体情况具体分析，其只作为重构的一个度量指标，作为决策的一个参考依据。</p>
-<h2 id="附"><a href="#附" class="headerlink" title="附"></a>附</h2><p>oasisV0.1 beta 版本目前已经完成大文件、重复代码块，圈复杂度、最佳实践、基础库落地、 npm 依赖库的安全分析功能，接入 0 成本目前已经上线欢迎大家体验、建议、吐槽。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2020/11/23/SPAVUE应用实现页面缓存/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="lennonover">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="lennonover">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2020/11/23/SPAVUE应用实现页面缓存/" itemprop="url">
-                  SPA VUE应用实现页面缓存
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-11-23T21:36:15+08:00">
-                2020-11-23
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h2><p>在 SPA 应用中产品希望在用户在多个页面来回切换的时候，不要丢失查询的结果。</p>
-<h2 id="keep-alive"><a href="#keep-alive" class="headerlink" title="keep-alive"></a>keep-alive</h2><blockquote>
-<p><keep-alive> 包裹动态组件时，会缓存不活动的组件实例，而不是销毁它们。和 <transition> 相似，<keep-alive> 是一个抽象组件：它自身不会渲染一个 DOM 元素，也不会出现在父组件链中。</keep-alive></transition></keep-alive></p>
-</blockquote>
-<h2 id="实现方案"><a href="#实现方案" class="headerlink" title="实现方案"></a>实现方案</h2><ul>
-<li>整个页面缓存</li>
-</ul>
-<p>采用在 router 的 meta 属性里增加一个 keepAlive 字段，然后在父组件或者根组件中，根据 keepAlive 字段的状态使用 <keep-alive> 标签，实现对 <router-view> 的缓存</router-view></keep-alive></p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;keep-alive&gt;</span><br><span class="line">    &lt;router-view v-<span class="keyword">if</span>=<span class="string">"$route.meta.keepAlive"</span> /&gt;</span><br><span class="line">&lt;<span class="regexp">/keep-alive&gt;</span></span><br><span class="line"><span class="regexp">&lt;router-view v-if="!$route.meta.keepAlive" /</span>&gt;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>动态缓存</li>
-</ul>
-<p>使用 vuex 配合 exclude 和 include，通过 include 和 exclude 决定那些组件进行缓存。注意这里说的是组件，并且 cachedView 数组存放的是组件的名字，如下：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;keep-alive :include=<span class="string">"$store.state.keepAlive.cachedView"</span>&gt;</span><br><span class="line">    &lt;router-view /&gt;</span><br><span class="line">&lt;<span class="regexp">/keep-alive&gt;</span></span><br></pre></td></tr></table></figure>
-<h3 id="本项目的实现"><a href="#本项目的实现" class="headerlink" title="本项目的实现"></a>本项目的实现</h3><ul>
-<li>版本一：基于路由缓存</li>
-</ul>
-<p>当前框架是嵌套的动态路由是无法动态缓存组件，并且如果使用方案一 meta 属性里增加一个 keepAlive 字段也是不支持的，只能通过维护一个缓存的 url 来实现：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// ISCACHE_ARRAY = ['url']</span></span><br><span class="line">&lt;keep-alive&gt;</span><br><span class="line">          &lt;router-view v-<span class="keyword">if</span>=<span class="string">"ISCACHE_ARRAY.indexOf($route.fullPath) !== -1"</span> :key=<span class="string">"$route.fullPath"</span>&gt;</span><br><span class="line">          &lt;<span class="regexp">/router-view&gt;</span></span><br><span class="line"><span class="regexp">        &lt;/</span>keep-alive&gt;</span><br><span class="line">        &lt;router-view v-<span class="keyword">if</span>=<span class="string">"ISCACHE_ARRAY.indexOf($route.fullPath) === -1"</span> :key=<span class="string">"$route.fullPath"</span>&gt;</span><br><span class="line">        &lt;<span class="regexp">/router-view&gt;</span></span><br></pre></td></tr></table></figure>
-<p>这样是持久缓存了整个页面，问题也就出现当用户通过 tabviews 关闭页面然后从左侧打开菜单时是缓存的页面，这个不符合日常使用习惯，所以为了解决数据新鲜度的问题，看了文档发现在 keep-alive 的模式下多了 activated 这个生命周期函数,keep-alive 的声明周期执行:</p>
-<ul>
-<li>页面第一次进入，钩子的触发顺序<br>created-&gt; mounted-&gt; activated，<br>退出时触发 deactivated 当再次进入（前进或者后退）时，只触发 activated</li>
-<li>事件挂载的方法等，只执行一次的放在 mounted 中；组件每次进去执行的方法放在 activated 中</li>
-</ul>
-<p>所以在 activated 触发查询请求就能保证数据的新鲜度。</p>
-<p>但是使用后发现由于你切换 tab 是会请求数据，但是本项目的数据量有很大导致频繁 loading 。</p>
-<ul>
-<li>版本二：动态缓存</li>
-</ul>
-<p>由于版本一需要频繁拉去数据导致此方案已不合适只能动态缓存。<br>由于框架的原因，框架里把路由和菜单用同一个数据模型采用的嵌套路由是无法缓存组件的，改造前路由如下：<br><img src="https://cdn.poizon.com/node-common/d1edd0fb704d5c4605d07f525626713f.png" alt=""></p>
-<p>所以需要改造确定：左侧菜单嵌套，路由展开不嵌套的方式：<br>app.vue</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id=&quot;app&quot;&gt;</span><br><span class="line">    &lt;Layout&gt;&lt;/Layout&gt;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
-<p>layout.vue</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;keep-alive :include=&quot;cachedViews&quot;&gt;</span><br><span class="line">          &lt;router-view :key=&quot;key&quot;&gt;</span><br><span class="line">          &lt;/router-view&gt;</span><br><span class="line">        &lt;/keep-alive&gt;</span><br></pre></td></tr></table></figure>
-<p>通过上面的修改完成动态缓存实现。</p>
-<p>其中 cachedViews 是通过监听路由动态增加删除维护要缓存的组件数组：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">const state = &#123;</span><br><span class="line">  cachedViews: [],</span><br><span class="line">&#125;</span><br><span class="line">const mutations = &#123;</span><br><span class="line">  ADD_VIEWS: (state, view) =&gt; &#123;</span><br><span class="line">    if (state.cachedViews.includes(view.name)) return</span><br><span class="line">    state.cachedViews.push(view.name)</span><br><span class="line">  &#125;,</span><br><span class="line">  DEL_CACHED_VIEW: (state, view) =&gt; &#123;</span><br><span class="line">    const index = state.cachedViews.indexOf(view.name)</span><br><span class="line">    index &gt; -1 &amp;&amp; state.cachedViews.splice(index, 1)</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;</span><br><span class="line">const actions = &#123;</span><br><span class="line">  addCachedView(&#123; commit &#125;, view) &#123;</span><br><span class="line">    commit(&apos;ADD_VIEWS&apos;, view)</span><br><span class="line">  &#125;,</span><br><span class="line">  deleteCachedView(&#123; commit &#125;, view) &#123;</span><br><span class="line">    commit(&apos;DEL_CACHED_VIEW&apos;, view)</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;</span><br><span class="line">export default &#123;</span><br><span class="line">  namespaced: true,</span><br><span class="line">  state,</span><br><span class="line">  mutations,</span><br><span class="line">  actions,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>通过监听路由变化：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">watch: &#123;</span><br><span class="line">    &apos;$route&apos;(newRoute) &#123;</span><br><span class="line">      const &#123; name &#125; = newRoute</span><br><span class="line">      console.log(name)</span><br><span class="line">      const cacheRout = this.ISCACHE_MAP[name] || []</span><br><span class="line">      cacheRout.map((item) =&gt; &#123;</span><br><span class="line">        store.dispatch(&apos;cached/addCachedView&apos;, &#123; name: item &#125;)</span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;,</span><br></pre></td></tr></table></figure>
-<p>ISCACHE_MAP 是配置每个页面要缓存的那些组件</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">const ISCACHE_MAP = &#123;</span><br><span class="line">  &apos;/receipts-order&apos;: [&apos;ReceiptsOrder&apos;],</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
-<p>当通过 tabview 关闭页面时清除组件名称：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">closeTag(newRoute) &#123;</span><br><span class="line">     const &#123; name &#125; = newRoute</span><br><span class="line">     const cacheRout = this.ISCACHE_MAP[name] || []</span><br><span class="line">     cacheRout.map((item) =&gt; &#123;</span><br><span class="line">       store.dispatch(&apos;cached/deleteCachedView&apos;, &#123; name: item &#125;)</span><br><span class="line">     &#125;)</span><br><span class="line">   &#125;,</span><br></pre></td></tr></table></figure>
-<p>关于展开路由是在动态路由添加时展开:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">export const flatten = (data) =&gt; &#123;</span><br><span class="line">  return data.reduce((arr, v) =&gt; &#123;</span><br><span class="line">    if (Array.isArray(v.children) &amp;&amp; v.children.length !== 0) &#123;</span><br><span class="line">      return arr.concat(flatten(v.children))</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">      return arr.concat([v])</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;, [])</span><br><span class="line">&#125;</span><br><span class="line">routes.addRoutes(flatten(routeList))</span><br></pre></td></tr></table></figure>
-<p>改造后的路由：</p>
-<p><img src="https://cdn.poizon.com/node-common/5246ccef44ed399213902d488a0e24ea.png" alt=""></p>
-<p>到此完美解决了当前框架的设计问题</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>上述的常规方案网上一大把，如何将它们合理的使用在项目中，这才是我们需要多去思考的。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2020/10/02/配置打包分析与实践/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="lennonover">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="lennonover">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2020/10/02/配置打包分析与实践/" itemprop="url">
-                  vue-cli 配置打包分析与实践
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-10-02T22:33:19+08:00">
-                2020-10-02
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>Vue CLI 是一个基于 Vue.js 进行快速开发的完整系统,它确保了各种构建工具能够基于智能的默认配置即可平稳衔接，这样你可以专注在撰写应用上，而不必花好几天去纠结配置的问题。与此同时，它也为每个工具提供了调整配置的灵活性，无需 eject。</p>
-<h2 id="如何看-webpack-最终配置"><a href="#如何看-webpack-最终配置" class="headerlink" title="如何看 webpack 最终配置"></a>如何看 webpack 最终配置</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"scripts"</span>: &#123;</span><br><span class="line">    <span class="string">"webpack_output_dynamic"</span>: <span class="string">"vue inspect --mode=dynamic &gt; output.js"</span>,</span><br><span class="line">    <span class="string">"webpack_output_production"</span>: <span class="string">"vue inspect --mode=production &gt; output.js"</span></span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
-<h2 id="如何统计打包的时间"><a href="#如何统计打包的时间" class="headerlink" title="如何统计打包的时间"></a>如何统计打包的时间</h2><p>speed-measure-webpack-plugin 是一个专门测试 webpack 构建速度的工具，可以在终端列出所有 Loader 和 Plugin 的耗时。</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> SpeedMeasurePlugin = <span class="built_in">require</span>(<span class="string">'speed-measure-webpack-plugin'</span>)</span><br><span class="line"><span class="keyword">const</span> smp = <span class="keyword">new</span> SpeedMeasurePlugin()</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  configureWebpack: smp.wrap(&#123;</span><br><span class="line">    output: &#123;</span><br><span class="line">      ...</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>webpack 打包结束后，输出的时间统计</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"> SMP  ⏱</span><br><span class="line">General output time took <span class="number">51.66</span> secs</span><br><span class="line"></span><br><span class="line"> SMP  ⏱  Plugins</span><br><span class="line">DllReferencePlugin took <span class="number">0.55</span> secs</span><br><span class="line"></span><br><span class="line"> SMP  ⏱  Loaders</span><br><span class="line">mini-css-extract-plugin, and</span><br><span class="line">css-loader, and</span><br><span class="line">sass-loader took <span class="number">14.16</span> secs</span><br><span class="line">  <span class="built_in">module</span> count = <span class="number">1</span></span><br><span class="line">css-loader, and</span><br><span class="line">sass-loader took <span class="number">14.15</span> secs</span><br><span class="line">  <span class="built_in">module</span> count = <span class="number">1</span></span><br></pre></td></tr></table></figure>
-<p>配置 vue.config.js</p>
-<h2 id="添加别名-resolve-alias"><a href="#添加别名-resolve-alias" class="headerlink" title="添加别名 resolve.alias"></a>添加别名 resolve.alias</h2><p>目前的配置</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">configureWebpack: &#123;</span><br><span class="line">    resolve: &#123;</span><br><span class="line">      alias: &#123;</span><br><span class="line">         <span class="string">'@'</span>: <span class="string">'/Users/admin/Documents/code/gondor/src'</span>,</span><br><span class="line">      vue$: <span class="string">'vue/dist/vue.runtime.esm.js'</span></span><br><span class="line">      &#125;,</span><br><span class="line">    &#125;,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="扩展名配置-resolve-extensions"><a href="#扩展名配置-resolve-extensions" class="headerlink" title="扩展名配置 resolve.extensions"></a>扩展名配置 resolve.extensions</h2><p>extensions 的配置原则是频率出现高的排前面，数组长度尽量小,以下是 vue-cli 中的默认配置 [‘.mjs’, ‘.js’, ‘.jsx’, ‘.vue’, ‘.json’, ‘.wasm’]</p>
-<p>我们的文件没有 .mjs、.jsx，所以在 vue.config.js 中我这样配置会更好：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">chainWebpack: <span class="function">(<span class="params">config</span>) =&gt;</span> &#123;</span><br><span class="line">  config.resolve.extensions.store = <span class="keyword">new</span> <span class="built_in">Set</span>([<span class="string">".js"</span>, <span class="string">".vue"</span>, <span class="string">".json"</span>, <span class="string">".wasm"</span>]);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<h2 id="确定搜索目录-resolve-modules"><a href="#确定搜索目录-resolve-modules" class="headerlink" title="确定搜索目录 resolve.modules"></a>确定搜索目录 resolve.modules</h2><p>当搜索模块的时候告诉 webpack 确定的目录文件，这样可以避免无用的检索。webpack 默认的配置是相对路径，检索当前目录的下的 node_modules，如果没有则再会去根目录下的 node_modules，直到没有最后抛错。</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">chainWebpack: <span class="function">(<span class="params">config</span>) =&gt;</span> &#123;</span><br><span class="line">  config.resolve.modules.store = <span class="keyword">new</span> <span class="built_in">Set</span>([</span><br><span class="line">    path.resolve(__dirname, <span class="string">"node_modules"</span>),</span><br><span class="line">    <span class="string">"node_modules"</span>,</span><br><span class="line">  ]);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>上面也是默认的</p>
-<h2 id="忽略非模块化-Library-module-noParse"><a href="#忽略非模块化-Library-module-noParse" class="headerlink" title="忽略非模块化 Library module.noParse"></a>忽略非模块化 Library module.noParse</h2><p>忽略那些文件中不含有 import, require, define 的调用，或任何其他导入机制的 library。忽略大型的 library 可以提高构建性能。下面是默认配置，请根据项目需要修改</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">configureWebpack: &#123;</span><br><span class="line">  <span class="built_in">module</span>: &#123;</span><br><span class="line">    noParse: <span class="regexp">/^(vue|vue-router|vuex|vuex-router-sync)$/</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="动态链接库-DllPlugin"><a href="#动态链接库-DllPlugin" class="headerlink" title="动态链接库 DllPlugin"></a>动态链接库 DllPlugin</h2><p>DllPlugin 和 DllReferencePlugin 实现了拆分 bundles，可以将一些不常被更新的第三方依赖预编译到一个或多个 manifest.json 中，做到一次打包就可以重复引用的效果。比如说我们 vue 全家桶、axios 等依赖，只要版本不升级就没必要多次打包，我们可以让这些依赖与业务代码分开打包。<br>使用方式大致分三步：</p>
-<ul>
-<li>利用 DllPlugin 配置预先打包出 _.manifest.json 文件。</li>
-<li>在 webpack 主配置中设置 DllReferencePlugin，告诉 webpack 使用了哪些动态链接库。</li>
-<li>在页面文件中加载所有的动态链接库。<br>webpack.dll.config.js</li>
-</ul>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">"path"</span>);</span><br><span class="line"><span class="keyword">const</span> DllPlugin = <span class="built_in">require</span>(<span class="string">"webpack/lib/DllPlugin"</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  entry: &#123;</span><br><span class="line">    <span class="comment">// 将 Vue 相关模块打包到一个单独的动态链接库中</span></span><br><span class="line">    vue: [<span class="string">"vue"</span>, <span class="string">"vue-router"</span>, <span class="string">"vuex"</span>],</span><br><span class="line">    <span class="comment">// 将其他的一些不变动的第三方库打包到一个动态链接库中</span></span><br><span class="line">    polyfill: [<span class="string">"element-ui"</span>],</span><br><span class="line">  &#125;,</span><br><span class="line">  output: &#123;</span><br><span class="line">    <span class="comment">// 输出动态链接库的文件名称，[name] 代表当前动态链接库的名称</span></span><br><span class="line">    <span class="comment">// name 来自 entry 对象中的 key</span></span><br><span class="line">    filename: <span class="string">"[name].dll.js"</span>,</span><br><span class="line">    <span class="comment">// 输出的文件都放到 dist 目录下</span></span><br><span class="line">    path: path.resolve(__dirname, <span class="string">"dist"</span>),</span><br><span class="line">    <span class="comment">// 动态链接库全局名称，例如 vue 就是 _dll_vue</span></span><br><span class="line">    library: <span class="string">"dll[name]"</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">  plugins: [</span><br><span class="line">    <span class="keyword">new</span> DllPlugin(&#123;</span><br><span class="line">      <span class="comment">// 动态链接库的全局变量名称需要和 output.library 中的名称一致</span></span><br><span class="line">      <span class="comment">// 代表 manifest.json 文件中的 name 字段的值</span></span><br><span class="line">      <span class="comment">// 例如 vue.manifest.json 中的 'name': '_dll_vue'</span></span><br><span class="line">      name: <span class="string">"dll[name]"</span>,</span><br><span class="line">      <span class="comment">// 动态链接库文件输出的文件名，例如 vue.manifest.json</span></span><br><span class="line">      path: path.join(__dirname, <span class="string">"dll"</span>, <span class="string">"[name].manifest.json"</span>),</span><br><span class="line">    &#125;),</span><br><span class="line">  ],</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>vue.config.js</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">configureWebpack: &#123;</span><br><span class="line">    plugins: [</span><br><span class="line">      <span class="comment">// 告诉 webpack 使用的动态链接库</span></span><br><span class="line">      <span class="keyword">new</span> DllReferencePlugin(&#123;</span><br><span class="line">        manifest:      <span class="built_in">require</span>(<span class="string">'./dll/vue.manifest.json'</span>),</span><br><span class="line">      &#125;),</span><br><span class="line">      <span class="keyword">new</span> DllReferencePlugin(&#123;</span><br><span class="line">        manifest: <span class="built_in">require</span>(<span class="string">'./dll/polyfill.manifest.json'</span>),</span><br><span class="line">      &#125;),</span><br><span class="line">    ],</span><br><span class="line">&#125;</span><br><span class="line">···</span><br><span class="line">在 package.json 中增加</span><br><span class="line"><span class="string">``</span><span class="string">`js</span></span><br><span class="line"><span class="string"> "scripts": &#123;</span></span><br><span class="line"><span class="string">    "dll": "webpack --config webpack.dll.config.js"</span></span><br><span class="line"><span class="string">&#125;</span></span><br></pre></td></tr></table></figure>
-<h2 id="hard-source-webpack-plugin"><a href="#hard-source-webpack-plugin" class="headerlink" title="hard-source-webpack-plugin"></a>hard-source-webpack-plugin</h2><p>webpack4 抛弃了使用 dll，hard-source-webpack-plugin 就是一个很好的替代者，它可为模块提供中间缓存步骤。第二次构建将明显更快。</p>
-<h2 id="外部扩展（external）"><a href="#外部扩展（external）" class="headerlink" title="外部扩展（external）"></a>外部扩展（external）</h2><p>externals 配置选项提供了「从输出的 bundle 中排除依赖」的方法，也是个人最提倡的采用 script 引入 CDN 资源</p>
-<h2 id="分环境压缩代码"><a href="#分环境压缩代码" class="headerlink" title="分环境压缩代码"></a>分环境压缩代码</h2><p>在 development 环境时，我们可以关闭压缩来提升打包速度</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">chainWebpack: <span class="function">(<span class="params">config</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">if</span> (process.env.VUE_APP_ENV === <span class="string">"dynamic"</span>) &#123;</span><br><span class="line">    <span class="comment">// development</span></span><br><span class="line">    <span class="comment">// js is not compressed</span></span><br><span class="line">    config.optimization.minimize(<span class="literal">false</span>);</span><br><span class="line">    <span class="comment">// css is not compressed</span></span><br><span class="line">    config.plugins.delete(<span class="string">"optimize-css"</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<h2 id="打包后的代码质量"><a href="#打包后的代码质量" class="headerlink" title="打包后的代码质量"></a>打包后的代码质量</h2><p>使用 webpack-bundle-analyzer 分析工具，在启动打包完成后，会在 8888 端口显示一个交互式可视化 bundle treemap。</p>
-<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><p>升级打包机配置</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1908,7 +1867,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">67</span>
+                <span class="site-state-item-count">70</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -1963,7 +1922,7 @@
         <div class="copyright" >
   
   &copy; 
-  <span itemprop="copyrightYear">2021</span>
+  <span itemprop="copyrightYear">2022</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>

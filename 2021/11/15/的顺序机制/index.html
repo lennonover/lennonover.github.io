@@ -1,0 +1,702 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="背景最近开发业务遇到一个需求:产品希望把公司按照他希望的顺序排列，我们当前的实现逻辑是： 12345678910111213const sectionMapToArray = (Object) =&amp;gt; &amp;#123;  const _arr = [];  for (const key in Object) &amp;#123;    if (Object.hasOwnProperty(key)) &amp;#1">
+<meta property="og:type" content="article">
+<meta property="og:title" content="你不知道的 for in 中 key 的顺序机制">
+<meta property="og:url" content="https://github.com/lennonover/2021/11/15/的顺序机制/index.html">
+<meta property="og:site_name" content="lennonover">
+<meta property="og:description" content="背景最近开发业务遇到一个需求:产品希望把公司按照他希望的顺序排列，我们当前的实现逻辑是： 12345678910111213const sectionMapToArray = (Object) =&amp;gt; &amp;#123;  const _arr = [];  for (const key in Object) &amp;#123;    if (Object.hasOwnProperty(key)) &amp;#1">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://cdn.poizon.com/node-common/f5a595aaf7c5546bb0fe4115b0ef33e2.png">
+<meta property="og:updated_time" content="2021-11-15T15:12:58.675Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="你不知道的 for in 中 key 的顺序机制">
+<meta name="twitter:description" content="背景最近开发业务遇到一个需求:产品希望把公司按照他希望的顺序排列，我们当前的实现逻辑是： 12345678910111213const sectionMapToArray = (Object) =&amp;gt; &amp;#123;  const _arr = [];  for (const key in Object) &amp;#123;    if (Object.hasOwnProperty(key)) &amp;#1">
+<meta name="twitter:image" content="https://cdn.poizon.com/node-common/f5a595aaf7c5546bb0fe4115b0ef33e2.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://github.com/lennonover/2021/11/15/的顺序机制/"/>
+
+
+
+
+
+  <title> 你不知道的 for in 中 key 的顺序机制 | lennonover </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">lennonover</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2021/11/15/的顺序机制/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lennonover">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lennonover">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                你不知道的 for in 中 key 的顺序机制
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-11-15T22:39:11+08:00">
+                2021-11-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>最近开发业务遇到一个需求:<br><img src="https://cdn.poizon.com/node-common/f5a595aaf7c5546bb0fe4115b0ef33e2.png" alt="图片"><br>产品希望把公司按照他希望的顺序排列，我们当前的实现逻辑是：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> sectionMapToArray = <span class="function">(<span class="params"><span class="built_in">Object</span></span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> _arr = [];</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">const</span> key <span class="keyword">in</span> <span class="built_in">Object</span>) &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">Object</span>.hasOwnProperty(key)) &#123;</span><br><span class="line">      <span class="keyword">const</span> element = <span class="built_in">Object</span>[key];</span><br><span class="line">      _arr.push(&#123;</span><br><span class="line">        label: element,</span><br><span class="line">        value: key,</span><br><span class="line">      &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> _arr;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>很简单的一个循环操作，但是它引发了什么问题呢？</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> object = &#123;</span><br><span class="line">  <span class="string">"010101"</span>: <span class="string">"识装信息"</span>,</span><br><span class="line">  <span class="number">102</span>: <span class="string">"识装集团"</span>,</span><br><span class="line">  <span class="number">101</span>: <span class="string">"得物集团"</span>,</span><br><span class="line">  A01: <span class="string">"JiaWu Pro"</span>,</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">const</span> key <span class="keyword">in</span> object) &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(key);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 输出 '101'、'102'、'010101'、‘A01’</span></span><br></pre></td></tr></table></figure>
+<p>我们看到输出的顺序变了,理想状态下是输出 ‘010101’、’102’、’101’、‘A01’</p>
+<ul>
+<li>猜想一 按照 key 的 ASC 码</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> object = &#123;</span><br><span class="line">  A: <span class="string">"JiaWu Pro"</span>,</span><br><span class="line">  <span class="string">"010101"</span>: <span class="string">"识装信息"</span>,</span><br><span class="line">  识装集团: <span class="string">"识装集团"</span>,</span><br><span class="line">  <span class="number">101</span>: <span class="string">"得物集团"</span>,</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">const</span> key <span class="keyword">in</span> object) &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(key);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 输出 '101'、'A'、'010101'、‘识装集团’</span></span><br></pre></td></tr></table></figure>
+<p>对象的遍历输出并不是按照属性的 ASC 码升序排序。</p>
+<ul>
+<li>猜想二 按照 key 转换成整数的大小</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> object = &#123;</span><br><span class="line">  <span class="string">"010101"</span>: <span class="string">"识装信息"</span>,</span><br><span class="line">  <span class="number">102</span>: <span class="string">"识装集团"</span>,</span><br><span class="line">  <span class="number">101</span>: <span class="string">"得物集团"</span>,</span><br><span class="line">  A01: <span class="string">"JiaWu Pro"</span>,</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">const</span> key <span class="keyword">in</span> object) &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(key);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 输出 '101'、'102'、'010101'、‘A01’</span></span><br></pre></td></tr></table></figure>
+<p>我们在再看开头的例子好像是按照 key 的整数大小，测试一下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> object = &#123;</span><br><span class="line">  <span class="string">"010101"</span>: <span class="string">"识装信息"</span>,</span><br><span class="line">  <span class="number">102</span>: <span class="string">"识装集团"</span>,</span><br><span class="line">  <span class="number">101</span>: <span class="string">"得物集团"</span>,</span><br><span class="line">  <span class="string">"-100"</span>: <span class="string">"JiaWu Pro"</span>,</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">const</span> key <span class="keyword">in</span> object) &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(key);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 输出 '101'、'102'、'010101'、‘-100’</span></span><br></pre></td></tr></table></figure>
+<p>看结果 -100 应该是第一个但是并没有，在猜测一下是非负数整数：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> object = &#123;</span><br><span class="line">  <span class="string">"010101"</span>: <span class="string">"识装信息"</span>,</span><br><span class="line">  <span class="number">102</span>: <span class="string">"识装集团"</span>,</span><br><span class="line">  <span class="number">101</span>: <span class="string">"得物集团"</span>,</span><br><span class="line">  测试: <span class="string">"JiaWu Pro"</span>,</span><br><span class="line">  <span class="string">"-100"</span>: <span class="string">"JiaWu Pro"</span>,</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">const</span> key <span class="keyword">in</span> object) &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(key);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 输出 '101'、'102'、'010101'、'测试'、‘-100’</span></span><br></pre></td></tr></table></figure>
+<p>看结果似乎似乎接近真相了,我们在试试：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> object = &#123;</span><br><span class="line">  <span class="string">"010101"</span>: <span class="string">"识装信息"</span>,</span><br><span class="line">  <span class="string">"0101"</span>: <span class="string">"识装信息"</span>,</span><br><span class="line">  <span class="number">102</span>: <span class="string">"识装集团"</span>,</span><br><span class="line">  <span class="number">101</span>: <span class="string">"得物集团"</span>,</span><br><span class="line">  测试: <span class="string">"JiaWu Pro"</span>,</span><br><span class="line">  <span class="string">"-100"</span>: <span class="string">"JiaWu Pro"</span>,</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">const</span> key <span class="keyword">in</span> object) &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(key);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 输出 '101'、'102'、'010101'、'0101'、'测试'、‘-100’</span></span><br></pre></td></tr></table></figure>
+<p>我们发现 ‘010101’、’0101’ 这两个位置并不对，但是到这里已经没有什么头绪只能去查资料。</p>
+<h2 id="排序机制"><a href="#排序机制" class="headerlink" title="排序机制"></a>排序机制</h2><blockquote>
+<p>integer properties are sorted, others appear in creation order.<br>通过查阅资料发现这么定义：当 key 整数类型会做一层排序，其他类型则按创建顺序来排。<br>但是我们通过最后例子可以发现 ‘010101’、’0101’ 转换成 number 后并不符合，所以如何定义 integer 整数？<br>通过上 integer 关键词在 <a href="https://262.ecma-international.org/6.0" target="_blank" rel="noopener"></a> 查找：<br>An integer index is a String-valued property key that is a canonical numeric String (see 7.1.16) and whose numeric value is either +0 or a positive integer ≤ 2^53−1. An array index is an integer index whose numeric value i is in the range +0 ≤ i &lt; 2^32−1.<br>我们发现 <code>canonical numeric String (see 7.1.16)</code> 有定义 integer :<br>The abstract operation CanonicalNumericIndexString returns argument converted to a numeric value if it is a String representation of a Number that would be produced by ToString, or the string “-0”. Otherwise, it returns undefined. This abstract operation functions as follows:<br>1.Assert: Type(argument) is String.<br>2.If argument is “-0”, return −0.<br>3.Let n be ToNumber(argument).<br>4.If SameValue(ToString(n), argument) is false, return undefined.<br>5.Return n.<br>A canonical numeric string is any String value for which the CanonicalNumericIndexString abstract operation does not return undefined.&gt;<br>通过 7.1.16 我们知道会把 key 转换成数字，由于转换数字过程，第四条规则：<br>SameValue(ToString(n), argument)<br>我们知道 SameValue 是 Object.is() 内部采用的比较算法类似于 ===，区别保证 -0 和 +0 不再相同，但 Object.is(NaN, NaN) 会返回 true。<br>所以也就出现了 SameValue(TOString(10101),’010101’) 为 false 的情况就解释了</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> object = &#123;</span><br><span class="line">  <span class="string">"010101"</span>: <span class="string">"识装信息"</span>,</span><br><span class="line">  <span class="string">"0101"</span>: <span class="string">"识装信息"</span>,</span><br><span class="line">  <span class="number">102</span>: <span class="string">"识装集团"</span>,</span><br><span class="line">  <span class="number">101</span>: <span class="string">"得物集团"</span>,</span><br><span class="line">  测试: <span class="string">"JiaWu Pro"</span>,</span><br><span class="line">  <span class="string">"-100"</span>: <span class="string">"JiaWu Pro"</span>,</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">const</span> key <span class="keyword">in</span> object) &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(key);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 输出 '101'、'102'、'010101'、'0101'、'测试'、‘-100’</span></span><br></pre></td></tr></table></figure>
+<p>‘010101’、’0101’ 的顺序问题</p>
+<h2 id="2-32−1"><a href="#2-32−1" class="headerlink" title="2^32−1"></a>2^32−1</h2><p>我们回过来在看文档中 2^32−1 代表什么意思，在看一个例子：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> object = &#123;</span><br><span class="line">  <span class="string">"010101"</span>: <span class="string">"识装信息"</span>,</span><br><span class="line">  <span class="number">10188988888</span>: <span class="string">"识装信息"</span>,</span><br><span class="line">  <span class="number">102</span>: <span class="string">"识装集团"</span>,</span><br><span class="line">  <span class="number">101</span>: <span class="string">"得物集团"</span>,</span><br><span class="line">  测试: <span class="string">"JiaWu Pro"</span>,</span><br><span class="line">  <span class="string">"-100"</span>: <span class="string">"JiaWu Pro"</span>,</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">const</span> key <span class="keyword">in</span> object) &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(key);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 输出 '101'、'102'、'010101'、'10188988888'、'测试'、‘-100’</span></span><br></pre></td></tr></table></figure>
+<p>我们发现 <code>10188988888</code> 在 <code>010101</code> 的前面，按照之前的逻辑应该是反着来的，所以就要介绍下 2^32−1：<br>32 位无符号整数的最大值。<br>为什么会有 2^32−1 边界限制，这里又涉及到 V8 的排序实现，大概意思是因为性能原因 详见：<a href="https://zhuanlan.zhihu.com/p/26169639" target="_blank" rel="noopener">从 Chrome 源码看 JS Object 的实现</a></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>当 key 整数类型会做一层排序，其他类型则按创建顺序来排，关于什么是整数类型要同时满足 <code>canonical numeric String</code> 和 <code>+0 ≤ i &lt; 2^32−1</code></p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
+<li><a href="https://262.ecma-international.org/6.0/#sec-canonicalnumericindexstring" target="_blank" rel="noopener">https://262.ecma-international.org/6.0/#sec-canonicalnumericindexstring</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/26169639" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/26169639</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2021/11/07/物料市场组件monorepo架构/" rel="next" title="物料市场-组件 monorepo 架构">
+                <i class="fa fa-chevron-left"></i> 物料市场-组件 monorepo 架构
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2022/01/10/forin/" rel="prev" title="你不知道的 for in 中 key 的顺序机制">
+                你不知道的 for in 中 key 的顺序机制 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="lennonover" />
+          <p class="site-author-name" itemprop="name">lennonover</p>
+           
+              <p class="site-description motion-element" itemprop="description">一丿口石砳磊</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">70</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">28</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#背景"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#排序机制"><span class="nav-number">2.</span> <span class="nav-text">排序机制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-32−1"><span class="nav-number">3.</span> <span class="nav-text">2^32−1</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考资料"><span class="nav-number">5.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">lennonover</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

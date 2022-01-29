@@ -251,6 +251,546 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2019/08/21/HTML-章节与大纲/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lennonover">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lennonover">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2019/08/21/HTML-章节与大纲/" itemprop="url">
+                  HTML 章节与大纲
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-21T21:44:14+08:00">
+                2019-08-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="HTML4"><a href="#HTML4" class="headerlink" title="HTML4"></a>HTML4</h2><p>HTML 4 用文档中章节和子章节的概念去描述文档结构,一个章节由一个包含着标题元素（h1-h6）的 div 元素表示。</p>
+<p>HTML div 元素（<code>&lt;div&gt; elements</code>）并不强制性地定义一个章节。一个 HTML 标题元素（ HTML Heading Element）的出现就足以意味着新的章节。</p>
+<p>所以就造成如下问题：</p>
+<ul>
+<li>定义语义性章节的 <code>&lt;div&gt;</code> 元素的用法,如果没有为 class 属性赋以特殊的值，使生成自动生成大纲的算法变得不可能</li>
+<li>并多个文档是困难的</li>
+<li>HTML4 中，所有的章节都是文档大纲中的一部分。但是文档并不总是这样。文档可以包含那些不是大纲的特殊章节, 但是与文档有关的，就像广告块和解释区域。</li>
+<li>因为在 HTML4 中任何的部分都是文档大纲的一部分, 没有办法产生与网站相关而不是与文档相关的节段，比如 logos,menus,目录或版权信息和法律声明。</li>
+</ul>
+<h2 id="HTML5"><a href="#HTML5" class="headerlink" title="HTML5"></a>HTML5</h2><ul>
+<li><p>HTML5 在自动生成大纲算法的过程中去掉了 div 元素（<code>&lt;div&gt;</code>），并新增了一个元素，section 元素（<code>&lt;section&gt;</code>）</p>
+</li>
+<li><p>新引入的元素（<code>&lt;article&gt;</code>、<code>&lt;section&gt;</code>、<code>&lt;nav&gt;</code> 和 <code>&lt;aside&gt;</code>）合并多个文档</p>
+<ul>
+<li>article(页面结构) 页面中独立的结构它可能是论坛帖子、杂志或新闻文章、博客、用户提交的评论、交互式组件，或者其他独立的内容项目例如一个页面有文章和评论区可以用两个 article 。<br>-​​ 通常包括标题（ <code>&lt;h1&gt; - &lt;h6&gt;</code> 元素）。<ul>
+<li>素嵌套使用时，则该元素代表与外层元素有关的文章。例如，代表博客评论的 <code>&lt;article&gt;</code> 元素可嵌套在代表博客文章的 <code>&lt;article&gt;</code> 元素中。</li>
+<li>可能包含一个或多个 <code>&lt;section&gt;</code>。</li>
+</ul>
+</li>
+<li>section（文档） 表示一个包含在 HTML 文档中的独立部分，它没有更具体的语义元素来表示，一般来说会有包含一个标题,例如 <code>h1-6</code> 相关的级别只在一个 section 节段中起作用,每个 section 独立。<ul>
+<li>如果元素内容可以分为几个部分的话，应该使用 <code>&lt;article&gt;</code> 而不是 <code>&lt;section&gt;</code>。</li>
+<li>不要把 <code>&lt;section&gt;</code> 元素作为一个普通的容器来使用，这是本应该是<code>&lt;div&gt;</code>的用法（特别是当片段（the sectioning ）仅仅是为了美化样式的时候）。 一般来说，一个<code>&lt;section&gt;</code>应该出现在文档大纲中。</li>
+</ul>
+</li>
+<li>nav 表示页面的一部分，其目的是在当前文档或其他文档中提供导航链接。导航部分的常见示例是菜单，目录和索引。</li>
+<li>aside 表示一个和其余页面内容几乎无关的部分，被认为是独立于该内容的一部分并且可以被单独的拆分出来而不会使整体受影响。</li>
+</ul>
+</li>
+<li><p>HTML5 引入 aside 元素 <code>&lt;aside&gt;</code> 使得这样的节点不会插入到主纲要中例如广告。</p>
+</li>
+<li><p>HTML5 引入了三个特殊的节段 元素： 包含链接集合的 nav 元素 <code>&lt;nav&gt;</code> , 例如目录, 包含网站相关信息的 footer 元素 <code>&lt;footer&gt;</code> 和 header 元素 <code>&lt;header&gt;</code> 。</p>
+</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2019/06/24/QRCode-二维码生成/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lennonover">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lennonover">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2019/06/24/QRCode-二维码生成/" itemprop="url">
+                  QRCode 二维码生成
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-24T21:36:25+08:00">
+                2019-06-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"ele"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> ele = <span class="built_in">document</span>.getElementById(<span class="string">'ele'</span>)</span><br><span class="line"><span class="keyword">new</span> QRCode(ele, &#123;</span><br><span class="line">    text: <span class="string">'www.yuewen.com'</span>,</span><br><span class="line">    width: <span class="number">86</span>,</span><br><span class="line">    height: <span class="number">86</span>,</span><br><span class="line">    colorDark : <span class="string">"#000000"</span>,</span><br><span class="line">    colorLight : <span class="string">"#ffffff"</span>,</span><br><span class="line">    correctLevel: QRCode.CorrectLevel.H</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h2 id="模糊识别-correctLevel"><a href="#模糊识别-correctLevel" class="headerlink" title="模糊识别 correctLevel"></a>模糊识别 correctLevel</h2><p>更高的级别可以识别更模糊的二维码，但会降低二维码的容量。如果生成的二维码不会被破坏，建议使用低识别等级。</p>
+<table>
+<thead>
+<tr>
+<th>等级</th>
+<th>最大模糊面积</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>L（低级）</td>
+<td>≤7%</td>
+</tr>
+<tr>
+<td>M（中级）</td>
+<td>≤15%</td>
+</tr>
+<tr>
+<td>Q（四分之一）</td>
+<td>≤25%</td>
+</tr>
+<tr>
+<td>H（高级）</td>
+<td>≤30%</td>
+</tr>
+</tbody>
+</table>
+<p>默认是 <code>QRCode.CorrectLevel.M</code></p>
+<p>模糊识别等级也会影响二维码容量（当然版本也会影响）</p>
+<table>
+<thead>
+<tr>
+<th>编码模式</th>
+<th>L（低级）</th>
+<th>M（中级）</th>
+<th>Q（四分之一）</th>
+<th>H（高级）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>数字</td>
+<td>7089</td>
+<td>5596</td>
+<td>3993</td>
+<td>3057</td>
+</tr>
+<tr>
+<td>数字+字母</td>
+<td>4296</td>
+<td>3391</td>
+<td>2420</td>
+<td>1852</td>
+</tr>
+<tr>
+<td>字节</td>
+<td>2953</td>
+<td>2331</td>
+<td>1663</td>
+<td>1273</td>
+</tr>
+<tr>
+<td>汉字</td>
+<td>1817</td>
+<td>1435</td>
+<td>1024</td>
+<td>784</td>
+</tr>
+</tbody>
+</table>
+<h2 id="关于生成二维码识别率不高"><a href="#关于生成二维码识别率不高" class="headerlink" title="关于生成二维码识别率不高"></a>关于生成二维码识别率不高</h2><ul>
+<li><p>二维码图片过小会影响识别率</p>
+</li>
+<li><p>本身 canvas 在绘图时，会有像素模糊，可以通过放大倍数，在二维码生成阶段可以生成 2 倍大小、然后通过 css 设置还原设计稿大小</p>
+</li>
+<li><p>字符串比较长，就会加大二维码的像素复杂度,通过转换短连接缩短二维码长度</p>
+</li>
+<li><p>可以通过给二维码设置边框来提高识别率</p>
+</li>
+</ul>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><p>更多 api <a href="https://github.com/soldair/node-qrcode">qrcode</a></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2019/05/19/js-中四种相等/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lennonover">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lennonover">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2019/05/19/js-中四种相等/" itemprop="url">
+                  js 中四种相等
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-05-19T17:38:30+08:00">
+                2019-05-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="在ES2015中有四种相等算法"><a href="#在ES2015中有四种相等算法" class="headerlink" title="在ES2015中有四种相等算法"></a>在ES2015中有四种相等算法</h3><blockquote>
+<p><a href="https://tc39.github.io/ecma262/#sec-testing-and-comparison-operations" target="_blank" rel="noopener">ecma规范定义算法规则</a><br>7.2.10 SameValue<br>7.2.11 SameValueZero<br>7.2.12 SameValueNonNumber<br>即术语<code>同值</code>、<code>同值零</code>、<code>同值非零</code></p>
+</blockquote>
+<ul>
+<li>抽象相等 <code>==</code></li>
+<li>严格相等 <code>===</code>，用于<ul>
+<li>Array.prototype.indexOf</li>
+<li>Array.prototype.lastIndexOf</li>
+</ul>
+</li>
+<li>同值零(SameValueZero)，用于<ul>
+<li>Map</li>
+<li>Set</li>
+<li>String.prototype.includes</li>
+<li>ArrayBuffer构造函数</li>
+<li>TypedArray构造函数</li>
+</ul>
+</li>
+<li>同值(SameValue),用于<ul>
+<li>Object.js()</li>
+</ul>
+</li>
+</ul>
+<h3 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h3><p><code>ECMA</code>中SameValue比较规则</p>
+<ul>
+<li>类型不一样，返回false</li>
+<li>类型为<code>number</code>时<ul>
+<li>都为<code>NaN</code>，返回true</li>
+<li>x为<code>+0</code>，y为<code>-0</code>时，返回false</li>
+</ul>
+</li>
+<li>类型不是<code>number</code>时，<code>return SameValueNonNumber()</code><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="literal">NaN</span> === <span class="literal">NaN</span> <span class="comment">// false</span></span><br><span class="line"><span class="built_in">Object</span>.is(<span class="literal">NaN</span>, <span class="literal">NaN</span>) <span class="comment">// true</span></span><br><span class="line"></span><br><span class="line"><span class="number">-0</span> === +<span class="number">0</span> <span class="comment">// true</span></span><br><span class="line"><span class="built_in">Object</span>.is(<span class="number">-0</span>, +<span class="number">0</span>) <span class="comment">// false</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p><code>ECMA</code>中SameValueZero比较规则</p>
+<ul>
+<li>类型不一样，返回false</li>
+<li>类型为<code>number</code>时<ul>
+<li>都为<code>NaN</code>，返回true</li>
+<li>x为<code>+0</code>，y为<code>-0</code>时，返回true</li>
+</ul>
+</li>
+<li>类型不是<code>number</code>时，<code>return SameValueNonNumber()</code><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> foo = <span class="keyword">new</span> <span class="built_in">Map</span>()</span><br><span class="line">foo.set(<span class="number">0</span>, <span class="string">'0'</span>) <span class="comment">// Map(1) &#123;0 =&gt; "0"&#125;</span></span><br><span class="line">foo.set(<span class="string">'0'</span>, <span class="string">'zero'</span>) <span class="comment">// Map(2) &#123;0 =&gt; "0", "0" =&gt; "zero"&#125;</span></span><br><span class="line">foo.get(<span class="number">0</span>) <span class="comment">// 0</span></span><br><span class="line">foo.get(<span class="string">'0'</span>) <span class="comment">// zero</span></span><br><span class="line"><span class="keyword">var</span> arr = [<span class="number">1</span>, <span class="number">2</span>, <span class="literal">NaN</span>];</span><br><span class="line">arr.indexOf(<span class="literal">NaN</span>); <span class="comment">// -1</span></span><br><span class="line">arr.includes(<span class="literal">NaN</span>); <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<blockquote>
+<p>SameValue与SameValueZero的差别在于数值类型时<code>+0</code>和<code>-0</code>,保证 <code>+0</code>和<code>-0</code> 不再相同</p>
+</blockquote>
+<p><code>ECMA</code>中SameValueNonNumber比较规则</p>
+<ul>
+<li>为<code>Undefined</code>，返回true</li>
+<li>为<code>Null</code>，返回true</li>
+<li>为<code>String</code>，则比较这2个字符串的码点</li>
+<li>为<code>Object</code>，则比较是否指向同一个堆地址</li>
+</ul>
+<p>JavaScript提供三种不同的值比较操作：</p>
+<ul>
+<li>==</li>
+<li>=== </li>
+<li>Object.is </li>
+</ul>
+<p><code>Object.is</code>的行为方式与<code>===</code>相同，但是对于NaN和-0和+0进行特殊处理</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="literal">NaN</span> === <span class="literal">NaN</span> <span class="comment">// false</span></span><br><span class="line"><span class="built_in">Object</span>.is(<span class="literal">NaN</span>, <span class="literal">NaN</span>) <span class="comment">// true</span></span><br><span class="line"></span><br><span class="line">+<span class="number">0</span> === <span class="number">-0</span> <span class="comment">// true</span></span><br><span class="line"><span class="built_in">Object</span>.is(+<span class="number">0</span>, <span class="number">-0</span>) <span class="comment">// false</span></span><br></pre></td></tr></table></figure>
+<p>可以看到<code>Object.is</code>采用的<code>SameValue</code>算法，而全等可以看作是<code>SameValueZero</code>排除<code>NaN</code>的情况，因为全等操作符认为 NaN 与其他任何值都不全等，包括它自己。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2019/04/17/移动端键盘表现/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1224,446 +1764,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2018/10/13/视频优化/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="lennonover">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="lennonover">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2018/10/13/视频优化/" itemprop="url">
-                  HTML5 视频秒开优化-moov 前置
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-13T18:04:00+08:00">
-                2018-10-13
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><blockquote>
-<p>本文是我部门的一次分享，张鑫旭老师也整理过相应文字版本我在补充下</p>
-</blockquote>
-<p>现在创意 H5 做的堪比电影，传统方式的动画、gif 已经满足不了性能需求，越来越多的内容正在以 HTML5 视频的方式呈现，随之而来的视频优化变得的越来越重要。HTML5 视频秒播优化的有很多方面，从服务器，cdn 部署接入，数据连接 / 获取，客户端缓存，出帧策略，到视频文件 I 帧位置等，今天从视频文件格式的角度介绍。</p>
-<h2 id="一个活动"><a href="#一个活动" class="headerlink" title="一个活动"></a>一个活动</h2><p>在座诸位，请打开浏览器，新开一个标签页，打开开发者工具，切换到 network 面板 → Media 选项，然后 — 复制下面地址（天猫某活动备份地址）到地址栏，回车：<a href="http://ali-tmhly.h5.neone.com.cn/" target="_blank" rel="noopener">ali-tmhly.h5.neone.com.cn/</a> 。此时，你会看到一个名为 video2 的 mp4，前前后后发送了 3 次请求：</p>
-<p><img src="https://user-gold-cdn.xitu.io/2018/12/10/16796dda9dfbf600?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="图片alt"></p>
-<p>这是糟糕的！应该只有 1 次请求才是最佳的！</p>
-<h2 id="3-次请求的原因"><a href="#3-次请求的原因" class="headerlink" title="3 次请求的原因"></a>3 次请求的原因</h2><p>一个 MP4 视频文件，不单单是视频内容，还有很多其他信息，尺寸，时长，字幕，版权信息等。</p>
-<p>这些信息被放在一个一个的 box 中，换句话说就是，一个 MP4 文件由很多个 box 组成的，用以存储媒体信息。</p>
-<p><img src="https://user-gold-cdn.xitu.io/2018/12/10/16796ddaa2978a85?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="图片alt"></p>
-<p>其中，有个与请求数有关的 box 名叫 MOOV BOX。</p>
-<h3 id="MOOV-BOX"><a href="#MOOV-BOX" class="headerlink" title="MOOV BOX"></a>MOOV BOX</h3><p>Moov box 存放的是如何播放视频的信息，如尺寸和每秒的帧数，则存储在叫做 moov 的特殊 box 中。你可以认为 moov box 是某种意义上的 MP4 文件目录。<br>当你播放视频时，程序会查找 MP4 文件，定位 moov box 的位置，然后借此去查找视频和音频的起始位置来开始播放。<br>Box 可能以任意顺序排列，所以程序一开始并不知道 moov box 哪里。如果是本地播放，没有任何问题，因为你已经拥有整个视频文件；但如果在线观看，也就是流传输 HTML5 视频时，就会有问题了。</p>
-<h3 id="读取-MOOV-过程"><a href="#读取-MOOV-过程" class="headerlink" title="读取 MOOV 过程"></a>读取 MOOV 过程</h3><p>浏览器直接发起 HTTP MP4 请求，读取响应 body 的开头，如果发现 moov 在开头，就接着往下读<br>mdat。如果发现开头没有，先读到 mdat，立马 RESET 这个连接，节省流量，通过 Range 头读取文件末尾数据，因为前面一个 HTTP 请求已经获取到了 Content-Length ，知道了 MP4 文件的整个大小，通过 Range 头读取部分文件尾部数据也是可以读取到的。<br>也就说，之所以上面天猫某活动 MP4 视频会发起 3 次请求，就是因为视频的 moov box 放在了文件末尾。</p>
-<h3 id="为什么会放在后面"><a href="#为什么会放在后面" class="headerlink" title="为什么会放在后面"></a>为什么会放在后面</h3><p>因为在导出 视频文件是时候一般软件都是先写入 mdat 后写入 moov，因此绝大多数工具都会默认把 moov 数据放到 mdat 后边，比如 mp4writer，ffmpeg 等工具</p>
-<h2 id="三、如何避免视频的3次请求"><a href="#三、如何避免视频的3次请求" class="headerlink" title="三、如何避免视频的3次请求"></a>三、如何避免视频的3次请求</h2><p>很简单，使用工具把 Moov box 提到视频的前面就好了。</p>
-<ul>
-<li><p>Handbrake<br>HandBrake 乃 Web MP4 视频优化工具不二之选，其中就有 moov box 前置优化 web 请求的功能。</p>
-</li>
-<li><p>ffmpeg<br>FFmpeg 是一套可以用来记录、转换数字音频、视频，并能将其转化为流的开源计算机程序。采用 LGPL 或 GPL 许可证。它提供了录制、转换以及流化音视频的完整解决方案。</p>
-</li>
-</ul>
-<p><code>ffmpeg -i 你的视频.mp4 -movflags faststart -acodec copy -vcodec copy 输出的视频.mp4</code></p>
-<h2 id="优化之后"><a href="#优化之后" class="headerlink" title="优化之后"></a>优化之后</h2><p><img src="https://user-gold-cdn.xitu.io/2018/12/10/16796ddabf54be7a?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="图片alt"></p>
-<p>此时，视频请求就只有一次了，口说无凭，直接看证据，狠戳这个demo，起点某视频活动。</p>
-<p>可以看到，加载的时候，就只会有 1 个请求。</p>
-<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>相关软件 </p>
-<p><a href="https://pan.baidu.com/s/1yU0mi0eOcPcvtmeICeouZg" target="_blank" rel="noopener">链接</a>  密码: rm1f</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2018/04/17/硬件渲染了解一下/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="lennonover">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="lennonover">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2018/04/17/硬件渲染了解一下/" itemprop="url">
-                  硬件渲染了解一下
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-17T21:26:41+08:00">
-                2018-04-17
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>浏览器的渲染方式，主要分为两种，第一种是软件渲染，第二种是硬件渲染。如果绘制工作只是由 CPU 完成，那么称之为软件渲染，如果绘制工作由 GPU 完成，则称之为硬件渲染。软件渲染与硬件渲染有不同的缓存机制，只要我们合理利用，就能发挥出最好的效果。</p>
-<h2 id="开启"><a href="#开启" class="headerlink" title="开启"></a>开启</h2><p>浏览器还有一种名为硬件渲染的渲染方式，它是使用 GPU 的硬件能力来帮助渲染页面,那么是怎么设置的？</p>
-<ul>
-<li>启用硬件加速<br>  在<code>chrome</code>的地址栏中输入<code>chrome://settings/</code>回车滚动页面到地步，点击<code>显示高级设置</code>再次滚动到页面地步，找到<code>使用硬件加速模式</code></li>
-<li>开启gup硬件加速<br>  在<code>chrome</code>的地址栏中输入<code>chrome://flags/#disable-accelerated-video-decode</code>找到<code>硬件加速的视频解码</code>，点击<code>启用</code></li>
-</ul>
-<p>完成上面两步后重启浏览器</p>
-<h2 id="能做什么"><a href="#能做什么" class="headerlink" title="能做什么"></a>能做什么</h2><p>大家都知道在页面性能优化的时候都会用到 <code>GPU 加速</code>、<code>硬件加速</code>类似方式，浏览器一帧（1000/16ms）会依次执行以下，减少或者避免 layout，paint 可以让页更加流畅：</p>
-<blockquote>
-<ol>
-<li>JavaScript：JavaScript 实现动画效果，DOM 元素操作等。</li>
-<li>Style（计算样式）：确定每个 DOM 元素应该应用什么 CSS 规则。</li>
-<li>Layout（布局）：计算每个 DOM 元素在最终屏幕上显示的大小和位置。由于 web 页面的元素布局是相对的，所以其中任意一个元素的位置发生变化，都会联动的引起其他元素发生变化，这个过程叫 reflow。</li>
-<li>Paint（绘制）：在多个层上绘制 DOM 元素的的文字、颜色、图像、边框和阴影等。</li>
-<li>Composite（渲染层合并）：按照合理的顺序合并图层然后显示到屏幕上。</li>
-</ol>
-</blockquote>
-<p>一个页面是由多个图层最后形成一个完整的合成层才被渲染出来效果就像这样：<br><img src="https://user-gold-cdn.xitu.io/2018/4/17/162d382466397a7a?w=973&amp;h=602&amp;f=png&amp;s=358760" alt="渲染图"></p>
-<p>硬件渲染 WebKit 会依据指定条件决定将那些 RenderLayer 对象组合在一起形成一个新层并缓存在 GPU，这些新层我们统称为合成层（Compositing Layer）。这些合成层提升成独立的层，被独立出来之后，便不会再影响其他 dom 的布局。如果发生 偏移、透明度等等变换 GPU 要做的只是把更新的合成层进行相应的变换并送入 Compositor 重新合成即可，利用这个优点我们可以把页面中一些布局经常变换的 dom 提升到独立的层。</p>
-<p><img src="https://user-gold-cdn.xitu.io/2018/4/17/162d39bcf891cd34?w=1742&amp;h=667&amp;f=png&amp;s=269284" alt=""></p>
-<p>在上图中黄色边框表示放到了一个新的复合层（composited layer）中渲染，左侧的列表里列出页面里存在哪些渲染层，右侧的 Details 显示的是这些渲染层的详细信息，包括渲染层的大小、形成原因等。</p>
-<h2 id="如何触发合成层"><a href="#如何触发合成层" class="headerlink" title="如何触发合成层"></a>如何触发合成层</h2><ol>
-<li>根节点 document</li>
-<li>HTML5 Video或者Canvas元素。</li>
-<li>元素有一个 z-index 较低且包含一个复合层的兄弟元素</li>
-<li>3D 或透视变换(perspective，transform) CSS 属性 比如常用的 （设置translateZ()、backface-visibility为hidden）</li>
-</ol>
-<h2 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h2><p>也就是上面第三条，英文原版是这么说</p>
-<blockquote>
-<p>Element has a sibling with a lower z-index which has a compositing layer (in other words the it’s rendered on top of a composited layer)</p>
-</blockquote>
-<p>意思是，如果有一个元素，它的兄弟元素在复合层中渲染，而这个兄弟元素的z-index比较小，那么这个元素（不管是不是应用了硬件加速样式）也会被放到复合层中。</p>
-<p>所以用轮播、动画loading等页面的时候要注意下要遵循最小化影响原则，如果调试看到有很多 <code>黄色边框</code> 就要注意了。</p>
-<blockquote>
-<p>使用 3D 硬件加速提升动画性能时，最好给元素增加一个 z-index 属性，人为干扰复合层的排序，可以有效减少 chrome 创建不必要的复合层，提升渲染性能，移动端优化效果尤为明显。</p>
-</blockquote>
-<h2 id="关于-CSS3-will-change"><a href="#关于-CSS3-will-change" class="headerlink" title="关于 CSS3 will-change"></a>关于 CSS3 will-change</h2><p>前面说的那些有点 hack，CSS3 will-change 才是正规军是属于 web 标准属性，兼容性这块 Chrome/FireFox/Opera 是支持的，它是提前通知浏览器元素将要做什么动画，让浏览器提前准备合适的优化设置，具体值：<br><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 关键字值 */</span></span><br><span class="line"><span class="selector-tag">will-change</span>: <span class="selector-tag">auto</span>;</span><br><span class="line"><span class="selector-tag">will-change</span>: <span class="selector-tag">scroll-position</span>;</span><br><span class="line"><span class="selector-tag">will-change</span>: <span class="selector-tag">contents</span>;</span><br><span class="line"><span class="selector-tag">will-change</span>: <span class="selector-tag">transform</span>;        <span class="comment">/* &lt;custom-ident&gt;示例 */</span></span><br><span class="line"><span class="selector-tag">will-change</span>: <span class="selector-tag">opacity</span>;          <span class="comment">/* &lt;custom-ident&gt;示例 */</span></span><br><span class="line"><span class="selector-tag">will-change</span>: <span class="selector-tag">left</span>, <span class="selector-tag">top</span>;        <span class="comment">/* 两个&lt;animateable-feature&gt;示例 */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* 全局值 */</span></span><br><span class="line"><span class="selector-tag">will-change</span>: <span class="selector-tag">inherit</span>;</span><br><span class="line"><span class="selector-tag">will-change</span>: <span class="selector-tag">initial</span>;</span><br><span class="line"><span class="selector-tag">will-change</span>: <span class="selector-tag">unset</span>;</span><br></pre></td></tr></table></figure></p>
-<p>will-change 虽然可以加速,但是不可滥用。。。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2018/03/30/函数式编程/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="lennonover">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="lennonover">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2018/03/30/函数式编程/" itemprop="url">
-                   函数式编程(一)
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-30T20:20:09+08:00">
-                2018-03-30
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>函数式语言给了我一个全新的视角，从一个完全不同的方式去看待编程，开始会感到不自然，需要时间去适应。所有的定义都是基于函数，值不可更改，无状态，但是时间久了就会发现代码会更加简洁，而且容易复用。</p>
-<h2 id="if-简化"><a href="#if-简化" class="headerlink" title="if 简化"></a>if 简化</h2><p>几乎每个if语句的实例都可以用一个等价的三元操作来替代。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">// 典型的</span><br><span class="line">function saveCustomer(customer) &#123;</span><br><span class="line">  if (isCustomerValid(customer)) &#123;</span><br><span class="line">    database.save(customer)</span><br><span class="line">  &#125; else &#123;</span><br><span class="line">    alert(&apos;customer is invalid&apos;)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">// 三元</span><br><span class="line">function saveCustomer(customer) &#123;</span><br><span class="line">  return isCustomerValid(customer)</span><br><span class="line">    ? database.save(customer)</span><br><span class="line">    : alert(&apos;customer is invalid&apos;)</span><br><span class="line">&#125;</span><br><span class="line">// ES6 的写法</span><br><span class="line">const saveCustomer = customer =&gt;</span><br><span class="line">  isCustomerValid(customer)</span><br><span class="line">    ? database.save(customer)</span><br><span class="line">    : alert(&apos;customer is invalid&apos;)</span><br></pre></td></tr></table></figure>
-<p>多层嵌套</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">// 多层 else-if</span><br><span class="line">function customerValidation(customer) &#123;</span><br><span class="line">  if (!customer.email) &#123;</span><br><span class="line">    return error(&apos;email is require&apos;)</span><br><span class="line">  &#125; else if (!customer.login) &#123;</span><br><span class="line">    return error(&apos;login is required&apos;)</span><br><span class="line">  &#125; else if (!customer.name) &#123;</span><br><span class="line">    return error(&apos;name is required&apos;)</span><br><span class="line">  &#125; else &#123;</span><br><span class="line">    return customer</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// ES6 三元修正</span><br><span class="line">const customerValidation = customer =&gt;</span><br><span class="line">  !customer.email   ? error(&apos;email is required&apos;)</span><br><span class="line">  : !customer.login ? error(&apos;login is required&apos;)</span><br><span class="line">  : !customer.name  ? error(&apos;name is required&apos;)</span><br><span class="line">                    : customer</span><br></pre></td></tr></table></figure>
-<p>现在就可以清楚地看到左侧定义的所有条件以及右侧返回的值。</p>
-<h2 id="没有-for-循环"><a href="#没有-for-循环" class="headerlink" title="没有 for 循环"></a>没有 for 循环</h2><p>filter, map 和 reduce 可以满足所有情况, filter、map 和 reduce 共同点就是并不会对原数组做任何改动，结果都是生成一个新变量。</p>
-<p>原始代码 获得小于 10个月的<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">const peoples = [</span><br><span class="line">  &#123; name: &apos;小明&apos;,     months: 84 &#125;,</span><br><span class="line">  &#123; name: &apos;小小明&apos;,   months: 24 &#125;,</span><br><span class="line">  &#123; name: &apos;小小小明&apos;, months: 4 &#125;</span><br><span class="line">]</span><br><span class="line">var children = []</span><br><span class="line">for (var i = 0; i &lt; peoples.length; i++) &#123;</span><br><span class="line">  if (peoples[i].months &lt; 10) &#123;</span><br><span class="line">    children.push(peoples[i].name)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">console.log(children)</span><br></pre></td></tr></table></figure></p>
-<p>将 if 语句提取到它自己的函数中</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">const isChildren = people =&gt; people.months &lt; 10</span><br><span class="line">var children = []</span><br><span class="line">for (var i = 0; i &lt; peoples.length; i++) &#123;</span><br><span class="line">  if (isChildren(peoples[i])) &#123;</span><br><span class="line">    children.push(peoples[i].name)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>下一个改变是从 people 类型的对象中提取转换（或映射）到名称。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">const isChildren = people =&gt; people.months &lt; 10</span><br><span class="line">const getName = people =&gt; people.name</span><br><span class="line">var children = []</span><br><span class="line">for (var i = 0; i &lt; peoples.length; i++) &#123;</span><br><span class="line">  if (isChildren(peoples[i])) &#123;</span><br><span class="line">    children.push(getName(peoples[i]))</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>最后一步 使用 map 操作，最好地展示您的代码的可读性</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">const isChildren = people =&gt; people.months &lt; 10</span><br><span class="line">const getName = people =&gt; people.name</span><br><span class="line">const children =</span><br><span class="line">  peoples.filter(isChildren)</span><br><span class="line">      .map(getName)</span><br></pre></td></tr></table></figure>
-<p>完成</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">const isChildren = people =&gt; people.months &lt; 10</span><br><span class="line">const getName = people =&gt; people.name</span><br><span class="line">const getChildrenNames = peoples =&gt;</span><br><span class="line">  peoples.filter(isChildren)</span><br><span class="line">      .map(getName)</span><br><span class="line">const peoples = [</span><br><span class="line">    &#123; name: &apos;小明&apos;,     months: 84 &#125;,</span><br><span class="line">    &#123; name: &apos;小小明&apos;,   months: 24 &#125;,</span><br><span class="line">    &#123; name: &apos;小小小明&apos;, months: 4 &#125;</span><br><span class="line">]</span><br><span class="line">const children = getChildrenNames(peoples)</span><br><span class="line">console.log(children)</span><br></pre></td></tr></table></figure>
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1713,7 +1813,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">67</span>
+                <span class="site-state-item-count">70</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -1768,7 +1868,7 @@
         <div class="copyright" >
   
   &copy; 
-  <span itemprop="copyrightYear">2021</span>
+  <span itemprop="copyrightYear">2022</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
