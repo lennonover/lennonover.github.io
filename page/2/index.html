@@ -251,202 +251,6 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2021/01/03/代码质量-圈复杂度/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="lennonover">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="lennonover">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2021/01/03/代码质量-圈复杂度/" itemprop="url">
-                  代码质量-圈复杂度
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-01-03T21:27:05+08:00">
-                2021-01-03
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>圈复杂度是 oasis（衡量前端工程质量平台）的检测指标之一，目的是为了检测出逻辑复杂，可能质量低，且难于测试和维护的模块，提高 CR 效率和推动优化提升前端工程质量。</p>
-<h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><p>圈复杂度（Cyclomatic complexity，CC）也称为条件复杂度，其符号为 V(G),是衡量计算机程序复杂程度的一种措施。它根据程序从开始到结束的线性独立路径的数量计算得来的,其数量上为独立路径的条数，也可理解为覆盖所有的可能情况最少使用的测试用例个数。</p>
-<h2 id="衡量标准"><a href="#衡量标准" class="headerlink" title="衡量标准"></a>衡量标准</h2><p>圈复杂度大说明程序代码的判断逻辑复杂，可能质量低，且难于测试和维护。 代码复杂度低，代码不一定好，但代码复杂度高，代码一定不好。</p>
-<table>
-<thead>
-<tr>
-<th>圈复杂度</th>
-<th>代码状况</th>
-<th>可测性</th>
-<th>维护成本</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>1 - 10</td>
-<td>清晰</td>
-<td>高</td>
-<td>低</td>
-</tr>
-<tr>
-<td>10 - 20</td>
-<td>复杂</td>
-<td>中</td>
-<td>中</td>
-</tr>
-<tr>
-<td>20 - 30</td>
-<td>非常复杂</td>
-<td>低</td>
-<td>高</td>
-</tr>
-<tr>
-<td>&gt; 30</td>
-<td>不可读</td>
-<td>不可测</td>
-<td>非常高</td>
-</tr>
-</tbody>
-</table>
-<p>同时测试驱动的开发和圈复杂度存在紧密的关系。一个好的测试用例是创建数量与被测代码圈复杂度值相等的测试用例，以此提升测试用例对代码的分支覆盖率。</p>
-<h2 id="计算方法"><a href="#计算方法" class="headerlink" title="计算方法"></a>计算方法</h2><p>圈复杂度有两种计算方法：点边计算法和节点判定法。</p>
-<h3 id="节点判定法"><a href="#节点判定法" class="headerlink" title="节点判定法"></a>节点判定法</h3><p>因为圈复杂度所反映的是“判定条件”的数量，所以圈复杂度实际上就是等于判定节点的数量再加上 1。从 1 开始，一直往下通过程序,一但遇到 P 关键字，或者其它同类的词，就加 1。</p>
-<blockquote>
-<p>V (G) = P + 1</p>
-</blockquote>
-<p>其中 P 为判定节点数，常见的判定节点有：</p>
-<p>if 语句、while 语句、for 语句、case 语句、catch 语句、and 和 or 布尔操作</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">function test(a) &#123;</span><br><span class="line">    let b = 1;</span><br><span class="line">    if (a &lt; 0 || a &gt; 100) &#123;</span><br><span class="line">        a = 1;</span><br><span class="line">    &#125;</span><br><span class="line">    for (let i = 0; i &lt; 10; i++) &#123;</span><br><span class="line">        a++;</span><br><span class="line">    &#125;</span><br><span class="line">    while (a &lt; 30 ) &#123;</span><br><span class="line">        a++;</span><br><span class="line">    &#125;</span><br><span class="line">    switch (a) &#123;</span><br><span class="line">        case 31:</span><br><span class="line">            b++ ;</span><br><span class="line">            break;</span><br><span class="line">        default:</span><br><span class="line">            break;</span><br><span class="line">    &#125;</span><br><span class="line">    return b === 1 ? 0 : b;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>1 个 if ，1 个 or ，1 个 for ，1 个 while，1 个 case，1 个三元 所以代码复杂度 7</p>
-<h3 id="点边计算法"><a href="#点边计算法" class="headerlink" title="点边计算法"></a>点边计算法</h3><p>圈复杂度由程序的控制流图来计算：节点对应程序中个别的代码，而若一个程序运行后会立刻运行另一代码，则会有边连接另一代码对应的节点。</p>
-<blockquote>
-<p>V(G) = E - N + 2</p>
-</blockquote>
-<p>E 表示控制流图中边的数量，N 表示控制流图中节点的数量。</p>
-<p><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1glhni7agy2j30wm0p4753.jpg" alt=""></p>
-<p>如上图正常顺序的圈复杂度为 1；if else 的圈复杂度为 2；while 的圈复杂度也为 2。</p>
-<h2 id="如何检测"><a href="#如何检测" class="headerlink" title="如何检测"></a>如何检测</h2><h3 id="es6-plato"><a href="#es6-plato" class="headerlink" title="es6-plato"></a>es6-plato</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install --save-dev es6-plato</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&quot;scripts&quot; : &#123;</span><br><span class="line">    &quot;complexity-report&quot;: &quot;./node_modules/.bin/es6-plato -r -d ./report src&quot;,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm run complexity-report</span><br></pre></td></tr></table></figure>
-<h3 id="eslint"><a href="#eslint" class="headerlink" title="eslint"></a>eslint</h3><p>oasis 用的是 eslint 提供了检测代码圈复杂度的 rules ，根据 eslint 的 api 会自动检测出所有函数的代码复杂度输出检测信息，通过解析检测信息</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> CLIEngine(&#123;</span><br><span class="line">  baseConfig: &#123;</span><br><span class="line">    root: <span class="literal">true</span>,</span><br><span class="line">    parser: <span class="string">"vue-eslint-parser"</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">  parserOptions: &#123;</span><br><span class="line">    ecmaVersion: <span class="number">9</span>,</span><br><span class="line">    sourceType: <span class="string">"module"</span>,</span><br><span class="line">    ecmaFeatures: &#123;</span><br><span class="line">      experimentalObjectRestSpread: <span class="literal">true</span>,</span><br><span class="line">      jsx: <span class="literal">true</span>,</span><br><span class="line">      globalReturn: <span class="literal">true</span>,</span><br><span class="line">      impliedStrict: <span class="literal">true</span>,</span><br><span class="line">    &#125;,</span><br><span class="line">    parser: <span class="string">"babel-eslint"</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">  useEslintrc: <span class="literal">false</span>,</span><br><span class="line">  rules: &#123;</span><br><span class="line">    complexity: [<span class="string">"error"</span>, &#123; <span class="attr">max</span>: <span class="number">0</span> &#125;],</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-<h2 id="降低圈复杂度"><a href="#降低圈复杂度" class="headerlink" title="降低圈复杂度"></a>降低圈复杂度</h2><p>降低复杂度有的是把函数的一部分提取成另一个子函数，不会降低整个项目的复杂度，只是把决策点移到其他地方，但是这样做可以降低你在同一时间必须关注的复杂度。</p>
-<h3 id="单一职责"><a href="#单一职责" class="headerlink" title="单一职责"></a>单一职责</h3><blockquote>
-<p>函数应该做一件事，做好这件事，只做这一件事。 — 代码整洁之道</p>
-</blockquote>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">add</span>(<span class="params">a, b</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (a === <span class="number">10</span>) &#123;</span><br><span class="line">    <span class="comment">// dosomething</span></span><br><span class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span> (a === <span class="number">12</span>) &#123;</span><br><span class="line">    <span class="comment">// dosomething</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> (b === <span class="number">10</span>) &#123;</span><br><span class="line">    <span class="comment">// dosomething</span></span><br><span class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span> (b === <span class="number">12</span>) &#123;</span><br><span class="line">    <span class="comment">// dosomething</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> a + b;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>转换后</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">add</span>(<span class="params">a, b</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> calcA(a) + calcB(b);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">calcA</span>(<span class="params">a</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (a === <span class="number">10</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span>; <span class="comment">// dosomething</span></span><br><span class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span> (a === <span class="number">12</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span>; <span class="comment">// dosomething</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">calcB</span>(<span class="params">b</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (b === <span class="number">10</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span>; <span class="comment">// dosomething</span></span><br><span class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span> (b === <span class="number">12</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span>; <span class="comment">// dosomething</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="查找表"><a href="#查找表" class="headerlink" title="查找表"></a>查找表</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">demo</span> (<span class="params">a, b, c</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (f(a, b, c)) &#123;</span><br><span class="line">    <span class="keyword">if</span> (g(a, b, c)) &#123;</span><br><span class="line">      <span class="comment">// ...</span></span><br><span class="line">    &#125;<span class="keyword">else</span> <span class="keyword">if</span> (h(a, b, c)) &#123;</span><br><span class="line">      <span class="comment">// ...</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span> (j(a, b, c)) &#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span> (k(a, b, c)) &#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>转换后</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> rules = &#123;</span><br><span class="line">  x: <span class="function"><span class="keyword">function</span> (<span class="params">a, b, c</span>) </span>&#123;&#125;,</span><br><span class="line">  y: <span class="function"><span class="keyword">function</span> (<span class="params">a, b, c</span>) </span>&#123;&#125;,</span><br><span class="line">  z: <span class="function"><span class="keyword">function</span> (<span class="params">a, b, c</span>) </span>&#123;&#125;</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">demo</span> (<span class="params">a, b, c</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> action = determineAction(a, b, c)</span><br><span class="line">  <span class="keyword">return</span> rules[action](a, b, c)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="职责链"><a href="#职责链" class="headerlink" title="职责链"></a>职责链</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">demo</span> (<span class="params">a, b, c</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (f(a, b, c)) &#123;</span><br><span class="line">    <span class="keyword">if</span> (g(a, b, c)) &#123;</span><br><span class="line">      <span class="comment">// ...</span></span><br><span class="line">    &#125;<span class="keyword">else</span> <span class="keyword">if</span> (h(a, b, c)) &#123;</span><br><span class="line">      <span class="comment">// ...</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span> (j(a, b, c)) &#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span> (k(a, b, c)) &#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>转换后</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> rules = [</span><br><span class="line">  &#123;</span><br><span class="line">    match: <span class="function"><span class="keyword">function</span> (<span class="params">a, b, c</span>) </span>&#123;&#125;,</span><br><span class="line">    action: <span class="function"><span class="keyword">function</span> (<span class="params">a, b, c</span>) </span>&#123;&#125;,</span><br><span class="line">  &#125;,</span><br><span class="line">  &#123;</span><br><span class="line">    match: <span class="function"><span class="keyword">function</span> (<span class="params">a, b, c</span>) </span>&#123;&#125;,</span><br><span class="line">    action: <span class="function"><span class="keyword">function</span> (<span class="params">a, b, c</span>) </span>&#123;&#125;,</span><br><span class="line">  &#125;,</span><br><span class="line">  &#123;</span><br><span class="line">    match: <span class="function"><span class="keyword">function</span> (<span class="params">a, b, c</span>) </span>&#123;&#125;,</span><br><span class="line">    action: <span class="function"><span class="keyword">function</span> (<span class="params">a, b, c</span>) </span>&#123;&#125;,</span><br><span class="line">  &#125;,</span><br><span class="line">];</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">demo</span>(<span class="params">a, b, c</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; rules.length; i++) &#123;</span><br><span class="line">    <span class="keyword">if</span> (rules[i].match(a, b, c)) &#123;</span><br><span class="line">      <span class="keyword">return</span> rules[i].action(a, b, c);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>圈复杂度低，代码不一定好，但圈复杂度很高，代码一定不好，所以圈复杂度才作为一个 oasis 的指标之一。圈复杂度还需要具体情况具体分析，其只作为重构的一个度量指标，作为决策的一个参考依据。</p>
-<h2 id="附"><a href="#附" class="headerlink" title="附"></a>附</h2><p>oasisV0.1 beta 版本目前已经完成大文件、重复代码块，圈复杂度、最佳实践、基础库落地、 npm 依赖库的安全分析功能，接入 0 成本目前已经上线欢迎大家体验、建议、吐槽。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2020/11/23/SPAVUE应用实现页面缓存/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1764,6 +1568,159 @@
 
 
     
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2019/08/21/HTML-章节与大纲/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lennonover">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lennonover">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2019/08/21/HTML-章节与大纲/" itemprop="url">
+                  HTML 章节与大纲
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-21T21:44:14+08:00">
+                2019-08-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="HTML4"><a href="#HTML4" class="headerlink" title="HTML4"></a>HTML4</h2><p>HTML 4 用文档中章节和子章节的概念去描述文档结构,一个章节由一个包含着标题元素（h1-h6）的 div 元素表示。</p>
+<p>HTML div 元素（<code>&lt;div&gt; elements</code>）并不强制性地定义一个章节。一个 HTML 标题元素（ HTML Heading Element）的出现就足以意味着新的章节。</p>
+<p>所以就造成如下问题：</p>
+<ul>
+<li>定义语义性章节的 <code>&lt;div&gt;</code> 元素的用法,如果没有为 class 属性赋以特殊的值，使生成自动生成大纲的算法变得不可能</li>
+<li>并多个文档是困难的</li>
+<li>HTML4 中，所有的章节都是文档大纲中的一部分。但是文档并不总是这样。文档可以包含那些不是大纲的特殊章节, 但是与文档有关的，就像广告块和解释区域。</li>
+<li>因为在 HTML4 中任何的部分都是文档大纲的一部分, 没有办法产生与网站相关而不是与文档相关的节段，比如 logos,menus,目录或版权信息和法律声明。</li>
+</ul>
+<h2 id="HTML5"><a href="#HTML5" class="headerlink" title="HTML5"></a>HTML5</h2><ul>
+<li><p>HTML5 在自动生成大纲算法的过程中去掉了 div 元素（<code>&lt;div&gt;</code>），并新增了一个元素，section 元素（<code>&lt;section&gt;</code>）</p>
+</li>
+<li><p>新引入的元素（<code>&lt;article&gt;</code>、<code>&lt;section&gt;</code>、<code>&lt;nav&gt;</code> 和 <code>&lt;aside&gt;</code>）合并多个文档</p>
+<ul>
+<li>article(页面结构) 页面中独立的结构它可能是论坛帖子、杂志或新闻文章、博客、用户提交的评论、交互式组件，或者其他独立的内容项目例如一个页面有文章和评论区可以用两个 article 。<br>-​​ 通常包括标题（ <code>&lt;h1&gt; - &lt;h6&gt;</code> 元素）。<ul>
+<li>素嵌套使用时，则该元素代表与外层元素有关的文章。例如，代表博客评论的 <code>&lt;article&gt;</code> 元素可嵌套在代表博客文章的 <code>&lt;article&gt;</code> 元素中。</li>
+<li>可能包含一个或多个 <code>&lt;section&gt;</code>。</li>
+</ul>
+</li>
+<li>section（文档） 表示一个包含在 HTML 文档中的独立部分，它没有更具体的语义元素来表示，一般来说会有包含一个标题,例如 <code>h1-6</code> 相关的级别只在一个 section 节段中起作用,每个 section 独立。<ul>
+<li>如果元素内容可以分为几个部分的话，应该使用 <code>&lt;article&gt;</code> 而不是 <code>&lt;section&gt;</code>。</li>
+<li>不要把 <code>&lt;section&gt;</code> 元素作为一个普通的容器来使用，这是本应该是<code>&lt;div&gt;</code>的用法（特别是当片段（the sectioning ）仅仅是为了美化样式的时候）。 一般来说，一个<code>&lt;section&gt;</code>应该出现在文档大纲中。</li>
+</ul>
+</li>
+<li>nav 表示页面的一部分，其目的是在当前文档或其他文档中提供导航链接。导航部分的常见示例是菜单，目录和索引。</li>
+<li>aside 表示一个和其余页面内容几乎无关的部分，被认为是独立于该内容的一部分并且可以被单独的拆分出来而不会使整体受影响。</li>
+</ul>
+</li>
+<li><p>HTML5 引入 aside 元素 <code>&lt;aside&gt;</code> 使得这样的节点不会插入到主纲要中例如广告。</p>
+</li>
+<li><p>HTML5 引入了三个特殊的节段 元素： 包含链接集合的 nav 元素 <code>&lt;nav&gt;</code> , 例如目录, 包含网站相关信息的 footer 元素 <code>&lt;footer&gt;</code> 和 header 元素 <code>&lt;header&gt;</code> 。</p>
+</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
   </section>
 
   
@@ -1813,7 +1770,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">70</span>
+                <span class="site-state-item-count">69</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
