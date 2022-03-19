@@ -1,0 +1,725 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="本篇文章主要通过一个简单物料检测例子来介绍一下我们团队前端代码质量平台，如何做代码扫码和分析，希望对大家有一定的参考价值  一、AST（抽象语法树） In computer science, an abstract syntax tree (AST), or just syntax tree, is a tree representation of the abstract syntactic">
+<meta property="og:type" content="article">
+<meta property="og:title" content="前端质量平台如何利用 AST 实现代码扫码">
+<meta property="og:url" content="https://github.com/lennonover/2022/03/19/前端/index.html">
+<meta property="og:site_name" content="lennonover">
+<meta property="og:description" content="本篇文章主要通过一个简单物料检测例子来介绍一下我们团队前端代码质量平台，如何做代码扫码和分析，希望对大家有一定的参考价值  一、AST（抽象语法树） In computer science, an abstract syntax tree (AST), or just syntax tree, is a tree representation of the abstract syntactic">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://cdn.poizon.com/node-common/c7c7206b-4163-f4a9-0108-6751dfa4f9b6-1052-826.png">
+<meta property="og:image" content="https://cdn.poizon.com/node-common/5edd5e3a-cd7a-711e-1169-2fa926968da8-1410-386.png">
+<meta property="og:updated_time" content="2022-03-19T13:20:45.103Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="前端质量平台如何利用 AST 实现代码扫码">
+<meta name="twitter:description" content="本篇文章主要通过一个简单物料检测例子来介绍一下我们团队前端代码质量平台，如何做代码扫码和分析，希望对大家有一定的参考价值  一、AST（抽象语法树） In computer science, an abstract syntax tree (AST), or just syntax tree, is a tree representation of the abstract syntactic">
+<meta name="twitter:image" content="https://cdn.poizon.com/node-common/c7c7206b-4163-f4a9-0108-6751dfa4f9b6-1052-826.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://github.com/lennonover/2022/03/19/前端/"/>
+
+
+
+
+
+  <title> 前端质量平台如何利用 AST 实现代码扫码 | lennonover </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">lennonover</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2022/03/19/前端/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lennonover">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lennonover">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                前端质量平台如何利用 AST 实现代码扫码
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2022-03-19T21:16:50+08:00">
+                2022-03-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>本篇文章主要通过一个简单物料检测例子来介绍一下我们团队前端代码质量平台，如何做代码扫码和分析，希望对大家有一定的参考价值</p>
+</blockquote>
+<h2 id="一、AST（抽象语法树）"><a href="#一、AST（抽象语法树）" class="headerlink" title="一、AST（抽象语法树）"></a>一、AST（抽象语法树）</h2><blockquote>
+<p>In computer science, an abstract syntax tree (AST), or just syntax tree, is a tree representation of the abstract syntactic structure of source code written in a programming language. - 维基百科<br>Javascript 的语法是为了给开发者更好的编程而设计的，但是不适合程序的理解。浏览器编译器一般会把源码转化为 AST 来进行进一步的分析等其他操作,一个程序在执行之前会经历三个步骤统称为编译:</p>
+</blockquote>
+<ul>
+<li>分词/词法分析: 将由字符组成的字符串分解成有意义的代码块</li>
+<li>解析/语法分析: 词法单元流转换成一个由元素嵌套所组成的代表了程序语法结构的抽象语法树（abstract syntax code，AST）</li>
+<li>代码生成: 将 AST 转换成可执行代码的过程被称为代码生成<br>抽象语法树（abstract syntax code，AST）是源代码的抽象语法结构的树状表示，树上的每个节点都表示源代码中的一种结构.</li>
+</ul>
+<h3 id="1-1-AST-用途"><a href="#1-1-AST-用途" class="headerlink" title="1.1 AST 用途"></a>1.1 AST 用途</h3><p>babel、eslint、prettier 等工具无一例外的应用了 AST 树,而树的遍历就深度优先和广度优先两种，在这只能是深度优先。</p>
+<h2 id="二、JavaScript-解析器"><a href="#二、JavaScript-解析器" class="headerlink" title="二、JavaScript 解析器"></a>二、JavaScript 解析器</h2><p>js 解析器是代码分析扫描工具的基础,没有它就很难工作，开篇我们先来介绍下目前有哪些常用的解析器。</p>
+<h3 id="2-1-ESTree"><a href="#2-1-ESTree" class="headerlink" title="2.1 ESTree"></a>2.1 ESTree</h3><p>ESTree 的初衷通过社区的力量，保证和 es 规范的一致性，通过自定义的语法结构来表述 JavaScript 的 AST，后来随着知名度越来越高，多位知名工程师的参与，使得变成了事实意义上的规范，目前这个库是 Mozilla 和社区一起维护的。因为 EsTree 定义的规范，所以现在所有的 js 解析器或者编译器，基本上都绕不开它。</p>
+<h3 id="2-2-Esprima"><a href="#2-2-Esprima" class="headerlink" title="2.2 Esprima"></a>2.2 Esprima</h3><p>这是第一个用 JavaScript 编写的符合 EsTree 规范的 JavaScript 的解析器，后续多个编译器都是受它的影响。</p>
+<h3 id="2-3-acorn"><a href="#2-3-acorn" class="headerlink" title="2.3 acorn"></a>2.3 acorn</h3><p>acorn 和 Esprima 很类似，输出的 ast 都是符合 EsTree 规范的，目前 webpack 的 AST 解析器用的就是 acorn，和 Esprima 一样，也是也不直接支持 JSX</p>
+<h3 id="2-4-babel-parser"><a href="#2-4-babel-parser" class="headerlink" title="2.4 @babel/parser"></a>2.4 @babel/parser</h3><p>babel 官方的解析器，最初 fork 于 acorn，后来完全走向了自己的道路，其构建的插件体系非常强大,提供了一套完善的 visitor 插件机制用于扩展，通过编写 babel 插件来操作 ast 非常的方便。</p>
+<h3 id="2-5-espree"><a href="#2-5-espree" class="headerlink" title="2.5 espree"></a>2.5 espree</h3><p>eslint、prettier 的默认解析器，最初 fork 于 Esprima 的一个分支，后来因为 ES6 的快速发展，但 Esprima 短时间内又不支持，后面就基于 acorn 开发。</p>
+<h3 id="2-6-swc"><a href="#2-6-swc" class="headerlink" title="2.6 swc"></a>2.6 swc</h3><p>用的 rust 编写的 js 编译器，单核比 babel 快 4 倍，4 核比 babel 快 70 倍，也可以用来打包 js、ts 代码，并且也拥有 tree shaking 功能，目标就是替换 babel,比如 Next.js 11.1 就用 SWC 替代 Babel 和 Terser。</p>
+<h3 id="2-7-esbuild"><a href="#2-7-esbuild" class="headerlink" title="2.7 esbuild"></a>2.7 esbuild</h3><p>esbuild 是用 go 编写的下一代 web 打包工具，它拥有目前最快的打包记录和压缩记录，snowpack 和 vite 的也是使用它来做打包工具，为了追求卓越的性能，目前没有将 AST 进行暴露，也无法修改 AST，无法用作解析对应的 JavaScript。</p>
+<h2 id="三、代码扫码平台的技术实现"><a href="#三、代码扫码平台的技术实现" class="headerlink" title="三、代码扫码平台的技术实现"></a>三、代码扫码平台的技术实现</h2><h3 id="3-1-babel-parser"><a href="#3-1-babel-parser" class="headerlink" title="3.1 @babel/parser"></a>3.1 @babel/parser</h3><p>前面提到 @babel/parser 提供了一套完善的插件机制用于扩展，通过编写 babel 插件来操作 ast 非常的方便。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">constparser = <span class="built_in">require</span>(<span class="string">"@babel/parser"</span>);</span><br><span class="line">consttraverse = <span class="built_in">require</span>(<span class="string">"@babel/traverse"</span>).default;</span><br><span class="line"><span class="comment">// 编写自定义规则插件</span></span><br><span class="line">constvisitor = &#123;&#125;;</span><br><span class="line"><span class="comment">// 源代码</span></span><br><span class="line">constcode = <span class="string">`const str = "hello world";`</span>;</span><br><span class="line"><span class="comment">// code -&gt; ast</span></span><br><span class="line">constast = parser.parse(code);</span><br><span class="line"><span class="comment">// 分析代码</span></span><br><span class="line">traverse(ast, visitor);</span><br></pre></td></tr></table></figure>
+<p>我们可以通过编写 visitor ，当然直接使用这些 API 的场景倒不多，项目中经常用到的，是各种 Babel 插件，接下俩我展示是如何快速开发一个插件</p>
+<h4 id="3-1-1-编写一个简单的插件"><a href="#3-1-1-编写一个简单的插件" class="headerlink" title="3.1.1 编写一个简单的插件"></a>3.1.1 编写一个简单的插件</h4><p>我们把 <code>foo === bar;</code> &gt;&gt; <code>sebmck === bar;</code> 分析 AST 结构:</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"type"</span>: <span class="string">"BinaryExpression"</span>,</span><br><span class="line">  <span class="attr">"operator"</span>: <span class="string">"==="</span>,</span><br><span class="line">  <span class="attr">"left"</span>: &#123;</span><br><span class="line">    <span class="attr">"type"</span>: <span class="string">"Identifier"</span>,</span><br><span class="line">    <span class="attr">"name"</span>: <span class="string">"foo"</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">"right"</span>: &#123;</span><br><span class="line">    <span class="attr">"type"</span>: <span class="string">"Identifier"</span>,</span><br><span class="line">    <span class="attr">"name"</span>: <span class="string">"bar"</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们从添加 BinaryExpression 访问者方法开始,只关注哪些使用了 === 的 BinaryExpression 用新的标识符来替换 left/right 属性。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">exportdefaultfunction(&#123; <span class="attr">types</span>: t &#125;) &#123;</span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">        visitor: &#123;</span><br><span class="line">            <span class="comment">// Visitor 中的每个函数接收2个参数：path 和 state,</span></span><br><span class="line">            BinaryExpression(path) &#123;</span><br><span class="line">                <span class="keyword">if</span> (path.node.operator !== <span class="string">"==="</span>) &#123;</span><br><span class="line">                    <span class="keyword">return</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                path.node.left = t.identifier(<span class="string">"sebmck"</span>);</span><br><span class="line">                path.node.right = t.identifier(<span class="string">"dork"</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这样一个简单转换插件就完成了，具体详见 <a href="https://github.com/jamiebuilds/babel-handbook/blob/master/translations/zh-Hans/plugin-handbook.md">Babel 插件手册</a>, babel 插件的编写主要涉及 vistors、paths、scope 和 binding 几个能力。</p>
+<h3 id="3-2-eslint-rule"><a href="#3-2-eslint-rule" class="headerlink" title="3.2 eslint rule"></a>3.2 eslint rule</h3><p>前面我介绍了基于 babel 操作 ast 的示例，Babel 不但完成了 AST 的解析工作，它还提供了一套完善的 visitor 插件机制用于我们操作 ast，业内评价 <code>Babel is the new jQuery</code>。但是我们平台希望能够扫描脚本更加方便使用也就是希望能在开发结算就能发现问题，我们开发阶段和 eslint 形影不离，完全可以采用开发自定义 eslint rules 的形式对代码分析，我们通过自定义的开发 eslint rules 来实现代码分析需求,同时也满足可以在项目里配置当前检测规则。</p>
+<h4 id="3-2-1-如何编写-rule"><a href="#3-2-1-如何编写-rule" class="headerlink" title="3.2.1 如何编写 rule"></a>3.2.1 如何编写 rule</h4><p>一条 rule 就是一个 node 模块，其主要由 meta 和 create 两部分组成，其中:</p>
+<ul>
+<li>meta 代表了这条规则的元数据，如其类别，文档，可接收的参数的 schema 等等</li>
+<li>create:如果说 meta 表达了我们想做什么，那么 create 则用表达了这条 rule 具体会怎么分析代码</li>
+</ul>
+<h4 id="3-2-2-eslint-rule-规则模板"><a href="#3-2-2-eslint-rule-规则模板" class="headerlink" title="3.2.2 eslint rule 规则模板"></a>3.2.2 eslint rule 规则模板</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  name: <span class="string">"规则名称"</span>,</span><br><span class="line">  meta: &#123;</span><br><span class="line">    type: <span class="string">"规则类型，如suggestion"</span>,</span><br><span class="line">    docs: &#123;</span><br><span class="line">      description: <span class="string">"规则描述"</span>,</span><br><span class="line">      category: <span class="string">"规则分类：如Possible Errors"</span>,</span><br><span class="line">      recommended: <span class="literal">true</span>,</span><br><span class="line">      url: <span class="string">"说明规则的文档地址，如https://eslint.org/docs/rules/no-extra-semi"</span>,</span><br><span class="line">    &#125;,</span><br><span class="line">    fixable: <span class="string">"是否可以修复，如code"</span>,</span><br><span class="line">    schema: [],</span><br><span class="line">  &#125;,</span><br><span class="line">  create: <span class="function"><span class="keyword">function</span> (<span class="params">context</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 事件回调</span></span><br><span class="line">    <span class="keyword">return</span> &#123;&#125;;</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>使用方式就是在事件回调函数中使用 context 中获取的 AST 等信息进行分析。</p>
+<ul>
+<li>事件回调函数</li>
+<li>选择器 selector 通过 AST selectors 我们可以方便的找到静态代码中的内容</li>
+<li>访问器 visitor</li>
+<li>context 它是一个树对象</li>
+<li>context.report 这个方法用来向用户报告错误信息<br>更多详见 <a href="https://eslint.org/docs/developer-guide/working-with-rules" target="_blank" rel="noopener">Working with Rules</a> 官方文档写的非常详细。<br>我们拿个实际生产中的例子，统计我们物料市场的物料 <code>@finance/searchTable</code> 在项目中引用的次数,</li>
+</ul>
+<h4 id="3-2-3-编写检测规则"><a href="#3-2-3-编写检测规则" class="headerlink" title="3.2.3 编写检测规则"></a>3.2.3 编写检测规则</h4><p>规则实现 <code>use-material-num.js</code></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">importdocsUrlfrom<span class="string">'../docsUrl'</span>;</span><br><span class="line"><span class="comment">// 定义规则名称</span></span><br><span class="line">varRULE_NAME = <span class="string">'use-material-num'</span>;</span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">    name:RULE_NAME,</span><br><span class="line">    meta: &#123;</span><br><span class="line">        <span class="comment">// 规则类型</span></span><br><span class="line">        type:<span class="string">'suggestion'</span>,</span><br><span class="line">        docs: &#123;</span><br><span class="line">        <span class="comment">// 说明规则的文档地址</span></span><br><span class="line">        url:docsUrl(RULE_NAME),</span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="comment">// 是否可以修复，如code</span></span><br><span class="line">        fixable:<span class="literal">null</span>,</span><br><span class="line">        messages: &#123;</span><br><span class="line">            useMaterialNum:<span class="string">"&#123;&#123; value &#125;&#125; is used in the project"</span>,</span><br><span class="line">        &#125;,</span><br><span class="line">    &#125;,</span><br><span class="line">    create(context) &#123;</span><br><span class="line">        constmaterialArr = [<span class="string">'@finance/searchTable'</span>];</span><br><span class="line">        <span class="comment">// 事件回调</span></span><br><span class="line">        <span class="keyword">return</span> &#123;</span><br><span class="line">            Literal:functionhandleRequires(node) &#123;</span><br><span class="line">                <span class="keyword">if</span> (node.parent &amp;&amp; node.parent.type === <span class="string">'ImportDeclaration'</span> &amp;&amp; materialArr.indexOf(node.value) !== <span class="number">-1</span>) &#123;</span><br><span class="line">                    context.report(&#123;</span><br><span class="line">                        node:node,</span><br><span class="line">                        messageId:<span class="string">'useMaterialNum'</span>,</span><br><span class="line">                        data: &#123;</span><br><span class="line">                            value:node.value,</span><br><span class="line">                        &#125;,</span><br><span class="line">                    &#125;);</span><br><span class="line">                &#125;,</span><br><span class="line">            &#125;,</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>规则测试 <code>test.js</code></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">varrule = <span class="built_in">require</span>(<span class="string">"./use-material-num"</span>);</span><br><span class="line">varRuleTester = <span class="built_in">require</span>(<span class="string">"eslint"</span>).RuleTester;</span><br><span class="line">varruleTester = newRuleTester();</span><br><span class="line">ruleTester.run(<span class="string">"use-material-num"</span>, rule, &#123;</span><br><span class="line">  valid: [</span><br><span class="line">    &#123;</span><br><span class="line">      code: <span class="string">"import SearchTable from '@finance/searchTable'"</span>,</span><br><span class="line">    &#125;,</span><br><span class="line">  ],</span><br><span class="line">  invalid: [</span><br><span class="line">    &#123;</span><br><span class="line">      code: <span class="string">"import SearchTable from '@finance/searchTable'"</span>,</span><br><span class="line">      output: <span class="string">"import SearchTable from '@finance/searchTable'"</span>,</span><br><span class="line">      errors: [</span><br><span class="line">        &#123;</span><br><span class="line">          message: <span class="string">"'@finance/searchTable' is used in the project"</span>,</span><br><span class="line">        &#125;,</span><br><span class="line">      ],</span><br><span class="line">    &#125;,</span><br><span class="line">  ],</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>我们直接调用 ruleTester 的 run 函数就可以完成扫码了，看起来是不是很简单。</p>
+<h4 id="3-2-4-实现过程分析"><a href="#3-2-4-实现过程分析" class="headerlink" title="3.2.4 实现过程分析"></a>3.2.4 实现过程分析</h4><p>目标是在代码中找到 <code>import SearchTable from &#39;@finance/searchTable&#39;</code></p>
+<h5 id="1-确定代码-AST-树形结构"><a href="#1-确定代码-AST-树形结构" class="headerlink" title="1 确定代码 AST 树形结构"></a>1 确定代码 AST 树形结构</h5><p>我们可以利用在线 <a href="https://astexplorer.net/" target="_blank" rel="noopener">astexplorer</a></p>
+<h5 id="2-分析树编写规则"><a href="#2-分析树编写规则" class="headerlink" title="2 分析树编写规则"></a>2 分析树编写规则</h5><p><img src="https://cdn.poizon.com/node-common/c7c7206b-4163-f4a9-0108-6751dfa4f9b6-1052-826.png" alt="ast"><br>根据上面的 code vs AST 关系图可以发现 <code>type</code> 是 <code>&#39;ImportDeclaration&#39;</code> 的文本就代表这引入，同时 <code>node.value</code> 代表当前节点的值，通过值的对比我们就可以知道当前的是不是物料市场里的组件，当然具体生产环境还会有 <code>import A,{ SearchTable }from &#39;@finance/searchTable&#39;</code> 等场景这时候就需要分析 <code>specifiers</code> 里的类型是 <code>ImportDefaultSpecifier</code> 或者 <code>ImportSpecifier</code>。根据上面分析就很容易理解下面的代码：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">constmaterialArr = [<span class="string">'@finance/searchTable'</span>];</span><br><span class="line"><span class="keyword">return</span> &#123;</span><br><span class="line">    Literal:functionhandleRequires(node) &#123;</span><br><span class="line">    <span class="keyword">if</span> (node.parent &amp;&amp; node.parent.type === <span class="string">'ImportDeclaration'</span> &amp;&amp; materialArr.indexOf(node.value) !== <span class="number">-1</span>) &#123;</span><br><span class="line">        context.report(&#123;</span><br><span class="line">            node:node,</span><br><span class="line">            messageId:<span class="string">'useMaterialNum'</span>,</span><br><span class="line">            data: &#123;</span><br><span class="line">            value:node.value,</span><br><span class="line">            &#125;,</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;,</span><br><span class="line">    &#125;,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h5 id="3-Eslint-Api-检测"><a href="#3-Eslint-Api-检测" class="headerlink" title="3 Eslint Api 检测"></a>3 Eslint Api 检测</h5><p>通过 Eslint Api 执行我们的规则够就很容易检测出物料的使用，如下示例：<br><img src="https://cdn.poizon.com/node-common/5edd5e3a-cd7a-711e-1169-2fa926968da8-1410-386.png" alt="物料"></p>
+<h3 id="3-3-更换-ESLint-的-AST-解析器"><a href="#3-3-更换-ESLint-的-AST-解析器" class="headerlink" title="3.3 更换 ESLint 的 AST 解析器"></a>3.3 更换 ESLint 的 AST 解析器</h3><p>ESLint 也支持使用第三方 AST 解析器,比如我们可以用 @babel/eslint-parser 来替换 espree</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  parser: <span class="string">"@babel/eslint-parser"</span>,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h2 id="四、总结"><a href="#四、总结" class="headerlink" title="四、总结"></a>四、总结</h2><p>本文先简单介绍 AST 和用途,并介绍了几款业内常见的解析器,然后围绕如何代码扫码分析介绍两种方式 babel 和 eslint 的实现，通过前端质量平台的应用情况来看针对一些通用型的问题，利用 AST 代码扫描能够很容易检测并发现问题，AST 能力十分强大,学习 AST 相关可以帮助我们在实际的开发过程中能够更容易的解决一些问题。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="https://juejin.cn/post/7054008042764894222/" target="_blank" rel="noopener">https://juejin.cn/post/7054008042764894222/</a></li>
+<li><a href="https://astexplorer.net/" target="_blank" rel="noopener">https://astexplorer.net/</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2022/01/29/figmabot/" rel="next" title="Icon 图标交付-我们有了最友好的方案">
+                <i class="fa fa-chevron-left"></i> Icon 图标交付-我们有了最友好的方案
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="lennonover" />
+          <p class="site-author-name" itemprop="name">lennonover</p>
+           
+              <p class="site-description motion-element" itemprop="description">一丿口石砳磊</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">70</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">28</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、AST（抽象语法树）"><span class="nav-number">1.</span> <span class="nav-text">一、AST（抽象语法树）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-AST-用途"><span class="nav-number">1.1.</span> <span class="nav-text">1.1 AST 用途</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、JavaScript-解析器"><span class="nav-number">2.</span> <span class="nav-text">二、JavaScript 解析器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-ESTree"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 ESTree</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-Esprima"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 Esprima</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-acorn"><span class="nav-number">2.3.</span> <span class="nav-text">2.3 acorn</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-babel-parser"><span class="nav-number">2.4.</span> <span class="nav-text">2.4 @babel/parser</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-5-espree"><span class="nav-number">2.5.</span> <span class="nav-text">2.5 espree</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-6-swc"><span class="nav-number">2.6.</span> <span class="nav-text">2.6 swc</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-7-esbuild"><span class="nav-number">2.7.</span> <span class="nav-text">2.7 esbuild</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三、代码扫码平台的技术实现"><span class="nav-number">3.</span> <span class="nav-text">三、代码扫码平台的技术实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-babel-parser"><span class="nav-number">3.1.</span> <span class="nav-text">3.1 @babel/parser</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-1-编写一个简单的插件"><span class="nav-number">3.1.1.</span> <span class="nav-text">3.1.1 编写一个简单的插件</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-eslint-rule"><span class="nav-number">3.2.</span> <span class="nav-text">3.2 eslint rule</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-1-如何编写-rule"><span class="nav-number">3.2.1.</span> <span class="nav-text">3.2.1 如何编写 rule</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-2-eslint-rule-规则模板"><span class="nav-number">3.2.2.</span> <span class="nav-text">3.2.2 eslint rule 规则模板</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-3-编写检测规则"><span class="nav-number">3.2.3.</span> <span class="nav-text">3.2.3 编写检测规则</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-4-实现过程分析"><span class="nav-number">3.2.4.</span> <span class="nav-text">3.2.4 实现过程分析</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-确定代码-AST-树形结构"><span class="nav-number">3.2.4.1.</span> <span class="nav-text">1 确定代码 AST 树形结构</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-分析树编写规则"><span class="nav-number">3.2.4.2.</span> <span class="nav-text">2 分析树编写规则</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-Eslint-Api-检测"><span class="nav-number">3.2.4.3.</span> <span class="nav-text">3 Eslint Api 检测</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-更换-ESLint-的-AST-解析器"><span class="nav-number">3.3.</span> <span class="nav-text">3.3 更换 ESLint 的 AST 解析器</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#四、总结"><span class="nav-number">4.</span> <span class="nav-text">四、总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">5.</span> <span class="nav-text">参考</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">lennonover</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

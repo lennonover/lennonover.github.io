@@ -251,6 +251,186 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2022/03/19/前端/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lennonover">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lennonover">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2022/03/19/前端/" itemprop="url">
+                  前端质量平台如何利用 AST 实现代码扫码
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2022-03-19T21:16:50+08:00">
+                2022-03-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <blockquote>
+<p>本篇文章主要通过一个简单物料检测例子来介绍一下我们团队前端代码质量平台，如何做代码扫码和分析，希望对大家有一定的参考价值</p>
+</blockquote>
+<h2 id="一、AST（抽象语法树）"><a href="#一、AST（抽象语法树）" class="headerlink" title="一、AST（抽象语法树）"></a>一、AST（抽象语法树）</h2><blockquote>
+<p>In computer science, an abstract syntax tree (AST), or just syntax tree, is a tree representation of the abstract syntactic structure of source code written in a programming language. - 维基百科<br>Javascript 的语法是为了给开发者更好的编程而设计的，但是不适合程序的理解。浏览器编译器一般会把源码转化为 AST 来进行进一步的分析等其他操作,一个程序在执行之前会经历三个步骤统称为编译:</p>
+</blockquote>
+<ul>
+<li>分词/词法分析: 将由字符组成的字符串分解成有意义的代码块</li>
+<li>解析/语法分析: 词法单元流转换成一个由元素嵌套所组成的代表了程序语法结构的抽象语法树（abstract syntax code，AST）</li>
+<li>代码生成: 将 AST 转换成可执行代码的过程被称为代码生成<br>抽象语法树（abstract syntax code，AST）是源代码的抽象语法结构的树状表示，树上的每个节点都表示源代码中的一种结构.</li>
+</ul>
+<h3 id="1-1-AST-用途"><a href="#1-1-AST-用途" class="headerlink" title="1.1 AST 用途"></a>1.1 AST 用途</h3><p>babel、eslint、prettier 等工具无一例外的应用了 AST 树,而树的遍历就深度优先和广度优先两种，在这只能是深度优先。</p>
+<h2 id="二、JavaScript-解析器"><a href="#二、JavaScript-解析器" class="headerlink" title="二、JavaScript 解析器"></a>二、JavaScript 解析器</h2><p>js 解析器是代码分析扫描工具的基础,没有它就很难工作，开篇我们先来介绍下目前有哪些常用的解析器。</p>
+<h3 id="2-1-ESTree"><a href="#2-1-ESTree" class="headerlink" title="2.1 ESTree"></a>2.1 ESTree</h3><p>ESTree 的初衷通过社区的力量，保证和 es 规范的一致性，通过自定义的语法结构来表述 JavaScript 的 AST，后来随着知名度越来越高，多位知名工程师的参与，使得变成了事实意义上的规范，目前这个库是 Mozilla 和社区一起维护的。因为 EsTree 定义的规范，所以现在所有的 js 解析器或者编译器，基本上都绕不开它。</p>
+<h3 id="2-2-Esprima"><a href="#2-2-Esprima" class="headerlink" title="2.2 Esprima"></a>2.2 Esprima</h3><p>这是第一个用 JavaScript 编写的符合 EsTree 规范的 JavaScript 的解析器，后续多个编译器都是受它的影响。</p>
+<h3 id="2-3-acorn"><a href="#2-3-acorn" class="headerlink" title="2.3 acorn"></a>2.3 acorn</h3><p>acorn 和 Esprima 很类似，输出的 ast 都是符合 EsTree 规范的，目前 webpack 的 AST 解析器用的就是 acorn，和 Esprima 一样，也是也不直接支持 JSX</p>
+<h3 id="2-4-babel-parser"><a href="#2-4-babel-parser" class="headerlink" title="2.4 @babel/parser"></a>2.4 @babel/parser</h3><p>babel 官方的解析器，最初 fork 于 acorn，后来完全走向了自己的道路，其构建的插件体系非常强大,提供了一套完善的 visitor 插件机制用于扩展，通过编写 babel 插件来操作 ast 非常的方便。</p>
+<h3 id="2-5-espree"><a href="#2-5-espree" class="headerlink" title="2.5 espree"></a>2.5 espree</h3><p>eslint、prettier 的默认解析器，最初 fork 于 Esprima 的一个分支，后来因为 ES6 的快速发展，但 Esprima 短时间内又不支持，后面就基于 acorn 开发。</p>
+<h3 id="2-6-swc"><a href="#2-6-swc" class="headerlink" title="2.6 swc"></a>2.6 swc</h3><p>用的 rust 编写的 js 编译器，单核比 babel 快 4 倍，4 核比 babel 快 70 倍，也可以用来打包 js、ts 代码，并且也拥有 tree shaking 功能，目标就是替换 babel,比如 Next.js 11.1 就用 SWC 替代 Babel 和 Terser。</p>
+<h3 id="2-7-esbuild"><a href="#2-7-esbuild" class="headerlink" title="2.7 esbuild"></a>2.7 esbuild</h3><p>esbuild 是用 go 编写的下一代 web 打包工具，它拥有目前最快的打包记录和压缩记录，snowpack 和 vite 的也是使用它来做打包工具，为了追求卓越的性能，目前没有将 AST 进行暴露，也无法修改 AST，无法用作解析对应的 JavaScript。</p>
+<h2 id="三、代码扫码平台的技术实现"><a href="#三、代码扫码平台的技术实现" class="headerlink" title="三、代码扫码平台的技术实现"></a>三、代码扫码平台的技术实现</h2><h3 id="3-1-babel-parser"><a href="#3-1-babel-parser" class="headerlink" title="3.1 @babel/parser"></a>3.1 @babel/parser</h3><p>前面提到 @babel/parser 提供了一套完善的插件机制用于扩展，通过编写 babel 插件来操作 ast 非常的方便。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">constparser = <span class="built_in">require</span>(<span class="string">"@babel/parser"</span>);</span><br><span class="line">consttraverse = <span class="built_in">require</span>(<span class="string">"@babel/traverse"</span>).default;</span><br><span class="line"><span class="comment">// 编写自定义规则插件</span></span><br><span class="line">constvisitor = &#123;&#125;;</span><br><span class="line"><span class="comment">// 源代码</span></span><br><span class="line">constcode = <span class="string">`const str = "hello world";`</span>;</span><br><span class="line"><span class="comment">// code -&gt; ast</span></span><br><span class="line">constast = parser.parse(code);</span><br><span class="line"><span class="comment">// 分析代码</span></span><br><span class="line">traverse(ast, visitor);</span><br></pre></td></tr></table></figure>
+<p>我们可以通过编写 visitor ，当然直接使用这些 API 的场景倒不多，项目中经常用到的，是各种 Babel 插件，接下俩我展示是如何快速开发一个插件</p>
+<h4 id="3-1-1-编写一个简单的插件"><a href="#3-1-1-编写一个简单的插件" class="headerlink" title="3.1.1 编写一个简单的插件"></a>3.1.1 编写一个简单的插件</h4><p>我们把 <code>foo === bar;</code> &gt;&gt; <code>sebmck === bar;</code> 分析 AST 结构:</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"type"</span>: <span class="string">"BinaryExpression"</span>,</span><br><span class="line">  <span class="attr">"operator"</span>: <span class="string">"==="</span>,</span><br><span class="line">  <span class="attr">"left"</span>: &#123;</span><br><span class="line">    <span class="attr">"type"</span>: <span class="string">"Identifier"</span>,</span><br><span class="line">    <span class="attr">"name"</span>: <span class="string">"foo"</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">"right"</span>: &#123;</span><br><span class="line">    <span class="attr">"type"</span>: <span class="string">"Identifier"</span>,</span><br><span class="line">    <span class="attr">"name"</span>: <span class="string">"bar"</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们从添加 BinaryExpression 访问者方法开始,只关注哪些使用了 === 的 BinaryExpression 用新的标识符来替换 left/right 属性。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">exportdefaultfunction(&#123; <span class="attr">types</span>: t &#125;) &#123;</span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">        visitor: &#123;</span><br><span class="line">            <span class="comment">// Visitor 中的每个函数接收2个参数：path 和 state,</span></span><br><span class="line">            BinaryExpression(path) &#123;</span><br><span class="line">                <span class="keyword">if</span> (path.node.operator !== <span class="string">"==="</span>) &#123;</span><br><span class="line">                    <span class="keyword">return</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                path.node.left = t.identifier(<span class="string">"sebmck"</span>);</span><br><span class="line">                path.node.right = t.identifier(<span class="string">"dork"</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这样一个简单转换插件就完成了，具体详见 <a href="https://github.com/jamiebuilds/babel-handbook/blob/master/translations/zh-Hans/plugin-handbook.md">Babel 插件手册</a>, babel 插件的编写主要涉及 vistors、paths、scope 和 binding 几个能力。</p>
+<h3 id="3-2-eslint-rule"><a href="#3-2-eslint-rule" class="headerlink" title="3.2 eslint rule"></a>3.2 eslint rule</h3><p>前面我介绍了基于 babel 操作 ast 的示例，Babel 不但完成了 AST 的解析工作，它还提供了一套完善的 visitor 插件机制用于我们操作 ast，业内评价 <code>Babel is the new jQuery</code>。但是我们平台希望能够扫描脚本更加方便使用也就是希望能在开发结算就能发现问题，我们开发阶段和 eslint 形影不离，完全可以采用开发自定义 eslint rules 的形式对代码分析，我们通过自定义的开发 eslint rules 来实现代码分析需求,同时也满足可以在项目里配置当前检测规则。</p>
+<h4 id="3-2-1-如何编写-rule"><a href="#3-2-1-如何编写-rule" class="headerlink" title="3.2.1 如何编写 rule"></a>3.2.1 如何编写 rule</h4><p>一条 rule 就是一个 node 模块，其主要由 meta 和 create 两部分组成，其中:</p>
+<ul>
+<li>meta 代表了这条规则的元数据，如其类别，文档，可接收的参数的 schema 等等</li>
+<li>create:如果说 meta 表达了我们想做什么，那么 create 则用表达了这条 rule 具体会怎么分析代码</li>
+</ul>
+<h4 id="3-2-2-eslint-rule-规则模板"><a href="#3-2-2-eslint-rule-规则模板" class="headerlink" title="3.2.2 eslint rule 规则模板"></a>3.2.2 eslint rule 规则模板</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  name: <span class="string">"规则名称"</span>,</span><br><span class="line">  meta: &#123;</span><br><span class="line">    type: <span class="string">"规则类型，如suggestion"</span>,</span><br><span class="line">    docs: &#123;</span><br><span class="line">      description: <span class="string">"规则描述"</span>,</span><br><span class="line">      category: <span class="string">"规则分类：如Possible Errors"</span>,</span><br><span class="line">      recommended: <span class="literal">true</span>,</span><br><span class="line">      url: <span class="string">"说明规则的文档地址，如https://eslint.org/docs/rules/no-extra-semi"</span>,</span><br><span class="line">    &#125;,</span><br><span class="line">    fixable: <span class="string">"是否可以修复，如code"</span>,</span><br><span class="line">    schema: [],</span><br><span class="line">  &#125;,</span><br><span class="line">  create: <span class="function"><span class="keyword">function</span> (<span class="params">context</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 事件回调</span></span><br><span class="line">    <span class="keyword">return</span> &#123;&#125;;</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>使用方式就是在事件回调函数中使用 context 中获取的 AST 等信息进行分析。</p>
+<ul>
+<li>事件回调函数</li>
+<li>选择器 selector 通过 AST selectors 我们可以方便的找到静态代码中的内容</li>
+<li>访问器 visitor</li>
+<li>context 它是一个树对象</li>
+<li>context.report 这个方法用来向用户报告错误信息<br>更多详见 <a href="https://eslint.org/docs/developer-guide/working-with-rules" target="_blank" rel="noopener">Working with Rules</a> 官方文档写的非常详细。<br>我们拿个实际生产中的例子，统计我们物料市场的物料 <code>@finance/searchTable</code> 在项目中引用的次数,</li>
+</ul>
+<h4 id="3-2-3-编写检测规则"><a href="#3-2-3-编写检测规则" class="headerlink" title="3.2.3 编写检测规则"></a>3.2.3 编写检测规则</h4><p>规则实现 <code>use-material-num.js</code></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">importdocsUrlfrom<span class="string">'../docsUrl'</span>;</span><br><span class="line"><span class="comment">// 定义规则名称</span></span><br><span class="line">varRULE_NAME = <span class="string">'use-material-num'</span>;</span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">    name:RULE_NAME,</span><br><span class="line">    meta: &#123;</span><br><span class="line">        <span class="comment">// 规则类型</span></span><br><span class="line">        type:<span class="string">'suggestion'</span>,</span><br><span class="line">        docs: &#123;</span><br><span class="line">        <span class="comment">// 说明规则的文档地址</span></span><br><span class="line">        url:docsUrl(RULE_NAME),</span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="comment">// 是否可以修复，如code</span></span><br><span class="line">        fixable:<span class="literal">null</span>,</span><br><span class="line">        messages: &#123;</span><br><span class="line">            useMaterialNum:<span class="string">"&#123;&#123; value &#125;&#125; is used in the project"</span>,</span><br><span class="line">        &#125;,</span><br><span class="line">    &#125;,</span><br><span class="line">    create(context) &#123;</span><br><span class="line">        constmaterialArr = [<span class="string">'@finance/searchTable'</span>];</span><br><span class="line">        <span class="comment">// 事件回调</span></span><br><span class="line">        <span class="keyword">return</span> &#123;</span><br><span class="line">            Literal:functionhandleRequires(node) &#123;</span><br><span class="line">                <span class="keyword">if</span> (node.parent &amp;&amp; node.parent.type === <span class="string">'ImportDeclaration'</span> &amp;&amp; materialArr.indexOf(node.value) !== <span class="number">-1</span>) &#123;</span><br><span class="line">                    context.report(&#123;</span><br><span class="line">                        node:node,</span><br><span class="line">                        messageId:<span class="string">'useMaterialNum'</span>,</span><br><span class="line">                        data: &#123;</span><br><span class="line">                            value:node.value,</span><br><span class="line">                        &#125;,</span><br><span class="line">                    &#125;);</span><br><span class="line">                &#125;,</span><br><span class="line">            &#125;,</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>规则测试 <code>test.js</code></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">varrule = <span class="built_in">require</span>(<span class="string">"./use-material-num"</span>);</span><br><span class="line">varRuleTester = <span class="built_in">require</span>(<span class="string">"eslint"</span>).RuleTester;</span><br><span class="line">varruleTester = newRuleTester();</span><br><span class="line">ruleTester.run(<span class="string">"use-material-num"</span>, rule, &#123;</span><br><span class="line">  valid: [</span><br><span class="line">    &#123;</span><br><span class="line">      code: <span class="string">"import SearchTable from '@finance/searchTable'"</span>,</span><br><span class="line">    &#125;,</span><br><span class="line">  ],</span><br><span class="line">  invalid: [</span><br><span class="line">    &#123;</span><br><span class="line">      code: <span class="string">"import SearchTable from '@finance/searchTable'"</span>,</span><br><span class="line">      output: <span class="string">"import SearchTable from '@finance/searchTable'"</span>,</span><br><span class="line">      errors: [</span><br><span class="line">        &#123;</span><br><span class="line">          message: <span class="string">"'@finance/searchTable' is used in the project"</span>,</span><br><span class="line">        &#125;,</span><br><span class="line">      ],</span><br><span class="line">    &#125;,</span><br><span class="line">  ],</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>我们直接调用 ruleTester 的 run 函数就可以完成扫码了，看起来是不是很简单。</p>
+<h4 id="3-2-4-实现过程分析"><a href="#3-2-4-实现过程分析" class="headerlink" title="3.2.4 实现过程分析"></a>3.2.4 实现过程分析</h4><p>目标是在代码中找到 <code>import SearchTable from &#39;@finance/searchTable&#39;</code></p>
+<h5 id="1-确定代码-AST-树形结构"><a href="#1-确定代码-AST-树形结构" class="headerlink" title="1 确定代码 AST 树形结构"></a>1 确定代码 AST 树形结构</h5><p>我们可以利用在线 <a href="https://astexplorer.net/" target="_blank" rel="noopener">astexplorer</a></p>
+<h5 id="2-分析树编写规则"><a href="#2-分析树编写规则" class="headerlink" title="2 分析树编写规则"></a>2 分析树编写规则</h5><p><img src="https://cdn.poizon.com/node-common/c7c7206b-4163-f4a9-0108-6751dfa4f9b6-1052-826.png" alt="ast"><br>根据上面的 code vs AST 关系图可以发现 <code>type</code> 是 <code>&#39;ImportDeclaration&#39;</code> 的文本就代表这引入，同时 <code>node.value</code> 代表当前节点的值，通过值的对比我们就可以知道当前的是不是物料市场里的组件，当然具体生产环境还会有 <code>import A,{ SearchTable }from &#39;@finance/searchTable&#39;</code> 等场景这时候就需要分析 <code>specifiers</code> 里的类型是 <code>ImportDefaultSpecifier</code> 或者 <code>ImportSpecifier</code>。根据上面分析就很容易理解下面的代码：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">constmaterialArr = [<span class="string">'@finance/searchTable'</span>];</span><br><span class="line"><span class="keyword">return</span> &#123;</span><br><span class="line">    Literal:functionhandleRequires(node) &#123;</span><br><span class="line">    <span class="keyword">if</span> (node.parent &amp;&amp; node.parent.type === <span class="string">'ImportDeclaration'</span> &amp;&amp; materialArr.indexOf(node.value) !== <span class="number">-1</span>) &#123;</span><br><span class="line">        context.report(&#123;</span><br><span class="line">            node:node,</span><br><span class="line">            messageId:<span class="string">'useMaterialNum'</span>,</span><br><span class="line">            data: &#123;</span><br><span class="line">            value:node.value,</span><br><span class="line">            &#125;,</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;,</span><br><span class="line">    &#125;,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h5 id="3-Eslint-Api-检测"><a href="#3-Eslint-Api-检测" class="headerlink" title="3 Eslint Api 检测"></a>3 Eslint Api 检测</h5><p>通过 Eslint Api 执行我们的规则够就很容易检测出物料的使用，如下示例：<br><img src="https://cdn.poizon.com/node-common/5edd5e3a-cd7a-711e-1169-2fa926968da8-1410-386.png" alt="物料"></p>
+<h3 id="3-3-更换-ESLint-的-AST-解析器"><a href="#3-3-更换-ESLint-的-AST-解析器" class="headerlink" title="3.3 更换 ESLint 的 AST 解析器"></a>3.3 更换 ESLint 的 AST 解析器</h3><p>ESLint 也支持使用第三方 AST 解析器,比如我们可以用 @babel/eslint-parser 来替换 espree</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  parser: <span class="string">"@babel/eslint-parser"</span>,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h2 id="四、总结"><a href="#四、总结" class="headerlink" title="四、总结"></a>四、总结</h2><p>本文先简单介绍 AST 和用途,并介绍了几款业内常见的解析器,然后围绕如何代码扫码分析介绍两种方式 babel 和 eslint 的实现，通过前端质量平台的应用情况来看针对一些通用型的问题，利用 AST 代码扫描能够很容易检测并发现问题，AST 能力十分强大,学习 AST 相关可以帮助我们在实际的开发过程中能够更容易的解决一些问题。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="https://juejin.cn/post/7054008042764894222/" target="_blank" rel="noopener">https://juejin.cn/post/7054008042764894222/</a></li>
+<li><a href="https://astexplorer.net/" target="_blank" rel="noopener">https://astexplorer.net/</a></li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2022/01/29/figmabot/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1664,202 +1844,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://github.com/lennonover/2021/01/03/代码质量-圈复杂度/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="lennonover">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="lennonover">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2021/01/03/代码质量-圈复杂度/" itemprop="url">
-                  代码质量-圈复杂度
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-01-03T21:27:05+08:00">
-                2021-01-03
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>圈复杂度是 oasis（衡量前端工程质量平台）的检测指标之一，目的是为了检测出逻辑复杂，可能质量低，且难于测试和维护的模块，提高 CR 效率和推动优化提升前端工程质量。</p>
-<h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><p>圈复杂度（Cyclomatic complexity，CC）也称为条件复杂度，其符号为 V(G),是衡量计算机程序复杂程度的一种措施。它根据程序从开始到结束的线性独立路径的数量计算得来的,其数量上为独立路径的条数，也可理解为覆盖所有的可能情况最少使用的测试用例个数。</p>
-<h2 id="衡量标准"><a href="#衡量标准" class="headerlink" title="衡量标准"></a>衡量标准</h2><p>圈复杂度大说明程序代码的判断逻辑复杂，可能质量低，且难于测试和维护。 代码复杂度低，代码不一定好，但代码复杂度高，代码一定不好。</p>
-<table>
-<thead>
-<tr>
-<th>圈复杂度</th>
-<th>代码状况</th>
-<th>可测性</th>
-<th>维护成本</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>1 - 10</td>
-<td>清晰</td>
-<td>高</td>
-<td>低</td>
-</tr>
-<tr>
-<td>10 - 20</td>
-<td>复杂</td>
-<td>中</td>
-<td>中</td>
-</tr>
-<tr>
-<td>20 - 30</td>
-<td>非常复杂</td>
-<td>低</td>
-<td>高</td>
-</tr>
-<tr>
-<td>&gt; 30</td>
-<td>不可读</td>
-<td>不可测</td>
-<td>非常高</td>
-</tr>
-</tbody>
-</table>
-<p>同时测试驱动的开发和圈复杂度存在紧密的关系。一个好的测试用例是创建数量与被测代码圈复杂度值相等的测试用例，以此提升测试用例对代码的分支覆盖率。</p>
-<h2 id="计算方法"><a href="#计算方法" class="headerlink" title="计算方法"></a>计算方法</h2><p>圈复杂度有两种计算方法：点边计算法和节点判定法。</p>
-<h3 id="节点判定法"><a href="#节点判定法" class="headerlink" title="节点判定法"></a>节点判定法</h3><p>因为圈复杂度所反映的是“判定条件”的数量，所以圈复杂度实际上就是等于判定节点的数量再加上 1。从 1 开始，一直往下通过程序,一但遇到 P 关键字，或者其它同类的词，就加 1。</p>
-<blockquote>
-<p>V (G) = P + 1</p>
-</blockquote>
-<p>其中 P 为判定节点数，常见的判定节点有：</p>
-<p>if 语句、while 语句、for 语句、case 语句、catch 语句、and 和 or 布尔操作</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">function test(a) &#123;</span><br><span class="line">    let b = 1;</span><br><span class="line">    if (a &lt; 0 || a &gt; 100) &#123;</span><br><span class="line">        a = 1;</span><br><span class="line">    &#125;</span><br><span class="line">    for (let i = 0; i &lt; 10; i++) &#123;</span><br><span class="line">        a++;</span><br><span class="line">    &#125;</span><br><span class="line">    while (a &lt; 30 ) &#123;</span><br><span class="line">        a++;</span><br><span class="line">    &#125;</span><br><span class="line">    switch (a) &#123;</span><br><span class="line">        case 31:</span><br><span class="line">            b++ ;</span><br><span class="line">            break;</span><br><span class="line">        default:</span><br><span class="line">            break;</span><br><span class="line">    &#125;</span><br><span class="line">    return b === 1 ? 0 : b;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>1 个 if ，1 个 or ，1 个 for ，1 个 while，1 个 case，1 个三元 所以代码复杂度 7</p>
-<h3 id="点边计算法"><a href="#点边计算法" class="headerlink" title="点边计算法"></a>点边计算法</h3><p>圈复杂度由程序的控制流图来计算：节点对应程序中个别的代码，而若一个程序运行后会立刻运行另一代码，则会有边连接另一代码对应的节点。</p>
-<blockquote>
-<p>V(G) = E - N + 2</p>
-</blockquote>
-<p>E 表示控制流图中边的数量，N 表示控制流图中节点的数量。</p>
-<p><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1glhni7agy2j30wm0p4753.jpg" alt=""></p>
-<p>如上图正常顺序的圈复杂度为 1；if else 的圈复杂度为 2；while 的圈复杂度也为 2。</p>
-<h2 id="如何检测"><a href="#如何检测" class="headerlink" title="如何检测"></a>如何检测</h2><h3 id="es6-plato"><a href="#es6-plato" class="headerlink" title="es6-plato"></a>es6-plato</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install --save-dev es6-plato</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&quot;scripts&quot; : &#123;</span><br><span class="line">    &quot;complexity-report&quot;: &quot;./node_modules/.bin/es6-plato -r -d ./report src&quot;,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm run complexity-report</span><br></pre></td></tr></table></figure>
-<h3 id="eslint"><a href="#eslint" class="headerlink" title="eslint"></a>eslint</h3><p>oasis 用的是 eslint 提供了检测代码圈复杂度的 rules ，根据 eslint 的 api 会自动检测出所有函数的代码复杂度输出检测信息，通过解析检测信息</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> CLIEngine(&#123;</span><br><span class="line">  baseConfig: &#123;</span><br><span class="line">    root: <span class="literal">true</span>,</span><br><span class="line">    parser: <span class="string">"vue-eslint-parser"</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">  parserOptions: &#123;</span><br><span class="line">    ecmaVersion: <span class="number">9</span>,</span><br><span class="line">    sourceType: <span class="string">"module"</span>,</span><br><span class="line">    ecmaFeatures: &#123;</span><br><span class="line">      experimentalObjectRestSpread: <span class="literal">true</span>,</span><br><span class="line">      jsx: <span class="literal">true</span>,</span><br><span class="line">      globalReturn: <span class="literal">true</span>,</span><br><span class="line">      impliedStrict: <span class="literal">true</span>,</span><br><span class="line">    &#125;,</span><br><span class="line">    parser: <span class="string">"babel-eslint"</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">  useEslintrc: <span class="literal">false</span>,</span><br><span class="line">  rules: &#123;</span><br><span class="line">    complexity: [<span class="string">"error"</span>, &#123; <span class="attr">max</span>: <span class="number">0</span> &#125;],</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-<h2 id="降低圈复杂度"><a href="#降低圈复杂度" class="headerlink" title="降低圈复杂度"></a>降低圈复杂度</h2><p>降低复杂度有的是把函数的一部分提取成另一个子函数，不会降低整个项目的复杂度，只是把决策点移到其他地方，但是这样做可以降低你在同一时间必须关注的复杂度。</p>
-<h3 id="单一职责"><a href="#单一职责" class="headerlink" title="单一职责"></a>单一职责</h3><blockquote>
-<p>函数应该做一件事，做好这件事，只做这一件事。 — 代码整洁之道</p>
-</blockquote>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">add</span>(<span class="params">a, b</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (a === <span class="number">10</span>) &#123;</span><br><span class="line">    <span class="comment">// dosomething</span></span><br><span class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span> (a === <span class="number">12</span>) &#123;</span><br><span class="line">    <span class="comment">// dosomething</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> (b === <span class="number">10</span>) &#123;</span><br><span class="line">    <span class="comment">// dosomething</span></span><br><span class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span> (b === <span class="number">12</span>) &#123;</span><br><span class="line">    <span class="comment">// dosomething</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> a + b;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>转换后</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">add</span>(<span class="params">a, b</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> calcA(a) + calcB(b);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">calcA</span>(<span class="params">a</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (a === <span class="number">10</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span>; <span class="comment">// dosomething</span></span><br><span class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span> (a === <span class="number">12</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span>; <span class="comment">// dosomething</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">calcB</span>(<span class="params">b</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (b === <span class="number">10</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span>; <span class="comment">// dosomething</span></span><br><span class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span> (b === <span class="number">12</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span>; <span class="comment">// dosomething</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="查找表"><a href="#查找表" class="headerlink" title="查找表"></a>查找表</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">demo</span> (<span class="params">a, b, c</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (f(a, b, c)) &#123;</span><br><span class="line">    <span class="keyword">if</span> (g(a, b, c)) &#123;</span><br><span class="line">      <span class="comment">// ...</span></span><br><span class="line">    &#125;<span class="keyword">else</span> <span class="keyword">if</span> (h(a, b, c)) &#123;</span><br><span class="line">      <span class="comment">// ...</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span> (j(a, b, c)) &#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span> (k(a, b, c)) &#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>转换后</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> rules = &#123;</span><br><span class="line">  x: <span class="function"><span class="keyword">function</span> (<span class="params">a, b, c</span>) </span>&#123;&#125;,</span><br><span class="line">  y: <span class="function"><span class="keyword">function</span> (<span class="params">a, b, c</span>) </span>&#123;&#125;,</span><br><span class="line">  z: <span class="function"><span class="keyword">function</span> (<span class="params">a, b, c</span>) </span>&#123;&#125;</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">demo</span> (<span class="params">a, b, c</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> action = determineAction(a, b, c)</span><br><span class="line">  <span class="keyword">return</span> rules[action](a, b, c)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="职责链"><a href="#职责链" class="headerlink" title="职责链"></a>职责链</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">demo</span> (<span class="params">a, b, c</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (f(a, b, c)) &#123;</span><br><span class="line">    <span class="keyword">if</span> (g(a, b, c)) &#123;</span><br><span class="line">      <span class="comment">// ...</span></span><br><span class="line">    &#125;<span class="keyword">else</span> <span class="keyword">if</span> (h(a, b, c)) &#123;</span><br><span class="line">      <span class="comment">// ...</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span> (j(a, b, c)) &#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span> (k(a, b, c)) &#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>转换后</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> rules = [</span><br><span class="line">  &#123;</span><br><span class="line">    match: <span class="function"><span class="keyword">function</span> (<span class="params">a, b, c</span>) </span>&#123;&#125;,</span><br><span class="line">    action: <span class="function"><span class="keyword">function</span> (<span class="params">a, b, c</span>) </span>&#123;&#125;,</span><br><span class="line">  &#125;,</span><br><span class="line">  &#123;</span><br><span class="line">    match: <span class="function"><span class="keyword">function</span> (<span class="params">a, b, c</span>) </span>&#123;&#125;,</span><br><span class="line">    action: <span class="function"><span class="keyword">function</span> (<span class="params">a, b, c</span>) </span>&#123;&#125;,</span><br><span class="line">  &#125;,</span><br><span class="line">  &#123;</span><br><span class="line">    match: <span class="function"><span class="keyword">function</span> (<span class="params">a, b, c</span>) </span>&#123;&#125;,</span><br><span class="line">    action: <span class="function"><span class="keyword">function</span> (<span class="params">a, b, c</span>) </span>&#123;&#125;,</span><br><span class="line">  &#125;,</span><br><span class="line">];</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">demo</span>(<span class="params">a, b, c</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; rules.length; i++) &#123;</span><br><span class="line">    <span class="keyword">if</span> (rules[i].match(a, b, c)) &#123;</span><br><span class="line">      <span class="keyword">return</span> rules[i].action(a, b, c);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>圈复杂度低，代码不一定好，但圈复杂度很高，代码一定不好，所以圈复杂度才作为一个 oasis 的指标之一。圈复杂度还需要具体情况具体分析，其只作为重构的一个度量指标，作为决策的一个参考依据。</p>
-<h2 id="附"><a href="#附" class="headerlink" title="附"></a>附</h2><p>oasisV0.1 beta 版本目前已经完成大文件、重复代码块，圈复杂度、最佳实践、基础库落地、 npm 依赖库的安全分析功能，接入 0 成本目前已经上线欢迎大家体验、建议、吐槽。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1909,7 +1893,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">69</span>
+                <span class="site-state-item-count">70</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
